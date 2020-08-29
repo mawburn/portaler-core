@@ -1,75 +1,91 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import './App.css';
 import DataDisplay from './DataDisplay';
-import DataInput, { GateSize } from './DataInput';
-import { GraphData, GraphNode, GraphLink } from 'react-d3-graph';
-import ImportExport from './ImportExport';
+import DataInput from './DataInput';
+import { PortalSize, Zone, Portal, ZoneColor, ZoneTier } from './types';
 
-
-const defaultData:GraphData<GraphNode, GraphLink> = {
-  nodes: [],
-  links: []
-};
-
-const sizeColors: {[key: number]: string} = {
-  2: "green",
-  7: "blue",
-  20: "yellow"
-};
 
 function App() {
+  const [password, setPassword] = useState("");
+  const [activatePassword, setActivatePassword] = useState(false)
+  const [zones, setZones] = useState<Zone[]>([]);
+  const [portals, setPortals] = useState<Portal[]>([]);
 
-  const [data, setData] = useState<GraphData<GraphNode, GraphLink> | null>(null)
+  const retrieveZones = useCallback(async () => {
+    const res = await fetch(`/api/zone`, {
+      headers: {
+        "X-Tebro-Auth": password
+      }
+      
+    }).then(r => r.json())
+    setZones(res);
+  }, [ setZones, password ])
 
-  if (!data) {
-    const storedData = localStorage.mapData;
-    if (storedData) {
-      setData(JSON.parse(storedData));
-    } else {
-      setData(defaultData);
+  const retrievePortals = useCallback(async () => {
+    const res = await fetch(`/api/portal`, {
+      headers: {
+        "X-Tebro-Auth": password
+      }
+    }).then(r => r.json())
+    setPortals(res)
+  }, [setPortals, password])
+
+  useEffect(() => {
+    if (activatePassword) {
+      retrieveZones().then(retrievePortals);
+
+      const zonesInterval = setInterval(() => {
+        retrieveZones();
+      }, 60000);
+      const portalsInterval = setInterval(() => {
+        retrievePortals();
+      }, 60000);
+
+      return () => {
+        clearInterval(zonesInterval);
+        clearInterval(portalsInterval);
+      }
     }
-  }
+  }, [activatePassword, retrievePortals, retrieveZones]);
 
-  const addLink = useCallback((from: string, to: string, size: GateSize) => {
-    const nodes = data!.nodes;
-    const nodeNames = nodes.map(n => n.id);
-    if (nodeNames.indexOf(from) === -1) {
-      nodes.push({id: from})
+  const addZone = useCallback(async (name: string, color: ZoneColor, tier: ZoneTier) => {
+    const data: Zone = {
+      name,
+      color,
+      tier
     }
-    if (nodeNames.indexOf(to) === -1) {
-      nodes.push({id: to})
-    }
+    setZones(zones => [...zones, data])
+    fetch(`/api/zone`, {
+      method: "POST",
+      headers: {
+        "X-Tebro-Auth": password
+      },
+      body: JSON.stringify(data)
+    }).then(() => retrieveZones());
+  }, [password, retrieveZones, setZones])
 
-    const links = [ ...data!.links, {source: from, target: to, color: sizeColors[size]} ] as GraphLink[];
+  const addPortal = useCallback(async (source: string, target: string, size: PortalSize, hours: number, minutes: number) => {
+    const data = {source, target, size, hours, minutes}
+    fetch(`/api/portal`, {
+      method: "POST",
+      headers: {
+        "X-Tebro-Auth": password
+      },
+      body: JSON.stringify(data)
+    }).then(() => retrievePortals());
+  }, [password, retrievePortals])
 
-    const newData = {nodes, links};
-    setData(newData);
-    localStorage.mapData = JSON.stringify(newData); 
-  }, [data, setData]);
+  return (
+    <div className="App">
+      {!activatePassword && <div>
+        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+        <button onClick={() => setActivatePassword(true)}>Log in</button>
+      </div>}
+      <DataInput existingNames={zones.map((n) => n.name)} addZone={addZone} addPortal={addPortal}/>
 
-  const importData = useCallback((raw: string) => {
-    const parsed = JSON.parse(raw);
-    if (parsed?.nodes && parsed?.links) {
-      localStorage.mapData = raw;
-      setData(parsed);
-    } else {
-      localStorage.mapData = JSON.stringify(defaultData);
-      setData(defaultData);
-    }
-
-  }, [setData]);
-
-  if (data) {
-    return (
-      <div className="App">
-        <DataInput existingIDs={data.nodes.map((n) => n.id)} addLink={addLink}/>
-
-        <DataDisplay data={data} />
-        <ImportExport rawData={JSON.stringify(data)} importData={importData}/>
-      </div>
-    );
-  }
-  return <div>Error</div>
+      <DataDisplay zones={zones} portals={portals} />
+    </div>
+  );
 }
 
 export default App;
