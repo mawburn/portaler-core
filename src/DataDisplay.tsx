@@ -9,8 +9,6 @@ interface DataDisplayProps {
 
 const config = {
   nodeHighlightBehavior: true,
-  panAndZoom: true,
-  collapsible: true,
   node: {
     color: "white",
     size: 1024,
