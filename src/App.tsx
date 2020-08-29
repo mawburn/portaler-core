@@ -77,13 +77,27 @@ function App() {
 
   return (
     <div className="App">
-      {!activatePassword && <div>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-        <button onClick={() => setActivatePassword(true)}>Log in</button>
-      </div>}
-      <DataInput existingNames={zones.map((n) => n.name)} addZone={addZone} addPortal={addPortal}/>
+      {!activatePassword && (
+        <div>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button onClick={() => setActivatePassword(true)}>Log in</button>
+        </div>
+      )}
+      {activatePassword && (
+        <>
+          <DataInput
+            existingNames={zones.map((n) => n.name)}
+            addZone={addZone}
+            addPortal={addPortal}
+          />
 
-      <DataDisplay zones={zones} portals={portals} />
+          <DataDisplay zones={zones} portals={portals} />
+        </>
+      )}
     </div>
   );
 }
