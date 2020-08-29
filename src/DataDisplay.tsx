@@ -10,7 +10,6 @@ interface DataDisplayProps {
 const config = {
   nodeHighlightBehavior: true,
   panAndZoom: true,
-  automaticRearrangeAfterDropNode: true,
   node: {
     color: "white",
     size: 1024,
@@ -40,7 +39,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({zones, portals}) => {
     console.log(portals)
     const data: GraphData<GraphNode, GraphLink> = {
       nodes: zones.map(z => ({id: z.name, color: zoneColorToColor[z.color]})),
-      links: portals.map(p => ({source: p.source, target: p.target, color: portalSizeToColor[p.size]}))
+      links: portals.map(p => ({source: p.source, target: p.target, color: p.timeLeft < 30 ? "red" : portalSizeToColor[p.size]}))
     }
 
     return <Graph id="graph-id" data={data} config={config} />;

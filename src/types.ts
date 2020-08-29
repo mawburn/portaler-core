@@ -15,4 +15,5 @@ export interface Portal {
   target: string;
   size: PortalSize;
   expires: Date;
+  timeLeft: number;
 }
