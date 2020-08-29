@@ -1,26 +1,13 @@
 import React from 'react';
-import {Graph, GraphData, GraphNode, GraphLink} from 'react-d3-graph';
 import { Zone, Portal } from './types';
+import CytoscapeComponent from 'react-cytoscapejs';
+import { ElementDefinition } from 'cytoscape';
 
 interface DataDisplayProps {
   zones: Zone[];
   portals: Portal[];
-  selected: string;
 }
 
-const config = {
-  nodeHighlightBehavior: true,
-  width: 1920,
-  height: 1080,
-  node: {
-    color: "white",
-    size: 768,
-    highlightStrokeColor: "magenta",
-  },
-  link: {
-    highlightColor: "magenta",
-  },
-};
 
 const portalSizeToColor = {
   2: "green",
@@ -36,22 +23,30 @@ const zoneColorToColor = {
   "road": "lightblue"
 }
 
-const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals, selected }) => {
+const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
   if (zones.length > 0) {
-    console.log(portals);
-    const data: GraphData<GraphNode, GraphLink> = {
-      nodes: zones.map((z) => ({
-        id: z.name,
-        color: z.name == selected ? "magenta" : zoneColorToColor[z.color],
+    const data: ElementDefinition[] = [
+      ...zones.map((z) => ({
+        data: { id: z.name, label: z.name },
+        style: {
+          backgroundColor: zoneColorToColor[z.color],
+        },
       })),
-      links: portals.map((p) => ({
-        source: p.source,
-        target: p.target,
-        color: p.timeLeft < 30 ? "red" : portalSizeToColor[p.size],
+      ...portals.map((p) => ({
+        data: { source: p.source, target: p.target },
+        style: {
+          lineColor: p.timeLeft < 30 ? "red" : portalSizeToColor[p.size],
+        },
       })),
-    };
+    ];
 
-    return <Graph id="graph-id" data={data} config={config} />;
+    return (
+      <CytoscapeComponent
+        elements={data}
+        style={{ height: "1080px", width: "100%" }}
+        layout={{ name: "grid" }}
+      />
+    );
   }
   return <div>Dataset is currently empty, add some nodes to begin</div>;
 };

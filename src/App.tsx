@@ -10,7 +10,6 @@ function App() {
   const [activatePassword, setActivatePassword] = useState(false)
   const [zones, setZones] = useState<Zone[]>([]);
   const [portals, setPortals] = useState<Portal[]>([]);
-  const [selected, setSelected] = useState("");
 
   const retrieveZones = useCallback(async () => {
     const res = await fetch(`/api/zone`, {
@@ -79,7 +78,7 @@ function App() {
   return (
     <div className="App">
       {!activatePassword && (
-        <div>
+        <div className="login">
           <input
             type="password"
             value={password}
@@ -90,20 +89,14 @@ function App() {
       )}
       {activatePassword && (
         <>
+        <header>
           <DataInput
             existingNames={zones.map((n) => n.name)}
             addZone={addZone}
             addPortal={addPortal}
           />
-
-          <div>
-            <span>Select for point of interest</span>
-            <select value={selected} onChange={e => setSelected(e.target.value)}>
-              <option value="">-- None --</option>
-                {zones.map(z => <option>{z.name}</option>)}
-            </select>
-          </div>
-          <DataDisplay zones={zones} portals={portals} selected={selected}/>
+          </header>
+          <DataDisplay zones={zones} portals={portals} />
         
         </>
       )}
