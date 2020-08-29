@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Zone, Portal } from './types';
 import CytoscapeComponent from 'react-cytoscapejs';
 import { ElementDefinition } from 'cytoscape';
@@ -24,6 +24,8 @@ const zoneColorToColor = {
 }
 
 const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
+  const [layout, setLayout] = useState("random")
+
   if (zones.length > 0) {
     const data: ElementDefinition[] = [
       ...zones.map((z) => ({
@@ -41,11 +43,21 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
     ];
 
     return (
+      <>
       <CytoscapeComponent
         elements={data}
         style={{ height: "1080px", width: "100%" }}
-        layout={{ name: "random" }}
+        layout={{ name: layout }}
       />
+      <select onChange={e => setLayout(e.target.value)} value={layout}>
+        <option>random</option>
+        <option>grid</option>
+        <option>circle</option>
+        <option>cose</option>
+        <option>concentric</option>
+        <option>breadthfirst</option>
+      </select>
+      </>
     );
   }
   return <div>Dataset is currently empty, add some nodes to begin</div>;
