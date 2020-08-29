@@ -44,7 +44,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
       <CytoscapeComponent
         elements={data}
         style={{ height: "1080px", width: "100%" }}
-        layout={{ name: "grid" }}
+        layout={{ name: "random" }}
       />
     );
   }
