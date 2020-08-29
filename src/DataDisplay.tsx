@@ -3,8 +3,9 @@ import {Graph, GraphData, GraphNode, GraphLink} from 'react-d3-graph';
 import { Zone, Portal } from './types';
 
 interface DataDisplayProps {
-  zones: Zone[]
-  portals: Portal[]
+  zones: Zone[];
+  portals: Portal[];
+  selected: string;
 }
 
 const config = {
@@ -14,17 +15,17 @@ const config = {
   node: {
     color: "white",
     size: 768,
-    highlightStrokeColor: "blue",
+    highlightStrokeColor: "magenta",
   },
   link: {
-    highlightColor: "lightblue",
+    highlightColor: "magenta",
   },
 };
 
 const portalSizeToColor = {
   2: "green",
   7: "blue",
-  20: "yellow"
+  20: "orange"
 }
 
 const zoneColorToColor = {
@@ -35,13 +36,20 @@ const zoneColorToColor = {
   "road": "lightblue"
 }
 
-const DataDisplay: React.FC<DataDisplayProps> = ({zones, portals}) => {
+const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals, selected }) => {
   if (zones.length > 0) {
-    console.log(portals)
+    console.log(portals);
     const data: GraphData<GraphNode, GraphLink> = {
-      nodes: zones.map(z => ({id: z.name, color: zoneColorToColor[z.color]})),
-      links: portals.map(p => ({source: p.source, target: p.target, color: p.timeLeft < 30 ? "red" : portalSizeToColor[p.size]}))
-    }
+      nodes: zones.map((z) => ({
+        id: z.name,
+        color: z.name == selected ? "magenta" : zoneColorToColor[z.color],
+      })),
+      links: portals.map((p) => ({
+        source: p.source,
+        target: p.target,
+        color: p.timeLeft < 30 ? "red" : portalSizeToColor[p.size],
+      })),
+    };
 
     return <Graph id="graph-id" data={data} config={config} />;
   }
