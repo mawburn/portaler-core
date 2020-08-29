@@ -60,6 +60,11 @@ const DataInput: React.FC<DataInputProps> = ({existingNames, addPortal, addZone}
     } 
   }, [from, to, size, hours, minutes, addPortal]);
 
+  const addZoneAndCloseForm = useCallback((name: string, color: ZoneColor, tier: ZoneTier) => {
+    setShowAddZone(false)
+    addZone(name, color, tier)
+  }, [addZone, setShowAddZone])
+
   return (
     <div className="DataInput">
       <div>
@@ -92,7 +97,7 @@ const DataInput: React.FC<DataInputProps> = ({existingNames, addPortal, addZone}
       <button onClick={submit}>Add</button>
       </div>
         {showAddZone && 
-          <AddZoneForm addZone={addZone} /> 
+          <AddZoneForm addZone={addZoneAndCloseForm} /> 
         }
     </div>
   );
