@@ -9,9 +9,11 @@ interface DataDisplayProps {
 
 const config = {
   nodeHighlightBehavior: true,
+  width: 1920,
+  height: 1080,
   node: {
     color: "white",
-    size: 1024,
+    size: 768,
     highlightStrokeColor: "blue",
   },
   link: {
