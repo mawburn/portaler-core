@@ -26,7 +26,9 @@ const zoneColorToColor = {
 const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
   const [layout, setLayout] = useState("grid")
 
+
   if (zones.length > 0) {
+    const now = new Date();
     const data: ElementDefinition[] = [
       ...zones.filter(z => {
         return !!portals.find(p => p.source === z.name || p.target === z.name)
@@ -37,9 +39,10 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
         },
       })),
       ...portals.map((p) => ({
-        data: { source: p.source, target: p.target },
+        data: { source: p.source, target: p.target, label: `${Math.floor(p.timeLeft / 60)}h ${Math.round(p.timeLeft % 60)}min` },
+        classes: p.timeLeft < 30 ? 'timeLow': '',
         style: {
-          lineColor: p.timeLeft < 30 ? "red" : portalSizeToColor[p.size],
+          lineColor: portalSizeToColor[p.size],
         },
       })),
     ];
@@ -49,6 +52,27 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
       <CytoscapeComponent
         elements={data}
         style={{ height: "1080px", width: "100%" }}
+        stylesheet={[
+          {
+            "selector": "node[label]",
+            "style": {
+              "label": "data(label)"
+            }
+          },
+          {
+            "selector": "edge[label]",
+            "style": {
+              "label": "data(label)",
+              "width": 3
+            }
+          },
+          {
+            "selector": ".timeLow",
+            "style": {
+              "color": "red",
+            }
+          },
+        ]}
         layout={{ name: layout }}
       />
       <select onChange={e => setLayout(e.target.value)} value={layout}>
