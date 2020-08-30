@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import './App.css';
 import DataDisplay from './DataDisplay';
 import DataInput from './DataInput';
-import { PortalSize, Zone, Portal, ZoneColor, ZoneTier } from './types';
+import { PortalSize, Zone, Portal } from './types';
 
 
 function App() {
@@ -48,22 +48,6 @@ function App() {
     }
   }, [activatePassword, retrievePortals, retrieveZones]);
 
-  const addZone = useCallback(async (name: string, color: ZoneColor, tier: ZoneTier) => {
-    const data: Zone = {
-      name,
-      color,
-      tier
-    }
-    setZones(zones => [...zones, data])
-    fetch(`/api/zone`, {
-      method: "POST",
-      headers: {
-        "X-Tebro-Auth": password
-      },
-      body: JSON.stringify(data)
-    }).then(() => retrieveZones());
-  }, [password, retrieveZones, setZones])
-
   const addPortal = useCallback(async (source: string, target: string, size: PortalSize, hours: number, minutes: number) => {
     const data = {source, target, size, hours, minutes}
     fetch(`/api/portal`, {
@@ -92,7 +76,6 @@ function App() {
         <header>
           <DataInput
             existingNames={zones.map((n) => n.name)}
-            addZone={addZone}
             addPortal={addPortal}
           />
           </header>

@@ -28,7 +28,9 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
 
   if (zones.length > 0) {
     const data: ElementDefinition[] = [
-      ...zones.map((z) => ({
+      ...zones.filter(z => {
+        return !!portals.find(p => p.source === z.name || p.target === z.name)
+      }).map((z) => ({
         data: { id: z.name, label: z.name },
         style: {
           backgroundColor: zoneColorToColor[z.color],
