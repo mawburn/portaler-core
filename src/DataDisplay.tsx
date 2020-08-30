@@ -24,7 +24,7 @@ const zoneColorToColor = {
 }
 
 const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
-  const [layout, setLayout] = useState("cose")
+  const [layout, setLayout] = useState("grid")
 
   if (zones.length > 0) {
     const data: ElementDefinition[] = [
