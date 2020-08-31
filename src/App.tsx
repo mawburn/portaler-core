@@ -59,6 +59,8 @@ function App() {
     }).then(() => retrievePortals());
   }, [password, retrievePortals])
 
+  const [sourceZone, setSourceZone] = useState("");
+
   return (
     <div className="App">
       {!activatePassword && (
@@ -77,9 +79,11 @@ function App() {
           <DataInput
             existingNames={zones.map((n) => n.name)}
             addPortal={addPortal}
+            from={sourceZone}
+            setFrom={setSourceZone}
           />
           </header>
-          <DataDisplay zones={zones} portals={portals} />
+          <DataDisplay zones={zones} portals={portals} onNodeClick={n => setSourceZone(n)}/>
         
         </>
       )}

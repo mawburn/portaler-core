@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Zone, Portal } from './types';
 import CytoscapeComponent from 'react-cytoscapejs';
-import { ElementDefinition } from 'cytoscape';
+import { ElementDefinition, Core } from 'cytoscape';
 
 interface DataDisplayProps {
   zones: Zone[];
   portals: Portal[];
+  onNodeClick: (id: string) => void;
 }
 
 
@@ -23,12 +24,10 @@ const zoneColorToColor = {
   "road": "lightblue"
 }
 
-const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
+const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals, onNodeClick }) => {
   const [layout, setLayout] = useState("grid")
 
-
   if (zones.length > 0) {
-    const now = new Date();
     const data: ElementDefinition[] = [
       ...zones.filter(z => {
         return !!portals.find(p => p.source === z.name || p.target === z.name)
@@ -47,42 +46,48 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals }) => {
       })),
     ];
 
+
     return (
       <>
-      <CytoscapeComponent
-        elements={data}
-        style={{ height: "1080px", width: "100%" }}
-        stylesheet={[
-          {
-            "selector": "node[label]",
-            "style": {
-              "label": "data(label)"
-            }
-          },
-          {
-            "selector": "edge[label]",
-            "style": {
-              "label": "data(label)",
-              "width": 3
-            }
-          },
-          {
-            "selector": ".timeLow",
-            "style": {
-              "color": "red",
-            }
-          },
-        ]}
-        layout={{ name: layout }}
-      />
-      <select onChange={e => setLayout(e.target.value)} value={layout}>
-        <option>random</option>
-        <option>grid</option>
-        <option>circle</option>
-        <option>cose</option>
-        <option>concentric</option>
-        <option>breadthfirst</option>
-      </select>
+        <CytoscapeComponent
+          elements={data}
+          cy={(cy) => {
+            cy.on("tap", "node", (e) => {
+              onNodeClick(e.target.id())
+            });
+          }}
+          style={{ height: "1080px", width: "100%" }}
+          stylesheet={[
+            {
+              selector: "node[label]",
+              style: {
+                label: "data(label)",
+              },
+            },
+            {
+              selector: "edge[label]",
+              style: {
+                label: "data(label)",
+                width: 3,
+              },
+            },
+            {
+              selector: ".timeLow",
+              style: {
+                color: "red",
+              },
+            },
+          ]}
+          layout={{ name: layout }}
+        />
+        <select onChange={(e) => setLayout(e.target.value)} value={layout}>
+          <option>random</option>
+          <option>grid</option>
+          <option>circle</option>
+          <option>cose</option>
+          <option>concentric</option>
+          <option>breadthfirst</option>
+        </select>
       </>
     );
   }

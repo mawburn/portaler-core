@@ -4,6 +4,8 @@ import { PortalSize } from './types';
 
 
 interface DataInputProps {
+  from: string;
+  setFrom: (s: string) => void;
   existingNames: string[]; 
   addPortal: (source: string, target: string, size: PortalSize, hours: number, minutes: number) => void;
 }
@@ -14,9 +16,8 @@ const sorter = (a: any, b: any) => {
   return 1;
 }
 
-const DataInput: React.FC<DataInputProps> = ({existingNames, addPortal}) => {
+const DataInput: React.FC<DataInputProps> = ({existingNames, addPortal, from, setFrom}) => {
 
-  const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [size, setSize] = useState<PortalSize>(2);
   const [hours, setHours] = useState(12);
@@ -37,13 +38,13 @@ const DataInput: React.FC<DataInputProps> = ({existingNames, addPortal}) => {
   return (
     <div className="DataInput">
       <div>
-      <select onChange={(e) => setFrom(e.target.value)}>
+      <select value={from} onChange={(e) => setFrom(e.target.value)}>
         <option value="">Select from</option>
         {filteredFrom.map((id) => (
           <option key={id}>{id}</option>
         ))}
       </select>
-      <select onChange={(e) => setTo(e.target.value)}>
+      <select value={to} onChange={(e) => setTo(e.target.value)}>
         <option value="">Select to</option>
         {filteredTo.map((id) => (
           <option key={id}>{id}</option>
