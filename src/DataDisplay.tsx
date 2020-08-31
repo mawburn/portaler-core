@@ -25,7 +25,11 @@ const zoneColorToColor = {
 }
 
 const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals, onNodeClick }) => {
-  const [layout, setLayout] = useState("grid")
+  const [layout, setLayout] = useState("grid");
+
+  const zonesIndex: {[key: string]: Zone} = zones.reduce((prev, current) => ({...prev, [current.name]: current}), {})
+
+  const [activeZone, setActiveZone] = useState<Zone | null>(null);
 
   if (zones.length > 0) {
     const data: ElementDefinition[] = [
@@ -53,10 +57,11 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals, onNodeClick }
           elements={data}
           cy={(cy) => {
             cy.on("tap", "node", (e) => {
-              onNodeClick(e.target.id())
+              onNodeClick(e.target.id());
+              setActiveZone(zonesIndex[e.target.id()]);
             });
           }}
-          style={{ height: "1080px", width: "100%" }}
+          style={{ height: "720px", width: "100%" }}
           stylesheet={[
             {
               selector: "node[label]",
@@ -88,6 +93,16 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals, onNodeClick }
           <option>concentric</option>
           <option>breadthfirst</option>
         </select>
+        {activeZone && (
+          <table>
+            <tbody>
+              <tr><td>Name</td><td>{activeZone.name}</td></tr>
+              <tr><td>Type</td><td>{activeZone.type}</td></tr>
+              <tr><td>Resources</td><td>{activeZone.resources && activeZone.resources.map(r => `T${r.tier} ${r.name}`).join(", ")}</td></tr>
+              <tr><td>Map markers</td><td>{activeZone.markers && activeZone.markers.join(", ")}</td></tr>
+            </tbody>
+          </table>
+        )}
       </>
     );
   }
