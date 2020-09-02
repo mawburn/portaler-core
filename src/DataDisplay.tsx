@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Zone, Portal } from './types';
 import CytoscapeComponent from 'react-cytoscapejs';
 import { ElementDefinition, Core } from 'cytoscape';
@@ -27,15 +27,25 @@ const zoneColorToColor = {
 const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals, onNodeClick }) => {
   const [layout, setLayout] = useState("grid");
 
-  const zonesIndex: {[key: string]: Zone} = zones.reduce((prev, current) => ({...prev, [current.name]: current}), {})
+  const filteredZones = zones.filter(z => {
+        return !!portals.find(p => p.source === z.name || p.target === z.name)
+      });
 
   const [activeZone, setActiveZone] = useState<Zone | null>(null);
 
+  const activateZoneForInfo = useCallback(
+    (name: string) => {
+      const zone = filteredZones.find((z) => z.name == name);
+      if (zone) {
+        setActiveZone(zone);
+      }
+    },
+    [setActiveZone, filteredZones]
+  );
+
   if (zones.length > 0) {
     const data: ElementDefinition[] = [
-      ...zones.filter(z => {
-        return !!portals.find(p => p.source === z.name || p.target === z.name)
-      }).map((z) => ({
+      ...filteredZones.map((z) => ({
         data: { id: z.name, label: z.name },
         style: {
           backgroundColor: zoneColorToColor[z.color],
@@ -58,7 +68,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ zones, portals, onNodeClick }
           cy={(cy) => {
             cy.on("tap", "node", (e) => {
               onNodeClick(e.target.id());
-              setActiveZone(zonesIndex[e.target.id()]);
+              activateZoneForInfo(e.target.id())
             });
           }}
           style={{ height: "720px", width: "100%" }}
