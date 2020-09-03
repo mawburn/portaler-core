@@ -138,7 +138,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       </>
     );
   }
-  return <div>Dataset is currently empty, add some nodes to begin</div>;
+  return <div>Unable to fetch zone information from the server, this could be a network issue, or invalid password</div>;
 };
 
 export default DataDisplay;
