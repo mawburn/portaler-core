@@ -67,6 +67,7 @@ function App() {
         <div className="login">
           <input
             type="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
