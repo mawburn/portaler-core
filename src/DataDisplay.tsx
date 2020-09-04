@@ -48,6 +48,10 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
     [onNodeClick, setActiveZoneName]
   );
 
+  useEffect(() => {
+    setTimeout(() => setLayout(defaultLayout), 200);
+  }, []);
+
   if (zones.length > 0) {
     const data: ElementDefinition[] = [
       ...filteredZones.map((z) => ({
@@ -71,7 +75,6 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       })),
     ];
 
-    setTimeout(() => setLayout(defaultLayout), 200);
 
     return (
       <>
