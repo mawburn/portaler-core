@@ -7,6 +7,7 @@ import { PortalSize, Zone, Portal } from './types';
 
 function App() {
   const [password, setPassword] = useState("");
+  const [publicRead, setPublicRead] = useState(false);
   const [activatePassword, setActivatePassword] = useState(false)
   const [zones, setZones] = useState<Zone[]>([]);
   const [portals, setPortals] = useState<Portal[]>([]);
@@ -31,7 +32,8 @@ function App() {
   }, [setPortals, password])
 
   useEffect(() => {
-    if (activatePassword) {
+    fetch('/api/config').then(r => r.json()).then(r => setPublicRead(r.publicRead));
+    if (activatePassword || publicRead) {
       retrieveZones().then(retrievePortals);
 
       const zonesInterval = setInterval(() => {
@@ -46,7 +48,7 @@ function App() {
         clearInterval(portalsInterval);
       }
     }
-  }, [activatePassword, retrievePortals, retrieveZones]);
+  }, [activatePassword, retrievePortals, retrieveZones, publicRead, setPublicRead]);
 
   const addPortal = useCallback(async (source: string, target: string, size: PortalSize, hours: number, minutes: number) => {
     const data = {source, target, size, hours, minutes}
@@ -74,18 +76,23 @@ function App() {
           <button onClick={() => setActivatePassword(true)}>Log in</button>
         </div>
       )}
-      {activatePassword && (
+      {(activatePassword || publicRead) && (
         <>
-        <header>
-          <DataInput
-            existingNames={zones.map((n) => n.name)}
-            addPortal={addPortal}
-            from={sourceZone}
-            setFrom={setSourceZone}
-          />
+          <header>
+            {activatePassword && (
+              <DataInput
+                existingNames={zones.map((n) => n.name)}
+                addPortal={addPortal}
+                from={sourceZone}
+                setFrom={setSourceZone}
+              />
+            )}
           </header>
-          <DataDisplay zones={zones} portals={portals} onNodeClick={n => setSourceZone(n)}/>
-        
+          <DataDisplay
+            zones={zones}
+            portals={portals}
+            onNodeClick={(n) => setSourceZone(n)}
+          />
         </>
       )}
     </div>
