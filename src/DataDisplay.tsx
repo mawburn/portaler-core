@@ -101,12 +101,12 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
           layout={{ name: layout }}
         />
         <select onChange={(e) => setLayout(e.target.value)} value={layout}>
-          <option>random</option>
-          <option>grid</option>
-          <option>circle</option>
-          <option>cose</option>
-          <option>concentric</option>
-          <option>breadthfirst</option>
+          <option value="random">random</option>
+          <option value="grid">grid</option>
+          <option value="circle">circle</option>
+          <option value="cose">cose</option>
+          <option value="concentric">concentric</option>
+          <option value="breadthfirst">breadthfirst</option>
         </select>
         {activeZone && (
           <table>
