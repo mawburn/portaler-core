@@ -23,12 +23,14 @@ const zoneColorToColor = {
   road: "lightblue",
 };
 
+const defaultLayout = "breadthfirst";
+
 const DataDisplay: React.FC<DataDisplayProps> = ({
   zones,
   portals,
   onNodeClick,
 }) => {
-  const [layout, setLayout] = useState("grid");
+  const [layout, setLayout] = useState("random");
 
   const filteredZones = zones.filter((z) => {
     return !!portals.find((p) => p.source === z.name || p.target === z.name);
@@ -68,6 +70,8 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
         },
       })),
     ];
+
+    setTimeout(() => setLayout(defaultLayout), 200);
 
     return (
       <>
