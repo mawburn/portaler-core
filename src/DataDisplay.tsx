@@ -49,7 +49,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
   );
 
   useEffect(() => {
-    setTimeout(() => setLayout(defaultLayout), 200);
+    setTimeout(() => setLayout(defaultLayout), 500);
   }, []);
 
   if (zones.length > 0) {
