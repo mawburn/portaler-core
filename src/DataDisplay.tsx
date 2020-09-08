@@ -75,6 +75,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       })),
     ];
 
+    const darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     return (
       <>
@@ -89,6 +90,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
               selector: "node[label]",
               style: {
                 label: "data(label)",
+                color: darkTheme ? "white" : "black"
               },
             },
             {
@@ -96,6 +98,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
               style: {
                 label: "data(label)",
                 width: 3,
+                color: darkTheme ? "white" : "black"
               },
             },
             {
