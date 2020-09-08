@@ -58,6 +58,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
         data: { id: z.name, label: z.name },
         style: {
           backgroundColor: zoneColorToColor[z.color],
+          shape: z.type.indexOf("TUNNEL_HIDEOUT") >= 0 ? "pentagon" : "",
         },
       })),
       ...portals.map((p) => ({
