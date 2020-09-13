@@ -7,7 +7,7 @@ import { PortalSize, Zone, Portal } from './types';
 
 function App() {
   const [password, setPassword] = useState("");
-  const [publicRead, setPublicRead] = useState(false);
+  const [publicRead, setPublicRead] = useState<boolean | undefined>(undefined);
   const [activatePassword, setActivatePassword] = useState(false)
   const [zones, setZones] = useState<Zone[]>([]);
   const [portals, setPortals] = useState<Portal[]>([]);
@@ -32,7 +32,10 @@ function App() {
   }, [setPortals, password])
 
   useEffect(() => {
-    fetch('/api/config').then(r => r.json()).then(r => setPublicRead(r.publicRead));
+    if (typeof publicRead === 'undefined') {
+      fetch('/api/config').then(r => r.json()).then(r => setPublicRead(r.publicRead));
+    }
+    
     if (activatePassword || publicRead) {
       retrieveZones().then(retrievePortals);
 

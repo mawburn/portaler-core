@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #333;
+    color: white;
+  }
+
+  input {
+    background-color: #444;
+    color: white;
+  }
+
+  select {
+    background-color: #444;
+    color: white;
+  }
+}

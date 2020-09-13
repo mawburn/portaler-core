@@ -49,7 +49,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
   );
 
   useEffect(() => {
-    setTimeout(() => setLayout(defaultLayout), 200);
+    setTimeout(() => setLayout(defaultLayout), 500);
   }, []);
 
   if (zones.length > 0) {
@@ -58,6 +58,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
         data: { id: z.name, label: z.name },
         style: {
           backgroundColor: zoneColorToColor[z.color],
+          shape: z.type.indexOf("TUNNEL_HIDEOUT") >= 0 ? "pentagon" : "",
         },
       })),
       ...portals.map((p) => ({
@@ -75,6 +76,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       })),
     ];
 
+    const darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     return (
       <>
@@ -89,6 +91,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
               selector: "node[label]",
               style: {
                 label: "data(label)",
+                color: darkTheme ? "white" : "black"
               },
             },
             {
@@ -96,6 +99,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
               style: {
                 label: "data(label)",
                 width: 3,
+                color: darkTheme ? "white" : "black"
               },
             },
             {
