@@ -1,0 +1,29 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": ["prettier"],
+  "plugins": ["prettier", "import", "react"],
+  "rules": {
+    "arrow-body-style": ["error", "as-needed"],
+    "eqeqeq": ["error", "always"],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-unexpected-multiline": "error",
+    "prefer-const": "error",
+    "prettier/prettier": "error",
+    "react/require-default-props": "warn"
+  },
+  "env": {
+    "browser": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"]
+  }
+}
