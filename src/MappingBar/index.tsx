@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react'
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
 
 import { PortalSize, Zone } from '../types'
 import ZoneSearch from './ZoneSearch'
@@ -19,7 +19,8 @@ const sorter = (a: string, b: string) =>
   a.toUpperCase().localeCompare(b.toUpperCase())
 
 const MappingBar: FC<MappingBarProps> = ({ zones, fromId, addPortal }) => {
-  const [from, setFrom] = useState<string | null>(fromId)
+  const oldFromId = useRef<string | null>(fromId)
+  const [from, setFrom] = useState<string | null>(null)
   const [to, setTo] = useState<string | null>(null)
 
   const zoneNames = useMemo<string[]>(
@@ -37,16 +38,17 @@ const MappingBar: FC<MappingBarProps> = ({ zones, fromId, addPortal }) => {
   )
 
   useEffect(() => {
-    if (fromId !== from && fromId !== to) {
+    if (fromId !== oldFromId.current) {
       setFrom(fromId)
+      oldFromId.current = fromId
     }
-  }, [fromId, from, to, setFrom])
+  }, [fromId, setFrom])
 
   return (
     <div className="mapping-bar">
       <ZoneSearch
         value={from}
-        update={console.log}
+        update={setFrom}
         label="From"
         zoneNames={filteredFrom}
       />
