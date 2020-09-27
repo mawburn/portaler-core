@@ -1,17 +1,10 @@
 import './MappingBar.scss'
 
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
 
 import { PortalSize, Zone } from '../types'
-import PortalCount from './PortalCount'
 import ZoneSearch from './ZoneSearch'
+import PortalSizeSelector from './PortalSizeSelector'
 
 interface MappingBarProps {
   zones: Zone[]
@@ -31,8 +24,8 @@ const sorter = (a: string, b: string) =>
 const MappingBar: FC<MappingBarProps> = ({ zones, fromId, addPortal }) => {
   const oldFromId = useRef<string | null>(fromId)
   const [from, setFrom] = useState<string | null>(null)
-  const [to, setTo] = useState<(string | null)[]>(new Array<string>(7))
-  const [portalCount, setPortalCount] = useState<number>(1)
+  const [to, setTo] = useState<string | null>(null)
+  const [portalSize, setPortalSize] = useState<number>(2)
 
   const zoneNames = useMemo<string[]>(
     () => zones.map((n) => n.name).sort(sorter),
@@ -44,8 +37,8 @@ const MappingBar: FC<MappingBarProps> = ({ zones, fromId, addPortal }) => {
     [to, zoneNames]
   )
   const filteredTo = useMemo<string[]>(
-    () => zoneNames.filter((z) => z !== from && !to.includes(z)),
-    [from, zoneNames, to]
+    () => zoneNames.filter((z) => z !== from),
+    [from, zoneNames]
   )
 
   useEffect(() => {
@@ -54,15 +47,6 @@ const MappingBar: FC<MappingBarProps> = ({ zones, fromId, addPortal }) => {
       oldFromId.current = fromId
     }
   }, [fromId, setFrom])
-
-  const updateToPortal = useCallback((newVal: string | null, index: number) => {
-    setTo((valArr) => {
-      const newValArr = [...valArr]
-      newValArr[index] = newVal
-
-      return newValArr
-    })
-  }, [])
 
   return (
     <div className="mapping-bar">
@@ -75,19 +59,16 @@ const MappingBar: FC<MappingBarProps> = ({ zones, fromId, addPortal }) => {
         />
       </div>
       <div className="row">
-        <PortalCount selected={portalCount} update={setPortalCount} />
+        <ZoneSearch
+          value={to}
+          update={setTo}
+          label="To"
+          zoneNames={filteredTo}
+        />
       </div>
-
-      {[...Array(portalCount)].map((_, i) => (
-        <div className="row" key={`zone-to-${i}`}>
-          <ZoneSearch
-            value={to[i - 1]}
-            update={(newVal) => updateToPortal(newVal, i - 1)}
-            label="To"
-            zoneNames={filteredTo}
-          />
-        </div>
-      ))}
+      <div className="row">
+        <PortalSizeSelector size={portalSize} update={setPortalSize} />
+      </div>
     </div>
   )
 }

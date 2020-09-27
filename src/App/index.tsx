@@ -45,11 +45,13 @@ function App() {
           </header>
           <main className="layout">
             <aside className="search-side">
-              <MappingBar
-                fromId={sourceZone}
-                addPortal={addPortal}
-                zones={zones}
-              />
+              <form onSubmit={() => null}>
+                <MappingBar
+                  fromId={sourceZone}
+                  addPortal={addPortal}
+                  zones={zones}
+                />
+              </form>
               <br />
               <br />
               <br />
