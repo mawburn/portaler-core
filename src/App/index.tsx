@@ -1,6 +1,6 @@
-import '../App.css'
+import './App.css'
 
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 import DataDisplay from '../DataDisplay'
 import DataInput from '../DataInput'
@@ -32,7 +32,7 @@ function App() {
   )
 
   return (
-    <div className="App">
+    <div className="app-container">
       {!password && (
         <div>
           <PasswordForm password={password} setPassword={updatePassword} />

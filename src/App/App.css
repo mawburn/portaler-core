@@ -1,7 +1,3 @@
-.App header {
-  text-align: center;
-}
-
 .login {
   text-align: center;
 }
@@ -9,13 +5,14 @@
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 1.5rem);
 }
 
 .layout {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 350px auto;
   height: 100%;
+  padding: 0 1rem;
 }
 
 .search-side,
@@ -26,6 +23,8 @@
 }
 
 .map-display {
+  padding: 1rem;
+  width: 100%;
 }
 
 .mapping-bar {

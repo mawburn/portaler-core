@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Zone, Portal } from './types'
 import CytoscapeComponent from 'react-cytoscapejs'
 import { ElementDefinition } from 'cytoscape'
@@ -30,6 +30,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
   portals,
   onNodeClick,
 }) => {
+  const mapContainer = useRef<HTMLDivElement>(null)
   const [layout, setLayout] = useState('random')
 
   const filteredZones = zones.filter(
@@ -76,39 +77,51 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       })),
     ]
 
+    // setting width to 100% creates some weird growing effect
+    const cytoWidth = mapContainer.current?.offsetWidth || 0
+    const cytoHeight = mapContainer.current?.offsetHeight || 0
+
     return (
       <>
-        <CytoscapeComponent
-          elements={data}
-          cy={(cy) => {
-            cy.on('tap', 'node', cyEventHandler)
-          }}
-          style={{ height: '720px', width: '800px', border: '1px solid red' }}
-          stylesheet={[
-            {
-              selector: 'node[label]',
-              style: {
-                label: 'data(label)',
-                color: 'black',
-              },
-            },
-            {
-              selector: 'edge[label]',
-              style: {
-                label: 'data(label)',
-                width: 3,
-                color: 'black',
-              },
-            },
-            {
-              selector: '.timeLow',
-              style: {
-                color: 'red',
-              },
-            },
-          ]}
-          layout={{ name: layout }}
-        />
+        <div style={{ height: '100%' }} ref={mapContainer}>
+          {cytoWidth > 0 && (
+            <CytoscapeComponent
+              elements={data}
+              cy={(cy) => {
+                cy.on('tap', 'node', cyEventHandler)
+              }}
+              style={{
+                height: `${cytoHeight}px`,
+                width: `${cytoWidth}px`,
+                border: '1px solid red',
+              }}
+              stylesheet={[
+                {
+                  selector: 'node[label]',
+                  style: {
+                    label: 'data(label)',
+                    color: 'black',
+                  },
+                },
+                {
+                  selector: 'edge[label]',
+                  style: {
+                    label: 'data(label)',
+                    width: 3,
+                    color: 'black',
+                  },
+                },
+                {
+                  selector: '.timeLow',
+                  style: {
+                    color: 'red',
+                  },
+                },
+              ]}
+              layout={{ name: layout }}
+            />
+          )}
+        </div>
         <select onChange={(e) => setLayout(e.target.value)} value={layout}>
           <option value="random">random</option>
           <option value="grid">grid</option>
