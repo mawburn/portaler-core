@@ -39,7 +39,7 @@ const useGetPortals = (
       if (diff > 10000) {
         updatePortals()
       }
-    }, 60000)
+    }, 30000)
 
     return () => clearInterval(interval)
   }, [updatePortals])

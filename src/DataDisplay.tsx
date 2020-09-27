@@ -1,5 +1,5 @@
 import { ElementDefinition } from 'cytoscape'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import CytoscapeComponent from 'react-cytoscapejs'
 
 import { Portal, Zone } from './types'
