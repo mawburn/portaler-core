@@ -1,6 +1,6 @@
 import '../App.css'
 
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import DataDisplay from '../DataDisplay'
 import DataInput from '../DataInput'
@@ -11,8 +11,10 @@ import useGetConfig from './useGetConfig'
 import useGetPortals from './useGetPortals'
 import useGetZones from './useGetZones'
 
+const locStore = window.localStorage
+
 function App() {
-  const [password, setPassword] = useState('test')
+  const [password, setPassword] = useState(locStore.getItem('token') || '')
 
   const config = useGetConfig()
   const zones = useGetZones(password, config?.publicRead)
@@ -21,16 +23,22 @@ function App() {
 
   const [sourceZone, setSourceZone] = useState('')
 
-  const activatePassword = !!password
+  const updatePassword = useCallback(
+    (password: string) => {
+      locStore.setItem('token', password)
+      setPassword(password)
+    },
+    [setPassword]
+  )
 
   return (
     <div className="App">
-      {!activatePassword && (
+      {!password && (
         <div>
-          <PasswordForm password={password} setPassword={setPassword} />
+          <PasswordForm password={password} setPassword={updatePassword} />
         </div>
       )}
-      {(activatePassword || config?.publicRead) && (
+      {(!!password || config?.publicRead) && (
         <>
           <header>
             <h1>Albion Mapper</h1>

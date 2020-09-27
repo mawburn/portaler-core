@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import { Zone } from '../types'
 
 const useGetZones = (token: string, isPublic?: boolean) => {

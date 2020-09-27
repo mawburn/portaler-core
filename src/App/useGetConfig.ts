@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import useGetZones from './useGetZones'
 
 interface Config {
   publicRead: boolean
