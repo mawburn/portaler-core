@@ -1,0 +1,1 @@
+When you pop into a new zone, you can count the how many portals there are. It would be nice to have a way to define that really quick, then auto populate the from to create connections to all of them.

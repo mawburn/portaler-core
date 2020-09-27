@@ -14,7 +14,7 @@ import useGetZones from './useGetZones'
 const locStore = window.localStorage
 
 function App() {
-  const [password, setPassword] = useState(locStore.getItem('token') || '')
+  const [password, setPassword] = useState(locStore.getItem('token') || 'test')
 
   const config = useGetConfig()
   const zones = useGetZones(password, config?.publicRead)
