@@ -1,56 +1,56 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Zone, Portal } from "./types";
-import CytoscapeComponent from "react-cytoscapejs";
-import { ElementDefinition, Core } from "cytoscape";
+import React, { useState, useRef, useEffect, useCallback } from 'react'
+import { Zone, Portal } from './types'
+import CytoscapeComponent from 'react-cytoscapejs'
+import { ElementDefinition, Core } from 'cytoscape'
 
 interface DataDisplayProps {
-  zones: Zone[];
-  portals: Portal[];
-  onNodeClick: (id: string) => void;
+  zones: Zone[]
+  portals: Portal[]
+  onNodeClick: (id: string) => void
 }
 
 const portalSizeToColor = {
-  2: "green",
-  7: "blue",
-  20: "orange",
-};
+  2: 'green',
+  7: 'blue',
+  20: 'orange',
+}
 
 const zoneColorToColor = {
-  black: "black",
-  red: "red",
-  yellow: "yellow",
-  blue: "blue",
-  road: "lightblue",
-};
+  black: 'black',
+  red: 'red',
+  yellow: 'yellow',
+  blue: 'blue',
+  road: 'lightblue',
+}
 
-const defaultLayout = "breadthfirst";
+const defaultLayout = 'breadthfirst'
 
 const DataDisplay: React.FC<DataDisplayProps> = ({
   zones,
   portals,
   onNodeClick,
 }) => {
-  const [layout, setLayout] = useState("random");
+  const [layout, setLayout] = useState('random')
 
   const filteredZones = zones.filter((z) => {
-    return !!portals.find((p) => p.source === z.name || p.target === z.name);
-  });
+    return !!portals.find((p) => p.source === z.name || p.target === z.name)
+  })
 
-  const [activeZoneName, setActiveZoneName] = useState("");
+  const [activeZoneName, setActiveZoneName] = useState('')
 
-  const activeZone = filteredZones.find((z) => z.name === activeZoneName);
+  const activeZone = filteredZones.find((z) => z.name === activeZoneName)
 
   const cyEventHandler = useCallback(
     (e: cytoscape.EventObject) => {
-      onNodeClick(e.target.id());
-      setActiveZoneName(e.target.id());
+      onNodeClick(e.target.id())
+      setActiveZoneName(e.target.id())
     },
     [onNodeClick, setActiveZoneName]
-  );
+  )
 
   useEffect(() => {
-    setTimeout(() => setLayout(defaultLayout), 500);
-  }, []);
+    setTimeout(() => setLayout(defaultLayout), 500)
+  }, [])
 
   if (zones.length > 0) {
     const data: ElementDefinition[] = [
@@ -58,7 +58,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
         data: { id: z.name, label: z.name },
         style: {
           backgroundColor: zoneColorToColor[z.color],
-          shape: z.type.indexOf("TUNNEL_HIDEOUT") >= 0 ? "pentagon" : "",
+          shape: z.type.indexOf('TUNNEL_HIDEOUT') >= 0 ? 'pentagon' : '',
         },
       })),
       ...portals.map((p) => ({
@@ -69,43 +69,41 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
             p.timeLeft % 60
           )}min`,
         },
-        classes: p.timeLeft < 30 ? "timeLow" : "",
+        classes: p.timeLeft < 30 ? 'timeLow' : '',
         style: {
           lineColor: portalSizeToColor[p.size],
         },
       })),
-    ];
-
-    const darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    ]
 
     return (
       <>
         <CytoscapeComponent
           elements={data}
           cy={(cy) => {
-            cy.on("tap", "node", cyEventHandler);
+            cy.on('tap', 'node', cyEventHandler)
           }}
-          style={{ height: "720px", width: "100%" }}
+          style={{ height: '100%', width: '100%', border: '1px solid red' }}
           stylesheet={[
             {
-              selector: "node[label]",
+              selector: 'node[label]',
               style: {
-                label: "data(label)",
-                color: darkTheme ? "white" : "black"
+                label: 'data(label)',
+                color: 'black',
               },
             },
             {
-              selector: "edge[label]",
+              selector: 'edge[label]',
               style: {
-                label: "data(label)",
+                label: 'data(label)',
                 width: 3,
-                color: darkTheme ? "white" : "black"
+                color: 'black',
               },
             },
             {
-              selector: ".timeLow",
+              selector: '.timeLow',
               style: {
-                color: "red",
+                color: 'red',
               },
             },
           ]}
@@ -136,20 +134,25 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
                   {activeZone.resources &&
                     activeZone.resources
                       .map((r) => `T${r.tier} ${r.name}`)
-                      .join(", ")}
+                      .join(', ')}
                 </td>
               </tr>
               <tr>
                 <td>Map markers</td>
-                <td>{activeZone.markers && activeZone.markers.join(", ")}</td>
+                <td>{activeZone.markers && activeZone.markers.join(', ')}</td>
               </tr>
             </tbody>
           </table>
         )}
       </>
-    );
+    )
   }
-  return <div>Unable to fetch zone information from the server, this could be a network issue, or invalid password</div>;
-};
+  return (
+    <div>
+      Unable to fetch zone information from the server, this could be a network
+      issue, or invalid password
+    </div>
+  )
+}
 
-export default DataDisplay;
+export default DataDisplay

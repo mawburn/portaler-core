@@ -1,74 +1,89 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import './App.css';
-import DataDisplay from './DataDisplay';
-import DataInput from './DataInput';
-import { PortalSize, Zone, Portal } from './types';
-
+import React, { useState, useCallback, useEffect } from 'react'
+import './App.css'
+import DataDisplay from './DataDisplay'
+import DataInput from './DataInput'
+import { PortalSize, Zone, Portal } from './types'
 
 function App() {
-  const [password, setPassword] = useState("");
-  const [publicRead, setPublicRead] = useState<boolean | undefined>(undefined);
+  const [password, setPassword] = useState('test')
+  const [publicRead, setPublicRead] = useState<boolean | undefined>(undefined)
   const [activatePassword, setActivatePassword] = useState(false)
-  const [zones, setZones] = useState<Zone[]>([]);
-  const [portals, setPortals] = useState<Portal[]>([]);
+  const [zones, setZones] = useState<Zone[]>([])
+  const [portals, setPortals] = useState<Portal[]>([])
 
   const retrieveZones = useCallback(async () => {
     const res = await fetch(`/api/zone`, {
       headers: {
-        "X-Tebro-Auth": password
-      }
-      
-    }).then(r => r.json())
-    setZones(res);
-  }, [ setZones, password ])
+        'X-Tebro-Auth': password,
+      },
+    }).then((r) => r.json())
+    setZones(res)
+  }, [setZones, password])
 
   const retrievePortals = useCallback(async () => {
     const res = await fetch(`/api/portal`, {
       headers: {
-        "X-Tebro-Auth": password
-      }
-    }).then(r => r.json())
+        'X-Tebro-Auth': password,
+      },
+    }).then((r) => r.json())
     setPortals(res)
   }, [setPortals, password])
 
   useEffect(() => {
     if (typeof publicRead === 'undefined') {
-      fetch('/api/config').then(r => r.json()).then(r => setPublicRead(r.publicRead));
+      fetch('/api/config')
+        .then((r) => r.json())
+        .then((r) => setPublicRead(r.publicRead))
     }
-    
+
     if (activatePassword || publicRead) {
-      retrieveZones().then(retrievePortals);
+      retrieveZones().then(retrievePortals)
 
       const zonesInterval = setInterval(() => {
-        retrieveZones();
-      }, 60000);
+        retrieveZones()
+      }, 60000)
       const portalsInterval = setInterval(() => {
-        retrievePortals();
-      }, 60000);
+        retrievePortals()
+      }, 60000)
 
       return () => {
-        clearInterval(zonesInterval);
-        clearInterval(portalsInterval);
+        clearInterval(zonesInterval)
+        clearInterval(portalsInterval)
       }
     }
-  }, [activatePassword, retrievePortals, retrieveZones, publicRead, setPublicRead]);
+  }, [
+    activatePassword,
+    retrievePortals,
+    retrieveZones,
+    publicRead,
+    setPublicRead,
+  ])
 
-  const addPortal = useCallback(async (source: string, target: string, size: PortalSize, hours: number, minutes: number) => {
-    const data = {source, target, size, hours, minutes}
-    fetch(`/api/portal`, {
-      method: "POST",
-      headers: {
-        "X-Tebro-Auth": password
-      },
-      body: JSON.stringify(data)
-    }).then(() => retrievePortals());
-  }, [password, retrievePortals])
+  const addPortal = useCallback(
+    async (
+      source: string,
+      target: string,
+      size: PortalSize,
+      hours: number,
+      minutes: number
+    ) => {
+      const data = { source, target, size, hours, minutes }
+      fetch(`/api/portal`, {
+        method: 'POST',
+        headers: {
+          'X-Tebro-Auth': password,
+        },
+        body: JSON.stringify(data),
+      }).then(() => retrievePortals())
+    },
+    [password, retrievePortals]
+  )
 
-  const [sourceZone, setSourceZone] = useState("");
+  const [sourceZone, setSourceZone] = useState('')
 
   return (
     <div className="App">
-      {!activatePassword && (
+      {/* {(!activatePassword || !publicRead) && (
         <div className="login">
           <input
             type="password"
@@ -78,28 +93,33 @@ function App() {
           />
           <button onClick={() => setActivatePassword(true)}>Log in</button>
         </div>
-      )}
+      )} */}
       {(activatePassword || publicRead) && (
         <>
           <header>
-            {activatePassword && (
+            <h1>Albion Mapper</h1>
+          </header>
+          <main className="layout">
+            <aside className="search-side">
               <DataInput
                 existingNames={zones.map((n) => n.name)}
                 addPortal={addPortal}
                 from={sourceZone}
                 setFrom={setSourceZone}
               />
-            )}
-          </header>
-          <DataDisplay
-            zones={zones}
-            portals={portals}
-            onNodeClick={(n) => setSourceZone(n)}
-          />
+            </aside>
+            <div className="map-display">
+              <DataDisplay
+                zones={zones}
+                portals={portals}
+                onNodeClick={(n) => setSourceZone(n)}
+              />
+            </div>
+          </main>
         </>
       )}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

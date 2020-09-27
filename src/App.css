@@ -5,3 +5,25 @@
 .login {
   text-align: center;
 }
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.search-side,
+.data-input {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.map-display {
+}

@@ -4,7 +4,7 @@ import { PortalSize } from './types';
 
 
 interface DataInputProps {
-  from: string;
+  from: string; 
   setFrom: (s: string) => void;
   existingNames: string[]; 
   addPortal: (source: string, target: string, size: PortalSize, hours: number, minutes: number) => void;
@@ -12,7 +12,7 @@ interface DataInputProps {
 
 const sorter = (a: any, b: any) => {
   if (a < b) return -1;
-  if (a == b) return 0;
+  if (a === b) return 0;
   return 1;
 }
 
