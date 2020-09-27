@@ -6,7 +6,7 @@
       "jsx": true
     }
   },
-  "extends": ["prettier"],
+  "extends": ["prettier", "plugin:react-hooks/recommended"],
   "plugins": ["prettier", "import", "react"],
   "rules": {
     "arrow-body-style": ["error", "as-needed"],

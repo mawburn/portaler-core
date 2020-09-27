@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Zone, Portal } from './types'
 import CytoscapeComponent from 'react-cytoscapejs'
-import { ElementDefinition, Core } from 'cytoscape'
+import { ElementDefinition } from 'cytoscape'
 
 interface DataDisplayProps {
   zones: Zone[]
@@ -32,9 +32,9 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
 }) => {
   const [layout, setLayout] = useState('random')
 
-  const filteredZones = zones.filter((z) => {
-    return !!portals.find((p) => p.source === z.name || p.target === z.name)
-  })
+  const filteredZones = zones.filter(
+    (z) => !!portals.find((p) => p.source === z.name || p.target === z.name)
+  )
 
   const [activeZoneName, setActiveZoneName] = useState('')
 
@@ -83,7 +83,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
           cy={(cy) => {
             cy.on('tap', 'node', cyEventHandler)
           }}
-          style={{ height: '100%', width: '100%', border: '1px solid red' }}
+          style={{ height: '720px', width: '800px', border: '1px solid red' }}
           stylesheet={[
             {
               selector: 'node[label]',

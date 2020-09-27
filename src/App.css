@@ -27,3 +27,8 @@
 
 .map-display {
 }
+
+.mapping-bar {
+  display: flex;
+  flex-direction: column;
+}
