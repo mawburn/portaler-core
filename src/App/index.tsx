@@ -9,6 +9,7 @@ import useGetZones from './useGetZones'
 import useGetPortals from './useGetPortals'
 import useGetConfig from './useGetConfig'
 import useAddPortal from './useAddPortal'
+import PasswordForm from '../PasswordForm'
 
 function App() {
   const [password, setPassword] = useState('test')
@@ -24,17 +25,11 @@ function App() {
 
   return (
     <div className="App">
-      {/* {(!activatePassword || !publicRead) && (
-        <div className="login">
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={() => setActivatePassword(true)}>Log in</button>
+      {!activatePassword && (
+        <div>
+          <PasswordForm password={password} setPassword={setPassword} />
         </div>
-      )} */}
+      )}
       {(activatePassword || config?.publicRead) && (
         <>
           <header>
@@ -43,6 +38,16 @@ function App() {
           <main className="layout">
             <aside className="search-side">
               <MappingBar zones={zones} />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
               <DataInput
                 existingNames={zones.map((n) => n.name)}
                 addPortal={addPortal}
