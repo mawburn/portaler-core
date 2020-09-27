@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { PortalSize } from './types'
 
 interface DataInputProps {
-  from: string
+  from: string | null
   setFrom: (s: string) => void
   existingNames: string[]
   addPortal: (
@@ -45,7 +45,10 @@ const DataInput: React.FC<DataInputProps> = ({
   return (
     <div className="DataInput">
       <div>
-        <select value={from} onChange={(e) => setFrom(e.target.value)}>
+        <select
+          value={from || ''}
+          onChange={(e) => setFrom(e.target.value || '')}
+        >
           <option value="">Select from</option>
           {filteredFrom.map((id) => (
             <option key={id}>{id}</option>

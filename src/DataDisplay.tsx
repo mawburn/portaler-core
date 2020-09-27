@@ -77,50 +77,40 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       })),
     ]
 
-    // setting width to 100% creates some weird growing effect
-    const cytoWidth = mapContainer.current?.offsetWidth || 0
-    const cytoHeight = mapContainer.current?.offsetHeight || 0
-
     return (
       <>
-        <div style={{ height: '100%' }} ref={mapContainer}>
-          {cytoWidth > 0 && (
-            <CytoscapeComponent
-              elements={data}
-              cy={(cy) => {
-                cy.on('tap', 'node', cyEventHandler)
-              }}
-              style={{
-                height: `${cytoHeight}px`,
-                width: `${cytoWidth}px`,
-                border: '1px solid red',
-              }}
-              stylesheet={[
-                {
-                  selector: 'node[label]',
-                  style: {
-                    label: 'data(label)',
-                    color: 'black',
-                  },
+        <div className="h100" ref={mapContainer}>
+          <CytoscapeComponent
+            elements={data}
+            cy={(cy) => {
+              cy.on('tap', 'node', cyEventHandler)
+            }}
+            className="cyto"
+            stylesheet={[
+              {
+                selector: 'node[label]',
+                css: {
+                  label: 'data(label)',
+                  color: 'black',
                 },
-                {
-                  selector: 'edge[label]',
-                  style: {
-                    label: 'data(label)',
-                    width: 3,
-                    color: 'black',
-                  },
+              },
+              {
+                selector: 'edge[label]',
+                css: {
+                  label: 'data(label)',
+                  width: 3,
+                  color: 'black',
                 },
-                {
-                  selector: '.timeLow',
-                  style: {
-                    color: 'red',
-                  },
+              },
+              {
+                selector: '.timeLow',
+                css: {
+                  color: 'red',
                 },
-              ]}
-              layout={{ name: layout }}
-            />
-          )}
+              },
+            ]}
+            layout={{ name: layout }}
+          />
         </div>
         <select onChange={(e) => setLayout(e.target.value)} value={layout}>
           <option value="random">random</option>

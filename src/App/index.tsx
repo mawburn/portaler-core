@@ -1,6 +1,6 @@
 import './App.css'
 
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import DataDisplay from '../DataDisplay'
 import DataInput from '../DataInput'
@@ -21,7 +21,7 @@ function App() {
   const { portals, updatePortals } = useGetPortals(password, config?.publicRead)
   const addPortal = useAddPortal(password, updatePortals)
 
-  const [sourceZone, setSourceZone] = useState('')
+  const [sourceZone, setSourceZone] = useState<string | null>(null)
 
   const updatePassword = useCallback(
     (password: string) => {
@@ -45,7 +45,11 @@ function App() {
           </header>
           <main className="layout">
             <aside className="search-side">
-              <MappingBar zones={zones} />
+              <MappingBar
+                fromId={sourceZone}
+                addPortal={addPortal}
+                zones={zones}
+              />
               <br />
               <br />
               <br />
