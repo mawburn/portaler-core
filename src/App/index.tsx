@@ -5,11 +5,11 @@ import React, { useState } from 'react'
 import DataDisplay from '../DataDisplay'
 import DataInput from '../DataInput'
 import MappingBar from '../MappingBar'
-import useGetZones from './useGetZones'
-import useGetPortals from './useGetPortals'
-import useGetConfig from './useGetConfig'
-import useAddPortal from './useAddPortal'
 import PasswordForm from '../PasswordForm'
+import useAddPortal from './useAddPortal'
+import useGetConfig from './useGetConfig'
+import useGetPortals from './useGetPortals'
+import useGetZones from './useGetZones'
 
 function App() {
   const [password, setPassword] = useState('test')

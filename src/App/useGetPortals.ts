@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+import { DateTime } from 'luxon'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Portal } from '../types'
 
@@ -13,6 +14,7 @@ const useGetPortals = (
   token: string,
   isPublic?: boolean
 ): { portals: Portal[]; updatePortals: () => void } => {
+  const lastUpdate = useRef<DateTime>(DateTime.local())
   const [portals, setPortals] = useState<Portal[]>([])
 
   useEffect(() => {
@@ -26,8 +28,21 @@ const useGetPortals = (
 
   const updatePortals = useCallback(async () => {
     const res = await fetchPortals(token)
+    lastUpdate.current = DateTime.local()
     setPortals(res)
   }, [token])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const diff = Math.abs(lastUpdate.current.diffNow().milliseconds)
+
+      if (diff > 10000) {
+        updatePortals()
+      }
+    }, 60000)
+
+    return () => clearInterval(interval)
+  }, [updatePortals])
 
   return { portals, updatePortals }
 }
