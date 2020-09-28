@@ -6,7 +6,7 @@ import { Portal, Zone } from './types'
 
 interface DataDisplayProps {
   zones: Zone[]
-  portals: Portal[]
+  portals: Portal[] | null
   onNodeClick: (id: string) => void
 }
 
@@ -33,7 +33,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
   const [layout, setLayout] = useState('breadthfirst')
 
   const filteredZones = zones.filter(
-    (z) => !!portals.find((p) => p.source === z.name || p.target === z.name)
+    (z) => !!portals?.find((p) => p.source === z.name || p.target === z.name)
   )
 
   const [activeZoneName, setActiveZoneName] = useState('')
@@ -48,6 +48,8 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
     [onNodeClick, setActiveZoneName]
   )
 
+  const portalMap = portals || []
+
   const data: ElementDefinition[] = [
     ...filteredZones.map((z) => ({
       data: { id: z.name, label: z.name },
@@ -56,7 +58,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
         shape: z.type.indexOf('TUNNEL_HIDEOUT') >= 0 ? 'pentagon' : '',
       },
     })),
-    ...portals.map((p) => ({
+    ...portalMap.map((p) => ({
       data: {
         source: p.source,
         target: p.target,
@@ -74,7 +76,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
   return (
     <>
       <div className="h100" ref={mapContainer}>
-        {zones.length && portals.length ? (
+        {zones.length && !!portals ? (
           <CytoscapeComponent
             elements={data}
             cy={(cy) => {

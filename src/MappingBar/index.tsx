@@ -5,6 +5,7 @@ import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
 import { PortalSize, Zone } from '../types'
 import ZoneSearch from './ZoneSearch'
 import PortalSizeSelector from './PortalSizeSelector'
+import { FormControl, FormLabel, TextField } from '@material-ui/core'
 
 interface MappingBarProps {
   zones: Zone[]
@@ -68,6 +69,27 @@ const MappingBar: FC<MappingBarProps> = ({ zones, fromId, addPortal }) => {
       </div>
       <div className="row">
         <PortalSizeSelector size={portalSize} update={setPortalSize} />
+      </div>
+      <div className="row">
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Time Left</FormLabel>
+          <div className="flex-column">
+            <TextField
+              id="time-hour"
+              className="duration-field"
+              size="small"
+              type="number"
+              label="Hour(s)"
+            />
+            <TextField
+              id="time-minute"
+              className="duration-field"
+              size="small"
+              type="number"
+              label="Minute(s)"
+            />
+          </div>
+        </FormControl>
       </div>
     </div>
   )

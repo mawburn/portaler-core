@@ -41,3 +41,8 @@
   width: 100%;
   border: 1px solid red;
 }
+
+.flex-column {
+  display: flex;
+  flex-direction: row;
+}

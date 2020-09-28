@@ -3,3 +3,13 @@
     margin: 1rem 0;
   }
 }
+
+.flex-column {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.duration-field {
+  width: 45%;
+}
