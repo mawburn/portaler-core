@@ -10,10 +10,8 @@ import useGetPortals from './useGetPortals'
 import useGetZones from './useGetZones'
 import { Checkbox, FormControlLabel } from '@material-ui/core'
 
-const locStore = window.localStorage
-
 function App() {
-  const [token, setToken] = useState<string>(locStore.getItem('token') || '')
+  const [token, setToken] = useState<string>('')
   const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true)
 
   const config = useGetConfig()
@@ -24,7 +22,6 @@ function App() {
 
   const updateToken = useCallback(
     (token: string) => {
-      locStore.setItem('token', token)
       setToken(token)
     },
     [setToken]
