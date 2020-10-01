@@ -8,10 +8,7 @@ const useGetConfig = () => {
   const [config, setConfig] = useState<Config | null>(null)
 
   useEffect(() => {
-    ;(async () => {
-      const res = await fetch('/api/config').then((r) => r.json())
-      setConfig(res)
-    })()
+    fetch('/api/config').then(r => r.json()).then(setConfig);
   }, [])
 
   return config
