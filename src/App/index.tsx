@@ -13,7 +13,7 @@ import { Checkbox, FormControlLabel } from '@material-ui/core'
 const locStore = window.localStorage
 
 function App() {
-  const [token, setToken] = useState(locStore.getItem('token') || 'test')
+  const [token, setToken] = useState<string>(locStore.getItem('token') || '')
   const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true)
 
   const config = useGetConfig()
