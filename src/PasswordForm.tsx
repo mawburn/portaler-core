@@ -1,6 +1,7 @@
-import React, { ChangeEvent, FC, useCallback, useState } from 'react'
+import React, { FC, FormEvent, useCallback, useState } from 'react'
 
 import {
+  Button,
   FormControl,
   IconButton,
   Input,
@@ -17,35 +18,40 @@ interface PasswordFormProps {
 
 const PasswordForm: FC<PasswordFormProps> = ({ password, setPassword }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [localPassword, setLocalPassword] = useState<string>(password || '')
 
-  const handlePasswordChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setPassword(e.currentTarget.value)
+  const handleFormSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      setPassword(localPassword)
     },
-    [setPassword]
+    [setPassword, localPassword]
   )
 
   return (
-    <form onSubmit={() => null}>
-      <FormControl>
+    <form onSubmit={handleFormSubmit}>
+      <FormControl fullWidth margin="normal">
         <InputLabel htmlFor="password-input">Password</InputLabel>
         <Input
           id="password-input"
           type={showPassword ? 'text' : 'password'}
-          value={password}
-          onChange={handlePasswordChange}
+          value={localPassword}
+          onChange={(e) => setLocalPassword(e.currentTarget.value)}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
                 aria-label="toggle password visibility"
                 onClick={() => setShowPassword(!showPassword)}
-                // onMouseDown={handleMouseDownPassword}
               >
                 {showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </InputAdornment>
           }
         />
+      </FormControl>
+      <FormControl fullWidth margin="normal">
+        <Button type="submit" variant="contained" color="primary" size="large">
+          Login
+        </Button>
       </FormControl>
     </form>
   )

@@ -1,4 +1,4 @@
-import './MappingBar.scss'
+import './MappingBar.css'
 
 import React, {
   FC,

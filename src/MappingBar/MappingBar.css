@@ -1,7 +1,5 @@
-.mapping-bar {
-  .row {
-    margin: 1rem 0;
-  }
+.mapping-bar .row {
+  margin: 1rem 0;
 }
 
 .flex-column {

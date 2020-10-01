@@ -4,11 +4,13 @@ interface Config {
   publicRead: boolean
 }
 
-const useGetConfig = () => {
-  const [config, setConfig] = useState<Config | null>(null)
+const useGetConfig = (): Config => {
+  const [config, setConfig] = useState<Config>({ publicRead: false })
 
   useEffect(() => {
-    fetch('/api/config').then(r => r.json()).then(setConfig);
+    fetch('/api/config')
+      .then((r) => r.json())
+      .then(setConfig)
   }, [])
 
   return config

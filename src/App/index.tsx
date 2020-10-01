@@ -1,6 +1,8 @@
 import './App.css'
 
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
+
+import { Checkbox, FormControlLabel } from '@material-ui/core'
 
 import DataDisplay from '../DataDisplay'
 import MappingBar from '../MappingBar'
@@ -8,7 +10,6 @@ import PasswordForm from '../PasswordForm'
 import useGetConfig from './useGetConfig'
 import useGetPortals from './useGetPortals'
 import useGetZones from './useGetZones'
-import { Checkbox, FormControlLabel } from '@material-ui/core'
 
 function App() {
   const [token, setToken] = useState<string>('')
@@ -16,16 +17,9 @@ function App() {
 
   const config = useGetConfig()
   const zones = useGetZones(token, config?.publicRead)
-  const { portals, updatePortals } = useGetPortals(token, config?.publicRead)
+  const [portals, updatePortals] = useGetPortals(token, config?.publicRead)
 
   const [sourceZone, setSourceZone] = useState<string | null>(null)
-
-  const updateToken = useCallback(
-    (token: string) => {
-      setToken(token)
-    },
-    [setToken]
-  )
 
   return (
     <div className="app-container">
@@ -36,7 +30,7 @@ function App() {
       <main className="layout">
         <aside className="search-side">
           {!token ? (
-            <PasswordForm password={token} setPassword={updateToken} />
+            <PasswordForm password={token} setPassword={setToken} />
           ) : (
             <>
               <MappingBar
@@ -52,7 +46,7 @@ function App() {
                     onChange={() =>
                       setUpdateLayoutOnChange(!updateLayoutOnChange)
                     }
-                    name="checkedB"
+                    name="layout-change"
                     color="primary"
                   />
                 }
