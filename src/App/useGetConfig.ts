@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 interface Config {
-  publicRead: boolean
+  publicRead: boolean;
 }
 
 const useGetConfig = (): Config => {
-  const [config, setConfig] = useState<Config>({ publicRead: false })
+  const [config, setConfig] = useState<Config>({ publicRead: false });
 
   useEffect(() => {
     fetch('/api/config')
       .then((r) => r.json())
-      .then(setConfig)
-  }, [])
+      .then(setConfig);
+  }, []);
 
-  return config
-}
+  return config;
+};
 
-export default useGetConfig
+export default useGetConfig;

@@ -1,5 +1,5 @@
-import { useCallback } from 'react'
-import { PortalSize } from '../types'
+import { useCallback } from 'react';
+import { PortalSize } from '../types';
 
 const useAddPortal = (token: string, updatePortals: () => void) =>
   useCallback(
@@ -10,7 +10,7 @@ const useAddPortal = (token: string, updatePortals: () => void) =>
       hours: number,
       minutes: number
     ) => {
-      const body = JSON.stringify({ source, target, size, hours, minutes })
+      const body = JSON.stringify({ source, target, size, hours, minutes });
 
       fetch(`/api/portal`, {
         method: 'POST',
@@ -18,9 +18,9 @@ const useAddPortal = (token: string, updatePortals: () => void) =>
           'X-Tebro-Auth': token,
         },
         body,
-      }).then(updatePortals)
+      }).then(updatePortals);
     },
     [token, updatePortals]
-  )
+  );
 
-export default useAddPortal
+export default useAddPortal;

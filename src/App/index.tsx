@@ -1,25 +1,25 @@
-import './App.css'
+import './App.css';
 
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import { Checkbox, FormControlLabel } from '@material-ui/core'
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 
-import DataDisplay from '../DataDisplay'
-import MappingBar from '../MappingBar'
-import PasswordForm from '../PasswordForm'
-import useGetConfig from './useGetConfig'
-import useGetPortals from './useGetPortals'
-import useGetZones from './useGetZones'
+import DataDisplay from '../DataDisplay';
+import MappingBar from '../MappingBar';
+import PasswordForm from '../PasswordForm';
+import useGetConfig from './useGetConfig';
+import useGetPortals from './useGetPortals';
+import useGetZones from './useGetZones';
 
 function App() {
-  const [token, setToken] = useState<string>('')
-  const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true)
+  const [token, setToken] = useState<string>('');
+  const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true);
 
-  const config = useGetConfig()
-  const zones = useGetZones(token, config?.publicRead)
-  const [portals, updatePortals] = useGetPortals(token, config?.publicRead)
+  const config = useGetConfig();
+  const zones = useGetZones(token, config?.publicRead);
+  const [portals, updatePortals] = useGetPortals(token, config?.publicRead);
 
-  const [sourceZone, setSourceZone] = useState<string | null>(null)
+  const [sourceZone, setSourceZone] = useState<string | null>(null);
 
   return (
     <div className="app-container">
@@ -67,7 +67,7 @@ function App() {
         )}
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

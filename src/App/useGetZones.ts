@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-import { Zone } from '../types'
+import { Zone } from '../types';
 
 const useGetZones = (token: string, isPublic?: boolean): Zone[] => {
-  const [zones, setZones] = useState<Zone[]>([])
+  const [zones, setZones] = useState<Zone[]>([]);
 
   useEffect(() => {
     if (token !== '' || isPublic) {
@@ -13,11 +13,11 @@ const useGetZones = (token: string, isPublic?: boolean): Zone[] => {
         },
       })
         .then((r) => r.json())
-        .then(setZones)
+        .then(setZones);
     }
-  }, [token, isPublic])
+  }, [token, isPublic]);
 
-  return zones
-}
+  return zones;
+};
 
-export default useGetZones
+export default useGetZones;

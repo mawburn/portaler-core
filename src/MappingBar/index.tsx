@@ -1,4 +1,4 @@
-import './MappingBar.css'
+import './MappingBar.css';
 
 import React, {
   FC,
@@ -8,25 +8,25 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from 'react'
+} from 'react';
 
-import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
-import DeviceHubIcon from '@material-ui/icons/DeviceHub'
+import { Button, FormControl, FormLabel, TextField } from '@material-ui/core';
+import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 
-import { PortalSize, Zone } from '../types'
-import PortalSizeSelector from './PortalSizeSelector'
-import ZoneSearch from './ZoneSearch'
-import useAddPortal from './useAddPortal'
+import { PortalSize, Zone } from '../types';
+import PortalSizeSelector from './PortalSizeSelector';
+import ZoneSearch from './ZoneSearch';
+import useAddPortal from './useAddPortal';
 
 interface MappingBarProps {
-  zones: Zone[]
-  fromId: string | null
-  token: string
-  updatePortals: () => void
+  zones: Zone[];
+  fromId: string | null;
+  token: string;
+  updatePortals: () => void;
 }
 
 const sorter = (a: string, b: string) =>
-  a.toUpperCase().localeCompare(b.toUpperCase())
+  a.toUpperCase().localeCompare(b.toUpperCase());
 
 const MappingBar: FC<MappingBarProps> = ({
   zones,
@@ -34,49 +34,49 @@ const MappingBar: FC<MappingBarProps> = ({
   token,
   updatePortals,
 }) => {
-  const oldFromId = useRef<string | null>(fromId)
-  const [from, setFrom] = useState<string | null>(null)
-  const [to, setTo] = useState<string | null>(null)
-  const [portalSize, setPortalSize] = useState<PortalSize>(7)
-  const [hours, setHours] = useState<number | null>(null)
-  const [minutes, setMinutes] = useState<number | null>(null)
+  const oldFromId = useRef<string | null>(fromId);
+  const [from, setFrom] = useState<string | null>(null);
+  const [to, setTo] = useState<string | null>(null);
+  const [portalSize, setPortalSize] = useState<PortalSize>(7);
+  const [hours, setHours] = useState<number | null>(null);
+  const [minutes, setMinutes] = useState<number | null>(null);
 
   const zoneNames = useMemo<string[]>(
     () => zones.map((n) => n.name).sort(sorter),
     [zones]
-  )
+  );
 
-  const addPortal = useAddPortal(token, updatePortals)
+  const addPortal = useAddPortal(token, updatePortals);
 
   const filteredFrom = useMemo<string[]>(
     () => zoneNames.filter((z) => z !== to),
     [to, zoneNames]
-  )
+  );
 
   const filteredTo = useMemo<string[]>(
     () => zoneNames.filter((z) => z !== from),
     [from, zoneNames]
-  )
+  );
 
   useEffect(() => {
     if (fromId !== oldFromId.current) {
-      setFrom(fromId)
-      oldFromId.current = fromId
+      setFrom(fromId);
+      oldFromId.current = fromId;
     }
-  }, [fromId, setFrom])
+  }, [fromId, setFrom]);
 
   const handleSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
+      e.preventDefault();
 
       if (from && to && portalSize && hours && minutes) {
-        await addPortal(from, to, portalSize, hours, minutes)
+        await addPortal(from, to, portalSize, hours, minutes);
       } else {
-        console.log('you suck')
+        console.log('you suck');
       }
     },
     [from, to, portalSize, hours, minutes, addPortal]
-  )
+  );
 
   return (
     <form onSubmit={handleSubmit} autoComplete="off">
@@ -143,7 +143,7 @@ const MappingBar: FC<MappingBarProps> = ({
         </div>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default MappingBar
+export default MappingBar;

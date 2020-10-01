@@ -1,17 +1,17 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react';
 
 interface ImportExportProps {
-  rawData: string
-  importData: (raw: string) => void
+  rawData: string;
+  importData: (raw: string) => void;
 }
 
 const ImportExport: React.FC<ImportExportProps> = ({ rawData, importData }) => {
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
 
-  const [importInput, setImportInput] = useState('')
+  const [importInput, setImportInput] = useState('');
   const triggerImport = useCallback(() => {
-    importData(importInput)
-  }, [importInput, importData])
+    importData(importInput);
+  }, [importInput, importData]);
 
   return (
     <div className="importExport">
@@ -38,7 +38,7 @@ const ImportExport: React.FC<ImportExportProps> = ({ rawData, importData }) => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ImportExport
+export default ImportExport;
