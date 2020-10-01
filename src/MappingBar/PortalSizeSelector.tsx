@@ -9,6 +9,7 @@ import {
   RadioGroup,
   withStyles,
 } from '@material-ui/core'
+import { PortalSize } from '../types'
 
 const TwoPortal = withStyles({
   root: {
@@ -41,20 +42,20 @@ const TwentyPortal = withStyles({
 })((props) => <Radio color="default" {...props} />)
 
 interface PortalSizeSelectorProps {
-  size: number
-  update: (size: number) => void
+  size: PortalSize
+  update: (size: PortalSize) => void
 }
 
 const PortalSizeSelector: FC<PortalSizeSelectorProps> = ({ size, update }) => {
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      update(Number(e.target.value))
+      update(Number(e.target.value) as PortalSize)
     },
     [update]
   )
 
   return (
-    <FormControl component="fieldset">
+    <FormControl fullWidth component="fieldset">
       <FormLabel component="legend">Portal Size</FormLabel>
       <RadioGroup
         row
