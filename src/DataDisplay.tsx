@@ -163,9 +163,4 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
   );
 };
 
-// ;<div>
-//   Unable to fetch zone information from the server, this could be a network
-//   issue, or invalid password
-// </div>
-
 export default DataDisplay;
