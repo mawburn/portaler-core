@@ -78,7 +78,7 @@ const MappingBar: FC<MappingBarProps> = ({
   )
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} autoComplete="off">
       <div className="mapping-bar">
         <div className="row">
           <ZoneSearch

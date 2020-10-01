@@ -8,16 +8,17 @@ import PasswordForm from '../PasswordForm'
 import useGetConfig from './useGetConfig'
 import useGetPortals from './useGetPortals'
 import useGetZones from './useGetZones'
+import { Checkbox, FormControlLabel } from '@material-ui/core'
 
 const locStore = window.localStorage
 
 function App() {
   const [token, setToken] = useState(locStore.getItem('token') || 'test')
+  const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true)
 
   const config = useGetConfig()
   const zones = useGetZones(token, config?.publicRead)
   const { portals, updatePortals } = useGetPortals(token, config?.publicRead)
-  // const addPortal = useAddPortal(token, updatePortals)
 
   const [sourceZone, setSourceZone] = useState<string | null>(null)
 
@@ -40,12 +41,27 @@ function App() {
           {!token ? (
             <PasswordForm password={token} setPassword={updateToken} />
           ) : (
-            <MappingBar
-              fromId={sourceZone}
-              zones={zones}
-              token={token}
-              updatePortals={updatePortals}
-            />
+            <>
+              <MappingBar
+                fromId={sourceZone}
+                zones={zones}
+                token={token}
+                updatePortals={updatePortals}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={updateLayoutOnChange}
+                    onChange={() =>
+                      setUpdateLayoutOnChange(!updateLayoutOnChange)
+                    }
+                    name="checkedB"
+                    color="primary"
+                  />
+                }
+                label="Update layout after create"
+              />
+            </>
           )}
         </aside>
         {(!!token || config?.publicRead) && (
@@ -53,6 +69,7 @@ function App() {
             <DataDisplay
               zones={zones}
               portals={portals}
+              updateLayoutOnChange={updateLayoutOnChange}
               onNodeClick={(n) => setSourceZone(n)}
             />
           </div>

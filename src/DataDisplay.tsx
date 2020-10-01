@@ -7,6 +7,7 @@ import { Portal, Zone } from './types'
 interface DataDisplayProps {
   zones: Zone[]
   portals: Portal[] | null
+  updateLayoutOnChange: boolean
   onNodeClick: (id: string) => void
 }
 
@@ -27,6 +28,7 @@ const zoneColorToColor = {
 const DataDisplay: React.FC<DataDisplayProps> = ({
   zones,
   portals,
+  updateLayoutOnChange,
   onNodeClick,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null)
@@ -46,6 +48,15 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       setActiveZoneName(e.target.id())
     },
     [onNodeClick, setActiveZoneName]
+  )
+
+  const cyNodeEventUpdate = useCallback(
+    (e: cytoscape.EventObject) => {
+      if (updateLayoutOnChange) {
+        e.cy.layout({ name: layout }).run()
+      }
+    },
+    [layout, updateLayoutOnChange]
   )
 
   const portalMap = portals || []
@@ -81,6 +92,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
             elements={data}
             cy={(cy) => {
               cy.on('tap', 'node', cyEventHandler)
+              cy.on('add', 'node', cyNodeEventUpdate)
             }}
             className="cyto"
             stylesheet={[

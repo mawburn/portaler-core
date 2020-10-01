@@ -3,7 +3,7 @@ import { PortalSize } from '../types'
 
 const useAddPortal = (token: string, updatePortals: () => void) =>
   useCallback(
-    async (
+    (
       source: string,
       target: string,
       size: PortalSize,
