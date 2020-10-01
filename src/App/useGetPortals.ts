@@ -19,10 +19,7 @@ const useGetPortals = (
 
   useEffect(() => {
     if (token !== '' && isPublic) {
-      ;(async () => {
-        const res = await fetchPortals(token)
-        setPortals(res)
-      })()
+      fetchPortals(token).then(setPortals);
     }
   }, [token, isPublic])
 
