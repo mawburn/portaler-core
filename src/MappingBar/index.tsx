@@ -49,9 +49,10 @@ const MappingBar: FC<MappingBarProps> = ({
   const addPortal = useAddPortal(token, updatePortals)
 
   const filteredFrom = useMemo<string[]>(
-    () => zoneNames.filter((z) => !to?.includes(z)),
+    () => zoneNames.filter((z) => z !== to),
     [to, zoneNames]
   )
+
   const filteredTo = useMemo<string[]>(
     () => zoneNames.filter((z) => z !== from),
     [from, zoneNames]
