@@ -84,8 +84,6 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
     })),
   ];
 
-  console.count('render');
-
   return (
     <>
       <div className="h100" ref={mapContainer}>
