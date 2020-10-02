@@ -84,6 +84,8 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
     })),
   ];
 
+  console.count('render');
+
   return (
     <>
       <div className="h100" ref={mapContainer}>
@@ -124,41 +126,43 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
           <div className="cyto">Loading</div>
         )}
       </div>
-      <select onChange={(e) => setLayout(e.target.value)} value={layout}>
-        <option value="random">random</option>
-        <option value="grid">grid</option>
-        <option value="circle">circle</option>
-        <option value="cose">cose</option>
-        <option value="concentric">concentric</option>
-        <option value="breadthfirst">breadthfirst</option>
-      </select>
-      {activeZone && (
-        <table>
-          <tbody>
-            <tr>
-              <td>Name</td>
-              <td>{activeZone.name}</td>
-            </tr>
-            <tr>
-              <td>Type</td>
-              <td>{activeZone.type}</td>
-            </tr>
-            <tr>
-              <td>Resources</td>
-              <td>
-                {activeZone.resources &&
-                  activeZone.resources
-                    .map((r) => `T${r.tier} ${r.name}`)
-                    .join(', ')}
-              </td>
-            </tr>
-            <tr>
-              <td>Map markers</td>
-              <td>{activeZone.markers && activeZone.markers.join(', ')}</td>
-            </tr>
-          </tbody>
-        </table>
-      )}
+      <div className="cyto-below">
+        <select onChange={(e) => setLayout(e.target.value)} value={layout}>
+          <option value="random">random</option>
+          <option value="grid">grid</option>
+          <option value="circle">circle</option>
+          <option value="cose">cose</option>
+          <option value="concentric">concentric</option>
+          <option value="breadthfirst">breadthfirst</option>
+        </select>
+        {activeZone && (
+          <table>
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td>{activeZone.name}</td>
+              </tr>
+              <tr>
+                <td>Type</td>
+                <td>{activeZone.type}</td>
+              </tr>
+              <tr>
+                <td>Resources</td>
+                <td>
+                  {activeZone.resources &&
+                    activeZone.resources
+                      .map((r) => `T${r.tier} ${r.name}`)
+                      .join(', ')}
+                </td>
+              </tr>
+              <tr>
+                <td>Map markers</td>
+                <td>{activeZone.markers && activeZone.markers.join(', ')}</td>
+              </tr>
+            </tbody>
+          </table>
+        )}
+      </div>
     </>
   );
 };

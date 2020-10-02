@@ -34,12 +34,20 @@
 
 .h100 {
   height: 100%;
+  max-height: 100%;
 }
 
 .cyto {
-  height: 100%;
+  height: calc(100% - 3em);
   width: 100%;
+  max-height: calc(100% - 3em);
   border: 1px solid red;
+}
+
+.cytoBelow {
+  height: 3em;
+  max-height: 3em;
+  overflow: auto;
 }
 
 .flex-column {
