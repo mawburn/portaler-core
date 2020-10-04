@@ -25,6 +25,8 @@ interface MappingBarProps {
   updatePortals: () => void;
 }
 
+const DEFAULT_PORTAL_SIZE = 7;
+
 const sorter = (a: string, b: string) =>
   a.toUpperCase().localeCompare(b.toUpperCase());
 
@@ -37,7 +39,7 @@ const MappingBar: FC<MappingBarProps> = ({
   const oldFromId = useRef<string | null>(fromId);
   const [from, setFrom] = useState<string | null>(null);
   const [to, setTo] = useState<string | null>(null);
-  const [portalSize, setPortalSize] = useState<PortalSize>(7);
+  const [portalSize, setPortalSize] = useState<PortalSize>(DEFAULT_PORTAL_SIZE);
   const [hours, setHours] = useState<number | null>(null);
   const [minutes, setMinutes] = useState<number | null>(null);
 
@@ -66,7 +68,7 @@ const MappingBar: FC<MappingBarProps> = ({
   }, [fromId, setFrom]);
 
   const handleSubmit = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       try {
@@ -74,7 +76,11 @@ const MappingBar: FC<MappingBarProps> = ({
         const min = Number(minutes);
 
         if (from && to && portalSize && hr + min > 0) {
-          await addPortal(from, to, portalSize, hr, min);
+          addPortal(from, to, portalSize, hr, min);
+          setTo(null);
+          setHours(null);
+          setMinutes(null);
+          setPortalSize(DEFAULT_PORTAL_SIZE);
         } else {
           throw new Error('you suck');
         }
@@ -118,6 +124,7 @@ const MappingBar: FC<MappingBarProps> = ({
                 label="Hour(s)"
                 InputProps={{
                   inputProps: { min: 0, max: 24 },
+                  value: hours || '',
                 }}
                 onChange={(e) => setHours(Number(e.currentTarget.value))}
               />
@@ -128,6 +135,7 @@ const MappingBar: FC<MappingBarProps> = ({
                 label="Minute(s)"
                 InputProps={{
                   inputProps: { min: 0, max: 59 },
+                  value: minutes || '',
                 }}
                 onChange={(e) => setMinutes(Number(e.currentTarget.value))}
               />

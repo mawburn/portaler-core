@@ -8,7 +8,7 @@ import {
   FormControlLabel,
   ThemeProvider,
 } from '@material-ui/core';
-import { blue, lightBlue } from '@material-ui/core/colors';
+import { blue } from '@material-ui/core/colors';
 
 import DataDisplay from '../DataDisplay';
 import MappingBar from '../MappingBar';
