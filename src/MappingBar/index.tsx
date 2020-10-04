@@ -78,8 +78,8 @@ const MappingBar: FC<MappingBarProps> = ({
         } else {
           throw new Error('you suck');
         }
-      } catch {
-        console.log('you suck');
+      } catch (err) {
+        console.error(err);
       }
     },
     [from, to, portalSize, hours, minutes, addPortal]

@@ -4,8 +4,8 @@ interface Config {
   publicRead: boolean;
 }
 
-const useGetConfig = (): Config => {
-  const [config, setConfig] = useState<Config>({ publicRead: false });
+const useGetConfig = (): Config | null => {
+  const [config, setConfig] = useState<Config | null>(null);
 
   useEffect(() => {
     fetch('/api/config')
