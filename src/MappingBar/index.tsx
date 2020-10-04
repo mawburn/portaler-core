@@ -69,9 +69,16 @@ const MappingBar: FC<MappingBarProps> = ({
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      if (from && to && portalSize && hours && minutes) {
-        await addPortal(from, to, portalSize, hours, minutes);
-      } else {
+      try {
+        const hr = Number(hours);
+        const min = Number(minutes);
+
+        if (from && to && portalSize && hr + min > 0) {
+          await addPortal(from, to, portalSize, hr, min);
+        } else {
+          throw new Error('you suck');
+        }
+      } catch {
         console.log('you suck');
       }
     },
