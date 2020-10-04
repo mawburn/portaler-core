@@ -1,8 +1,14 @@
 import './App.css';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
-import { Checkbox, FormControlLabel } from '@material-ui/core';
+import {
+  Checkbox,
+  createMuiTheme,
+  FormControlLabel,
+  ThemeProvider,
+} from '@material-ui/core';
+import { blue, lightBlue } from '@material-ui/core/colors';
 
 import DataDisplay from '../DataDisplay';
 import MappingBar from '../MappingBar';
@@ -21,52 +27,71 @@ function App() {
 
   const [sourceZone, setSourceZone] = useState<string | null>(null);
 
-  return (
-    <div className="app-container">
-      <header>
-        <h1>Albion Mapper</h1>
-      </header>
+  const darkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-      <main className="layout">
-        <aside className="search-side">
-          {!token ? (
-            <PasswordForm password={token} setPassword={setToken} />
-          ) : (
-            <>
-              <MappingBar
-                fromId={sourceZone}
+  const theme = useMemo(
+    () =>
+      createMuiTheme({
+        palette: {
+          primary: darkTheme
+            ? {
+                main: '#81d4fa',
+              }
+            : blue,
+          type: darkTheme ? 'dark' : 'light',
+        },
+      }),
+    [darkTheme]
+  );
+
+  return (
+    <ThemeProvider theme={theme}>
+      <div className="app-container">
+        <header>
+          <h1>Albion Mapper</h1>
+        </header>
+
+        <main className="layout">
+          <aside className="search-side">
+            {!token ? (
+              <PasswordForm password={token} setPassword={setToken} />
+            ) : (
+              <>
+                <MappingBar
+                  fromId={sourceZone}
+                  zones={zones}
+                  token={token}
+                  updatePortals={updatePortals}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={updateLayoutOnChange}
+                      onChange={() =>
+                        setUpdateLayoutOnChange(!updateLayoutOnChange)
+                      }
+                      name="layout-change"
+                      color="primary"
+                    />
+                  }
+                  label="Update layout after create"
+                />
+              </>
+            )}
+          </aside>
+          {(!!token || config?.publicRead) && (
+            <div className="map-display">
+              <DataDisplay
                 zones={zones}
-                token={token}
-                updatePortals={updatePortals}
+                portals={portals}
+                updateLayoutOnChange={updateLayoutOnChange}
+                onNodeClick={(n) => setSourceZone(n)}
               />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={updateLayoutOnChange}
-                    onChange={() =>
-                      setUpdateLayoutOnChange(!updateLayoutOnChange)
-                    }
-                    name="layout-change"
-                    color="primary"
-                  />
-                }
-                label="Update layout after create"
-              />
-            </>
+            </div>
           )}
-        </aside>
-        {(!!token || config?.publicRead) && (
-          <div className="map-display">
-            <DataDisplay
-              zones={zones}
-              portals={portals}
-              updateLayoutOnChange={updateLayoutOnChange}
-              onNodeClick={(n) => setSourceZone(n)}
-            />
-          </div>
-        )}
-      </main>
-    </div>
+        </main>
+      </div>
+    </ThemeProvider>
   );
 }
 

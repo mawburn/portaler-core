@@ -84,6 +84,8 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
     })),
   ];
 
+  const darkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
   return (
     <>
       <div className="h100" ref={mapContainer}>
@@ -100,7 +102,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
                 selector: 'node[label]',
                 css: {
                   label: 'data(label)',
-                  color: 'black',
+                  color: darkTheme ? 'white' : 'black',
                 },
               },
               {
@@ -108,7 +110,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
                 css: {
                   label: 'data(label)',
                   width: 3,
-                  color: 'black',
+                  color: darkTheme ? 'white' : 'black',
                 },
               },
               {
