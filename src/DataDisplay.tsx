@@ -96,6 +96,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
               cy.on('tap', 'node', cyEventHandler);
               cy.on('add', 'node', cyNodeEventUpdate);
             }}
+            style={{ height: '720px', width: '100%' }}
             className="cyto"
             stylesheet={[
               {

@@ -38,9 +38,6 @@
 }
 
 .cyto {
-  height: calc(100% - 3em);
-  width: 100%;
-  max-height: calc(100% - 3em);
   border: 1px solid #90a4ae;
   border-radius: 4px;
 }
