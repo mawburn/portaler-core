@@ -1,0 +1,54 @@
+.login {
+  text-align: center;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 1.5rem);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 350px auto;
+  height: 100%;
+  padding: 0 1rem;
+}
+
+.search-side,
+.data-input {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.map-display {
+  padding: 1rem;
+  width: 100%;
+}
+
+.mapping-bar {
+  display: flex;
+  flex-direction: column;
+}
+
+.h100 {
+  height: 100%;
+  max-height: 100%;
+}
+
+.cyto {
+  border: 1px solid #90a4ae;
+  border-radius: 4px;
+}
+
+.cytoBelow {
+  height: 3em;
+  max-height: 3em;
+  overflow: auto;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: row;
+}

@@ -1,5 +1,4 @@
-
-export type ZoneColor = "black" | "red" | "yellow" | "blue" | "road";
+export type ZoneColor = 'black' | 'red' | 'yellow' | 'blue' | 'road';
 
 export type PortalSize = 2 | 7 | 20;
 
@@ -9,7 +8,7 @@ export interface Resource {
 }
 
 export interface Zone {
-  color: ZoneColor;  
+  color: ZoneColor;
   name: string;
   type: string;
   markers: string[];

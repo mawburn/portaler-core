@@ -1,42 +1,44 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Zone, Portal } from "./types";
-import CytoscapeComponent from "react-cytoscapejs";
-import { ElementDefinition, Core } from "cytoscape";
+import { ElementDefinition } from 'cytoscape';
+import React, { useCallback, useRef, useState } from 'react';
+import CytoscapeComponent from 'react-cytoscapejs';
+
+import { Portal, Zone } from './types';
 
 interface DataDisplayProps {
   zones: Zone[];
-  portals: Portal[];
+  portals: Portal[] | null;
+  updateLayoutOnChange: boolean;
   onNodeClick: (id: string) => void;
 }
 
 const portalSizeToColor = {
-  2: "green",
-  7: "blue",
-  20: "orange",
+  2: 'green',
+  7: 'blue',
+  20: 'orange',
 };
 
 const zoneColorToColor = {
-  black: "black",
-  red: "red",
-  yellow: "yellow",
-  blue: "blue",
-  road: "lightblue",
+  black: 'black',
+  red: 'red',
+  yellow: 'yellow',
+  blue: 'blue',
+  road: 'lightblue',
 };
-
-const defaultLayout = "breadthfirst";
 
 const DataDisplay: React.FC<DataDisplayProps> = ({
   zones,
   portals,
+  updateLayoutOnChange,
   onNodeClick,
 }) => {
-  const [layout, setLayout] = useState("random");
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const [layout, setLayout] = useState('breadthfirst');
 
-  const filteredZones = zones.filter((z) => {
-    return !!portals.find((p) => p.source === z.name || p.target === z.name);
-  });
+  const filteredZones = zones.filter(
+    (z) => !!portals?.find((p) => p.source === z.name || p.target === z.name)
+  );
 
-  const [activeZoneName, setActiveZoneName] = useState("");
+  const [activeZoneName, setActiveZoneName] = useState('');
 
   const activeZone = filteredZones.find((z) => z.name === activeZoneName);
 
@@ -48,69 +50,84 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
     [onNodeClick, setActiveZoneName]
   );
 
-  useEffect(() => {
-    setTimeout(() => setLayout(defaultLayout), 500);
-  }, []);
+  const cyNodeEventUpdate = useCallback(
+    (e: cytoscape.EventObject) => {
+      if (updateLayoutOnChange) {
+        e.cy.layout({ name: layout }).run();
+      }
+    },
+    [layout, updateLayoutOnChange]
+  );
 
-  if (zones.length > 0) {
-    const data: ElementDefinition[] = [
-      ...filteredZones.map((z) => ({
-        data: { id: z.name, label: z.name },
-        style: {
-          backgroundColor: zoneColorToColor[z.color],
-          shape: z.type.indexOf("TUNNEL_HIDEOUT") >= 0 ? "pentagon" : "",
-        },
-      })),
-      ...portals.map((p) => ({
-        data: {
-          source: p.source,
-          target: p.target,
-          label: `${Math.floor(p.timeLeft / 60)}h ${Math.round(
-            p.timeLeft % 60
-          )}min`,
-        },
-        classes: p.timeLeft < 30 ? "timeLow" : "",
-        style: {
-          lineColor: portalSizeToColor[p.size],
-        },
-      })),
-    ];
+  const portalMap = portals || [];
 
-    const darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const data: ElementDefinition[] = [
+    ...filteredZones.map((z) => ({
+      data: { id: z.name, label: z.name },
+      style: {
+        backgroundColor: zoneColorToColor[z.color],
+        shape: z.type.indexOf('TUNNEL_HIDEOUT') >= 0 ? 'pentagon' : '',
+      },
+    })),
+    ...portalMap.map((p) => ({
+      data: {
+        source: p.source,
+        target: p.target,
+        label: `${Math.floor(p.timeLeft / 60)}h ${Math.round(
+          p.timeLeft % 60
+        )}min`,
+      },
+      classes: p.timeLeft < 30 ? 'timeLow' : '',
+      style: {
+        lineColor: portalSizeToColor[p.size],
+      },
+    })),
+  ];
 
-    return (
-      <>
-        <CytoscapeComponent
-          elements={data}
-          cy={(cy) => {
-            cy.on("tap", "node", cyEventHandler);
-          }}
-          style={{ height: "720px", width: "100%" }}
-          stylesheet={[
-            {
-              selector: "node[label]",
-              style: {
-                label: "data(label)",
-                color: darkTheme ? "white" : "black"
+  const darkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  return (
+    <>
+      <div className="h100" ref={mapContainer}>
+        {zones.length && !!portals ? (
+          <CytoscapeComponent
+            elements={data}
+            cy={(cy) => {
+              cy.on('tap', 'node', cyEventHandler);
+              cy.on('add', 'node', cyNodeEventUpdate);
+            }}
+            style={{ height: '720px', width: '100%' }}
+            className="cyto"
+            stylesheet={[
+              {
+                selector: 'node[label]',
+                css: {
+                  label: 'data(label)',
+                  color: darkTheme ? 'white' : 'black',
+                },
               },
-            },
-            {
-              selector: "edge[label]",
-              style: {
-                label: "data(label)",
-                width: 3,
-                color: darkTheme ? "white" : "black"
+              {
+                selector: 'edge[label]',
+                css: {
+                  label: 'data(label)',
+                  width: 3,
+                  color: darkTheme ? 'white' : 'black',
+                },
               },
-            },
-            {
-              selector: ".timeLow",
-              style: {
-                color: "red",
+              {
+                selector: '.timeLow',
+                css: {
+                  color: 'red',
+                },
               },
-            },
-          ]}
-          layout={{ name: layout }}
-        />
+            ]}
+            layout={{ name: layout }}
+          />
+        ) : (
+          <div className="cyto">Loading</div>
+        )}
+      </div>
+      <div className="cyto-below">
         <select onChange={(e) => setLayout(e.target.value)} value={layout}>
           <option value="random">random</option>
           <option value="grid">grid</option>
@@ -136,20 +153,19 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
                   {activeZone.resources &&
                     activeZone.resources
                       .map((r) => `T${r.tier} ${r.name}`)
-                      .join(", ")}
+                      .join(', ')}
                 </td>
               </tr>
               <tr>
                 <td>Map markers</td>
-                <td>{activeZone.markers && activeZone.markers.join(", ")}</td>
+                <td>{activeZone.markers && activeZone.markers.join(', ')}</td>
               </tr>
             </tbody>
           </table>
         )}
-      </>
-    );
-  }
-  return <div>Unable to fetch zone information from the server, this could be a network issue, or invalid password</div>;
+      </div>
+    </>
+  );
 };
 
 export default DataDisplay;
