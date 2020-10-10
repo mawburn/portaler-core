@@ -130,7 +130,9 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
       </div>
       <div className="cyto-below">
         <FormControl variant="outlined">
-          <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
+          <InputLabel id="demo-simple-select-outlined-label">
+            Map Layout
+          </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
