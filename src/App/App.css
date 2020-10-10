@@ -47,6 +47,10 @@
   margin-top: 1rem;
 }
 
+.map-style {
+  width: 250px;
+}
+
 .flex-column {
   display: flex;
   flex-direction: row;
