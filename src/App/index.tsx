@@ -1,10 +1,11 @@
 import './App.css';
 
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import {
   Checkbox,
   createMuiTheme,
+  CssBaseline,
   FormControlLabel,
   ThemeProvider,
 } from '@material-ui/core';
@@ -13,13 +14,19 @@ import { blue } from '@material-ui/core/colors';
 import DataDisplay from '../DataDisplay';
 import MappingBar from '../MappingBar';
 import PasswordForm from '../PasswordForm';
+import DarkModeToggle from './DarkModeToggle';
 import useGetConfig from './useGetConfig';
 import useGetPortals from './useGetPortals';
 import useGetZones from './useGetZones';
 
+const prefersDark = localStorage.getItem('darkMode')
+  ? localStorage.getItem('darkMode') !== 'false'
+  : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
 function App() {
   const [token, setToken] = useState<string>('');
   const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true);
+  const [isDark, setIsDark] = useState<boolean>(prefersDark);
 
   const config = useGetConfig();
   const zones = useGetZones(token, config?.publicRead);
@@ -27,28 +34,49 @@ function App() {
 
   const [sourceZone, setSourceZone] = useState<string | null>(null);
 
-  const darkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
   const theme = useMemo(
     () =>
       createMuiTheme({
         palette: {
-          primary: darkTheme
+          background: {
+            default: isDark ? '#333' : '#f0f0f0',
+          },
+          primary: isDark
             ? {
                 main: '#81d4fa',
               }
             : blue,
-          type: darkTheme ? 'dark' : 'light',
+          type: isDark ? 'dark' : 'light',
+        },
+        overrides: {
+          MuiCssBaseline: {
+            '@global': {
+              html: {
+                background: isDark ? '#333' : '#fff',
+              },
+              body: {
+                background: isDark ? '#333' : '#fff',
+                padding: `1rem`,
+              },
+            },
+          },
         },
       }),
-    [darkTheme]
+    [isDark]
   );
+
+  const updateTheme = useCallback((isDark: boolean) => {
+    localStorage.setItem('darkMode', `${isDark}`);
+    setIsDark(isDark);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <div className="app-container">
-        <header>
+        <header className="main-header">
           <h1>Albion Mapper</h1>
+          <DarkModeToggle isDark={isDark} update={updateTheme} />
         </header>
 
         <main className="layout">
@@ -85,6 +113,7 @@ function App() {
                 zones={zones}
                 portals={portals}
                 updateLayoutOnChange={updateLayoutOnChange}
+                isDark={isDark}
                 onNodeClick={(n) => setSourceZone(n)}
               />
             </div>
