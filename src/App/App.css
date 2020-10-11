@@ -1,3 +1,9 @@
+.main-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
 .login {
   text-align: center;
 }
@@ -12,7 +18,7 @@
   display: grid;
   grid-template-columns: 350px auto;
   height: 100%;
-  padding: 0 1rem;
+  padding: 0;
 }
 
 .search-side,
@@ -23,7 +29,7 @@
 }
 
 .map-display {
-  padding: 1rem;
+  padding-left: 1rem;
   width: 100%;
 }
 
@@ -32,20 +38,17 @@
   flex-direction: column;
 }
 
-.h100 {
-  height: 100%;
-  max-height: 100%;
-}
-
 .cyto {
   border: 1px solid #90a4ae;
   border-radius: 4px;
 }
 
-.cytoBelow {
-  height: 3em;
-  max-height: 3em;
-  overflow: auto;
+.cyto-below {
+  margin-top: 1rem;
+}
+
+.map-style {
+  width: 250px;
 }
 
 .flex-column {

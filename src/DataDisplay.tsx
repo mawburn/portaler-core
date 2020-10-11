@@ -1,5 +1,6 @@
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { ElementDefinition } from 'cytoscape';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { ChangeEvent, useCallback, useRef, useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 
 import { Portal, Zone } from './types';
@@ -8,6 +9,7 @@ interface DataDisplayProps {
   zones: Zone[];
   portals: Portal[] | null;
   updateLayoutOnChange: boolean;
+  isDark: boolean;
   onNodeClick: (id: string) => void;
 }
 
@@ -29,6 +31,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
   zones,
   portals,
   updateLayoutOnChange,
+  isDark,
   onNodeClick,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -84,8 +87,6 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
     })),
   ];
 
-  const darkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
   return (
     <>
       <div className="h100" ref={mapContainer}>
@@ -103,7 +104,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
                 selector: 'node[label]',
                 css: {
                   label: 'data(label)',
-                  color: darkTheme ? 'white' : 'black',
+                  color: isDark ? 'white' : 'black',
                 },
               },
               {
@@ -111,7 +112,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
                 css: {
                   label: 'data(label)',
                   width: 3,
-                  color: darkTheme ? 'white' : 'black',
+                  color: isDark ? 'white' : 'black',
                 },
               },
               {
@@ -128,14 +129,28 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
         )}
       </div>
       <div className="cyto-below">
-        <select onChange={(e) => setLayout(e.target.value)} value={layout}>
-          <option value="random">random</option>
-          <option value="grid">grid</option>
-          <option value="circle">circle</option>
-          <option value="cose">cose</option>
-          <option value="concentric">concentric</option>
-          <option value="breadthfirst">breadthfirst</option>
-        </select>
+        <FormControl variant="outlined" className="map-style">
+          <InputLabel id="layout-select-label">
+            Map Layout
+          </InputLabel>
+          <Select
+            labelId="layout-select-label"
+            id="layout-select"
+            value={layout}
+            onChange={(e: ChangeEvent<{ value: unknown }>) =>
+              setLayout(e.target.value as string)
+            }
+            label="Map Layout"
+          >
+            <MenuItem value="breadthfirst">breadthfirst</MenuItem>
+            <MenuItem value="grid">grid</MenuItem>
+            <MenuItem value="circle">circle</MenuItem>
+            <MenuItem value="cose">cose</MenuItem>
+            <MenuItem value="concentric">concentric</MenuItem>
+            <MenuItem value="random">random</MenuItem>
+          </Select>
+        </FormControl>
+
         {activeZone && (
           <table>
             <tbody>
