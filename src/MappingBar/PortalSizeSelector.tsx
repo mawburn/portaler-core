@@ -9,6 +9,7 @@ import {
   RadioGroup,
   withStyles,
 } from '@material-ui/core';
+
 import { PortalSize } from '../types';
 
 const TwoPortal = withStyles({

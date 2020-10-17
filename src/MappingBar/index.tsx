@@ -13,10 +13,12 @@ import React, {
 import { Button, FormControl, FormLabel, TextField } from '@material-ui/core';
 import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 
+import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../data/constants';
 import { PortalSize, Zone } from '../types';
 import PortalSizeSelector from './PortalSizeSelector';
-import ZoneSearch from './ZoneSearch';
 import useAddPortal from './useAddPortal';
+import ZoneSearch from './ZoneSearch';
+import { ZoneLight } from './zoneSearchUtils';
 
 interface MappingBarProps {
   zones: Zone[];
@@ -25,45 +27,45 @@ interface MappingBarProps {
   updatePortals: () => void;
 }
 
-const DEFAULT_PORTAL_SIZE = 7;
-
-const sorter = (a: string, b: string) =>
-  a.toUpperCase().localeCompare(b.toUpperCase());
-
 const MappingBar: FC<MappingBarProps> = ({
   zones,
   fromId,
   token,
   updatePortals,
 }) => {
-  const oldFromId = useRef<string | null>(fromId);
-  const [from, setFrom] = useState<string | null>(null);
-  const [to, setTo] = useState<string | null>(null);
+  const oldFromId = useRef<string>(fromId?.toLowerCase() ?? '');
+  const [from, setFrom] = useState<ZoneLight>(DEFAULT_ZONE);
+  const [to, setTo] = useState<ZoneLight>(DEFAULT_ZONE);
   const [portalSize, setPortalSize] = useState<PortalSize>(DEFAULT_PORTAL_SIZE);
   const [hours, setHours] = useState<number | null>(null);
   const [minutes, setMinutes] = useState<number | null>(null);
 
-  const zoneNames = useMemo<string[]>(
-    () => zones.map((n) => n.name).sort(sorter),
+  const zoneNames = useMemo<ZoneLight[]>(
+    () =>
+      zones
+        .map((n) => ({ name: n.name, value: n.name.toLowerCase() }))
+        .sort((a, b) => a.value.localeCompare(b.value)),
     [zones]
   );
 
   const addPortal = useAddPortal(token, updatePortals);
 
-  const filteredFrom = useMemo<string[]>(
-    () => zoneNames.filter((z) => z !== to),
-    [to, zoneNames]
-  );
+  const filteredFrom = useMemo<ZoneLight[]>(() => {
+    const zones = zoneNames.filter((z) => z?.value !== to?.value);
+    zones.unshift(DEFAULT_ZONE); // allow user to clear input
+    return zones;
+  }, [to, zoneNames]);
 
-  const filteredTo = useMemo<string[]>(
-    () => zoneNames.filter((z) => z !== from),
-    [from, zoneNames]
-  );
+  const filteredTo = useMemo<ZoneLight[]>(() => {
+    const zones = zoneNames.filter((z) => z?.value !== from?.value);
+    zones.unshift(DEFAULT_ZONE); // allow user to clear input
+    return zones;
+  }, [from, zoneNames]);
 
   useEffect(() => {
-    if (fromId !== oldFromId.current) {
-      setFrom(fromId);
-      oldFromId.current = fromId;
+    if (fromId && fromId?.toLocaleLowerCase() !== oldFromId.current) {
+      setFrom({ name: fromId, value: fromId?.toLowerCase() });
+      oldFromId.current = fromId.toLowerCase();
     }
   }, [fromId, setFrom]);
 
@@ -75,9 +77,9 @@ const MappingBar: FC<MappingBarProps> = ({
         const hr = Number(hours);
         const min = Number(minutes);
 
-        if (from && to && portalSize && hr + min > 0) {
-          addPortal(from, to, portalSize, hr, min);
-          setTo(null);
+        if (from?.name && to?.name && portalSize && hr + min > 0) {
+          addPortal(from.name, to.name, portalSize, hr, min);
+          setTo(DEFAULT_ZONE);
           setHours(null);
           setMinutes(null);
           setPortalSize(DEFAULT_PORTAL_SIZE);
@@ -99,7 +101,7 @@ const MappingBar: FC<MappingBarProps> = ({
             value={from}
             update={setFrom}
             label="From"
-            zoneNames={filteredFrom}
+            zoneList={filteredFrom}
           />
         </div>
         <div className="row">
@@ -107,7 +109,7 @@ const MappingBar: FC<MappingBarProps> = ({
             value={to}
             update={setTo}
             label="To"
-            zoneNames={filteredTo}
+            zoneList={filteredTo}
           />
         </div>
         <div className="row">
