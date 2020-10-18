@@ -18,7 +18,8 @@
     "react/require-default-props": "warn"
   },
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true
   },
   "settings": {
     "react": {
