@@ -75,7 +75,7 @@ function App() {
       <CssBaseline />
       <div className="app-container">
         <header className="main-header">
-          <h1>Albion Mapper</h1>
+          <h1>Portaler</h1>
           <DarkModeToggle isDark={isDark} update={updateTheme} />
         </header>
 

@@ -1,4 +1,4 @@
-import { ZoneLight } from '../MappingBar';
+import { ZoneLight } from '../MappingBar/zoneSearchUtils';
 import { PortalSize } from '../types';
 
 export const DEFAULT_PORTAL_SIZE: PortalSize = 7;

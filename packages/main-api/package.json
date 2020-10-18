@@ -1,0 +1,15 @@
+{
+  "name": "main-api",
+  "version": "1.0.0",
+  "main": "server/server.js",
+  "license": "GNU AGPLv3",
+  "scripts": {
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./server",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./server"
+  },
+  "dependencies": {
+    "btoa": "^1.2.1",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1"
+  }
+}
