@@ -1,4 +1,4 @@
-# portalter-server
+# portaler-server
 
 This will probably be moved into portaler monorepo at some point in time, but I just want to push this up as a private repo in here for us to be able to see and use as we move along. Once the yarn workspaces are setup we should be able to easily pick this up and move it over.
 
