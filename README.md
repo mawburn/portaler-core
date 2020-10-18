@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="/assets/logo/logo-192x192.png" />
+  <img src="/assets/logo/logo-192x192.png" width="92px" height="92px" />
 </p>
 
 # Portaler
