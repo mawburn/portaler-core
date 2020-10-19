@@ -126,7 +126,7 @@ const MappingBar: FC<MappingBarProps> = ({
                 label="Hour(s)"
                 InputProps={{
                   inputProps: { min: 0, max: 24 },
-                  value: hours || '',
+                  value: hours ?? '',
                 }}
                 onChange={(e) => setHours(Number(e.currentTarget.value))}
               />
@@ -137,8 +137,11 @@ const MappingBar: FC<MappingBarProps> = ({
                 label="Minute(s)"
                 InputProps={{
                   inputProps: { min: 0, max: 59 },
-                  value: minutes || '',
+                  value: minutes ?? '',
                 }}
+                onBlur={(e) =>
+                  e.currentTarget.value === '0' ? setMinutes(null) : null
+                }
                 onChange={(e) => setMinutes(Number(e.currentTarget.value))}
               />
             </div>

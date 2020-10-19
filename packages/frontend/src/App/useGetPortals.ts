@@ -12,9 +12,9 @@ const fetchPortals = (token: string) =>
 const useGetPortals = (
   token: string,
   isPublic?: boolean
-): [Portal[] | null, () => void] => {
+): [Portal[], () => void] => {
   const lastUpdate = useRef<Date>(new Date());
-  const [portals, setPortals] = useState<Portal[] | null>(null);
+  const [portals, setPortals] = useState<Portal[]>([]);
 
   useEffect(() => {
     if (token !== '' || isPublic) {

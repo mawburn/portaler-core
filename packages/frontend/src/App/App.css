@@ -14,6 +14,10 @@
   height: calc(100vh - 1.5rem);
 }
 
+.main-header {
+  text-align: center;
+}
+
 .layout {
   display: grid;
   grid-template-columns: 350px auto;
@@ -36,11 +40,6 @@
 .mapping-bar {
   display: flex;
   flex-direction: column;
-}
-
-.cyto {
-  border: 1px solid #90a4ae;
-  border-radius: 4px;
 }
 
 .cyto-below {
