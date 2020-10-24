@@ -1,8 +1,8 @@
-import express from 'express';
-import fetch from 'node-fetch';
-import btoa from 'btoa';
-import { catchAsyncErrors } from '../util';
-import { URLSearchParams } from 'url';
+const express = require('express');
+const fetch = require('node-fetch');
+const btoa = require('btoa');
+const { catchAsync } = require('../utils');
+const { json } = require('express');
 
 const router = express.Router();
 
@@ -20,15 +20,15 @@ router.get('/login', (req, res) => {
 
 router.get(
   '/callback',
-  catchAsyncErrors(async (req, res) => {
+  catchAsync(async (req, res) => {
     if (!req.query.code) throw new Error('NoCodeProvided');
-    const code = req.query.code;
-    const creds = btoa(`${CLIENT_ID}:${CLIENT_SECRET}`);
-    const data = {
-      client_id: CLIENT_ID ?? '',
-      client_secret: CLIENT_SECRET ?? '',
+    var code = req.query.code;
+    var creds = btoa(`${CLIENT_ID}:${CLIENT_SECRET}`);
+    data = {
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
       grant_type: 'authorization_code',
-      code: code as string | string[],
+      code: code,
       redirect_uri: 'http://localhost:4000/api/discord/callback',
       scope: 'identify and guild',
     };
@@ -38,7 +38,7 @@ router.get(
         Authorization: `Basic ${creds}`,
         ContentType: `application/x-www-form-urlencoded`,
       },
-      body: new URLSearchParams(data)
+      body: new URLSearchParams(data),
     });
     var jsonresponse = await response.json();
 
@@ -49,9 +49,9 @@ router.get(
   })
 );
 
-export default router;
+module.exports = router;
 
-function get_guilds(access_token: string) {
+function get_guilds(access_token) {
   var response = fetch(`https://discord.com/api/users/@me/guilds`, {
     method: 'GET',
     headers: {
