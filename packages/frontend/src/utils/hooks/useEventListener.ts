@@ -3,11 +3,11 @@
  * removed dependency & added TS
  **/
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
 
-type Options = Pick<AddEventListenerOptions, 'capture' | 'passive' | 'once'>;
+type Options = Pick<AddEventListenerOptions, 'capture' | 'passive' | 'once'>
 
-type EventTypes = HTMLElementEventMap & DocumentEventMap & WindowEventMap;
+type EventTypes = HTMLElementEventMap & DocumentEventMap & WindowEventMap
 
 const useEventListener = <K extends keyof EventTypes>(
   eventName: K,
@@ -15,35 +15,35 @@ const useEventListener = <K extends keyof EventTypes>(
   element: HTMLElement | Document | Window | null = document,
   options: Options = {}
 ) => {
-  const savedHandler = useRef<(e: EventTypes[K]) => void>(() => null);
-  const { capture, passive, once } = options;
+  const savedHandler = useRef<(e: EventTypes[K]) => void>(() => null)
+  const { capture, passive, once } = options
 
   useEffect(() => {
-    savedHandler.current = handler;
-  }, [handler]);
+    savedHandler.current = handler
+  }, [handler])
 
   useEffect(() => {
-    const isSupported = element && element.addEventListener;
+    const isSupported = element && element.addEventListener
 
     if (!isSupported) {
-      return;
+      return
     }
 
     const eventListener = ((e: EventTypes[K]) =>
-      savedHandler.current(e)) as EventListener;
+      savedHandler.current(e)) as EventListener
 
-    const opts = { capture, passive, once };
+    const opts = { capture, passive, once }
 
     if (element) {
-      element.addEventListener(eventName, eventListener, opts);
+      element.addEventListener(eventName, eventListener, opts)
     }
 
     return () => {
       if (element) {
-        element.removeEventListener(eventName, eventListener, opts);
+        element.removeEventListener(eventName, eventListener, opts)
       }
-    };
-  }, [eventName, element, capture, passive, once]);
-};
+    }
+  }, [eventName, element, capture, passive, once])
+}
 
-export default useEventListener;
+export default useEventListener

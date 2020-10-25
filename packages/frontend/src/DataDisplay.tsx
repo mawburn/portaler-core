@@ -1,23 +1,23 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
-import { ElementDefinition } from 'cytoscape';
-import React, { ChangeEvent, useCallback, useRef, useState } from 'react';
-import CytoscapeComponent from 'react-cytoscapejs';
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
+import { ElementDefinition } from 'cytoscape'
+import React, { ChangeEvent, useCallback, useRef, useState } from 'react'
+import CytoscapeComponent from 'react-cytoscapejs'
 
-import { Portal, Zone } from './types';
+import { Portal, Zone } from './types'
 
 interface DataDisplayProps {
-  zones: Zone[];
-  portals: Portal[] | null;
-  updateLayoutOnChange: boolean;
-  isDark: boolean;
-  onNodeClick: (id: string) => void;
+  zones: Zone[]
+  portals: Portal[] | null
+  updateLayoutOnChange: boolean
+  isDark: boolean
+  onNodeClick: (id: string) => void
 }
 
 const portalSizeToColor = {
   2: 'green',
   7: 'blue',
   20: 'orange',
-};
+}
 
 const zoneColorToColor = {
   black: 'black',
@@ -25,7 +25,7 @@ const zoneColorToColor = {
   yellow: 'yellow',
   blue: 'blue',
   road: 'lightblue',
-};
+}
 
 const DataDisplay: React.FC<DataDisplayProps> = ({
   zones,
@@ -34,35 +34,35 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
   isDark,
   onNodeClick,
 }) => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const [layout, setLayout] = useState('breadthfirst');
+  const mapContainer = useRef<HTMLDivElement>(null)
+  const [layout, setLayout] = useState('breadthfirst')
 
   const filteredZones = zones.filter(
     (z) => !!portals?.find((p) => p.source === z.name || p.target === z.name)
-  );
+  )
 
-  const [activeZoneName, setActiveZoneName] = useState('');
+  const [activeZoneName, setActiveZoneName] = useState('')
 
-  const activeZone = filteredZones.find((z) => z.name === activeZoneName);
+  const activeZone = filteredZones.find((z) => z.name === activeZoneName)
 
   const cyEventHandler = useCallback(
     (e: cytoscape.EventObject) => {
-      onNodeClick(e.target.id());
-      setActiveZoneName(e.target.id());
+      onNodeClick(e.target.id())
+      setActiveZoneName(e.target.id())
     },
     [onNodeClick, setActiveZoneName]
-  );
+  )
 
   const cyNodeEventUpdate = useCallback(
     (e: cytoscape.EventObject) => {
       if (updateLayoutOnChange) {
-        e.cy.layout({ name: layout }).run();
+        e.cy.layout({ name: layout }).run()
       }
     },
     [layout, updateLayoutOnChange]
-  );
+  )
 
-  const portalMap = portals || [];
+  const portalMap = portals || []
 
   const data: ElementDefinition[] = [
     ...filteredZones.map((z) => ({
@@ -85,7 +85,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
         lineColor: portalSizeToColor[p.size],
       },
     })),
-  ];
+  ]
 
   return (
     <>
@@ -94,8 +94,8 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
           <CytoscapeComponent
             elements={data}
             cy={(cy) => {
-              cy.on('tap', 'node', cyEventHandler);
-              cy.on('add', 'node', cyNodeEventUpdate);
+              cy.on('tap', 'node', cyEventHandler)
+              cy.on('add', 'node', cyNodeEventUpdate)
             }}
             style={{ height: '720px', width: '100%' }}
             className="cyto"
@@ -178,7 +178,7 @@ const DataDisplay: React.FC<DataDisplayProps> = ({
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default DataDisplay;
+export default DataDisplay

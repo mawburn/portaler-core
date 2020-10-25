@@ -1,4 +1,4 @@
-import './MappingBar.css';
+import './MappingBar.css'
 
 import React, {
   FC,
@@ -8,23 +8,23 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from 'react';
+} from 'react'
 
-import { Button, FormControl, FormLabel, TextField } from '@material-ui/core';
-import DeviceHubIcon from '@material-ui/icons/DeviceHub';
+import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
+import DeviceHubIcon from '@material-ui/icons/DeviceHub'
 
-import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../data/constants';
-import { PortalSize, Zone } from '../types';
-import PortalSizeSelector from './PortalSizeSelector';
-import useAddPortal from './useAddPortal';
-import ZoneSearch from './ZoneSearch';
-import { ZoneLight } from './zoneSearchUtils';
+import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../data/constants'
+import { PortalSize, Zone } from '../types'
+import PortalSizeSelector from './PortalSizeSelector'
+import useAddPortal from './useAddPortal'
+import ZoneSearch from './ZoneSearch'
+import { ZoneLight } from './zoneSearchUtils'
 
 interface MappingBarProps {
-  zones: Zone[];
-  fromId: string | null;
-  token: string;
-  updatePortals: () => void;
+  zones: Zone[]
+  fromId: string | null
+  token: string
+  updatePortals: () => void
 }
 
 const MappingBar: FC<MappingBarProps> = ({
@@ -33,12 +33,12 @@ const MappingBar: FC<MappingBarProps> = ({
   token,
   updatePortals,
 }) => {
-  const oldFromId = useRef<string>(fromId?.toLowerCase() ?? '');
-  const [from, setFrom] = useState<ZoneLight>(DEFAULT_ZONE);
-  const [to, setTo] = useState<ZoneLight>(DEFAULT_ZONE);
-  const [portalSize, setPortalSize] = useState<PortalSize>(DEFAULT_PORTAL_SIZE);
-  const [hours, setHours] = useState<number | null>(null);
-  const [minutes, setMinutes] = useState<number | null>(null);
+  const oldFromId = useRef<string>(fromId?.toLowerCase() ?? '')
+  const [from, setFrom] = useState<ZoneLight>(DEFAULT_ZONE)
+  const [to, setTo] = useState<ZoneLight>(DEFAULT_ZONE)
+  const [portalSize, setPortalSize] = useState<PortalSize>(DEFAULT_PORTAL_SIZE)
+  const [hours, setHours] = useState<number | null>(null)
+  const [minutes, setMinutes] = useState<number | null>(null)
 
   const zoneNames = useMemo<ZoneLight[]>(
     () =>
@@ -46,52 +46,52 @@ const MappingBar: FC<MappingBarProps> = ({
         .map((n) => ({ name: n.name, value: n.name.toLowerCase() }))
         .sort((a, b) => a.value.localeCompare(b.value)),
     [zones]
-  );
+  )
 
-  const addPortal = useAddPortal(token, updatePortals);
+  const addPortal = useAddPortal(token, updatePortals)
 
   const filteredFrom = useMemo<ZoneLight[]>(() => {
-    const zones = zoneNames.filter((z) => z?.value !== to?.value);
-    zones.unshift(DEFAULT_ZONE); // allow user to clear input
-    return zones;
-  }, [to, zoneNames]);
+    const zones = zoneNames.filter((z) => z?.value !== to?.value)
+    zones.unshift(DEFAULT_ZONE) // allow user to clear input
+    return zones
+  }, [to, zoneNames])
 
   const filteredTo = useMemo<ZoneLight[]>(() => {
-    const zones = zoneNames.filter((z) => z?.value !== from?.value);
-    zones.unshift(DEFAULT_ZONE); // allow user to clear input
-    return zones;
-  }, [from, zoneNames]);
+    const zones = zoneNames.filter((z) => z?.value !== from?.value)
+    zones.unshift(DEFAULT_ZONE) // allow user to clear input
+    return zones
+  }, [from, zoneNames])
 
   useEffect(() => {
     if (fromId && fromId?.toLocaleLowerCase() !== oldFromId.current) {
-      setFrom({ name: fromId, value: fromId?.toLowerCase() });
-      oldFromId.current = fromId.toLowerCase();
+      setFrom({ name: fromId, value: fromId?.toLowerCase() })
+      oldFromId.current = fromId.toLowerCase()
     }
-  }, [fromId, setFrom]);
+  }, [fromId, setFrom])
 
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+      e.preventDefault()
 
       try {
-        const hr = Number(hours);
-        const min = Number(minutes);
+        const hr = Number(hours)
+        const min = Number(minutes)
 
         if (from?.name && to?.name && portalSize && hr + min > 0) {
-          addPortal(from.name, to.name, portalSize, hr, min);
-          setTo(DEFAULT_ZONE);
-          setHours(null);
-          setMinutes(null);
-          setPortalSize(DEFAULT_PORTAL_SIZE);
+          addPortal(from.name, to.name, portalSize, hr, min)
+          setTo(DEFAULT_ZONE)
+          setHours(null)
+          setMinutes(null)
+          setPortalSize(DEFAULT_PORTAL_SIZE)
         } else {
-          throw new Error('you suck');
+          throw new Error('you suck')
         }
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
     },
     [from, to, portalSize, hours, minutes, addPortal]
-  );
+  )
 
   return (
     <form onSubmit={handleSubmit} autoComplete="off">
@@ -163,7 +163,7 @@ const MappingBar: FC<MappingBarProps> = ({
         </div>
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default MappingBar;
+export default MappingBar

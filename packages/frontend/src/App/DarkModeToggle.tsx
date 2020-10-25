@@ -1,9 +1,9 @@
-import { Grid, Switch, Typography } from '@material-ui/core';
-import React, { FC } from 'react';
+import { Grid, Switch, Typography } from '@material-ui/core'
+import React, { FC } from 'react'
 
 interface DarkModeToggleProps {
-  isDark: boolean;
-  update: (isDark: boolean) => void;
+  isDark: boolean
+  update: (isDark: boolean) => void
 }
 
 const DarkModeToggle: FC<DarkModeToggleProps> = ({ update, isDark }) => (
@@ -20,6 +20,6 @@ const DarkModeToggle: FC<DarkModeToggleProps> = ({ update, isDark }) => (
       <Grid item>Dark</Grid>
     </Grid>
   </Typography>
-);
+)
 
-export default DarkModeToggle;
+export default DarkModeToggle

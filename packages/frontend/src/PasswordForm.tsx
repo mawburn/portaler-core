@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, useCallback, useState } from 'react';
+import React, { FC, FormEvent, useCallback, useState } from 'react'
 
 import {
   Button,
@@ -7,25 +7,25 @@ import {
   Input,
   InputAdornment,
   InputLabel,
-} from '@material-ui/core';
-import { VisibilityOff } from '@material-ui/icons';
-import Visibility from '@material-ui/icons/Visibility';
+} from '@material-ui/core'
+import { VisibilityOff } from '@material-ui/icons'
+import Visibility from '@material-ui/icons/Visibility'
 
 interface PasswordFormProps {
-  password: string;
-  setPassword: (password: string) => void;
+  password: string
+  setPassword: (password: string) => void
 }
 
 const PasswordForm: FC<PasswordFormProps> = ({ password, setPassword }) => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [localPassword, setLocalPassword] = useState<string>(password || '');
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [localPassword, setLocalPassword] = useState<string>(password || '')
 
   const handleFormSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
-      setPassword(localPassword);
+      setPassword(localPassword)
     },
     [setPassword, localPassword]
-  );
+  )
 
   return (
     <form onSubmit={handleFormSubmit}>
@@ -54,7 +54,7 @@ const PasswordForm: FC<PasswordFormProps> = ({ password, setPassword }) => {
         </Button>
       </FormControl>
     </form>
-  );
-};
+  )
+}
 
-export default PasswordForm;
+export default PasswordForm

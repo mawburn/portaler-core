@@ -1,4 +1,4 @@
-import { CytoscapeOptions } from 'cytoscape';
+import { CytoscapeOptions } from 'cytoscape'
 
 const defaultSettings: CytoscapeOptions = {
   pan: { x: 0, y: 0 },
@@ -34,6 +34,6 @@ const defaultSettings: CytoscapeOptions = {
   motionBlurOpacity: 0.2,
   wheelSensitivity: 1,
   pixelRatio: 'auto',
-};
+}
 
-export default defaultSettings;
+export default defaultSettings

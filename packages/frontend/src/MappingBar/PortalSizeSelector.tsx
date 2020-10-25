@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback } from 'react';
+import React, { ChangeEvent, FC, useCallback } from 'react'
 
 import {
   colors,
@@ -8,9 +8,9 @@ import {
   Radio,
   RadioGroup,
   withStyles,
-} from '@material-ui/core';
+} from '@material-ui/core'
 
-import { PortalSize } from '../types';
+import { PortalSize } from '../types'
 
 const TwoPortal = withStyles({
   root: {
@@ -20,7 +20,7 @@ const TwoPortal = withStyles({
     },
   },
   checked: {},
-})((props) => <Radio color="default" {...props} />);
+})((props) => <Radio color="default" {...props} />)
 
 const SevenPortal = withStyles({
   root: {
@@ -30,7 +30,7 @@ const SevenPortal = withStyles({
     },
   },
   checked: {},
-})((props) => <Radio color="default" {...props} />);
+})((props) => <Radio color="default" {...props} />)
 
 const TwentyPortal = withStyles({
   root: {
@@ -40,20 +40,20 @@ const TwentyPortal = withStyles({
     },
   },
   checked: {},
-})((props) => <Radio color="default" {...props} />);
+})((props) => <Radio color="default" {...props} />)
 
 interface PortalSizeSelectorProps {
-  size: PortalSize;
-  update: (size: PortalSize) => void;
+  size: PortalSize
+  update: (size: PortalSize) => void
 }
 
 const PortalSizeSelector: FC<PortalSizeSelectorProps> = ({ size, update }) => {
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      update(Number(e.target.value) as PortalSize);
+      update(Number(e.target.value) as PortalSize)
     },
     [update]
-  );
+  )
 
   return (
     <FormControl fullWidth component="fieldset">
@@ -69,7 +69,7 @@ const PortalSizeSelector: FC<PortalSizeSelectorProps> = ({ size, update }) => {
         <FormControlLabel value="20" control={<TwentyPortal />} label="20" />
       </RadioGroup>
     </FormControl>
-  );
-};
+  )
+}
 
-export default PortalSizeSelector;
+export default PortalSizeSelector

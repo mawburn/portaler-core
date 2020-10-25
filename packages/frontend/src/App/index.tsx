@@ -1,6 +1,6 @@
-import './App.css';
+import './App.css'
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react'
 
 import {
   Checkbox,
@@ -8,31 +8,31 @@ import {
   CssBaseline,
   FormControlLabel,
   ThemeProvider,
-} from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
+} from '@material-ui/core'
+import { blue } from '@material-ui/core/colors'
 
-import MappingBar from '../MappingBar';
-import PasswordForm from '../PasswordForm';
-import DarkModeToggle from './DarkModeToggle';
-import useGetConfig from './useGetConfig';
-import useGetPortals from './useGetPortals';
-import useGetZones from './useGetZones';
-import Cyto from '../Cyto';
+import MappingBar from '../MappingBar'
+import PasswordForm from '../PasswordForm'
+import DarkModeToggle from './DarkModeToggle'
+import useGetConfig from './useGetConfig'
+import useGetPortals from './useGetPortals'
+import useGetZones from './useGetZones'
+import Cyto from '../Cyto'
 
 const prefersDark = localStorage.getItem('darkMode')
   ? localStorage.getItem('darkMode') !== 'false'
-  : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  : window.matchMedia('(prefers-color-scheme: dark)').matches
 
 function App() {
-  const [token, setToken] = useState<string>('');
-  const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true);
-  const [isDark, setIsDark] = useState<boolean>(prefersDark);
+  const [token, setToken] = useState<string>('')
+  const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true)
+  const [isDark, setIsDark] = useState<boolean>(prefersDark)
 
-  const config = useGetConfig();
-  const zones = useGetZones(token, config?.publicRead);
-  const [portals, updatePortals] = useGetPortals(token, config?.publicRead);
+  const config = useGetConfig()
+  const zones = useGetZones(token, config?.publicRead)
+  const [portals, updatePortals] = useGetPortals(token, config?.publicRead)
 
-  const [sourceZone, setSourceZone] = useState<string | null>(null);
+  const [sourceZone, setSourceZone] = useState<string | null>(null)
 
   const theme = useMemo(
     () =>
@@ -63,12 +63,12 @@ function App() {
         },
       }),
     [isDark]
-  );
+  )
 
   const updateTheme = useCallback((isDark: boolean) => {
-    localStorage.setItem('darkMode', `${isDark}`);
-    setIsDark(isDark);
-  }, []);
+    localStorage.setItem('darkMode', `${isDark}`)
+    setIsDark(isDark)
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
@@ -127,7 +127,7 @@ function App() {
         </main>
       </div>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

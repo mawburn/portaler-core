@@ -1,7 +1,7 @@
-import './styles.css';
+import './styles.css'
 
-import cytoscape, { CytoscapeOptions } from 'cytoscape';
-import COSEBilkent from 'cytoscape-cose-bilkent';
+import cytoscape, { CytoscapeOptions } from 'cytoscape'
+import COSEBilkent from 'cytoscape-cose-bilkent'
 import React, {
   FC,
   useCallback,
@@ -9,44 +9,44 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from 'react';
+} from 'react'
 
-import { Portal, Zone } from '../types';
-import { changeScore } from './cytoUtils';
-import defaultSettings from './defaultSettings';
-import graphStyle from './graphStyle';
-import { portalSizeToColor, zoneColorToColor } from './mapStyle';
+import { Portal, Zone } from '../types'
+import { changeScore } from './cytoUtils'
+import defaultSettings from './defaultSettings'
+import graphStyle from './graphStyle'
+import { portalSizeToColor, zoneColorToColor } from './mapStyle'
 
-cytoscape.use(COSEBilkent);
+cytoscape.use(COSEBilkent)
 
 interface CytoProps {
-  isDark: boolean;
-  zones: Zone[];
-  portals: Portal[];
-  onNodeClick: (name: string) => void;
+  isDark: boolean
+  zones: Zone[]
+  portals: Portal[]
+  onNodeClick: (name: string) => void
 }
 
 interface CytoMapElement {
-  added: boolean;
-  element: object;
+  added: boolean
+  element: object
 }
 
 const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
-  const oldScore = useRef<number>(-1);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const oldScore = useRef<number>(-1)
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
-  const cy = useRef<any>(null);
-  const elements = useRef<Map<string, CytoMapElement>>(new Map());
+  const cy = useRef<any>(null)
+  const elements = useRef<Map<string, CytoMapElement>>(new Map())
 
-  const [score, setScore] = useState<number>(-1);
-  const [remove, setRemove] = useState<string[]>([]);
+  const [score, setScore] = useState<number>(-1)
+  const [remove, setRemove] = useState<string[]>([])
 
   const cyEventHandler = useCallback(
     (e: cytoscape.EventObject) => {
-      onNodeClick(e.target.data('zoneName'));
+      onNodeClick(e.target.data('zoneName'))
     },
     [onNodeClick]
-  );
+  )
 
   useEffect(() => {
     if (!cy.current) {
@@ -54,13 +54,13 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
         ...defaultSettings,
         style: graphStyle(isDark),
         container: containerRef.current,
-      } as CytoscapeOptions);
+      } as CytoscapeOptions)
 
-      cy.current.on('tap', 'node', cyEventHandler);
+      cy.current.on('tap', 'node', cyEventHandler)
     } else {
-      cy.current.style(graphStyle(isDark));
+      cy.current.style(graphStyle(isDark))
     }
-  }, [isDark, cyEventHandler]);
+  }, [isDark, cyEventHandler])
 
   const filteredZones = useMemo(
     () =>
@@ -69,17 +69,17 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
           !!portals?.find((p) => p.source === z.name || p.target === z.name)
       ),
     [zones, portals]
-  );
+  )
 
   useEffect(() => {
-    const elms = elements.current;
-    const allKeys: string[] = [];
+    const elms = elements.current
+    const allKeys: string[] = []
 
     if (filteredZones.length) {
       filteredZones.forEach((z) => {
         // used to add portals first
-        const id = 'azone' + z.name.toLowerCase().replace(/ /g, '');
-        allKeys.push(id);
+        const id = 'azone' + z.name.toLowerCase().replace(/ /g, '')
+        allKeys.push(id)
 
         if (!elms.has(id)) {
           elms.set(id, {
@@ -91,21 +91,21 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
                 shape: z.type.indexOf('TUNNEL_HIDEOUT') >= 0 ? 'pentagon' : '',
               },
             },
-          });
+          })
         }
-      });
+      })
 
       portals.forEach((p) => {
-        const source = 'azone' + p.source.toLowerCase().replace(/ /g, '');
-        const target = 'azone' + p.target.toLowerCase().replace(/ /g, '');
+        const source = 'azone' + p.source.toLowerCase().replace(/ /g, '')
+        const target = 'azone' + p.target.toLowerCase().replace(/ /g, '')
 
         // just to fix the score if the characteres end up being the same, add k e y
-        const id = `edge${source}${target}`;
-        allKeys.push(id);
+        const id = `edge${source}${target}`
+        allKeys.push(id)
 
         const label = `${Math.floor(p.timeLeft / 60)}h ${Math.round(
           p.timeLeft % 60
-        )}m`;
+        )}m`
 
         if (!elms.has(id)) {
           elms.set(id, {
@@ -122,76 +122,74 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
                 lineColor: portalSizeToColor[p.size],
               },
             },
-          });
+          })
         } else {
-          const updateElm = cy.current.$(`#${id}`);
-          updateElm.data('label', label);
+          const updateElm = cy.current.$(`#${id}`)
+          updateElm.data('label', label)
 
           if (p.timeLeft < 30) {
-            updateElm.addClass('timeLow');
+            updateElm.addClass('timeLow')
           }
         }
-      });
+      })
 
       const removeKeys: string[] = Array.from(elms.keys()).filter(
         (k) => !allKeys.includes(k)
-      );
+      )
 
       if (removeKeys.length) {
-        setRemove(removeKeys);
+        setRemove(removeKeys)
       }
 
-      setScore(changeScore(allKeys));
+      setScore(changeScore(allKeys))
     }
-  }, [filteredZones, portals]);
+  }, [filteredZones, portals])
 
   useEffect(() => {
     if (score !== oldScore.current) {
-      const elms = elements.current;
+      const elms = elements.current
 
       // make sure we add the zones first, before the connetions
-      const elmKeys = Array.from(elms.keys()).sort((a, b) =>
-        a.localeCompare(b)
-      );
+      const elmKeys = Array.from(elms.keys()).sort((a, b) => a.localeCompare(b))
 
       // @ts-ignore
       console.log(elmKeys); // eslint-disable-line
 
-      let updated = false;
+      let updated = false
 
       elmKeys.forEach((key) => {
-        const elm = elms.get(key);
+        const elm = elms.get(key)
 
         if (elm && !elm.added) {
-          cy.current.add(elm.element);
-          elms.set(key, { added: true, element: { ...elm.element } });
-          updated = true;
+          cy.current.add(elm.element)
+          elms.set(key, { added: true, element: { ...elm.element } })
+          updated = true
         }
-      });
+      })
 
       if (remove.length) {
         remove.forEach((k) => {
-          cy.current.remove(cy.current.$(`#${k}`));
-          elements.current.delete(k);
-        });
+          cy.current.remove(cy.current.$(`#${k}`))
+          elements.current.delete(k)
+        })
 
-        updated = true;
-        setRemove([]);
+        updated = true
+        setRemove([])
       }
 
       if (updated) {
-        cy.current.layout(defaultSettings.layout).run();
+        cy.current.layout(defaultSettings.layout).run()
       }
 
-      oldScore.current = score;
+      oldScore.current = score
     }
-  }, [score, remove]);
+  }, [score, remove])
 
   return (
     <div className="cyto">
       <div ref={containerRef} />
     </div>
-  );
-};
+  )
+}
 
-export default Cyto;
+export default Cyto

@@ -2,7 +2,7 @@ export const portalSizeToColor = {
   2: 'green',
   7: 'blue',
   20: 'orange',
-};
+}
 
 export const zoneColorToColor = {
   black: 'black',
@@ -10,4 +10,4 @@ export const zoneColorToColor = {
   yellow: 'yellow',
   blue: 'blue',
   road: 'lightblue',
-};
+}

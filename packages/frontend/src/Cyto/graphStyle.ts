@@ -20,6 +20,6 @@ const graphStyle = (isDark: boolean) => [
       color: 'red',
     },
   },
-];
+]
 
-export default graphStyle;
+export default graphStyle
