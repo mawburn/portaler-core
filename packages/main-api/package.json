@@ -1,12 +1,12 @@
 {
-  "name": "main-api",
+  "name": "@portaler/main-api",
   "version": "1.0.0",
-  "main": "server/server.js",
+  "main": "src/server.ts",
   "license": "GNU AGPLv3",
   "scripts": {
     "build": "tsc",
     "start": "node out/index.js",
-    "start:dev": "ts-node-dev src/index.ts",
+    "start:dev": "ts-node-dev src/server.ts",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src"
   },

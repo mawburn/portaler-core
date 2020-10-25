@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 
 const app = express();
 
@@ -10,7 +10,7 @@ app.listen(4000, () => {
 app.use('/api/discord', require('./module/discord'));
 
 // middlewares should probably be moved eventually
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   switch (err.message) {
     case 'NoCodeProvided':
       return res.status(400).send({
@@ -26,11 +26,14 @@ app.use((err, req, res, next) => {
 });
 
 // validate that they have a token
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization?.split(' ')[1];
     // TODO do a token lookup here, to get server and auth info on this user
-    return next();
+
+    if (token) {
+      return next();
+    }
   } catch {
     // if the user has no token, redirect to login
     res.redirect('/');
