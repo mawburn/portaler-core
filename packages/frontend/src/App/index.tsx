@@ -38,7 +38,6 @@ const storageToken = (): string => {
 
 function App() {
   const [token, setToken] = useState<string>(storageToken())
-  const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true)
   const [isDark, setIsDark] = useState<boolean>(prefersDark)
 
   const config = useGetConfig()
@@ -120,27 +119,12 @@ function App() {
             {token === BAD_PASS || zones === null ? (
               <PasswordForm password={token ?? ''} setPassword={setToken} />
             ) : (
-              <>
-                <MappingBar
-                  fromId={sourceZone}
-                  zones={zones}
-                  token={token}
-                  updatePortals={updatePortals}
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={updateLayoutOnChange}
-                      onChange={() =>
-                        setUpdateLayoutOnChange(!updateLayoutOnChange)
-                      }
-                      name="layout-change"
-                      color="primary"
-                    />
-                  }
-                  label="Update layout after create"
-                />
-              </>
+              <MappingBar
+                fromId={sourceZone}
+                zones={zones}
+                token={token}
+                updatePortals={updatePortals}
+              />
             )}
           </aside>
           {(token !== BAD_PASS || config?.publicRead) && (
