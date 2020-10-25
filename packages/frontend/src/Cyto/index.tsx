@@ -33,6 +33,11 @@ interface CytoMapElement {
   element: object
 }
 
+const updateLayout = {
+  ...defaultSettings.layout,
+  fit: false,
+}
+
 const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
   const oldScore = useRef<number>(-1)
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -180,7 +185,8 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
       }
 
       if (updated) {
-        cy.current.layout(defaultSettings.layout).run()
+        cy.current.layout(updateLayout).run()
+        // cy.current.viewport({ zoom, pan })
       }
 
       oldScore.current = score
