@@ -2,23 +2,33 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Portal } from '../types'
 
-const fetchPortals = (token: string) =>
+const fetchPortals = (token: string | null): Promise<Portal[]> =>
   fetch(`/api/portal`, {
     headers: {
-      'X-Tebro-Auth': token,
+      'X-Tebro-Auth': token ?? '',
     },
-  }).then((r) => r.json())
+  }).then(async (r: Response) => {
+    if (!r.ok) {
+      throw new Error('Bad Password')
+    }
+
+    return await r.json()
+  })
 
 const useGetPortals = (
-  token: string,
+  token: string | null,
   isPublic?: boolean
-): [Portal[], () => void] => {
+): [Portal[] | null, () => void] => {
   const lastUpdate = useRef<Date>(new Date())
-  const [portals, setPortals] = useState<Portal[]>([])
+  const [portals, setPortals] = useState<Portal[] | null>([])
 
   useEffect(() => {
     if (token !== '' || isPublic) {
-      fetchPortals(token).then(setPortals)
+      fetchPortals(token)
+        .then(setPortals)
+        .catch(() => {
+          setPortals(null)
+        })
     }
   }, [token, isPublic])
 
