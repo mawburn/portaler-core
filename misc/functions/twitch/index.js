@@ -2,14 +2,14 @@ const fetch = require('node-fetch')
 
 exports.handler = async function (event, context) {
   try {
-    const headers = new Headers()
-    headers.append('Authorization', `Bearer ${process.env.TWITCH_KEY}`)
-    headers.append('Client-Id', process.env.TWITCH_CLIENT)
-
     const res = await fetch(
       'https://api.twitch.tv/helix/search/channels?query=hypnocode',
       {
-        headers,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${process.env.TWITCH_KEY}`,
+          'Client-Id': process.env.TWITCH_CLIENT,
+        },
       }
     )
 
