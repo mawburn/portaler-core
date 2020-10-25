@@ -1,20 +1,20 @@
-import clone from 'lodash/cloneDeep';
-import isEqual from 'lodash/isEqual';
-import React, { FC, useCallback, useRef, useState } from 'react';
+import clone from 'lodash/cloneDeep'
+import isEqual from 'lodash/isEqual'
+import React, { FC, useCallback, useRef, useState } from 'react'
 
-import { TextField } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { FilterOptionsState } from '@material-ui/lab/useAutocomplete';
+import { TextField } from '@material-ui/core'
+import Autocomplete from '@material-ui/lab/Autocomplete'
+import { FilterOptionsState } from '@material-ui/lab/useAutocomplete'
 
-import { DEFAULT_ZONE } from '../data/constants';
-import useEventListener from '../utils/hooks/useEventListener';
-import { filterZones, getMaxString, ZoneLight } from './zoneSearchUtils';
+import { DEFAULT_ZONE } from '../data/constants'
+import useEventListener from '../utils/hooks/useEventListener'
+import { filterZones, getMaxString, ZoneLight } from './zoneSearchUtils'
 
 interface ZoneSearchProps {
-  zoneList: ZoneLight[];
-  label: string;
-  value: ZoneLight;
-  update: (zone: ZoneLight) => void;
+  zoneList: ZoneLight[]
+  label: string
+  value: ZoneLight
+  update: (zone: ZoneLight) => void
 }
 
 const ZoneSearch: FC<ZoneSearchProps> = ({
@@ -23,38 +23,38 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
   value,
   update,
 }) => {
-  const acRef = useRef(null);
-  const [currentZoneList, setCurrentZoneList] = useState<ZoneLight[]>(zoneList);
-  const [currentInput, setCurrentInput] = useState<string>(value.name);
+  const acRef = useRef(null)
+  const [currentZoneList, setCurrentZoneList] = useState<ZoneLight[]>(zoneList)
+  const [currentInput, setCurrentInput] = useState<string>(value.name)
 
   const keyEventHandler = useCallback(
     (e: KeyboardEvent) => {
-      const currentVal = currentInput;
+      const currentVal = currentInput
 
       if (e.code.toLowerCase() === 'arrowright' && currentVal) {
-        setCurrentInput(getMaxString(currentZoneList, currentInput));
+        setCurrentInput(getMaxString(currentZoneList, currentInput))
       }
     },
     [currentZoneList, currentInput]
-  );
+  )
 
   const filterOptions = useCallback(
     (
       options: ZoneLight[],
       state: FilterOptionsState<ZoneLight>
     ): ZoneLight[] => {
-      const filteredZones = filterZones(options, state);
+      const filteredZones = filterZones(options, state)
 
       if (currentInput && !isEqual(filteredZones, currentZoneList)) {
-        setCurrentZoneList(clone(filteredZones));
+        setCurrentZoneList(clone(filteredZones))
       }
 
-      return filteredZones;
+      return filteredZones
     },
     [currentInput, currentZoneList]
-  );
+  )
 
-  useEventListener('keydown', keyEventHandler, acRef.current);
+  useEventListener('keydown', keyEventHandler, acRef.current)
 
   return (
     <Autocomplete
@@ -76,7 +76,7 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
       onChange={(_, val: ZoneLight | null) => update(val ?? DEFAULT_ZONE)}
       renderInput={(params) => <TextField {...params} label={label} />}
     />
-  );
-};
+  )
+}
 
-export default ZoneSearch;
+export default ZoneSearch
