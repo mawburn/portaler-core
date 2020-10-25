@@ -6,14 +6,15 @@ import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { FilterOptionsState } from '@material-ui/lab/useAutocomplete'
 
-import { DEFAULT_ZONE } from '../data/constants'
-import useEventListener from '../utils/hooks/useEventListener'
+import { DEFAULT_ZONE } from '../../data/constants'
+import useEventListener from '../../utils/hooks/useEventListener'
 import { filterZones, getMaxString, ZoneLight } from './zoneSearchUtils'
 
 interface ZoneSearchProps {
   zoneList: ZoneLight[]
   label: string
   value: ZoneLight
+  variant?: 'filled' | 'outlined' | 'standard'
   update: (zone: ZoneLight) => void
 }
 
@@ -21,6 +22,7 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
   zoneList,
   label,
   value,
+  variant = 'standard',
   update,
 }) => {
   const acRef = useRef(null)
@@ -74,7 +76,9 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
       }
       getOptionLabel={(o: ZoneLight) => o.name}
       onChange={(_, val: ZoneLight | null) => update(val ?? DEFAULT_ZONE)}
-      renderInput={(params) => <TextField {...params} label={label} />}
+      renderInput={(params) => (
+        <TextField {...params} label={label} variant={variant as any} />
+      )}
     />
   )
 }
