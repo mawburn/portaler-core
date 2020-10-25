@@ -13,7 +13,6 @@ interface Reources {
 }
 
 const ZoneInfo: FC<ZoneInfoProps> = ({ info }) => {
-  console.log(info)
   const resources = useMemo<ReactNode[] | null>(() => {
     if (!info) {
       return null

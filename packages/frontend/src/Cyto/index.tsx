@@ -124,6 +124,31 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
         }
       })
 
+      if (allKeys.length === 0 && home) {
+        const id = 'azone' + home.name.toLowerCase().replace(/ /g, '')
+        allKeys.push(id)
+
+        const homeZone = zones.find((z) => z.name === home.name)
+
+        if (homeZone) {
+          elms.set(id, {
+            added: false,
+            element: {
+              data: { id, zoneName: home.name, label: home.name },
+              style: {
+                width: 42,
+                height: 42,
+                backgroundColor: zoneColorToColor.home,
+                shape:
+                  homeZone.type.indexOf('TUNNEL_HIDEOUT') >= 0
+                    ? 'pentagon'
+                    : '',
+              },
+            },
+          })
+        }
+      }
+
       portals.forEach((p) => {
         const source = 'azone' + p.source.toLowerCase().replace(/ /g, '')
         const target = 'azone' + p.target.toLowerCase().replace(/ /g, '')
@@ -173,7 +198,7 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
 
       setScore(changeScore(allKeys))
     }
-  }, [filteredZones, portals, zones, home.name])
+  }, [filteredZones, portals, zones, home])
 
   useEffect(() => {
     if (score !== oldScore.current) {
