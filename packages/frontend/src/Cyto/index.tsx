@@ -50,10 +50,18 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
 
   const [score, setScore] = useState<number>(-1)
   const [remove, setRemove] = useState<string[]>([])
+  const [activeZoneName, setActiveZoneName] = useState<string>('')
+
+  const activeZone = useMemo<Zone | null>(
+    () => zones.find((z) => z.name === activeZoneName) ?? null,
+    [zones, activeZoneName]
+  )
 
   const cyEventHandler = useCallback(
     (e: cytoscape.EventObject) => {
-      onNodeClick(e.target.data('zoneName'))
+      const name = e.target.data('zoneName')
+      onNodeClick(name)
+      setActiveZoneName(name)
     },
     [onNodeClick]
   )
@@ -165,7 +173,7 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
 
       setScore(changeScore(allKeys))
     }
-  }, [filteredZones, portals, zones])
+  }, [filteredZones, portals, zones, home.name])
 
   useEffect(() => {
     if (score !== oldScore.current) {
@@ -207,7 +215,7 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
 
       oldScore.current = score
     }
-  }, [score, remove])
+  }, [score, remove, home.name])
 
   const handleHome = useCallback((zone: ZoneLight) => {
     const home = cy.current.$(`#azone${zone.value.replace(/ /g, '')}`)
@@ -217,7 +225,7 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
 
   return (
     <div>
-      <ControlBar handleHome={handleHome} />
+      <ControlBar handleHome={handleHome} info={activeZone} />
       <div className="cyto">
         <div ref={containerRef} />
       </div>
