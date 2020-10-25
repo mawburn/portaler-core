@@ -1,6 +1,6 @@
 import './App.scss'
 
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
   Checkbox,
@@ -11,20 +11,22 @@ import {
 } from '@material-ui/core'
 import { blue } from '@material-ui/core/colors'
 
+import Cyto from '../Cyto'
 import MappingBar from '../MappingBar'
 import PasswordForm from '../PasswordForm'
 import DarkModeToggle from './DarkModeToggle'
 import useGetConfig from './useGetConfig'
 import useGetPortals from './useGetPortals'
 import useGetZones from './useGetZones'
-import Cyto from '../Cyto'
 
 const prefersDark = localStorage.getItem('darkMode')
   ? localStorage.getItem('darkMode') !== 'false'
   : window.matchMedia('(prefers-color-scheme: dark)').matches
 
+const storageToken = window.localStorage.getItem('token')
+
 function App() {
-  const [token, setToken] = useState<string>('')
+  const [token, setToken] = useState<string | null>(storageToken)
   const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true)
   const [isDark, setIsDark] = useState<boolean>(prefersDark)
 
@@ -33,6 +35,18 @@ function App() {
   const [portals, updatePortals] = useGetPortals(token, config?.publicRead)
 
   const [sourceZone, setSourceZone] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (zones === null) {
+      setToken(null)
+    }
+  }, [zones])
+
+  useEffect(() => {
+    if (token !== storageToken) {
+      window.localStorage.set('token', token)
+    }
+  }, [token])
 
   const theme = useMemo(
     () =>
@@ -81,8 +95,8 @@ function App() {
 
         <main className="layout">
           <aside className="search-side">
-            {!token ? (
-              <PasswordForm password={token} setPassword={setToken} />
+            {!token || !zones ? (
+              <PasswordForm password={token ?? ''} setPassword={setToken} />
             ) : (
               <>
                 <MappingBar
@@ -111,8 +125,8 @@ function App() {
             <div className="map-display">
               <Cyto
                 isDark={isDark}
-                zones={zones}
-                portals={portals}
+                zones={zones ?? []}
+                portals={portals ?? []}
                 onNodeClick={setSourceZone}
               />
               {/* <DataDisplay
