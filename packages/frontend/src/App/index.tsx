@@ -18,6 +18,7 @@ import DarkModeToggle from './DarkModeToggle'
 import useGetConfig from './useGetConfig'
 import useGetPortals from './useGetPortals'
 import useGetZones from './useGetZones'
+import UserSettings from '../UserSettings'
 
 export const BAD_PASS = '🙅‍♀️bad password🤦‍♂️'
 
@@ -103,7 +104,14 @@ function App() {
       <CssBaseline />
       <div className="app-container">
         <header className="main-header">
-          <h1>Portaler</h1>
+          <h1>
+            <img
+              alt="logo"
+              src={`${process.env.PUBLIC_URL}/android-chrome-192x192.png`}
+              className="logo"
+            />
+            Portaler
+          </h1>
           <DarkModeToggle isDark={isDark} update={updateTheme} />
         </header>
 

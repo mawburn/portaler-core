@@ -2,6 +2,17 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
+
+  h1 {
+    align-items: center;
+    display: flex;
+  }
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  margin-right: 1.5rem;
 }
 
 .login {
@@ -11,11 +22,7 @@
 .app-container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 1.5rem);
-}
-
-.main-header {
-  text-align: center;
+  height: calc(100vh - 2rem);
 }
 
 .layout {
