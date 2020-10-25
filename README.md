@@ -11,14 +11,18 @@ The backend is currently being transitioned over from Go. To setup the backend, 
 
 https://github.com/Tebro/albion-mapper-backend
 
-### Running the Frontend
+### Running the Frontend for development
+
+Run from root of the project:
 
 ```
 yarn
-yarn start:frontend
+yarn dev:front
 ```
 
 ### Building the Frontend
+
+Run from root of the project:
 
 ```
 yarn
@@ -26,3 +30,11 @@ yarn build:frontend
 ```
 
 The built application files can be found in `/packages/build`.
+
+### Running the Backend for development
+
+Run from root of the project:
+
+```
+yarn dev:api
+```
