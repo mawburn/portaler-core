@@ -18,7 +18,6 @@ import DarkModeToggle from './DarkModeToggle'
 import useGetConfig from './useGetConfig'
 import useGetPortals from './useGetPortals'
 import useGetZones from './useGetZones'
-import UserSettings from '../UserSettings'
 
 export const BAD_PASS = '🙅‍♀️bad password🤦‍♂️'
 

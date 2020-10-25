@@ -2,28 +2,17 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  InputLabel,
 } from '@material-ui/core'
 import React, { FC, useCallback, useState } from 'react'
 import PersonIcon from '@material-ui/icons/Person'
 
 import styles from './styles.module.scss'
 import ZoneSearch from '../common/ZoneSearch'
-import { DEFAULT_ZONE } from '../data/constants'
 import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
+import getHomeZone from '../utils/getHomeZone'
 
 interface UserSettingsProps {
   zones: ZoneLight[]
-}
-
-const getHomeZone = (): ZoneLight => {
-  const home = window.localStorage.getItem('homeZone')
-
-  if (home) {
-    return JSON.parse(home) as ZoneLight
-  }
-
-  return DEFAULT_ZONE
 }
 
 const UserSettings: FC<UserSettingsProps> = ({ zones }) => {

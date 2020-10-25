@@ -16,6 +16,9 @@ import { changeScore } from './cytoUtils'
 import defaultSettings from './defaultSettings'
 import graphStyle from './graphStyle'
 import { portalSizeToColor, zoneColorToColor } from './mapStyle'
+import HomeButton from './ControlBar/HomeButton'
+import ControlBar from './ControlBar'
+import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
 
 cytoscape.use(COSEBilkent)
 
@@ -185,9 +188,18 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
     }
   }, [score, remove])
 
+  const handleHome = useCallback((zone: ZoneLight) => {
+    const home = cy.current.$(`#azone${zone.value.replace(/ /g, '')}`)
+
+    cy.current.zoom({ level: 1, position: home.position() }).center(home)
+  }, [])
+
   return (
-    <div className="cyto">
-      <div ref={containerRef} />
+    <div>
+      <ControlBar handleHome={handleHome} />
+      <div className="cyto">
+        <div ref={containerRef} />
+      </div>
     </div>
   )
 }
