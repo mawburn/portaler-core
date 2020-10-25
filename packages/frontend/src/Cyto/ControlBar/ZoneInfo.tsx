@@ -1,5 +1,4 @@
 import { Paper } from '@material-ui/core'
-import clsx from 'clsx'
 import React, { FC, ReactNode, useMemo } from 'react'
 import { Zone } from '../../types'
 
