@@ -18,6 +18,7 @@ import graphStyle from './graphStyle'
 import { portalSizeToColor, zoneColorToColor } from './mapStyle'
 import ControlBar from './ControlBar'
 import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
+import getHomeZone from '../utils/getHomeZone'
 
 cytoscape.use(COSEBilkent)
 
@@ -33,19 +34,34 @@ interface CytoMapElement {
   element: object
 }
 
+const updateLayout = {
+  ...defaultSettings.layout,
+  fit: false,
+}
+
 const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
   const oldScore = useRef<number>(-1)
   const containerRef = useRef<HTMLDivElement | null>(null)
+
+  const home = getHomeZone()
 
   const cy = useRef<any>(null)
   const elements = useRef<Map<string, CytoMapElement>>(new Map())
 
   const [score, setScore] = useState<number>(-1)
   const [remove, setRemove] = useState<string[]>([])
+  const [activeZoneName, setActiveZoneName] = useState<string>('')
+
+  const activeZone = useMemo<Zone | null>(
+    () => zones.find((z) => z.name === activeZoneName) ?? null,
+    [zones, activeZoneName]
+  )
 
   const cyEventHandler = useCallback(
     (e: cytoscape.EventObject) => {
-      onNodeClick(e.target.data('zoneName'))
+      const name = e.target.data('zoneName')
+      onNodeClick(name)
+      setActiveZoneName(name)
     },
     [onNodeClick]
   )
@@ -68,20 +84,29 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
     () =>
       zones.filter(
         (z) =>
-          !!portals?.find((p) => p.source === z.name || p.target === z.name)
+          !!portals?.find(
+            (p) =>
+              p.source === z.name || p.target === z.name || z.name === home.name
+          )
       ),
-    [zones, portals]
+    [zones, portals, home.name]
   )
 
   useEffect(() => {
     const elms = elements.current
     const allKeys: string[] = []
 
-    if (filteredZones.length) {
+    if (filteredZones.length && cy.current) {
       filteredZones.forEach((z) => {
         // used to add portals first
         const id = 'azone' + z.name.toLowerCase().replace(/ /g, '')
         allKeys.push(id)
+
+        const isHome = home.name === z.name
+
+        const backgroundColor = zoneColorToColor[isHome ? 'home' : z.color]
+        const width = isHome ? 42 : 30
+        const height = isHome ? 42 : 30
 
         if (!elms.has(id)) {
           elms.set(id, {
@@ -89,7 +114,9 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
             element: {
               data: { id, zoneName: z.name, label: z.name },
               style: {
-                backgroundColor: zoneColorToColor[z.color],
+                width,
+                height,
+                backgroundColor,
                 shape: z.type.indexOf('TUNNEL_HIDEOUT') >= 0 ? 'pentagon' : '',
               },
             },
@@ -122,6 +149,7 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
               classes: p.timeLeft < 30 ? 'timeLow' : '',
               style: {
                 lineColor: portalSizeToColor[p.size],
+                width: 5,
               },
             },
           })
@@ -145,7 +173,7 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
 
       setScore(changeScore(allKeys))
     }
-  }, [filteredZones, portals])
+  }, [filteredZones, portals, zones, home.name])
 
   useEffect(() => {
     if (score !== oldScore.current) {
@@ -153,9 +181,6 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
 
       // make sure we add the zones first, before the connetions
       const elmKeys = Array.from(elms.keys()).sort((a, b) => a.localeCompare(b))
-
-      // @ts-ignore
-      console.log(elmKeys); // eslint-disable-line
 
       let updated = false
 
@@ -171,8 +196,10 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
 
       if (remove.length) {
         remove.forEach((k) => {
-          cy.current.remove(cy.current.$(`#${k}`))
-          elements.current.delete(k)
+          if (`azone${home.name}` !== k) {
+            cy.current.remove(cy.current.$(`#${k}`))
+            elements.current.delete(k)
+          }
         })
 
         updated = true
@@ -180,12 +207,15 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
       }
 
       if (updated) {
-        cy.current.layout(defaultSettings.layout).run()
+        const layout =
+          oldScore.current === -1 ? defaultSettings.layout : updateLayout
+
+        cy.current.layout(layout).run()
       }
 
       oldScore.current = score
     }
-  }, [score, remove])
+  }, [score, remove, home.name])
 
   const handleHome = useCallback((zone: ZoneLight) => {
     const home = cy.current.$(`#azone${zone.value.replace(/ /g, '')}`)
@@ -195,7 +225,7 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
 
   return (
     <div>
-      <ControlBar handleHome={handleHome} />
+      <ControlBar handleHome={handleHome} info={activeZone} />
       <div className="cyto">
         <div ref={containerRef} />
       </div>
