@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { BAD_PASS } from '.'
 
 import { Portal } from '../types'
 
-const fetchPortals = (token: string | null): Promise<Portal[]> =>
+const fetchPortals = (token: string): Promise<Portal[]> =>
   fetch(`/api/portal`, {
     headers: {
-      'X-Tebro-Auth': token ?? '',
+      'X-Tebro-Auth': token,
     },
   }).then(async (r: Response) => {
     if (!r.ok) {
@@ -16,21 +17,22 @@ const fetchPortals = (token: string | null): Promise<Portal[]> =>
   })
 
 const useGetPortals = (
-  token: string | null,
+  token: string,
+  zonesLength?: number | null,
   isPublic?: boolean
 ): [Portal[] | null, () => void] => {
   const lastUpdate = useRef<Date>(new Date())
   const [portals, setPortals] = useState<Portal[] | null>([])
 
   useEffect(() => {
-    if (token !== '' || isPublic) {
+    if ((token !== BAD_PASS || isPublic) && zonesLength && zonesLength > 0) {
       fetchPortals(token)
         .then(setPortals)
         .catch(() => {
           setPortals(null)
         })
     }
-  }, [token, isPublic])
+  }, [token, zonesLength, isPublic])
 
   const updatePortals = useCallback(async () => {
     const res = await fetchPortals(token)

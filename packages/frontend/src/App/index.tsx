@@ -19,32 +19,46 @@ import useGetConfig from './useGetConfig'
 import useGetPortals from './useGetPortals'
 import useGetZones from './useGetZones'
 
+export const BAD_PASS = '🙅‍♀️bad password🤦‍♂️'
+
 const prefersDark = localStorage.getItem('darkMode')
   ? localStorage.getItem('darkMode') !== 'false'
   : window.matchMedia('(prefers-color-scheme: dark)').matches
 
-const storageToken = window.localStorage.getItem('token')
+const storageToken = (): string => {
+  const token = window.localStorage.getItem('token')
+
+  if (token === null) {
+    return BAD_PASS
+  }
+
+  return token
+}
 
 function App() {
-  const [token, setToken] = useState<string | null>(storageToken)
+  const [token, setToken] = useState<string>(storageToken())
   const [updateLayoutOnChange, setUpdateLayoutOnChange] = useState(true)
   const [isDark, setIsDark] = useState<boolean>(prefersDark)
 
   const config = useGetConfig()
   const zones = useGetZones(token, config?.publicRead)
-  const [portals, updatePortals] = useGetPortals(token, config?.publicRead)
+  const [portals, updatePortals] = useGetPortals(
+    token,
+    zones?.length,
+    config?.publicRead
+  )
 
   const [sourceZone, setSourceZone] = useState<string | null>(null)
 
   useEffect(() => {
-    if (zones === null) {
-      setToken(null)
+    if ((zones === null || portals === null) && token !== BAD_PASS) {
+      setToken(BAD_PASS)
     }
-  }, [zones])
+  }, [zones, portals, token])
 
   useEffect(() => {
-    if (token !== storageToken) {
-      window.localStorage.set('token', token)
+    if (token !== storageToken()) {
+      window.localStorage.setItem('token', token)
     }
   }, [token])
 
@@ -95,7 +109,7 @@ function App() {
 
         <main className="layout">
           <aside className="search-side">
-            {!token || !zones ? (
+            {token === BAD_PASS || zones === null ? (
               <PasswordForm password={token ?? ''} setPassword={setToken} />
             ) : (
               <>
@@ -121,7 +135,7 @@ function App() {
               </>
             )}
           </aside>
-          {(!!token || config?.publicRead) && (
+          {(token !== BAD_PASS || config?.publicRead) && (
             <div className="map-display">
               <Cyto
                 isDark={isDark}
