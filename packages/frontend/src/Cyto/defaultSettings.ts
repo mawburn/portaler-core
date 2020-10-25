@@ -25,6 +25,7 @@ const defaultSettings: CytoscapeOptions = {
     fit: true,
     padding: 50,
     animationDuration: 250,
+    randomize: false,
   },
   headless: false,
   styleEnabled: true,

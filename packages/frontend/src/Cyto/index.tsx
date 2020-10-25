@@ -16,7 +16,6 @@ import { changeScore } from './cytoUtils'
 import defaultSettings from './defaultSettings'
 import graphStyle from './graphStyle'
 import { portalSizeToColor, zoneColorToColor } from './mapStyle'
-import HomeButton from './ControlBar/HomeButton'
 import ControlBar from './ControlBar'
 import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
 
