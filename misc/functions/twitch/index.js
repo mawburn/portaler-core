@@ -15,7 +15,7 @@ exports.handler = async function (event, context) {
 
     const json = await res.json()
 
-    const channel = json.find((c) => c.id === '141531232')
+    const channel = json.data.find((c) => c.id === '141531232')
 
     return {
       statusCode: 200,
