@@ -1,4 +1,4 @@
-import './styles.css'
+import './styles.scss'
 
 import cytoscape, { CytoscapeOptions } from 'cytoscape'
 import COSEBilkent from 'cytoscape-cose-bilkent'

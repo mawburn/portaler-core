@@ -1,4 +1,4 @@
-import './App.css'
+import './App.scss'
 
 import React, { useCallback, useMemo, useState } from 'react'
 
