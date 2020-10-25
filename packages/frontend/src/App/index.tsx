@@ -2,13 +2,7 @@ import './App.scss'
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-import {
-  Checkbox,
-  createMuiTheme,
-  CssBaseline,
-  FormControlLabel,
-  ThemeProvider,
-} from '@material-ui/core'
+import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core'
 import { blue } from '@material-ui/core/colors'
 
 import Cyto from '../Cyto'

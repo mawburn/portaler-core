@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { ZoneLight } from '../../common/ZoneSearch/zoneSearchUtils'
-import HomeButton, { HomeButtonProps } from './HomeButton'
+import HomeButton from './HomeButton'
 
 import styles from './styles.module.scss'
 

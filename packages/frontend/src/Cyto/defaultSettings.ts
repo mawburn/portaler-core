@@ -23,7 +23,7 @@ const defaultSettings: CytoscapeOptions = {
     // @ts-ignore
     idealEdgeLength: 125,
     fit: true,
-    padding: 50,
+    padding: 42,
     animationDuration: 250,
   },
   headless: false,
