@@ -34,10 +34,14 @@ const useEventListener = <K extends keyof EventTypes>(
 
     const opts = { capture, passive, once }
 
-    element?.addEventListener(eventName, eventListener, opts)
+    if (element) {
+      element.addEventListener(eventName, eventListener, opts)
+    }
 
     return () => {
-      element?.removeEventListener(eventName, eventListener, opts)
+      if (element) {
+        element.removeEventListener(eventName, eventListener, opts)
+      }
     }
   }, [eventName, element, capture, passive, once])
 }

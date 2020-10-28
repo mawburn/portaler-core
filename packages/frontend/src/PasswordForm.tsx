@@ -22,6 +22,7 @@ const PasswordForm: FC<PasswordFormProps> = ({ password, setPassword }) => {
 
   const handleFormSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
       setPassword(localPassword)
     },
     [setPassword, localPassword]

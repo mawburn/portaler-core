@@ -2,6 +2,8 @@
 
 Portaler is a self hosted mapping tool for Avalonian Roads in Albion Online.
 
+<img src="https://i.imgur.com/bSn5AC8.png" width="600px" alt="screenshot" />
+
 ## Monorepo
 
 This is a monorepo utilizing [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). Individual applications can be found in the [packages](/packages) folder.
@@ -10,6 +12,8 @@ This is a monorepo utilizing [Yarn Workspaces](https://classic.yarnpkg.com/en/do
 The backend is currently being transitioned over from Go. To setup the backend, follow the instructions found here:
 
 https://github.com/Tebro/albion-mapper-backend
+
+Once we move the backend, we will be providing full docker containers and docker-compose files to setup on your own server.
 
 ### Running the Frontend for development
 

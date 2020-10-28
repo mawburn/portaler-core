@@ -1,0 +1,33 @@
+.bar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+.zoneInfo {
+  padding: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+.infoContainer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.fixCase {
+  text-transform: capitalize;
+}
+
+.resource {
+  padding-left: 0.25rem;
+}
+
+.controls {
+  display: flex;
+}
+
+.control {
+  padding: 0 0.25rem;
+}

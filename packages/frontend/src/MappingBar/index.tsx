@@ -17,8 +17,9 @@ import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../data/constants'
 import { PortalSize, Zone } from '../types'
 import PortalSizeSelector from './PortalSizeSelector'
 import useAddPortal from './useAddPortal'
-import ZoneSearch from './ZoneSearch'
-import { ZoneLight } from './zoneSearchUtils'
+import ZoneSearch from '../common/ZoneSearch'
+import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
+import UserSettings from '../UserSettings'
 
 interface MappingBarProps {
   zones: Zone[]
@@ -40,27 +41,27 @@ const MappingBar: FC<MappingBarProps> = ({
   const [hours, setHours] = useState<number | null>(null)
   const [minutes, setMinutes] = useState<number | null>(null)
 
-  const zoneNames = useMemo<ZoneLight[]>(
-    () =>
-      zones
-        .map((n) => ({ name: n.name, value: n.name.toLowerCase() }))
-        .sort((a, b) => a.value.localeCompare(b.value)),
-    [zones]
-  )
+  const zoneNames = useMemo<ZoneLight[]>(() => {
+    const newZones = zones
+      .map((n) => ({ name: n.name, value: n.name.toLowerCase() }))
+      .sort((a, b) => a.value.localeCompare(b.value))
+
+    newZones.unshift(DEFAULT_ZONE)
+
+    return newZones
+  }, [zones])
 
   const addPortal = useAddPortal(token, updatePortals)
 
-  const filteredFrom = useMemo<ZoneLight[]>(() => {
-    const zones = zoneNames.filter((z) => z?.value !== to?.value)
-    zones.unshift(DEFAULT_ZONE) // allow user to clear input
-    return zones
-  }, [to, zoneNames])
+  const filteredFrom = useMemo<ZoneLight[]>(
+    () => zoneNames.filter((z) => z?.value !== to?.value),
+    [to, zoneNames]
+  )
 
-  const filteredTo = useMemo<ZoneLight[]>(() => {
-    const zones = zoneNames.filter((z) => z?.value !== from?.value)
-    zones.unshift(DEFAULT_ZONE) // allow user to clear input
-    return zones
-  }, [from, zoneNames])
+  const filteredTo = useMemo<ZoneLight[]>(
+    () => zoneNames.filter((z) => z?.value !== from?.value),
+    [from, zoneNames]
+  )
 
   useEffect(() => {
     if (fromId && fromId?.toLocaleLowerCase() !== oldFromId.current) {
@@ -94,72 +95,78 @@ const MappingBar: FC<MappingBarProps> = ({
   )
 
   return (
-    <form onSubmit={handleSubmit} autoComplete="off">
-      <div className="mapping-bar">
-        <div className="row">
-          <ZoneSearch
-            value={from}
-            update={setFrom}
-            label="From"
-            zoneList={filteredFrom}
-          />
+    <>
+      <form onSubmit={handleSubmit} autoComplete="off">
+        <div className="mapping-bar">
+          <div className="row">
+            <ZoneSearch
+              value={from}
+              update={setFrom}
+              label="From"
+              zoneList={filteredFrom}
+            />
+          </div>
+          <div className="row">
+            <ZoneSearch
+              value={to}
+              update={setTo}
+              label="To"
+              zoneList={filteredTo}
+            />
+          </div>
+          <div className="row">
+            <PortalSizeSelector size={portalSize} update={setPortalSize} />
+          </div>
+          <div className="row">
+            <FormControl fullWidth component="fieldset">
+              <FormLabel component="legend">Time Left</FormLabel>
+              <div className="flex-column">
+                <TextField
+                  id="time-hour"
+                  className="duration-field"
+                  type="number"
+                  label="Hour(s)"
+                  InputProps={{
+                    inputProps: { min: 0, max: 24 },
+                    value: hours ?? '',
+                  }}
+                  onChange={(e) => setHours(Number(e.currentTarget.value))}
+                />
+                <TextField
+                  id="time-minute"
+                  className="duration-field"
+                  type="number"
+                  label="Minute(s)"
+                  InputProps={{
+                    inputProps: { min: 0, max: 59 },
+                    value: minutes ?? '',
+                  }}
+                  onBlur={(e) =>
+                    e.currentTarget.value === '0' ? setMinutes(null) : null
+                  }
+                  onChange={(e) => setMinutes(Number(e.currentTarget.value))}
+                />
+              </div>
+            </FormControl>
+          </div>
+          <div className="row">
+            <FormControl fullWidth>
+              <Button
+                className="create-btn"
+                variant="contained"
+                color="primary"
+                type="submit"
+                endIcon={<DeviceHubIcon />}
+                size="large"
+              >
+                Create Connection
+              </Button>
+            </FormControl>
+          </div>
         </div>
-        <div className="row">
-          <ZoneSearch
-            value={to}
-            update={setTo}
-            label="To"
-            zoneList={filteredTo}
-          />
-        </div>
-        <div className="row">
-          <PortalSizeSelector size={portalSize} update={setPortalSize} />
-        </div>
-        <div className="row">
-          <FormControl fullWidth component="fieldset">
-            <FormLabel component="legend">Time Left</FormLabel>
-            <div className="flex-column">
-              <TextField
-                id="time-hour"
-                className="duration-field"
-                type="number"
-                label="Hour(s)"
-                InputProps={{
-                  inputProps: { min: 0, max: 24 },
-                  value: hours || '',
-                }}
-                onChange={(e) => setHours(Number(e.currentTarget.value))}
-              />
-              <TextField
-                id="time-minute"
-                className="duration-field"
-                type="number"
-                label="Minute(s)"
-                InputProps={{
-                  inputProps: { min: 0, max: 59 },
-                  value: minutes || '',
-                }}
-                onChange={(e) => setMinutes(Number(e.currentTarget.value))}
-              />
-            </div>
-          </FormControl>
-        </div>
-        <div className="row">
-          <FormControl fullWidth>
-            <Button
-              className="create-btn"
-              variant="contained"
-              color="primary"
-              type="submit"
-              endIcon={<DeviceHubIcon />}
-              size="large"
-            >
-              Create Connection
-            </Button>
-          </FormControl>
-        </div>
-      </div>
-    </form>
+      </form>
+      <UserSettings zones={zoneNames} />
+    </>
   )
 }
 

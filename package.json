@@ -6,7 +6,7 @@
   "license": "GNU AGPLv3",
   "scripts": {
     "dev:front": "cd packages/frontend && yarn start",
-    "build:frontend": "cd packages/frontend && yarn build",
+    "build:front": "cd packages/frontend && yarn build",
     "dev:api": "cd packages/main-api && yarn start:dev",
     "clean": "rimraf packages/frontend/node_modules && rimraf packages/main-api/node_modules && rimraf node_modules",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./packages",
