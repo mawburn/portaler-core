@@ -75,11 +75,11 @@
   justify-content: center;
 }
 
-.twitchlink {
+.link {
   align-items: center;
   display: flex;
   justify-content: center;
-  color: #ffbf00;
+  color: #fdd835;
   text-decoration: none;
   font-size: 1.1rem;
 
@@ -88,6 +88,10 @@
     width: 2rem;
     margin-right: 1rem;
   }
+}
+
+.discordlogo {
+  height: 2.25rem;
 }
 
 .footer {

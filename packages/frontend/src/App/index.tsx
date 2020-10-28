@@ -1,26 +1,48 @@
 import './App.scss'
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core'
-import { blue } from '@material-ui/core/colors'
 
 import Cyto from '../Cyto'
 import MappingBar from '../MappingBar'
 import PasswordForm from '../PasswordForm'
-import DarkModeToggle from './DarkModeToggle'
 import useGetConfig from './useGetConfig'
 import useGetPortals from './useGetPortals'
 import useGetZones from './useGetZones'
 // import useGetLive from './useGetLive'
 import github from './github.svg'
 import twitch from './twitch.svg'
+import discord from './discord.svg'
 
 export const BAD_PASS = '🙅‍♀️bad password🤦‍♂️'
 
-const prefersDark = localStorage.getItem('darkMode')
-  ? localStorage.getItem('darkMode') !== 'false'
-  : window.matchMedia('(prefers-color-scheme: dark)').matches
+const theme = createMuiTheme({
+  palette: {
+    background: {
+      default: '#333',
+    },
+    primary: {
+      main: '#aa00ff',
+    },
+    secondary: {
+      main: '#fdd835',
+    },
+    type: 'dark',
+  },
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          background: '#333',
+        },
+        body: {
+          background: '#333',
+        },
+      },
+    },
+  },
+})
 
 const storageToken = (): string => {
   const token = window.localStorage.getItem('token')
@@ -34,7 +56,6 @@ const storageToken = (): string => {
 
 function App() {
   const [token, setToken] = useState<string>(storageToken())
-  const [isDark, setIsDark] = useState<boolean>(prefersDark)
 
   const config = useGetConfig()
   const zones = useGetZones(token, config?.publicRead)
@@ -59,41 +80,6 @@ function App() {
       window.localStorage.setItem('token', token)
     }
   }, [token])
-
-  const theme = useMemo(
-    () =>
-      createMuiTheme({
-        palette: {
-          background: {
-            default: isDark ? '#333' : '#f0f0f0',
-          },
-          primary: isDark
-            ? {
-                main: '#81d4fa',
-              }
-            : blue,
-          type: isDark ? 'dark' : 'light',
-        },
-        overrides: {
-          MuiCssBaseline: {
-            '@global': {
-              html: {
-                background: isDark ? '#333' : '#fff',
-              },
-              body: {
-                background: isDark ? '#333' : '#fff',
-              },
-            },
-          },
-        },
-      }),
-    [isDark]
-  )
-
-  const updateTheme = useCallback((isDark: boolean) => {
-    localStorage.setItem('darkMode', `${isDark}`)
-    setIsDark(isDark)
-  }, [])
 
   return (
     <ThemeProvider theme={theme}>
@@ -125,7 +111,6 @@ function App() {
           {(token !== BAD_PASS || config?.publicRead) && (
             <div className="map-display">
               <Cyto
-                isDark={isDark}
                 zones={zones ?? []}
                 portals={portals ?? []}
                 onNodeClick={setSourceZone}
@@ -137,14 +122,13 @@ function App() {
           <div>
             <a
               href="https://www.twitch.tv/hypnocode"
-              className="twitchlink"
+              className="link"
               target="_blank"
               rel="noopener noreferrer"
             >
               <img src={twitch} className="twitchlogo" alt="twitch" /> Follow
               Portaler dev on Twitch
               {/* !isLive ? (
-                
               ) : (
                 <div className="stream">
                   <div className="isOnline"></div> Dev Streaming now!
@@ -162,7 +146,16 @@ function App() {
               Github
             </a>
           </div>
-          <DarkModeToggle isDark={isDark} update={updateTheme} />
+          <div>
+            <a
+              href="https://discord.gg/frwgWCm"
+              className="link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={discord} className="discordlogo" alt="discord" />
+            </a>
+          </div>
         </footer>
       </div>
     </ThemeProvider>

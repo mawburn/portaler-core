@@ -1,9 +1,9 @@
-const graphStyle = (isDark: boolean) => [
+const graphStyle = [
   {
     selector: 'node[label]',
     css: {
       label: 'data(label)',
-      color: isDark ? 'white' : 'black',
+      color: 'white',
     },
   },
   {
@@ -11,7 +11,7 @@ const graphStyle = (isDark: boolean) => [
     css: {
       label: 'data(label)',
       width: 3,
-      color: isDark ? 'white' : 'black',
+      color: 'white',
     },
   },
   {

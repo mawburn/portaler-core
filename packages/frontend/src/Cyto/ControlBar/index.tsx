@@ -1,23 +1,26 @@
 import React, { FC } from 'react'
+
 import { ZoneLight } from '../../common/ZoneSearch/zoneSearchUtils'
 import { Zone } from '../../types'
 import HomeButton from './HomeButton'
-
+import ReloadMap from './ReloadMap'
 import styles from './styles.module.scss'
 import ZoneInfo from './ZoneInfo'
 
 interface ControlBarProps {
   handleHome: (zone: ZoneLight) => void
+  reloadMap: () => void
   info: Zone | null
 }
 
-const ControlBar: FC<ControlBarProps> = ({ handleHome, info }) => (
+const ControlBar: FC<ControlBarProps> = ({ handleHome, reloadMap, info }) => (
   <div className={styles.bar}>
-    <div className={styles.left}>
-      <HomeButton handleHome={handleHome} />
-    </div>
-    <div className={styles.right}>
+    <div>
       <ZoneInfo info={info} />
+    </div>
+    <div className={styles.controls}>
+      <HomeButton handleHome={handleHome} />
+      <ReloadMap handleClick={reloadMap} />
     </div>
   </div>
 )

@@ -23,7 +23,6 @@ import getHomeZone from '../utils/getHomeZone'
 cytoscape.use(COSEBilkent)
 
 interface CytoProps {
-  isDark: boolean
   zones: Zone[]
   portals: Portal[]
   onNodeClick: (name: string) => void
@@ -39,7 +38,7 @@ const updateLayout = {
   fit: false,
 }
 
-const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
+const Cyto: FC<CytoProps> = ({ portals, zones, onNodeClick }) => {
   const oldScore = useRef<number>(-1)
   const containerRef = useRef<HTMLDivElement | null>(null)
 
@@ -70,15 +69,15 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
     if (!cy.current) {
       cy.current = cytoscape({
         ...defaultSettings,
-        style: graphStyle(isDark),
+        style: graphStyle,
         container: containerRef.current,
       } as CytoscapeOptions)
 
       cy.current.on('tap', 'node', cyEventHandler)
     } else {
-      cy.current.style(graphStyle(isDark))
+      cy.current.style(graphStyle)
     }
-  }, [isDark, cyEventHandler])
+  }, [cyEventHandler])
 
   const filteredZones = useMemo(
     () =>
@@ -248,9 +247,17 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
     cy.current.zoom({ level: 1, position: home.position() }).center(home)
   }, [])
 
+  const reloadMap = useCallback(() => {
+    cy.current.layout(defaultSettings.layout).run()
+  }, [])
+
   return (
     <div className="mapcontainer">
-      <ControlBar handleHome={handleHome} info={activeZone} />
+      <ControlBar
+        handleHome={handleHome}
+        reloadMap={reloadMap}
+        info={activeZone}
+      />
       <div className="cyto">
         <div ref={containerRef} />
       </div>
