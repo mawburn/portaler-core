@@ -1,5 +1,5 @@
 export const portalSizeToColor = {
-  2: '#76ff03',
+  2: '#52b202',
   7: '#00b0ff',
   20: '#ffc400',
 }

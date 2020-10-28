@@ -143,7 +143,7 @@ function App() {
               rel="noopener noreferrer"
             >
               <img src={github} className="githublogo" alt="github" />
-              Github
+              GitHub
             </a>
           </div>
           <div>
