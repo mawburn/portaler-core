@@ -14,7 +14,7 @@ const HomeButton: FC<HomeButtonProps> = ({ handleHome }) => {
   }, [handleHome])
 
   return (
-    <IconButton onClick={handleClick} aria-label="home">
+    <IconButton onClick={handleClick} aria-label="home" title="focus home">
       <HomeIcon fontSize="large" />
     </IconButton>
   )

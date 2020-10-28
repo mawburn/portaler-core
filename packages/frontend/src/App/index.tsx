@@ -139,9 +139,10 @@ function App() {
               href="https://www.twitch.tv/hypnocode"
               className="twitchlink"
               target="_blank"
+              rel="noopener noreferrer"
             >
-              <img src={twitch} className="twitchlogo" /> Follow Portaler dev on
-              Twitch
+              <img src={twitch} className="twitchlogo" alt="twitch" /> Follow
+              Portaler dev on Twitch
               {/* !isLive ? (
                 
               ) : (
@@ -152,8 +153,12 @@ function App() {
             </a>
           </div>
           <div className="github">
-            <a href="https://github.com/Portaler-Zone/portaler-core">
-              <img src={github} className="githublogo" />
+            <a
+              href="https://github.com/Portaler-Zone/portaler-core"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={github} className="githublogo" alt="github" />
               Github
             </a>
           </div>
