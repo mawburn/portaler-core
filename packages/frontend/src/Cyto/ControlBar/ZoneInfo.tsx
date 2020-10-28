@@ -20,14 +20,16 @@ const ZoneInfo: FC<ZoneInfoProps> = ({ info }) => {
 
     const sources: Reources = {}
 
-    info.resources.forEach((r) => {
-      if (sources[r.name]) {
-        sources[r.name].push(Number(r.tier))
-        sources[r.name].sort()
-      } else {
-        sources[r.name] = [Number(r.tier)]
-      }
-    })
+    if (info?.resources.length) {
+      info.resources.forEach((r) => {
+        if (sources[r.name]) {
+          sources[r.name].push(Number(r.tier))
+          sources[r.name].sort()
+        } else {
+          sources[r.name] = [Number(r.tier)]
+        }
+      })
+    }
 
     const display = Object.keys(sources).map((k) => {
       const len = sources[k].length

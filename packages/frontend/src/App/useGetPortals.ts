@@ -17,7 +17,7 @@ const fetchPortals = (token: string): Promise<Portal[]> =>
   })
 
 const useGetPortals = (
-  token: string,
+  token: string = '',
   zonesLength?: number | null,
   isPublic?: boolean
 ): [Portal[] | null, () => void] => {
@@ -35,9 +35,11 @@ const useGetPortals = (
   }, [token, zonesLength, isPublic])
 
   const updatePortals = useCallback(async () => {
-    const res = await fetchPortals(token)
-    lastUpdate.current = new Date()
-    setPortals(res)
+    if (token !== BAD_PASS) {
+      const res = await fetchPortals(token)
+      lastUpdate.current = new Date()
+      setPortals(res)
+    }
   }, [token])
 
   useEffect(() => {

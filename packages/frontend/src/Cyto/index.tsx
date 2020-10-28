@@ -249,7 +249,7 @@ const Cyto: FC<CytoProps> = ({ isDark, portals, zones, onNodeClick }) => {
   }, [])
 
   return (
-    <div>
+    <div className="mapcontainer">
       <ControlBar handleHome={handleHome} info={activeZone} />
       <div className="cyto">
         <div ref={containerRef} />

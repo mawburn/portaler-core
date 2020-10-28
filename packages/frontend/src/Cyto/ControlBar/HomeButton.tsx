@@ -1,7 +1,6 @@
-import { Button } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import React, { FC, useCallback } from 'react'
 import HomeIcon from '@material-ui/icons/Home'
-import { fontSize } from './constants'
 import { ZoneLight } from '../../common/ZoneSearch/zoneSearchUtils'
 import getHomeZone from '../../utils/getHomeZone'
 
@@ -15,14 +14,9 @@ const HomeButton: FC<HomeButtonProps> = ({ handleHome }) => {
   }, [handleHome])
 
   return (
-    <Button
-      onClick={handleClick}
-      variant="contained"
-      color="primary"
-      aria-label="home"
-    >
-      <HomeIcon style={{ fontSize }} />
-    </Button>
+    <IconButton onClick={handleClick} aria-label="home">
+      <HomeIcon fontSize="large" />
+    </IconButton>
   )
 }
 

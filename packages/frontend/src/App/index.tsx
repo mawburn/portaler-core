@@ -12,6 +12,9 @@ import DarkModeToggle from './DarkModeToggle'
 import useGetConfig from './useGetConfig'
 import useGetPortals from './useGetPortals'
 import useGetZones from './useGetZones'
+// import useGetLive from './useGetLive'
+import github from './github.svg'
+import twitch from './twitch.svg'
 
 export const BAD_PASS = '🙅‍♀️bad password🤦‍♂️'
 
@@ -40,6 +43,8 @@ function App() {
     zones?.length,
     config?.publicRead
   )
+
+  // const isLive = useGetLive()
 
   const [sourceZone, setSourceZone] = useState<string | null>(null)
 
@@ -77,7 +82,6 @@ function App() {
               },
               body: {
                 background: isDark ? '#333' : '#fff',
-                padding: `1rem`,
               },
             },
           },
@@ -95,20 +99,18 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="app-container">
-        <header className="main-header">
-          <h1>
-            <img
-              alt="logo"
-              src={`${process.env.PUBLIC_URL}/android-chrome-192x192.png`}
-              className="logo"
-            />
-            Portaler
-          </h1>
-          <DarkModeToggle isDark={isDark} update={updateTheme} />
-        </header>
-
         <main className="layout">
           <aside className="search-side">
+            <header className="main-header">
+              <h1>
+                <img
+                  alt="logo"
+                  src={`${process.env.PUBLIC_URL}/android-chrome-192x192.png`}
+                  className="logo"
+                />
+                Portaler
+              </h1>
+            </header>
             {token === BAD_PASS || zones === null ? (
               <PasswordForm password={token ?? ''} setPassword={setToken} />
             ) : (
@@ -128,16 +130,35 @@ function App() {
                 portals={portals ?? []}
                 onNodeClick={setSourceZone}
               />
-              {/* <DataDisplay
-                zones={zones}
-                portals={portals}
-                updateLayoutOnChange={updateLayoutOnChange}
-                isDark={isDark}
-                onNodeClick={(n) => setSourceZone(n)}
-              /> */}
             </div>
           )}
         </main>
+        <footer className="footer">
+          <div>
+            <a
+              href="https://www.twitch.tv/hypnocode"
+              className="twitchlink"
+              target="_blank"
+            >
+              <img src={twitch} className="twitchlogo" /> Follow Portaler dev on
+              Twitch
+              {/* !isLive ? (
+                
+              ) : (
+                <div className="stream">
+                  <div className="isOnline"></div> Dev Streaming now!
+                </div>
+              )*/}
+            </a>
+          </div>
+          <div className="github">
+            <a href="https://github.com/Portaler-Zone/portaler-core">
+              <img src={github} className="githublogo" />
+              Github
+            </a>
+          </div>
+          <DarkModeToggle isDark={isDark} update={updateTheme} />
+        </footer>
       </div>
     </ThemeProvider>
   )
