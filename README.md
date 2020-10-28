@@ -2,7 +2,7 @@
 
 Portaler is a self hosted mapping tool for Avalonian Roads in Albion Online.
 
-<img src="https://imgur.com/bSn5AC8" width="600px" alt="screenshot" />
+<img src="https://i.imgur.com/bSn5AC8.png" width="600px" alt="screenshot" />
 
 ## Monorepo
 
