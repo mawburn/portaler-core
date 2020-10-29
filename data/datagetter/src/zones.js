@@ -807,4 +807,4 @@ const zones = [
   'Xynos-Oyogam',
 ]
 
-export default zones
+module.exports = zones
