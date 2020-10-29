@@ -13,8 +13,7 @@
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./packages"
   },
   "workspaces": [
-    "packages/*",
-    "utilities/*"
+    "packages/*"
   ],
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^2.10.0",
