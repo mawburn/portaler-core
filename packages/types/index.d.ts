@@ -16,9 +16,10 @@ export interface ZoneInfo {
   color: ZoneColor
   type: string
   tier: Tier
-  markers: string[]
-  resources: Resource[]
+  markers?: string[]
+  resources?: Resource[]
   royalConnections?: ZoneId[]
+  miniMapUrl?: string
 }
 
 export interface Zone {
