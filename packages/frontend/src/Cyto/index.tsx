@@ -19,6 +19,7 @@ import { portalSizeToColor, zoneColorToColor } from './mapStyle'
 import ControlBar from './ControlBar'
 import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
 import getHomeZone from '../utils/getHomeZone'
+import vii from './bgs/vii.png'
 
 cytoscape.use(COSEBilkent)
 
@@ -116,6 +117,9 @@ const Cyto: FC<CytoProps> = ({ portals, zones, onNodeClick }) => {
                 width,
                 height,
                 backgroundColor,
+                'background-image': vii,
+                'background-fit': 'contain',
+                'background-repeat': 'no-repeat',
                 shape: z.type.indexOf('TUNNEL_HIDEOUT') >= 0 ? 'pentagon' : '',
               },
             },
