@@ -96,7 +96,7 @@
 
 .footer {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 350px auto;
   height: 4.2rem;
   padding: 1rem;
   bottom: 0;
@@ -104,9 +104,19 @@
   border-top: 1px solid rgba(0, 0, 0, 0.5);
   width: 100%;
 
-  div {
+  .twitch {
     align-items: center;
     display: flex;
+    justify-content: flex-start;
+  }
+
+  .footer-right {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    div {
+      display: flex;
+    }
   }
 }
 
@@ -129,7 +139,7 @@
 
 .github {
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   display: flex;
 
   a,
@@ -167,5 +177,21 @@
   100% {
     background-color: #2ba805;
     box-shadow: 0 0 3px #2ba805;
+  }
+}
+
+.demo-mode {
+  width: 100%;
+  background: #d50000;
+  font-size: 1.25rem;
+  line-height: 2.25rem;
+  text-align: center;
+  font-weight: 700;
+
+  > span {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.1rem 0.5rem;
+    font-size: 1.5rem;
+    font-family: monospace;
   }
 }

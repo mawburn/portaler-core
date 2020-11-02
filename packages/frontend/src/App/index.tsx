@@ -17,6 +17,8 @@ import discord from './discord.svg'
 
 export const BAD_PASS = '🙅‍♀️bad password🤦‍♂️'
 
+const isDemo = window.location.host.split('.')[0] === 'demo'
+
 const theme = createMuiTheme({
   palette: {
     background: {
@@ -85,6 +87,12 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="app-container">
+        {isDemo && (
+          <div className="demo-mode">
+            The demo server will reset every 4 hours. Password:
+            <span>demo</span>
+          </div>
+        )}
         <main className="layout">
           <aside className="search-side">
             <header className="main-header">
@@ -119,7 +127,7 @@ function App() {
           )}
         </main>
         <footer className="footer">
-          <div>
+          <div className="twitch">
             <a
               href="https://www.twitch.tv/hypnocode"
               className="link"
@@ -136,25 +144,27 @@ function App() {
               )*/}
             </a>
           </div>
-          <div className="github">
-            <a
-              href="https://github.com/Portaler-Zone/portaler-core"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={github} className="githublogo" alt="github" />
-              GitHub
-            </a>
-          </div>
-          <div className="discord">
-            <a
-              href="https://discord.gg/frwgWCm"
-              className="link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={discord} className="discordlogo" alt="discord" />
-            </a>
+          <div className="footer-right">
+            <div className="github">
+              <a
+                href="https://github.com/Portaler-Zone/portaler-core"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={github} className="githublogo" alt="github" />
+                GitHub
+              </a>
+            </div>
+            <div className="discord">
+              <a
+                href="https://discord.gg/frwgWCm"
+                className="link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={discord} className="discordlogo" alt="discord" />
+              </a>
+            </div>
           </div>
         </footer>
       </div>
