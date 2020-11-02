@@ -20,7 +20,7 @@ const ZoneInfo: FC<ZoneInfoProps> = ({ info }) => {
 
     const sources: Reources = {}
 
-    if (info?.resources.length) {
+    if (info?.resources?.length) {
       info.resources.forEach((r) => {
         if (sources[r.name]) {
           sources[r.name].push(Number(r.tier))
