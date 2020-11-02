@@ -146,7 +146,7 @@ function App() {
               GitHub
             </a>
           </div>
-          <div>
+          <div className="discord">
             <a
               href="https://discord.gg/frwgWCm"
               className="link"

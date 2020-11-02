@@ -95,14 +95,19 @@
 }
 
 .footer {
-  align-items: center;
-  justify-content: space-between;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   height: 4.2rem;
   padding: 1rem;
   bottom: 0;
   background: #424242;
   border-top: 1px solid rgba(0, 0, 0, 0.5);
+  width: 100%;
+
+  div {
+    align-items: center;
+    display: flex;
+  }
 }
 
 .isOnline {
@@ -123,6 +128,10 @@
 }
 
 .github {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+
   a,
   a:visited,
   a:active {
@@ -140,6 +149,10 @@
     height: 1.5rem;
     margin-right: 0.5rem;
   }
+}
+
+.discord {
+  justify-content: flex-end;
 }
 
 @keyframes glowing {
