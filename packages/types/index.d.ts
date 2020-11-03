@@ -3,7 +3,8 @@ export type ZoneColor = 'black' | 'red' | 'yellow' | 'blue' | 'road'
 
 export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
 
-export type PortalSize = 2 | 7 | 20
+// 0 is a royal to royal connection
+export type PortalSize = 0 | 2 | 7 | 20
 
 export type ZoneId = string
 

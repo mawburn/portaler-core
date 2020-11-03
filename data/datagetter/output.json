@@ -150,12 +150,6 @@
     "type": "PLAYERCITY_SAFEAREA_01"
   },
   {
-    "id": "2004",
-    "name": "Bridgewatch Market",
-    "tier": "I",
-    "type": "PLAYERCITY_SAFEAREA_NOFURNITURE"
-  },
-  {
     "id": "4202",
     "name": "Bryn Gorge",
     "tier": "III",
@@ -166,24 +160,6 @@
     "name": "Caerleon",
     "tier": "VII",
     "type": "PLAYERCITY_BLACK_ROYAL"
-  },
-  {
-    "id": "3005",
-    "name": "Caerleon Market",
-    "tier": "VII",
-    "type": "PLAYERCITY_BLACK_ROYAL_NOFURNITURE"
-  },
-  {
-    "id": "3013-Auction2",
-    "name": "Caerleon Market",
-    "tier": "VII",
-    "type": "PLAYERCITY_BLACK_ROYAL_NOFURNITURE"
-  },
-  {
-    "id": "3011",
-    "name": "Caerleon Realmgate",
-    "tier": "VII",
-    "type": "PLAYERCITY_BLACK_ROYAL_NOFURNITURE"
   },
   {
     "id": "4213",
@@ -1212,12 +1188,6 @@
     "type": "PLAYERCITY_SAFEAREA_02"
   },
   {
-    "id": "4002",
-    "name": "Fort Sterling Market",
-    "tier": "I",
-    "type": "PLAYERCITY_SAFEAREA_NOFURNITURE"
-  },
-  {
     "id": "TNL-063",
     "name": "Foues-Aeaosum",
     "tier": "V",
@@ -2070,12 +2040,6 @@
     "type": "PLAYERCITY_SAFEAREA_02"
   },
   {
-    "id": "1002",
-    "name": "Lymhurst Market",
-    "tier": "I",
-    "type": "PLAYERCITY_SAFEAREA_NOFURNITURE"
-  },
-  {
     "id": "4215",
     "name": "Malag Crevasse",
     "tier": "VI",
@@ -2092,12 +2056,6 @@
     "name": "Martlock",
     "tier": "I",
     "type": "PLAYERCITY_SAFEAREA_01"
-  },
-  {
-    "id": "3008",
-    "name": "Martlock Market",
-    "tier": "I",
-    "type": "PLAYERCITY_SAFEAREA_NOFURNITURE"
   },
   {
     "id": "3210",
@@ -3034,42 +2992,6 @@
     "name": "Rivercopse Path",
     "tier": "VII",
     "type": "OPENPVP_BLACK_5"
-  },
-  {
-    "id": "RoadPve-151",
-    "name": "RoadPve-151",
-    "tier": "IV",
-    "type": "TUNNEL_HIDEOUT_DEEP"
-  },
-  {
-    "id": "RoadPve-152",
-    "name": "RoadPve-152",
-    "tier": "IV",
-    "type": "TUNNEL_HIDEOUT_DEEP"
-  },
-  {
-    "id": "RoadPve-153",
-    "name": "RoadPve-153",
-    "tier": "IV",
-    "type": "TUNNEL_HIDEOUT_DEEP"
-  },
-  {
-    "id": "RoadPve-154",
-    "name": "RoadPve-154",
-    "tier": "IV",
-    "type": "TUNNEL_HIDEOUT_DEEP"
-  },
-  {
-    "id": "RoadPve-155",
-    "name": "RoadPve-155",
-    "tier": "IV",
-    "type": "TUNNEL_HIDEOUT_DEEP"
-  },
-  {
-    "id": "RoadPve-156",
-    "name": "RoadPve-156",
-    "tier": "IV",
-    "type": "TUNNEL_HIDEOUT_DEEP"
   },
   {
     "id": "2203",
@@ -4198,12 +4120,6 @@
     "name": "Thetford",
     "tier": "I",
     "type": "PLAYERCITY_SAFEAREA_01"
-  },
-  {
-    "id": "0007",
-    "name": "Thetford Market",
-    "tier": "I",
-    "type": "PLAYERCITY_SAFEAREA_NOFURNITURE"
   },
   {
     "id": "2346",
