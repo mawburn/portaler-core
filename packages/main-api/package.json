@@ -11,6 +11,7 @@
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src"
   },
   "dependencies": {
+    "@portaler/utils": "*",
     "btoa": "^1.2.1",
     "express": "^4.17.1",
     "node-fetch": "^2.6.1",

@@ -1,0 +1,6 @@
+{
+  "name": "@portaler/utils",
+  "version": "0.1.0",
+  "main": "./src/index.ts",
+  "license": "GNU AGPLv3"
+}

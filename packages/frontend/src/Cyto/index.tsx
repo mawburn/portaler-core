@@ -11,14 +11,14 @@ import React, {
   useState,
 } from 'react'
 
+import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
 import { Portal, Zone } from '../types'
+import getHomeZone from '../utils/getHomeZone'
+import ControlBar from './ControlBar'
 import { changeScore } from './cytoUtils'
 import defaultSettings from './defaultSettings'
 import graphStyle from './graphStyle'
 import { portalSizeToColor, zoneColorToColor } from './mapStyle'
-import ControlBar from './ControlBar'
-import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
-import getHomeZone from '../utils/getHomeZone'
 
 cytoscape.use(COSEBilkent)
 
@@ -116,6 +116,8 @@ const Cyto: FC<CytoProps> = ({ portals, zones, onNodeClick }) => {
                 width,
                 height,
                 backgroundColor,
+                'background-fit': 'cover',
+                'background-repeat': 'no-repeat',
                 shape: z.type.indexOf('TUNNEL_HIDEOUT') >= 0 ? 'pentagon' : '',
               },
             },
