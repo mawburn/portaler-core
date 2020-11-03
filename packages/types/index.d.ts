@@ -13,9 +13,6 @@ export interface Resource {
 }
 
 export interface ZoneInfo {
-  color: ZoneColor
-  type: string
-  tier: Tier
   markers?: string[]
   resources?: Resource[]
   royalConnections?: ZoneId[]
@@ -25,13 +22,15 @@ export interface ZoneInfo {
 export interface Zone {
   id: ZoneId
   name: string
+  color: ZoneColor
+  type: string
+  tier: Tier
   info?: ZoneInfo
 }
 
 export interface Portal {
-  source: string
-  target: string
+  connection: [string, string] // sorted alphabetically
   size: PortalSize
-  expires: Date
+  expiresUtc: Date
   timeLeft: number
 }
