@@ -2053,6 +2053,11 @@
   dependencies:
     eslint-visitor-keys "^1.1.0"
 
+"@use-it/event-listener@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@use-it/event-listener/-/event-listener-0.1.5.tgz#870456241bfef66acea6395c69b66fe516bee3cd"
+  integrity sha512-SWbhB0iFcoNL1BEldApGTqfB9aoGpU82iZUVTBtZaTFNrVKAGwuQTF15N9MzRvTgyuOASWf1pCKXbdVtKZgeRg==
+
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.8.5.tgz#51b1c5fe6576a34953bf4b253df9f0d490d9e359"

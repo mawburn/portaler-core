@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { BAD_PASS } from '.'
+import useToken, { BAD_PASS } from '../../hooks/useToken'
 
-import { Portal } from '../types'
+import { Portal } from '../../types'
+import useGetConfig from './useGetConfig'
 
 const fetchPortals = (token: string): Promise<Portal[]> =>
   fetch(`/api/portal`, {
@@ -17,22 +18,26 @@ const fetchPortals = (token: string): Promise<Portal[]> =>
   })
 
 const useGetPortals = (
-  token: string = '',
-  zonesLength?: number | null,
-  isPublic?: boolean
+  zonesLength?: number | null
 ): [Portal[] | null, () => void] => {
+  const [token] = useToken()
+  const config = useGetConfig()
   const lastUpdate = useRef<Date>(new Date())
   const [portals, setPortals] = useState<Portal[] | null>([])
 
   useEffect(() => {
-    if ((token !== BAD_PASS || isPublic) && zonesLength && zonesLength > 0) {
+    if (
+      (token !== BAD_PASS || config?.publicRead) &&
+      zonesLength &&
+      zonesLength > 0
+    ) {
       fetchPortals(token)
         .then(setPortals)
         .catch(() => {
           setPortals(null)
         })
     }
-  }, [token, zonesLength, isPublic])
+  }, [token, zonesLength, config?.publicRead])
 
   const updatePortals = useCallback(async () => {
     if (token !== BAD_PASS) {

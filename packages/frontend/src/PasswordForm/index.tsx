@@ -11,21 +11,19 @@ import {
 import { VisibilityOff } from '@material-ui/icons'
 import Visibility from '@material-ui/icons/Visibility'
 
-interface PasswordFormProps {
-  password: string
-  setPassword: (password: string) => void
-}
+import useToken from './utils/hooks/useToken'
 
-const PasswordForm: FC<PasswordFormProps> = ({ password, setPassword }) => {
+const PasswordForm = () => {
+  const [token, updateToken] = useToken()
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [localPassword, setLocalPassword] = useState<string>(password || '')
+  const [localPassword, setLocalPassword] = useState<string>(token)
 
   const handleFormSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
-      setPassword(localPassword)
+      updateToken(localPassword)
     },
-    [setPassword, localPassword]
+    [localPassword, updateToken]
   )
 
   return (

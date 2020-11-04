@@ -3,8 +3,10 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { Zone } from '../../types'
+import useToken, { BAD_PASS } from '../../utils/hooks/useToken'
 import { ErrorActionTypes } from '../errorReducer'
 import { ZoneAction, ZoneActionTypes, ZoneState } from '../zoneReducer'
+import useGetConfig from './useGetConfig'
 
 const zoneStorage = (): ZoneState | null => {
   const zonesString: string | null = window.localStorage.getItem('zones')
@@ -22,8 +24,10 @@ const zoneStorage = (): ZoneState | null => {
   return null
 }
 
-const useGetZones = (token: string) => {
+const useGetZones = () => {
   const dispatch = useDispatch()
+  const config = useGetConfig()
+  const [token] = useToken()
 
   useEffect(() => {
     const loadedState = zoneStorage()
@@ -33,7 +37,7 @@ const useGetZones = (token: string) => {
         type: ZoneActionTypes.HYDRATE,
         fullState: loadedState,
       })
-    } else {
+    } else if (token !== BAD_PASS || config?.publicRead) {
       fetch(`/api/zone`, {
         headers: {
           'X-Tebro-Auth': token,
@@ -53,7 +57,7 @@ const useGetZones = (token: string) => {
           dispatch({ type: ErrorActionTypes.ADD, error: err.message })
         })
     }
-  }, [dispatch, token])
+  }, [dispatch, token, config?.publicRead])
 }
 
 export default useGetZones

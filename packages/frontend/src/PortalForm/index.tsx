@@ -20,18 +20,17 @@ import useAddPortal from './useAddPortal'
 import ZoneSearch from '../common/ZoneSearch'
 import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
 import UserSettings from '../UserSettings'
+import useZonesSelector from '../utils/hooks/useZonesSelector'
+import useToken from '../utils/hooks/useToken'
 
 interface MappingBarProps {
-  zones: Zone[]
   fromId: string | null
-  token: string
   updatePortals: () => void
 }
 
 const MappingBar: FC<MappingBarProps> = ({
-  zones,
   fromId,
-  token,
+
   updatePortals,
 }) => {
   const oldFromId = useRef<string>(fromId?.toLowerCase() ?? '')
@@ -40,6 +39,8 @@ const MappingBar: FC<MappingBarProps> = ({
   const [portalSize, setPortalSize] = useState<PortalSize>(DEFAULT_PORTAL_SIZE)
   const [hours, setHours] = useState<number | null>(null)
   const [minutes, setMinutes] = useState<number | null>(null)
+
+  const zones = useZonesSelector()
 
   const zoneNames = useMemo<ZoneLight[]>(() => {
     const newZones = zones
@@ -51,7 +52,7 @@ const MappingBar: FC<MappingBarProps> = ({
     return newZones
   }, [zones])
 
-  const addPortal = useAddPortal(token, updatePortals)
+  const addPortal = useAddPortal(updatePortals)
 
   const filteredFrom = useMemo<ZoneLight[]>(
     () => zoneNames.filter((z) => z?.value !== to?.value),

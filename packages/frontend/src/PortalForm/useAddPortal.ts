@@ -1,8 +1,11 @@
 import { useCallback } from 'react'
 import { PortalSize } from '../types'
+import useToken from '../utils/hooks/useToken'
 
-const useAddPortal = (token: string, updatePortals: () => void) =>
-  useCallback(
+const useAddPortal = (updatePortals: () => void) => {
+  const [token] = useToken()
+
+  return useCallback(
     (
       source: string,
       target: string,
@@ -22,5 +25,6 @@ const useAddPortal = (token: string, updatePortals: () => void) =>
     },
     [token, updatePortals]
   )
+}
 
 export default useAddPortal

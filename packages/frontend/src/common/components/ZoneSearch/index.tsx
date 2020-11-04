@@ -5,9 +5,9 @@ import React, { FC, useCallback, useRef, useState } from 'react'
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { FilterOptionsState } from '@material-ui/lab/useAutocomplete'
+import useEventListener from '@use-it/event-listener'
 
 import { DEFAULT_ZONE } from '../../data/constants'
-import useEventListener from '../../utils/hooks/useEventListener'
 import { filterZones, getMaxString, ZoneLight } from './zoneSearchUtils'
 
 interface ZoneSearchProps {

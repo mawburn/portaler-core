@@ -5,7 +5,7 @@ import { clone } from 'lodash'
 
 export interface ZoneState {
   lastUpdated: number
-  zones: Zone[]
+  list: Zone[]
 }
 
 export enum ZoneActionTypes {
@@ -21,7 +21,7 @@ export interface ZoneAction {
 
 const initialState = {
   lastUpdated: 0,
-  zones: [],
+  list: [],
 }
 
 const zoneReducer: Reducer<ZoneState, ZoneAction> = (
@@ -31,7 +31,7 @@ const zoneReducer: Reducer<ZoneState, ZoneAction> = (
   if (action.type === ZoneActionTypes.ADD) {
     const zoneState = {
       lastUpdated: DateTime.utc().toMillis(),
-      zones: clone(action.zones) as Zone[],
+      list: clone(action.zones) as Zone[],
     }
 
     window.localStorage.setItem('zones', JSON.stringify(zoneState))
