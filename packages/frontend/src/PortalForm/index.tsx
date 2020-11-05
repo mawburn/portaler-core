@@ -1,5 +1,3 @@
-import './MappingBar.scss'
-
 import React, {
   FormEvent,
   useCallback,
@@ -23,7 +21,7 @@ import UserSettings from '../UserSettings'
 import PortalSizeSelector from './PortalSizeSelector'
 import useAddPortal from './useAddPortal'
 
-const updatePortals = () => null
+import styles from './styles.module.scss'
 
 const MappingBar = () => {
   const fromId = useSelector(
@@ -49,7 +47,7 @@ const MappingBar = () => {
     return newZones
   }, [zones])
 
-  const addPortal = useAddPortal(updatePortals)
+  const addPortal = useAddPortal()
 
   const filteredFrom = useMemo<ZoneLight[]>(
     () => zoneNames.filter((z) => z?.value !== to?.value),
@@ -95,8 +93,8 @@ const MappingBar = () => {
   return (
     <>
       <form onSubmit={handleSubmit} autoComplete="off">
-        <div className="mapping-bar">
-          <div className="row">
+        <div className={styles.mappingBar}>
+          <div className={styles.row}>
             <ZoneSearch
               value={from}
               update={setFrom}
@@ -104,7 +102,7 @@ const MappingBar = () => {
               zoneList={filteredFrom}
             />
           </div>
-          <div className="row">
+          <div className={styles.row}>
             <ZoneSearch
               value={to}
               update={setTo}
@@ -112,16 +110,16 @@ const MappingBar = () => {
               zoneList={filteredTo}
             />
           </div>
-          <div className="row">
+          <div className={styles.row}>
             <PortalSizeSelector size={portalSize} update={setPortalSize} />
           </div>
-          <div className="row">
+          <div className={styles.row}>
             <FormControl fullWidth component="fieldset">
               <FormLabel component="legend">Time Left</FormLabel>
-              <div className="flex-column">
+              <div className={styles.flexColumn}>
                 <TextField
                   id="time-hour"
-                  className="duration-field"
+                  className={styles.durationField}
                   type="number"
                   label="Hour(s)"
                   InputProps={{
@@ -132,7 +130,7 @@ const MappingBar = () => {
                 />
                 <TextField
                   id="time-minute"
-                  className="duration-field"
+                  className={styles.durationField}
                   type="number"
                   label="Minute(s)"
                   InputProps={{
@@ -147,10 +145,10 @@ const MappingBar = () => {
               </div>
             </FormControl>
           </div>
-          <div className="row">
+          <div className={styles.row}>
             <FormControl fullWidth>
               <Button
-                className="create-btn"
+                className={styles.createBtn}
                 variant="contained"
                 color="primary"
                 type="submit"

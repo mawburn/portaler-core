@@ -1,7 +1,7 @@
-import { Reducer } from 'react'
-import { Portal } from '../types'
 import clone from 'lodash/cloneDeep'
-import isEqual from 'lodash/isEqual'
+import { Reducer } from 'react'
+
+import { Portal } from '../types'
 
 export enum PortalMapActionTypes {
   UPDATEMAP = 'portals/updateMap',
@@ -18,23 +18,27 @@ interface PortalMapAction {
 export interface PortalMap {
   portals: Portal[]
   inspectPortalId: string | null
+  lastUpdated: number
 }
 
 const initialState: PortalMap = {
   portals: [],
   inspectPortalId: null,
+  lastUpdated: 0,
 }
 
 const portalMapReducer: Reducer<any, PortalMapAction> = (
   state: PortalMap = clone(initialState),
   action: PortalMapAction
 ): PortalMap => {
-  if (
-    action.type === PortalMapActionTypes.UPDATEMAP &&
-    !isEqual(action.portals, state.portals)
-  ) {
+  if (action.type === PortalMapActionTypes.UPDATEMAP) {
     // TODO maybe do a smart compare here?
-    return { ...state, portals: clone(action.portals) ?? [] }
+    const now = new Date()
+    return {
+      ...state,
+      lastUpdated: now.getTime(),
+      portals: clone(action.portals) ?? [],
+    }
   }
 
   switch (action.type) {
@@ -42,9 +46,9 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
       return { ...state, inspectPortalId: action.inspectId! }
     case PortalMapActionTypes.CLEARINSPECT:
       return { ...state, inspectPortalId: null }
+    default:
+      return state
   }
-
-  return state
 }
 
 export default portalMapReducer

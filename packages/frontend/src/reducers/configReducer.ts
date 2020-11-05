@@ -39,6 +39,7 @@ const configReducer: Reducer<any, ConfigAction> = (
   action: ConfigAction
 ): ConfigState => {
   if (action.type === ConfigActionTypes.TOKEN) {
+    window.localStorage.setItem('token', action.token ?? BAD_PASS)
     return { ...state, token: action.token ?? BAD_PASS }
   } else if (action.type === ConfigActionTypes.SETPUBLIC) {
     return { ...state, isPublic: !!action.isPublic }

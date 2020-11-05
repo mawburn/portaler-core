@@ -1,14 +1,16 @@
-.mapping-bar .row {
-  margin: 1rem 0;
+.mappingBar {
+  .row {
+    margin: 1rem 0;
+  }
 }
 
-.flex-column {
+.flexColumn {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.duration-field {
+.durationField {
   width: 45%;
 }
 

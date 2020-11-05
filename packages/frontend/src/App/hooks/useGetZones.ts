@@ -1,18 +1,17 @@
 import { DateTime } from 'luxon'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
-import useConfigSelector from '../../common/hooks/useConfigSelector'
 
-import { Zone } from '../../types'
+import useConfigSelector from '../../common/hooks/useConfigSelector'
+import useToken from '../../common/hooks/useToken'
+import { BAD_PASS } from '../../reducers/configReducer'
 import { ErrorActionTypes } from '../../reducers/errorReducer'
-import useGetConfig from './useGetConfig'
 import {
   ZoneAction,
   ZoneActionTypes,
   ZoneState,
 } from '../../reducers/zoneReducer'
-import useToken from '../../common/hooks/useToken'
-import { BAD_PASS } from '../../reducers/configReducer'
+import { Zone } from '../../types'
 
 const zoneStorage = (): ZoneState | null => {
   const zonesString: string | null = window.localStorage.getItem('zones')
@@ -31,6 +30,7 @@ const zoneStorage = (): ZoneState | null => {
 }
 
 const useGetZones = () => {
+  const hasHydrated = useRef<boolean>(false)
   const dispatch = useDispatch()
   const config = useConfigSelector()
   const [token] = useToken()
@@ -38,12 +38,16 @@ const useGetZones = () => {
   useEffect(() => {
     const loadedState = zoneStorage()
 
-    if (loadedState) {
+    if (loadedState && !hasHydrated.current) {
+      hasHydrated.current = true
+
       dispatch<ZoneAction>({
         type: ZoneActionTypes.HYDRATE,
         fullState: loadedState,
       })
-    } else if (token !== BAD_PASS || config?.isPublic) {
+    } else if (!loadedState && (token !== BAD_PASS || config?.isPublic)) {
+      hasHydrated.current = true
+
       fetch(`/api/zone`, {
         headers: {
           'X-Tebro-Auth': token,
@@ -63,7 +67,7 @@ const useGetZones = () => {
           dispatch({ type: ErrorActionTypes.ADD, error: err.message })
         })
     }
-  }, [dispatch, token, config?.isPublic])
+  }, [dispatch, token, config])
 }
 
 export default useGetZones

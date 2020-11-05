@@ -3,8 +3,8 @@ import React, { FC, useCallback } from 'react'
 import { IconButton } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 
-import { ZoneLight } from '../../common/ZoneSearch/zoneSearchUtils'
-import getHomeZone from '../../utils/getHomeZone'
+import getHomeZone from '../../common/utils/getHomeZone'
+import { ZoneLight } from '../../components/ZoneSearch/zoneSearchUtils'
 import styles from './styles.module.scss'
 
 export interface HomeButtonProps {

@@ -1,10 +1,12 @@
 import { useCallback } from 'react'
+import useGetPortals from '../common/hooks/useGetPortals'
 
 import useToken from '../common/hooks/useToken'
 import { PortalSize } from '../types'
 
-const useAddPortal = (updatePortals: () => void) => {
+const useAddPortal = () => {
   const [token] = useToken()
+  const checkPortals = useGetPortals()
 
   return useCallback(
     (
@@ -22,9 +24,9 @@ const useAddPortal = (updatePortals: () => void) => {
           'X-Tebro-Auth': token,
         },
         body,
-      }).then(updatePortals)
+      }).then(checkPortals)
     },
-    [token, updatePortals]
+    [token, checkPortals]
   )
 }
 

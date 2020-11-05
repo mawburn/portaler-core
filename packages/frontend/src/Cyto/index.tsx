@@ -1,28 +1,21 @@
-import './styles.scss'
-
 import cytoscape, { CytoscapeOptions } from 'cytoscape'
 import COSEBilkent from 'cytoscape-cose-bilkent'
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
 import getHomeZone from '../common/utils/getHomeZone'
 import { ZoneLight } from '../components/ZoneSearch/zoneSearchUtils'
+import { RootState } from '../reducers'
 import { PortalMapActionTypes } from '../reducers/portalMapReducer'
-import { Portal, Zone } from '../types'
+import { Zone } from '../types'
 import ControlBar from './ControlBar'
 import { changeScore } from './cytoUtils'
 import defaultSettings from './defaultSettings'
 import graphStyle from './graphStyle'
 import { portalSizeToColor, zoneColorToColor } from './mapStyle'
-import { RootState } from '../reducers'
+
+import styles from './styles.module.scss'
 
 cytoscape.use(COSEBilkent)
 
@@ -257,13 +250,13 @@ const Cyto = () => {
   }, [])
 
   return (
-    <div className="mapcontainer">
+    <div className={styles.mapContainer}>
       <ControlBar
         handleHome={handleHome}
         reloadMap={reloadMap}
         info={activeZone}
       />
-      <div className="cyto">
+      <div className={styles.cyto}>
         <div ref={containerRef} />
       </div>
     </div>

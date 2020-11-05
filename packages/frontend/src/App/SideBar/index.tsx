@@ -6,7 +6,7 @@ import PasswordForm from '../../PasswordForm'
 import PortalForm from '../../PortalForm'
 import { RootState } from '../../reducers'
 import { BAD_PASS } from '../../reducers/configReducer'
-import styles from './styles.module.scss'
+import styles from '../styles.module.scss'
 
 const SideBar = () => {
   const [token] = useToken()
@@ -19,7 +19,7 @@ const SideBar = () => {
           <img
             alt="logo"
             src={`${process.env.PUBLIC_URL}/android-chrome-192x192.png`}
-            className="logo"
+            className={styles.logo}
           />
           Portaler
         </h1>

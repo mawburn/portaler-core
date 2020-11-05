@@ -1,7 +1,8 @@
-import { Paper } from '@material-ui/core'
 import React, { FC, ReactNode, useMemo } from 'react'
-import { Zone } from '../../types'
 
+import { Paper } from '@material-ui/core'
+
+import { Zone } from '../../types'
 import styles from './styles.module.scss'
 
 interface ZoneInfoProps {
