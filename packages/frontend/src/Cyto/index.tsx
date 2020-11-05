@@ -10,23 +10,21 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
+import useZoneListSelector from '../common/hooks/useZoneListSelector'
+import getHomeZone from '../common/utils/getHomeZone'
+import { ZoneLight } from '../components/ZoneSearch/zoneSearchUtils'
+import { PortalMapActionTypes } from '../reducers/portalMapReducer'
 import { Portal, Zone } from '../types'
-import getHomeZone from '../utils/getHomeZone'
 import ControlBar from './ControlBar'
 import { changeScore } from './cytoUtils'
 import defaultSettings from './defaultSettings'
 import graphStyle from './graphStyle'
 import { portalSizeToColor, zoneColorToColor } from './mapStyle'
+import { RootState } from '../reducers'
 
 cytoscape.use(COSEBilkent)
-
-interface CytoProps {
-  zones: Zone[]
-  portals: Portal[]
-  onNodeClick: (name: string) => void
-}
 
 interface CytoMapElement {
   added: boolean
@@ -38,7 +36,11 @@ const updateLayout = {
   fit: false,
 }
 
-const Cyto: FC<CytoProps> = ({ portals, zones, onNodeClick }) => {
+const Cyto = () => {
+  const dispatch = useDispatch()
+  const zones = useZoneListSelector()
+  const portals = useSelector((state: RootState) => state.portalMap.portals)
+
   const oldScore = useRef<number>(-1)
   const containerRef = useRef<HTMLDivElement | null>(null)
 
@@ -59,10 +61,11 @@ const Cyto: FC<CytoProps> = ({ portals, zones, onNodeClick }) => {
   const cyEventHandler = useCallback(
     (e: cytoscape.EventObject) => {
       const name = e.target.data('zoneName')
-      onNodeClick(name)
+
+      dispatch({ type: PortalMapActionTypes.INSPECT, inspectId: name })
       setActiveZoneName(name)
     },
-    [onNodeClick]
+    [dispatch]
   )
 
   useEffect(() => {

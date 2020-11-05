@@ -1,8 +1,11 @@
 import { useCallback, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { ConfigActionTypes } from '../../reducers/configReducer'
+import { useDispatch, useSelector } from 'react-redux'
 
-const useGetConfig = () => {
+import { RootState } from '../../reducers'
+import { ConfigActionTypes, ConfigState } from '../../reducers/configReducer'
+
+const useConfigSelector = (): ConfigState => {
+  const config = useSelector((state: RootState) => state.config)
   const dispatch = useDispatch()
 
   const updateConfig = useCallback(
@@ -17,6 +20,8 @@ const useGetConfig = () => {
       .then((r) => r.json())
       .then(updateConfig)
   }, [updateConfig])
+
+  return config
 }
 
-export default useGetConfig
+export default useConfigSelector

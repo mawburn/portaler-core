@@ -1,5 +1,5 @@
 import React from 'react'
-import { discord, github, twitch } from '../../images'
+import { discordLogo, githubLogo, twitchLogo } from '../../common/images'
 
 import styles from './styles.module.scss'
 
@@ -12,8 +12,8 @@ const Footer = () => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src={twitch} className={styles.twitchLogo} alt="twitch" /> Follow
-        Portaler dev on Twitch
+        <img src={twitchLogo} className={styles.twitchLogo} alt="twitch" />{' '}
+        Follow Portaler dev on Twitch
       </a>
     </div>
     <div className={styles.footerRight}>
@@ -23,7 +23,7 @@ const Footer = () => (
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img src={github} className={styles.githubLogo} alt="github" />
+          <img src={githubLogo} className={styles.githubLogo} alt="github" />
           GitHub
         </a>
       </div>
@@ -33,7 +33,7 @@ const Footer = () => (
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img src={discord} className={styles.discordLogo} alt="discord" />
+          <img src={discordLogo} className={styles.discordLogo} alt="discord" />
         </a>
       </div>
     </div>

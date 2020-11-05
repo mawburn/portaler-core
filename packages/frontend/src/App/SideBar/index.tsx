@@ -1,10 +1,11 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import PasswordForm from '../../PasswordForm'
-import { RootState } from '../../store'
-import useToken, { BAD_PASS } from '../../utils/hooks/useToken'
-import PortalForm from '../../PortalForm'
 
+import useToken from '../../common/hooks/useToken'
+import PasswordForm from '../../PasswordForm'
+import PortalForm from '../../PortalForm'
+import { RootState } from '../../reducers'
+import { BAD_PASS } from '../../reducers/configReducer'
 import styles from './styles.module.scss'
 
 const SideBar = () => {
@@ -23,11 +24,7 @@ const SideBar = () => {
           Portaler
         </h1>
       </header>
-      {token === BAD_PASS || zones === null ? (
-        <PasswordForm />
-      ) : (
-        <PortalForm fromId={sourceZone} updatePortals={updatePortals} />
-      )}
+      {token === BAD_PASS || zones === null ? <PasswordForm /> : <PortalForm />}
     </aside>
   )
 }

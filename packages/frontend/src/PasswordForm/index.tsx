@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, useCallback, useState } from 'react'
+import React, { FormEvent, useCallback, useState } from 'react'
 
 import {
   Button,
@@ -11,10 +11,11 @@ import {
 import { VisibilityOff } from '@material-ui/icons'
 import Visibility from '@material-ui/icons/Visibility'
 
-import useToken from './utils/hooks/useToken'
+import useToken from '../common/hooks/useToken'
 
 const PasswordForm = () => {
   const [token, updateToken] = useToken()
+
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [localPassword, setLocalPassword] = useState<string>(token)
 

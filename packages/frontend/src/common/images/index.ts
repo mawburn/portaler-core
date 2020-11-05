@@ -9,6 +9,6 @@ export { default as tierVII } from './tiers/7.png'
 export { default as tierVIII } from './tiers/8.png'
 
 // Logos
-export { default as discord } from './logos/discord.svg'
-export { default as github } from './logos/github.svg'
-export { default as twitch } from './logos/twitch.svg'
+export { default as discordLogo } from './logos/discord.svg'
+export { default as githubLogo } from './logos/github.svg'
+export { default as twitchLogo } from './logos/twitch.svg'

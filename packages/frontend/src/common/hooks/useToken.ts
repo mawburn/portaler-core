@@ -1,29 +1,26 @@
-import { Reducer, useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { RootState } from '../store'
+import { RootState } from '../../reducers'
+import { ConfigActionTypes } from '../../reducers/configReducer'
 
-export const BAD_PASS: string = '🙅‍♀️bad password🤦‍♂️'
-
-const tokenStore = (): string => {
-  const token = window.localStorage.getItem('token')
-
-  if (token === null) {
-    return BAD_PASS
-  }
-
-  return token
-}
-
+/**
+ * Get and update the token
+ *
+ * @return [token, updateToken]
+ **/
 const useToken = (): [string, (token: string) => void] => {
-  const [state, setState] = useState<string>(tokenStore())
+  const token = useSelector((state: RootState) => state.config.token)
+  const dispatch = useDispatch()
 
-  const updateToken = useCallback((token: string) => {
-    window.localStorage.setItem('token', token)
-    setState(token)
-  }, [])
+  const updateToken = useCallback(
+    (newToken: string) => {
+      dispatch({ type: ConfigActionTypes.TOKEN, token: newToken })
+    },
+    [dispatch]
+  )
 
-  return [state, updateToken]
+  return [token, updateToken]
 }
 
 export default useToken

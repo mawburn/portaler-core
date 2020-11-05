@@ -1,8 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import useToken, { BAD_PASS } from '../../hooks/useToken'
+import { useCallback, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 
+import useConfigSelector from '../../common/hooks/useConfigSelector'
+import useToken from '../../common/hooks/useToken'
+import useZoneListSelector from '../../common/hooks/useZoneListSelector'
+import { BAD_PASS } from '../../reducers/configReducer'
+import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
 import { Portal } from '../../types'
-import useGetConfig from './useGetConfig'
 
 const fetchPortals = (token: string): Promise<Portal[]> =>
   fetch(`/api/portal`, {
@@ -17,35 +21,40 @@ const fetchPortals = (token: string): Promise<Portal[]> =>
     return await r.json()
   })
 
-const useGetPortals = (
-  zonesLength?: number | null
-): [Portal[] | null, () => void] => {
+const useGetPortals = () => {
+  const dispatch = useDispatch()
+  const zones = useZoneListSelector()
+  const zonesLength = zones.length
+
   const [token] = useToken()
-  const config = useGetConfig()
+  const config = useConfigSelector()
   const lastUpdate = useRef<Date>(new Date())
-  const [portals, setPortals] = useState<Portal[] | null>([])
 
-  useEffect(() => {
-    if (
-      (token !== BAD_PASS || config?.publicRead) &&
-      zonesLength &&
-      zonesLength > 0
-    ) {
-      fetchPortals(token)
-        .then(setPortals)
-        .catch(() => {
-          setPortals(null)
-        })
-    }
-  }, [token, zonesLength, config?.publicRead])
+  const updatePortals = useCallback(
+    (portals: Portal[]) => {
+      dispatch({ type: PortalMapActionTypes.UPDATEMAP, portals })
+    },
+    [dispatch]
+  )
 
-  const updatePortals = useCallback(async () => {
+  const checkPortals = useCallback(async () => {
     if (token !== BAD_PASS) {
       const res = await fetchPortals(token)
       lastUpdate.current = new Date()
-      setPortals(res)
+      updatePortals(res)
     }
-  }, [token])
+  }, [token, updatePortals])
+
+  // initial fetch
+  useEffect(() => {
+    if (
+      (token !== BAD_PASS || config?.isPublic) &&
+      zonesLength &&
+      zonesLength > 0
+    ) {
+      checkPortals()
+    }
+  }, [token, zonesLength, config?.isPublic, checkPortals])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -53,14 +62,12 @@ const useGetPortals = (
       const diff = now.getTime() - lastUpdate.current.getTime()
 
       if (diff > 10000) {
-        updatePortals()
+        checkPortals()
       }
     }, 30000)
 
     return () => clearInterval(interval)
-  }, [updatePortals])
-
-  return [portals, updatePortals]
+  }, [checkPortals])
 }
 
 export default useGetPortals

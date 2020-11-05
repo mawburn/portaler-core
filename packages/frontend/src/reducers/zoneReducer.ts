@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
 import { Zone } from '../types'
 import { DateTime } from 'luxon'
-import { clone } from 'lodash'
+import clone from 'lodash/cloneDeep'
 
 export interface ZoneState {
   lastUpdated: number
@@ -25,7 +25,7 @@ const initialState = {
 }
 
 const zoneReducer: Reducer<ZoneState, ZoneAction> = (
-  state: ZoneState = initialState,
+  state: ZoneState = clone(initialState),
   action: ZoneAction
 ): ZoneState => {
   if (action.type === ZoneActionTypes.ADD) {

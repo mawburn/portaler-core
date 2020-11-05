@@ -1,7 +1,6 @@
 import './MappingBar.scss'
 
 import React, {
-  FC,
   FormEvent,
   useCallback,
   useEffect,
@@ -9,30 +8,28 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { useSelector } from 'react-redux'
 
 import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
 import DeviceHubIcon from '@material-ui/icons/DeviceHub'
 
-import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../data/constants'
+import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../common/data/constants'
+import useZoneListSelector from '../common/hooks/useZoneListSelector'
+import ZoneSearch from '../components/ZoneSearch'
+import { ZoneLight } from '../components/ZoneSearch/zoneSearchUtils'
+import { RootState } from '../reducers'
 import { PortalSize, Zone } from '../types'
+import UserSettings from '../UserSettings'
 import PortalSizeSelector from './PortalSizeSelector'
 import useAddPortal from './useAddPortal'
-import ZoneSearch from '../common/ZoneSearch'
-import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
-import UserSettings from '../UserSettings'
-import useZonesSelector from '../utils/hooks/useZonesSelector'
-import useToken from '../utils/hooks/useToken'
 
-interface MappingBarProps {
-  fromId: string | null
-  updatePortals: () => void
-}
+const updatePortals = () => null
 
-const MappingBar: FC<MappingBarProps> = ({
-  fromId,
+const MappingBar = () => {
+  const fromId = useSelector(
+    (state: RootState) => state.portalMap.inspectPortalId
+  )
 
-  updatePortals,
-}) => {
   const oldFromId = useRef<string>(fromId?.toLowerCase() ?? '')
   const [from, setFrom] = useState<ZoneLight>(DEFAULT_ZONE)
   const [to, setTo] = useState<ZoneLight>(DEFAULT_ZONE)
@@ -40,7 +37,7 @@ const MappingBar: FC<MappingBarProps> = ({
   const [hours, setHours] = useState<number | null>(null)
   const [minutes, setMinutes] = useState<number | null>(null)
 
-  const zones = useZonesSelector()
+  const zones: Zone[] = useZoneListSelector()
 
   const zoneNames = useMemo<ZoneLight[]>(() => {
     const newZones = zones
