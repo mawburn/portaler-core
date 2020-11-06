@@ -16,7 +16,15 @@ const useAddPortal = () => {
       hours: number,
       minutes: number
     ) => {
-      const body = JSON.stringify({ source, target, size, hours, minutes })
+      const endpoints = [source, target].sort()
+
+      const body = JSON.stringify({
+        source: endpoints[0],
+        target: endpoints[1],
+        size,
+        hours,
+        minutes,
+      })
 
       fetch(`/api/portal`, {
         method: 'POST',
