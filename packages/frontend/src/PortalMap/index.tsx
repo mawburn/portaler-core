@@ -3,7 +3,9 @@ import COSEBilkent from 'cytoscape-cose-bilkent'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import zoneTiers from '../common/data/zoneTiers'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
+import { tiers } from '../common/images'
 import { Zone } from '../common/types'
 import getHomeZone from '../common/utils/getHomeZone'
 import { RootState } from '../reducers'
@@ -103,6 +105,12 @@ const PortalMap = () => {
         const height = isHome ? 42 : 30
 
         if (!elms.has(id)) {
+          const zoneTier = zoneTiers.find(
+            (zt) => zt.name.toLowerCase() === z.name.toLowerCase()
+          )
+          const imgUrl = zoneTier ? tiers[zoneTier.tier] : null
+          const backgroundUrl = imgUrl ? `url(${imgUrl})` : 'none'
+
           elms.set(id, {
             added: false,
             element: {
@@ -111,6 +119,7 @@ const PortalMap = () => {
                 width,
                 height,
                 backgroundColor,
+                'background-image': backgroundUrl,
                 'background-fit': 'cover',
                 'background-repeat': 'no-repeat',
                 shape: z.type.indexOf('TUNNEL_HIDEOUT') >= 0 ? 'pentagon' : '',
