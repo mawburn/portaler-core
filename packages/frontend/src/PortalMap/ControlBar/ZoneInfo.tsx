@@ -58,8 +58,12 @@ const ZoneInfo: FC<ZoneInfoProps> = ({ info }) => {
         <strong>Type:</strong> {info.type}
       </Paper>
       {resources &&
-        resources.map((r) => (
-          <Paper variant="outlined" className={styles.zoneInfo}>
+        resources.map((r, i) => (
+          <Paper
+            key={`${info.name}-${info.type}-${i}`}
+            variant="outlined"
+            className={styles.zoneInfo}
+          >
             {r}
           </Paper>
         ))}
