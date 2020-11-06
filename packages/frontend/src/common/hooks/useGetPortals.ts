@@ -11,7 +11,7 @@ import fetchPortals from '../utils/fetchPortals'
 import useConfigSelector from './useConfigSelector'
 import useZoneListSelector from './useZoneListSelector'
 
-const useGetPortals = (): (() => void) => {
+const useGetPortals = (): ((force?: boolean) => void) => {
   const dispatch = useDispatch()
   const zones = useZoneListSelector()
   const zonesLength = zones.length
@@ -28,21 +28,24 @@ const useGetPortals = (): (() => void) => {
     [dispatch, portalState.portals]
   )
 
-  const checkPortals = useCallback(async () => {
-    if ((config?.token !== BAD_PASS || config?.isPublic) && zonesLength > 0) {
-      const now = new Date()
+  const checkPortals = useCallback(
+    async (force: boolean = false) => {
+      if ((config?.token !== BAD_PASS || config?.isPublic) && zonesLength > 0) {
+        const now = new Date()
 
-      if (now.getTime() - portalState.lastUpdated > 10000) {
-        try {
-          const res = await fetchPortals(config?.token)
+        if (force || now.getTime() - portalState.lastUpdated > 10000) {
+          try {
+            const res = await fetchPortals(config?.token)
 
-          updatePortals(res)
-        } catch (err) {
-          dispatch({ type: ErrorActionTypes.ADD, error: err.message })
+            updatePortals(res)
+          } catch (err) {
+            dispatch({ type: ErrorActionTypes.ADD, error: err.message })
+          }
         }
       }
-    }
-  }, [updatePortals, zonesLength, config, portalState.lastUpdated, dispatch])
+    },
+    [updatePortals, zonesLength, config, portalState.lastUpdated, dispatch]
+  )
 
   return checkPortals
 }

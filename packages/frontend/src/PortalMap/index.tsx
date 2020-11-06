@@ -4,17 +4,16 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
+import { Zone } from '../common/types'
 import getHomeZone from '../common/utils/getHomeZone'
-import { ZoneLight } from '../ZoneSearch/zoneSearchUtils'
 import { RootState } from '../reducers'
 import { PortalMapActionTypes } from '../reducers/portalMapReducer'
-import { Zone } from '../common/types'
+import { ZoneLight } from '../ZoneSearch/zoneSearchUtils'
 import ControlBar from './ControlBar'
 import { changeScore } from './cytoUtils'
 import defaultSettings from './defaultSettings'
 import graphStyle from './graphStyle'
 import { portalSizeToColor, zoneColorToColor } from './mapStyle'
-
 import styles from './styles.module.scss'
 
 cytoscape.use(COSEBilkent)
@@ -178,6 +177,7 @@ const PortalMap = () => {
         } else {
           const updateElm = cy.current.$(`#${id}`)
           updateElm.data('label', label)
+          updateElm.style('lineColor', portalSizeToColor[p.size])
 
           if (p.timeLeft < 30) {
             updateElm.addClass('timeLow')
