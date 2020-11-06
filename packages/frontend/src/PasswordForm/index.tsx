@@ -8,8 +8,8 @@ import {
   InputAdornment,
   InputLabel,
 } from '@material-ui/core'
-import { VisibilityOff } from '@material-ui/icons'
 import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
 import useToken from '../common/hooks/useToken'
 

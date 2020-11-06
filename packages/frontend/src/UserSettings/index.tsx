@@ -7,7 +7,7 @@ import {
   Snackbar,
 } from '@material-ui/core'
 import PersonIcon from '@material-ui/icons/Person'
-import { Alert } from '@material-ui/lab'
+import Alert from '@material-ui/lab/Alert'
 
 import getHomeZone from '../common/utils/getHomeZone'
 import ZoneSearch from '../ZoneSearch'

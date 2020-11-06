@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Snackbar } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
+import Alert from '@material-ui/lab/Alert'
 
 import useBadCredentials from '../hooks/useBadCredentials'
 
