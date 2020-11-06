@@ -7,7 +7,8 @@ export enum ErrorActionTypes {
 
 export interface ErrorAction {
   type: ErrorActionTypes
-  errors?: string | string[]
+  errors?: string[]
+  error?: string
 }
 
 const errorReducer: Reducer<string[], ErrorAction> = (
@@ -15,16 +16,22 @@ const errorReducer: Reducer<string[], ErrorAction> = (
   action: ErrorAction
 ): string[] => {
   if (action.type === ErrorActionTypes.ADD) {
-    if (Array.isArray(action.errors)) {
-      return state.concat(action.errors)
+    const stateSet = new Set<string>(state)
+
+    if (action.errors) {
+      action.errors.forEach((e) => stateSet.add(e))
+
+      return Array.from(stateSet)
     }
 
-    return [...state, action.errors] as string[]
+    stateSet.add(action.error!)
+
+    return Array.from(stateSet)
   } else if (action.type === ErrorActionTypes.CLEAR) {
-    if (action.errors) {
-      const filterFn = Array.isArray(action.errors)
+    if (action.error || action.errors) {
+      const filterFn = action.errors
         ? (e: string) => !action.errors?.includes(e)
-        : (e: string) => e !== action.errors
+        : (e: string) => e !== action.error
 
       return state.filter(filterFn)
     }

@@ -5,6 +5,7 @@ import useConfigSelector from '../../common/hooks/useConfigSelector'
 import useGetPortals from '../../common/hooks/useGetPortals'
 import fetchPortals from '../../common/utils/fetchPortals'
 import { BAD_PASS } from '../../reducers/configReducer'
+import { ErrorActionTypes } from '../../reducers/errorReducer'
 import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
 
 const useGetPortalTimer = () => {
@@ -19,10 +20,14 @@ const useGetPortalTimer = () => {
       (config?.token !== BAD_PASS || config?.isPublic) &&
       initialLoad.current
     ) {
-      fetchPortals(config.token).then((portals) => {
-        dispatch({ type: PortalMapActionTypes.UPDATEMAP, portals })
-        initialLoad.current = false
-      })
+      fetchPortals(config.token)
+        .then((portals) => {
+          dispatch({ type: PortalMapActionTypes.UPDATEMAP, portals })
+          initialLoad.current = false
+        })
+        .catch((err) =>
+          dispatch({ type: ErrorActionTypes.ADD, error: err.message })
+        )
     }
   }, [config, dispatch])
 

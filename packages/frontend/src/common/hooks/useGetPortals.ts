@@ -1,9 +1,10 @@
 import { isEqual } from 'lodash'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../reducers'
 
+import { RootState } from '../../reducers'
 import { BAD_PASS } from '../../reducers/configReducer'
+import { ErrorActionTypes } from '../../reducers/errorReducer'
 import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
 import { Portal } from '../../types'
 import fetchPortals from '../utils/fetchPortals'
@@ -32,12 +33,16 @@ const useGetPortals = (): (() => void) => {
       const now = new Date()
 
       if (now.getTime() - portalState.lastUpdated > 10000) {
-        const res = await fetchPortals(config?.token)
+        try {
+          const res = await fetchPortals(config?.token)
 
-        updatePortals(res)
+          updatePortals(res)
+        } catch (err) {
+          dispatch({ type: ErrorActionTypes.ADD, error: err.message })
+        }
       }
     }
-  }, [updatePortals, zonesLength, config, portalState.lastUpdated])
+  }, [updatePortals, zonesLength, config, portalState.lastUpdated, dispatch])
 
   return checkPortals
 }
