@@ -1,0 +1,109 @@
+.footer {
+  display: grid;
+  grid-template-columns: 350px auto;
+  height: 4.2rem;
+  padding: 1rem;
+  bottom: 0;
+  background: #424242;
+  border-top: 1px solid rgba(0, 0, 0, 0.5);
+  width: 100%;
+
+  .footerRight {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    div {
+      display: flex;
+    }
+  }
+}
+
+.twitch {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+
+  .twitchLogo {
+    height: 2rem;
+    width: 2rem;
+    margin-right: 0.5rem;
+  }
+
+  .link {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    color: #fdd835;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  .stream {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .isOnline {
+    display: inline-block;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #2ba805;
+    margin-right: 1rem;
+    width: 1rem;
+    height: 1rem;
+    -webkit-animation: glowing 3s ease-in-out infinite alternate;
+    -moz-animation: glowing 3s ease-in-out infinite alternate;
+    animation: glowing 3s ease-in-out infinite alternate;
+
+    &:after {
+      content: '\00a0';
+    }
+  }
+}
+
+.discordLogo {
+  height: 2.25rem;
+}
+
+.github {
+  align-items: center;
+  justify-content: flex-end;
+  display: flex;
+
+  a,
+  a:any-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.25rem;
+  }
+
+  .githubLogo {
+    fill: #fff;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.discord {
+  justify-content: flex-end;
+}
+
+@keyframes glowing {
+  0% {
+    background-color: #2ba805;
+    box-shadow: 0 0 3px #2ba805;
+  }
+  50% {
+    background-color: #49e819;
+    box-shadow: 0 0 10px #49e819;
+  }
+  100% {
+    background-color: #2ba805;
+    box-shadow: 0 0 3px #2ba805;
+  }
+}

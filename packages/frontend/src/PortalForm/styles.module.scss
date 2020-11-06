@@ -1,0 +1,19 @@
+.mappingBar {
+  .row {
+    margin: 1rem 0;
+  }
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.durationField {
+  width: 45%;
+}
+
+.createBtn {
+  width: 100%;
+}

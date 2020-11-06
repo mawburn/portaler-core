@@ -1,17 +1,18 @@
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Snackbar,
 } from '@material-ui/core'
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import PersonIcon from '@material-ui/icons/Person'
-
-import styles from './styles.module.scss'
-import ZoneSearch from '../common/ZoneSearch'
-import { ZoneLight } from '../common/ZoneSearch/zoneSearchUtils'
-import getHomeZone from '../utils/getHomeZone'
 import { Alert } from '@material-ui/lab'
+
+import getHomeZone from '../common/utils/getHomeZone'
+import ZoneSearch from '../ZoneSearch'
+import { ZoneLight } from '../ZoneSearch/zoneSearchUtils'
+import styles from './styles.module.scss'
 
 interface UserSettingsProps {
   zones: ZoneLight[]
