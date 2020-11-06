@@ -5,6 +5,7 @@ export const BAD_PASS: string = '🙅‍♀️bad password🤦‍♂️'
 
 export enum ConfigActionTypes {
   TOKEN = 'config/token',
+  CLEARTOKEN = 'config/clearToken',
   SETPUBLIC = 'config/setPublic',
 }
 
@@ -38,14 +39,18 @@ const configReducer: Reducer<any, ConfigAction> = (
   state: ConfigState = clone(initialState),
   action: ConfigAction
 ): ConfigState => {
-  if (action.type === ConfigActionTypes.TOKEN) {
-    window.localStorage.setItem('token', action.token ?? BAD_PASS)
-    return { ...state, token: action.token ?? BAD_PASS }
-  } else if (action.type === ConfigActionTypes.SETPUBLIC) {
-    return { ...state, isPublic: !!action.isPublic }
+  switch (action.type) {
+    case ConfigActionTypes.TOKEN:
+      window.localStorage.setItem('token', action.token ?? BAD_PASS)
+      return { ...state, token: action.token ?? BAD_PASS }
+    case ConfigActionTypes.CLEARTOKEN:
+      window.localStorage.removeItem('token')
+      return { ...state, token: BAD_PASS }
+    case ConfigActionTypes.SETPUBLIC:
+      return { ...state, isPublic: !!action.isPublic }
+    default:
+      return state
   }
-
-  return state
 }
 
 export default configReducer

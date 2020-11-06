@@ -12,6 +12,7 @@ import MainLayout from './MainLayout'
 import SideBar from './SideBar'
 import styles from './styles.module.scss'
 import theme from './theme'
+import Notifications from './Notifications'
 
 const App = () => {
   useGetConfig()
@@ -22,6 +23,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className={styles.appContainer}>
+        <Notifications />
         <MainLayout>
           <SideBar />
           <Cyto />
