@@ -61,7 +61,7 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
   return (
     <Autocomplete
       ref={acRef}
-      options={zoneList}
+      options={[value, ...zoneList]}
       noOptionsText="no valid zones found"
       fullWidth
       autoSelect

@@ -115,7 +115,7 @@ const PortalMap = () => {
             added: false,
             element: {
               data: { id, zoneName: z.name, label: z.name },
-              style: {
+              css: {
                 width,
                 height,
                 backgroundColor,
@@ -140,7 +140,7 @@ const PortalMap = () => {
             added: false,
             element: {
               data: { id, zoneName: home.name, label: home.name },
-              style: {
+              css: {
                 width: 42,
                 height: 42,
                 backgroundColor: zoneColorToColor.home,
@@ -177,7 +177,7 @@ const PortalMap = () => {
                 label,
               },
               classes: p.timeLeft < 30 ? 'timeLow' : '',
-              style: {
+              css: {
                 lineColor: portalSizeToColor[p.size],
                 width: 5,
               },
@@ -186,7 +186,7 @@ const PortalMap = () => {
         } else {
           const updateElm = cy.current.$(`#${id}`)
           updateElm.data('label', label)
-          updateElm.style('lineColor', portalSizeToColor[p.size])
+          updateElm.css('lineColor', portalSizeToColor[p.size])
 
           if (p.timeLeft < 30) {
             updateElm.addClass('timeLow')

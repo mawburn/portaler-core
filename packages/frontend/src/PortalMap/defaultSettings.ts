@@ -32,7 +32,6 @@ const defaultSettings: CytoscapeOptions = {
   textureOnViewport: false,
   motionBlur: false,
   motionBlurOpacity: 0.2,
-  wheelSensitivity: 1,
   pixelRatio: 'auto',
 }
 
