@@ -13,6 +13,7 @@ const update = async () => {
   const trgx = /(.*)(\(T)(\d)(.*)/i
 
   const filteredTiers = []
+  const compressedTiers = []
 
   for (let i = 0; i < tiers.length; i++) {
     const arr = trgx.exec(tiers[i].displayname) || ['', '', '']
@@ -28,12 +29,25 @@ const update = async () => {
         tier: tierList[arr[3]],
         type: tiers[i].type,
       })
+
+      compressedTiers.push({
+        name: arr[1].trim(),
+        tier: tierList[arr[3]],
+      })
     }
   }
 
   fs.writeFileSync(
     './output.json',
     JSON.stringify(filteredTiers, null, 2),
+    (err) => {
+      err && console.log(err)
+    }
+  )
+
+  fs.writeFileSync(
+    './compressed.json',
+    JSON.stringify(compressedTiers, null, 2),
     (err) => {
       err && console.log(err)
     }
