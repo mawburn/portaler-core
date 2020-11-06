@@ -1,11 +1,11 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
+import { BAD_PASS } from '../../common/data/constants'
 import useToken from '../../common/hooks/useToken'
 import PasswordForm from '../../PasswordForm'
 import PortalForm from '../../PortalForm'
 import { RootState } from '../../reducers'
-import { BAD_PASS } from '../../reducers/configReducer'
 import styles from '../styles.module.scss'
 
 const SideBar = () => {

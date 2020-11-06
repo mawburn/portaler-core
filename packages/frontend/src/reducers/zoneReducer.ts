@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { Zone } from '../types'
+import { Zone } from '../common/types'
 import { DateTime } from 'luxon'
 import clone from 'lodash/cloneDeep'
 

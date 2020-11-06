@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import useGetPortals from '../common/hooks/useGetPortals'
 
 import useToken from '../common/hooks/useToken'
-import { PortalSize } from '../types'
+import { PortalSize } from '../common/types'
 
 const useAddPortal = () => {
   const [token] = useToken()

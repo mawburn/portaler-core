@@ -2,17 +2,17 @@ import React from 'react'
 
 import { CssBaseline, ThemeProvider } from '@material-ui/core'
 
-import Cyto from '../Cyto'
+import PortalMap from '../PortalMap'
 import DemoBar from './DemoBar'
 import Footer from './Footer'
 import useGetConfig from './hooks/useGetConfig'
 import useGetPortalTimer from './hooks/useGetPortalTimer'
 import useGetZones from './hooks/useGetZones'
 import MainLayout from './MainLayout'
+import Notifications from './Notifications'
 import SideBar from './SideBar'
 import styles from './styles.module.scss'
 import theme from './theme'
-import Notifications from './Notifications'
 
 const App = () => {
   useGetConfig()
@@ -26,7 +26,7 @@ const App = () => {
         <Notifications />
         <MainLayout>
           <SideBar />
-          <Cyto />
+          <PortalMap />
         </MainLayout>
         <DemoBar />
         <Footer />

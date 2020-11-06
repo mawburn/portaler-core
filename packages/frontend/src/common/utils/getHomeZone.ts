@@ -1,4 +1,4 @@
-import { ZoneLight } from '../../components/ZoneSearch/zoneSearchUtils'
+import { ZoneLight } from '../../ZoneSearch/zoneSearchUtils'
 import { DEFAULT_ZONE } from '../data/constants'
 
 const getHomeZone = (): ZoneLight => {

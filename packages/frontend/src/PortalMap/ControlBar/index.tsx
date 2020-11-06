@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
-import { ZoneLight } from '../../components/ZoneSearch/zoneSearchUtils'
-import { Zone } from '../../types'
+import { ZoneLight } from '../../ZoneSearch/zoneSearchUtils'
+import { Zone } from '../../common/types'
 import HomeButton from './HomeButton'
 import ReloadMap from './ReloadMap'
 import styles from './styles.module.scss'

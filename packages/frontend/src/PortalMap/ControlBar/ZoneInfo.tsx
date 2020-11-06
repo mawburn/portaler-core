@@ -2,7 +2,7 @@ import React, { FC, ReactNode, useMemo } from 'react'
 
 import { Paper } from '@material-ui/core'
 
-import { Zone } from '../../types'
+import { Zone } from '../../common/types'
 import styles from './styles.module.scss'
 
 interface ZoneInfoProps {

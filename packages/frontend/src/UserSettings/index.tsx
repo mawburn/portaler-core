@@ -10,8 +10,8 @@ import PersonIcon from '@material-ui/icons/Person'
 import { Alert } from '@material-ui/lab'
 
 import getHomeZone from '../common/utils/getHomeZone'
-import ZoneSearch from '../components/ZoneSearch'
-import { ZoneLight } from '../components/ZoneSearch/zoneSearchUtils'
+import ZoneSearch from '../ZoneSearch'
+import { ZoneLight } from '../ZoneSearch/zoneSearchUtils'
 import styles from './styles.module.scss'
 
 interface UserSettingsProps {

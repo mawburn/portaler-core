@@ -1,4 +1,4 @@
-import { Portal } from '../../types'
+import { Portal } from '../types'
 
 const fetchPortals = (token: string): Promise<Portal[]> =>
   fetch(`/api/portal`, {

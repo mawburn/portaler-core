@@ -10,7 +10,7 @@ import {
   withStyles,
 } from '@material-ui/core'
 
-import { PortalSize } from '../types'
+import { PortalSize } from '../common/types'
 
 const TwoPortal = withStyles({
   root: {

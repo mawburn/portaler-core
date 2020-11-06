@@ -7,7 +7,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import { FilterOptionsState } from '@material-ui/lab/useAutocomplete'
 import useEventListener from '@use-it/event-listener'
 
-import { DEFAULT_ZONE } from '../../common/data/constants'
+import { DEFAULT_ZONE } from '../common/data/constants'
 import { filterZones, getMaxString, ZoneLight } from './zoneSearchUtils'
 
 interface ZoneSearchProps {

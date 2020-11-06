@@ -1,7 +1,7 @@
 import clone from 'lodash/cloneDeep'
 import { Reducer } from 'react'
 
-import { Portal } from '../types'
+import { Portal } from '../common/types'
 
 export enum PortalMapActionTypes {
   UPDATEMAP = 'portals/updateMap',

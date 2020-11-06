@@ -1,5 +1,5 @@
 import { ZoneLight } from '../../ZoneSearch/zoneSearchUtils'
-import { PortalSize } from '../../types'
+import { PortalSize } from '../types'
 
 export const DEFAULT_PORTAL_SIZE: PortalSize = 7
 
