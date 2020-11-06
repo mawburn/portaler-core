@@ -29,7 +29,7 @@ const updateLayout = {
   fit: false,
 }
 
-const Cyto = () => {
+const PortalMap = () => {
   const dispatch = useDispatch()
   const zones = useZoneListSelector()
   const portals = useSelector((state: RootState) => state.portalMap.portals)
@@ -263,4 +263,4 @@ const Cyto = () => {
   )
 }
 
-export default Cyto
+export default PortalMap

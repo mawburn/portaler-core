@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { BAD_PASS } from '../../common/data/constants'
 import useConfigSelector from '../../common/hooks/useConfigSelector'
 import useGetPortals from '../../common/hooks/useGetPortals'
 import fetchPortals from '../../common/utils/fetchPortals'
-import { BAD_PASS } from '../../reducers/configReducer'
 import { ErrorActionTypes } from '../../reducers/errorReducer'
 import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
 

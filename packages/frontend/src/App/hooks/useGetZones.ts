@@ -2,16 +2,16 @@ import { DateTime } from 'luxon'
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { BAD_PASS } from '../../common/data/constants'
 import useConfigSelector from '../../common/hooks/useConfigSelector'
 import useToken from '../../common/hooks/useToken'
-import { BAD_PASS } from '../../reducers/configReducer'
+import { Zone } from '../../common/types'
 import { ErrorActionTypes } from '../../reducers/errorReducer'
 import {
   ZoneAction,
   ZoneActionTypes,
   ZoneState,
 } from '../../reducers/zoneReducer'
-import { Zone } from '../../types'
 
 const zoneStorage = (): ZoneState | null => {
   const zonesString: string | null = window.localStorage.getItem('zones')

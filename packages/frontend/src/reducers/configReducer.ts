@@ -1,7 +1,7 @@
 import clone from 'lodash/cloneDeep'
 import { Reducer } from 'react'
 
-export const BAD_PASS: string = '🙅‍♀️bad password🤦‍♂️'
+import { BAD_PASS } from '../common/data/constants'
 
 export enum ConfigActionTypes {
   TOKEN = 'config/token',
