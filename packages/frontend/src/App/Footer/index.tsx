@@ -6,15 +6,17 @@ import styles from './styles.module.scss'
 const Footer = () => (
   <footer className={styles.footer}>
     <div className={styles.twitch}>
-      <a
-        href="https://www.twitch.tv/hypnocode"
-        className={styles.link}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img src={twitchLogo} className={styles.twitchLogo} alt="twitch" />{' '}
-        Follow Portaler dev on Twitch
-      </a>
+      {process.env.REACT_APP_TWITCH && (
+        <a
+          href={process.env.REACT_APP_TWITCH}
+          className={styles.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={twitchLogo} className={styles.twitchLogo} alt="twitch" />
+          Twitch
+        </a>
+      )}
     </div>
     <div className={styles.footerRight}>
       <div className={styles.github}>
