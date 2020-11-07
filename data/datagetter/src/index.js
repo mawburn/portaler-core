@@ -1,57 +1,57 @@
 const fs = require('fs')
 
-const zones = require('./zones')
 const tiers = require('./tiers')
 
 const tierList = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']
+
+const excludeTypes = [
+  'PLAYERCITY_SAFEAREA_NOFURNITURE',
+  'PLAYERCITY_BLACK_ROYAL_NOFURNITURE',
+]
 
 const update = async () => {
   const trgx = /(.*)(\(T)(\d)(.*)/i
 
   const filteredTiers = []
+  const compressedTiers = []
 
   for (let i = 0; i < tiers.length; i++) {
     const arr = trgx.exec(tiers[i].displayname) || ['', '', '']
 
-    if (arr[1].length) {
+    if (
+      arr[1].length &&
+      !excludeTypes.includes(tiers[i].type) &&
+      !arr[1].trim().includes('RoadPve')
+    ) {
       filteredTiers.push({
         id: tiers[i].id,
         name: arr[1].trim(),
         tier: tierList[arr[3]],
         type: tiers[i].type,
       })
-    }
 
-    console.log(tiers[i])
+      compressedTiers.push({
+        name: arr[1].trim(),
+        tier: tierList[arr[3]],
+      })
+    }
   }
 
-  const missing = zones
-    .map((z) => {
-      const found = filteredTiers.find((f) =>
-        f.name.toLowerCase().includes(z.toLowerCase())
-      )
-
-      if (found) {
-        return null
-      }
-
-      return z
-    })
-    .filter(Boolean)
-
-  console.log(filteredTiers.length)
-
   fs.writeFileSync(
-    'output.json',
+    './output.json',
     JSON.stringify(filteredTiers, null, 2),
     (err) => {
       err && console.log(err)
     }
   )
 
-  fs.writeFileSync('missing.json', JSON.stringify(missing, null, 2), (err) => {
-    err && console.log(err)
-  })
+  fs.writeFileSync(
+    './compressed.json',
+    JSON.stringify(compressedTiers, null, 2),
+    (err) => {
+      err && console.log(err)
+    }
+  )
 }
 
 update()
