@@ -74,6 +74,10 @@ func New(c Config) (*Handler, error) {
 		r.Get("/login", h.Login)
 		r.Get("/callback", h.CallBack)
 	})
+	r.Route("/api", func(r chi.Router) {
+		r.Use(h.authClient.RequireValidToken)
+		// set up protected api routes here
+	})
 	r.Get("/health", h.health)
 
 	h.Handler = r

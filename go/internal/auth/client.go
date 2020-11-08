@@ -9,6 +9,8 @@ import (
 
 type Client struct {
 	userCache cache
+
+	allowAll bool
 }
 
 type User struct {
@@ -16,9 +18,10 @@ type User struct {
 	Info        discord.Member
 }
 
-func New(userTtl time.Duration) *Client {
+func New(userTtl time.Duration, allowAll bool) *Client {
 	return &Client{
 		userCache: goCache.New(userTtl, userTtl),
+		allowAll:  allowAll,
 	}
 }
 

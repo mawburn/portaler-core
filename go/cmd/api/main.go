@@ -26,6 +26,7 @@ type cfg struct {
 	BotToken            string `envconfig:"BOT_TOKEN" required:"true"`
 	DiscordClientID     string `envconfig:"CLIENT_ID" required:"true"`
 	DiscordClientSecret string `envconfig:"CLIENT_SECRET" required:"true"`
+	AllowAllAuth        bool   `envconfig:"ALLOW_ALL_AUTH" default:"false"`
 }
 
 var config cfg
@@ -66,7 +67,7 @@ func main() {
 		ClientID:      config.DiscordClientID,
 		ClientSecret:  config.DiscordClientSecret,
 		DiscordClient: discordClient,
-		AuthClient:    auth.New(86400 * time.Second),
+		AuthClient:    auth.New(86400*time.Second, config.AllowAllAuth),
 	})
 	if err != nil {
 		log.Fatal(errors.Wrap(err, "handler new"))
