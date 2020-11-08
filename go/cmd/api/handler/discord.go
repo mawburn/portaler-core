@@ -78,7 +78,15 @@ func (h *Handler) CallBack(w http.ResponseWriter, r *http.Request) {
 		Info:        member,
 	})
 
-	respond.WithSuccess(w, r, http.StatusOK, respond.DefaultOK)
+	token := struct {
+		Status string `json:"status"`
+		Token  string `json:"token"`
+	}{
+		Status: "success",
+		Token:  discordAuth.AccessToken,
+	}
+
+	respond.WithSuccess(w, r, http.StatusOK, token)
 }
 
 func basicAuth(username, password string) string {
