@@ -14,6 +14,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/pkg/errors"
 	"github.com/portaler-zone/portaler-core/go/cmd/api/handler"
+	"github.com/portaler-zone/portaler-core/go/internal/auth"
 	"github.com/portaler-zone/portaler-core/go/internal/discord"
 	"github.com/sirupsen/logrus"
 )
@@ -65,6 +66,7 @@ func main() {
 		ClientID:      config.DiscordClientID,
 		ClientSecret:  config.DiscordClientSecret,
 		DiscordClient: discordClient,
+		AuthClient:    auth.New(86400 * time.Second),
 	})
 	if err != nil {
 		log.Fatal(errors.Wrap(err, "handler new"))

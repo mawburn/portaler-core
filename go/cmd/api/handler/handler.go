@@ -1,12 +1,15 @@
 package handler
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
 	"github.com/pkg/errors"
+	"github.com/portaler-zone/portaler-core/go/internal/auth"
 	"github.com/portaler-zone/portaler-core/go/internal/discord"
 	"github.com/sirupsen/logrus"
 )
@@ -17,12 +20,15 @@ type Config struct {
 	ClientID      string
 	ClientSecret  string
 	DiscordClient *discord.Client
+	AuthClient    *auth.Client
 }
 
 // Handler is the global handler for the api.
 type Handler struct {
 	http.Handler
 
+	*sql.DB
+	authClient    *auth.Client
 	clientid      string
 	clientsecret  string
 	discordClient *discord.Client
@@ -45,6 +51,7 @@ func New(c Config) (*Handler, error) {
 	h := Handler{
 		logger:        c.Logger,
 		clientid:      c.ClientID,
+		authClient:    c.AuthClient,
 		clientsecret:  c.ClientSecret,
 		discordClient: c.DiscordClient,
 	}
@@ -52,6 +59,14 @@ func New(c Config) (*Handler, error) {
 	r := chi.NewRouter()
 
 	// Middleware set up
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300,
+	}))
 	r.Use(middleware.Recoverer)
 
 	r.Route("/", func(r chi.Router) {

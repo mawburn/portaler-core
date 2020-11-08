@@ -73,6 +73,11 @@ func (h *Handler) CallBack(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h.authClient.AddUserToCache(auth.User{
+		DiscordAuth: discordAuth,
+		Info:        member,
+	})
+
 	respond.WithSuccess(w, r, http.StatusOK, respond.DefaultOK)
 }
 
