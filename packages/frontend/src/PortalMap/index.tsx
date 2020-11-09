@@ -127,7 +127,12 @@ const PortalMap = () => {
                 'text-outline-width': 1,
                 'text-outline-opacity': 0.5,
                 'text-margin-y': -5,
-                shape: z.type.indexOf('TUNNEL_HIDEOUT') >= 0 ? 'pentagon' : '',
+                shape:
+                  z.type.indexOf('TUNNEL_HIDEOUT') >= 0
+                    ? 'pentagon'
+                    : z.type.indexOf('TUNNEL_') >= 0
+                    ? 'cut-rectangle'
+                    : '',
               },
             },
           })
@@ -152,6 +157,8 @@ const PortalMap = () => {
                 shape:
                   homeZone.type.indexOf('TUNNEL_HIDEOUT') >= 0
                     ? 'pentagon'
+                    : homeZone.type.indexOf('TUNNEL_') >= 0
+                    ? 'cut-rectangle'
                     : '',
               },
             },
