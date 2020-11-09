@@ -9,6 +9,6 @@ export const zoneColorToColor = {
   red: '#fe0b01',
   yellow: '#ffb002',
   blue: '#3d679c',
-  road: '#26a69a',
+  road: '#1de9b6',
   home: '#aa00ff',
 }
