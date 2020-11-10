@@ -120,9 +120,19 @@ const PortalMap = () => {
                 height,
                 backgroundColor,
                 'background-image': backgroundUrl,
-                'background-fit': 'cover',
+                'background-height': height,
+                'background-width': width,
                 'background-repeat': 'no-repeat',
-                shape: z.type.indexOf('TUNNEL_HIDEOUT') >= 0 ? 'pentagon' : '',
+                'text-outline-color': '#222',
+                'text-outline-width': 1,
+                'text-outline-opacity': 0.5,
+                'text-margin-y': -5,
+                shape:
+                  z.type.indexOf('TUNNEL_HIDEOUT') >= 0
+                    ? 'pentagon'
+                    : z.type.indexOf('TUNNEL_') >= 0
+                    ? 'cut-rectangle'
+                    : '',
               },
             },
           })
@@ -147,6 +157,8 @@ const PortalMap = () => {
                 shape:
                   homeZone.type.indexOf('TUNNEL_HIDEOUT') >= 0
                     ? 'pentagon'
+                    : homeZone.type.indexOf('TUNNEL_') >= 0
+                    ? 'cut-rectangle'
                     : '',
               },
             },
@@ -180,6 +192,9 @@ const PortalMap = () => {
               css: {
                 lineColor: portalSizeToColor[p.size],
                 width: 5,
+                'text-outline-color': '#222',
+                'text-outline-width': 2,
+                'text-outline-opacity': 0.5,
               },
             },
           })
