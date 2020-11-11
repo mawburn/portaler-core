@@ -11,7 +11,7 @@ export interface DiscordMeGuilds {
   features: string[]
 }
 
-const fetchGuilds = async (token: string): Promise<DiscordMeGuilds[]> => {
+const fetchUserGuilds = async (token: string): Promise<DiscordMeGuilds[]> => {
   const res = await fetch(`${config.discord.apiUrl}/users/@me/guilds`, {
     method: 'GET',
     headers: {
@@ -26,4 +26,4 @@ const fetchGuilds = async (token: string): Promise<DiscordMeGuilds[]> => {
   return await res.json()
 }
 
-export default fetchGuilds
+export default fetchUserGuilds

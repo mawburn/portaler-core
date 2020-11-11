@@ -4,7 +4,10 @@ import fetch from 'node-fetch'
 
 import config from '../config'
 import wrapAsync from '../middleware/wrapAsync'
-import fetchGuilds from '../utils/discord/fetchGuilds'
+import { addUser, getUser } from '../models/user'
+import fetchUser from '../utils/discord/fetchUser'
+import fetchUserGuilds from '../utils/discord/fetchUserGuilds'
+import logger from '../utils/logger'
 
 const router = Router()
 
@@ -38,7 +41,7 @@ router.get(
         grant_type: 'authorization_code',
         code,
         redirect_uri: `${config.discord.redirectUri}`,
-        scope: 'identify email guilds',
+        scope: 'identify email guilds bot',
       }
 
       const discordRes = await fetch(`${config.discord.apiUrl}/oauth2/token`, {
@@ -56,11 +59,18 @@ router.get(
 
       const discordJson: DiscordAccessTokenResponse = await discordRes.json()
       const token = discordJson.access_token
-      const userServers = await fetchGuilds(token)
 
-      // res.redirect(`${config.authUrl}/?token=${discordJson.access_token}`)
+      const dUser = await fetchUser(token)
+      const user = await getUser(dUser.id)
+
+      if (typeof user === 'string' && user === 'NoUser') {
+        const dServers = await fetchUserGuilds(token)
+        await addUser(dUser, dServers, discordJson.refresh_token)
+      }
+
+      res.redirect(`${config.authUrl}/?token=${discordJson.access_token}`)
     } catch (err: Error | any) {
-      // TODO add logging here
+      logger.error('Error logging in user', err)
       res.status(500).json({ error: err.message })
     }
   })

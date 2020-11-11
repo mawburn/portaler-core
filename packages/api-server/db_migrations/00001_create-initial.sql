@@ -1,9 +1,10 @@
+-- Create User & Server Data
+
 CREATE TABLE [IF NOT EXISTS] users (
   id serial PRIMARY KEY,
   discord_id VARCHAR ( 50 ) UNIQUE NOT NULL,
   discord_name VARCHAR ( 50 ) NOT NULL,
-  discord_refresh VARCHAR ( 50 ),
-  email VARCHAR ( 50 ),
+  discord_refresh VARCHAR ( 100 ) NOT NULL,
   created_on TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
@@ -14,6 +15,7 @@ CREATE TABLE [IF NOT EXISTS] servers (
   id serial PRIMARY KEY,
   discord_id VARCHAR ( 50 ) UNIQUE NOT NULL,
   discord_name VARCHAR ( 50 ) NOT NULL,
+  subdomain VARCHAR ( 15 ) NOT NULL,
   created_on TIMESTAMP NOT NULL DEFAULT NOW(),
   created_by INT NOT NULL
 );
@@ -25,18 +27,27 @@ CREATE TABLE [IF NOT EXISTS] roles (
   last_updated TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE [IF NOT EXISTS] user_roles (
+CREATE TABLE [IF NOT EXISTS] user_servers (
   user INT NOT NULL,
   server_id INT NOT NULL,
-  role_id INT NOT NULL,
-  PRIMARY KEY (user, server_id, role_id),
+  PRIMARY KEY (user, server_id),
   FOREIGN KEY (user)
     REFERENCES users (id),
   FOREIGN KEY (server_id)
-    REFERENCES servers (id),
+    REFERENCES servers (id)
+);
+
+CREATE TABLE [IF NOT EXISTS] user_roles (
+  user INT NOT NULL,
+  role_id INT NOT NULL,
+  PRIMARY KEY (user, role_id),
+  FOREIGN KEY (user)
+    REFERENCES users (id),
   FOREIGN KEY (role_id)
     REFERENCES roles (id)
 );
+
+-- Create Portal & Connection Data
 
 CREATE TABLE [IF NOT EXISTS] portals (
   id serial PRIMARY KEY,
