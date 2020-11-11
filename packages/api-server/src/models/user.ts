@@ -8,11 +8,6 @@ import { DiscordMeGuilds } from '../utils/discord/fetchUserGuilds'
 
 export type UserError = 'NoUser' | 'NoServers' | 'NoRoles'
 
-interface ServerRoleId {
-  serverId: number
-  roleId: number
-}
-
 /**
  * Gets a User from the database
  * @param  discordId
@@ -39,12 +34,12 @@ export const getUser = async (
 
   const { rows: userServers } = await dbQuery(
     `
-    SELECT us.server_id AS server, ur.role_id AS role
+    SELECT us.discord_id AS server, ur.discord_role_id AS role
     FROM user_servers AS us
     JOIN user_roles AS ur ON (us.user = ur.user)
     WHERE us.user = $1
   `,
-    [`${user.id}`]
+    [user.id]
   )
 
   if (userServers.length === 0) {
@@ -100,3 +95,23 @@ export const addUser = async (
 
   return Promise.all(insertPromises)
 }
+/**
+ * Grant user permissions
+ * @param  userId
+ * @param  roleId
+ */
+export const addUserRole = async (userId: number, roleId: number) =>
+  await dbQuery(`INSERT INTO user_roles(user, role_id) VALUES ($1, $2)`, [
+    userId,
+    roleId,
+  ])
+/**
+ * Remove a user from a role
+ * @param  userId
+ * @param  roleId
+ */
+export const removeUserRole = async (userId: number, roleId: number) =>
+  await dbQuery(`DELETE FROM user_roles WHERE userId = $1 AND role_id = $2`, [
+    userId,
+    roleId,
+  ])

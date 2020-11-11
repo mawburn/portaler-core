@@ -12,6 +12,7 @@ interface IConfig {
     public: string
     client: string
     secret: string
+    role: string
   }
   db: {
     host: string
@@ -48,6 +49,7 @@ const config: IConfig = {
     public: process.env.DISCORD_PUBLIC_TOKEN!,
     client: process.env.DISCORD_CLIENT_TOKEN!,
     secret: process.env.DISCORD_SECRET_TOKEN!,
+    role: process.env.DISCORD_ROLE!,
   },
   db: {
     host: process.env.DB_HOST!,

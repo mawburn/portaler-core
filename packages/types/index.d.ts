@@ -36,6 +36,10 @@ export interface Portal {
   timeLeft: number
 }
 
+interface ServerRoleId {
+  serverId: string
+  roleId: string
+}
 export interface UserModel {
   id: number
   discordId: string

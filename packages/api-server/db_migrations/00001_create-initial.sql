@@ -15,9 +15,8 @@ CREATE TABLE [IF NOT EXISTS] servers (
   id serial PRIMARY KEY,
   discord_id VARCHAR ( 50 ) UNIQUE NOT NULL,
   discord_name VARCHAR ( 50 ) NOT NULL,
-  subdomain VARCHAR ( 15 ) NOT NULL,
+  subdomain VARCHAR ( 15 ),
   created_on TIMESTAMP NOT NULL DEFAULT NOW(),
-  created_by INT NOT NULL
 );
 
 CREATE TABLE [IF NOT EXISTS] roles (
