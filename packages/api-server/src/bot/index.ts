@@ -1,10 +1,9 @@
 import { Client, GuildMember, PartialGuildMember, Role } from 'discord.js'
 import { QueryResult } from 'pg'
-import config from '../config'
 
+import config from '../config'
 import { addRole, addServer, getRoleId, updateRole } from '../models/server'
 import {
-  addUser,
   addUserRole,
   addUserServer,
   getUser,
@@ -23,10 +22,16 @@ client.on('guildCreate', async (server) => {
     const serverId = await addServer(server)
     const role = await getRoleId(server.id)
 
-    if (role) {
-      const userList = server.members.cache
-        .map(async (m) => {
+    console.log(serverId, role)
+
+    if (serverId && role) {
+      const users = await server.members.fetch()
+
+      const userList = users
+        .map((m) => {
+          console.log(m.id)
           if (m.roles.cache.find((r) => r.id === role.discord)) {
+            console.log(m.id)
             return getUser(m.id)
           }
 
@@ -38,14 +43,14 @@ client.on('guildCreate', async (server) => {
 
       const serversAndRoles: Promise<QueryResult>[] = []
 
-      existingUsers.map(async (u) => {
+      existingUsers.map((u) => {
         if (u && typeof u !== 'string') {
           serversAndRoles.push(addUserServer(u.id, serverId))
           serversAndRoles.push(addUserRole(u.id, role.id))
         }
       })
 
-      await Promise.all(serversAndRoles)
+      return await Promise.all(serversAndRoles)
     }
   }, 1000)
 })
