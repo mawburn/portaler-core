@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS users (
   id serial PRIMARY KEY,
   discord_id VARCHAR ( 50 ) UNIQUE NOT NULL,
-  discord_name VARCHAR ( 50 ) NOT NULL,
-  discord_refresh VARCHAR ( 100 ) NOT NULL,
+  discord_name VARCHAR ( 50 ),
+  discord_refresh VARCHAR ( 100 ),
   created_on TIMESTAMP NOT NULL DEFAULT NOW()
 );
 

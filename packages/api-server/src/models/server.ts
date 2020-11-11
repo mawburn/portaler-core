@@ -7,9 +7,9 @@ import { dbQuery } from '../db'
  * Adds a server to the database
  * @param  guild
  * @param  userId
- * @returns true if exists or false if not exists
+ * @returns server_id
  */
-export const addServer = async (guild: Guild): Promise<boolean> => {
+export const addServer = async (guild: Guild): Promise<number> => {
   const roleData = await guild.roles.fetch()
 
   const roleId = roleData.cache.find(
@@ -31,11 +31,9 @@ export const addServer = async (guild: Guild): Promise<boolean> => {
       `INSERT INTO server_roles(server_id, discord_role_id) VALUES ($1, $2)`,
       [serverId, roleId.id]
     )
-
-    return Promise.resolve(true)
   }
 
-  return Promise.resolve(false)
+  return Promise.resolve(serverId)
 }
 /**
  * Gets a role id based on server id

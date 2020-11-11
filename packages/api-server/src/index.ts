@@ -11,9 +11,13 @@ import Auth from './api/auth'
 import Health from './api/health'
 import config from './config'
 import { migrations } from './db/migrations'
+import { client as botClient } from './bot'
 
 // Run DB Migrations
 migrations()
+
+// Init bot
+botClient.login(config.discord.bot)
 
 const app = express()
 

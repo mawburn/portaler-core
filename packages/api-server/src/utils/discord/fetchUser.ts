@@ -4,8 +4,8 @@ import config from '../../config'
 
 export interface DiscordMe {
   id: string
-  username: string
-  discriminator: string
+  username?: string
+  discriminator?: string
 }
 
 const fetchUser = async (token: string): Promise<DiscordMe> => {

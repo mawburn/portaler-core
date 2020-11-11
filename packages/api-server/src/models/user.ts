@@ -5,6 +5,7 @@ import { UserModel } from '@portaler/types'
 import { dbQuery } from '../db'
 import { DiscordMe } from '../utils/discord/fetchUser'
 import { DiscordMeGuilds } from '../utils/discord/fetchUserGuilds'
+import logger from '../utils/logger'
 
 export type UserError = 'NoUser' | 'NoServers' | 'NoRoles'
 
@@ -21,6 +22,7 @@ export const getUser = async (
   } = await dbQuery('SELECT * FROM users WHERE discord_id = $1', [discordId])
 
   if (userRows.length === 0) {
+    logger.info('Return')
     return Promise.resolve('NoUser')
   }
 
@@ -34,7 +36,7 @@ export const getUser = async (
 
   const { rows: userServers } = await dbQuery(
     `
-    SELECT us.discord_id AS server, ur.discord_role_id AS role
+    SELECT us.server_id AS server, ur.user_role AS role
     FROM user_servers AS us
     JOIN user_roles AS ur ON (us.user = ur.user)
     WHERE us.user = $1
@@ -53,6 +55,18 @@ export const getUser = async (
 
   return Promise.resolve(user)
 }
+
+/**
+ * Add users to a server
+ * @param  userId
+ * @param  serverId
+ */
+export const addUserServer = async (userId: number, serverId: number) =>
+  await dbQuery(
+    `INSERT INTO user_servers(user_id, server_id) VALUES ($1, $2)`,
+    [userId, serverId]
+  )
+
 /**
  * Adds a user to the database and associates their servers
  * @param  userInfo
@@ -88,10 +102,8 @@ export const addUser = async (
   ])
 
   if (serverRows.length) {
-    const insertStmt = `INSERT INTO user_servers(user, server_id) VALUES ($1, $2)`
-
-    const insertPromises = serverRows.map(
-      async (s) => await dbQuery(insertStmt, [userId, s.id])
+    const insertPromises = serverRows.map(async (s) =>
+      addUserServer(userId, s.id)
     )
 
     return Promise.all(insertPromises)
@@ -99,6 +111,7 @@ export const addUser = async (
 
   return Promise.resolve(serverRows)
 }
+
 /**
  * Grant user permissions
  * @param  userId
