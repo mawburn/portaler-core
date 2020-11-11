@@ -1,4 +1,5 @@
 import { createDb, migrate } from 'postgres-migrations'
+import path from 'path'
 
 import config from '../config'
 import logger from '../utils/logger'
@@ -9,11 +10,10 @@ export const migrations = async (): Promise<any> => {
       ...config.db,
       defaultDatabase: 'postgres', // defaults to "postgres"
     })
-    await migrate(config.db, '../../db_migrations')
+    await migrate(config.db, path.resolve('./db_migrations'))
 
     return Promise.resolve()
   } catch (err) {
     logger.error('Error migrating data', err)
-    return Promise.reject(err)
   }
 }

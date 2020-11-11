@@ -101,7 +101,7 @@ export const addUser = async (
  * @param  roleId
  */
 export const addUserRole = async (userId: number, roleId: number) =>
-  await dbQuery(`INSERT INTO user_roles(user, role_id) VALUES ($1, $2)`, [
+  await dbQuery(`INSERT INTO user_roles(user_id, role_id) VALUES ($1, $2)`, [
     userId,
     roleId,
   ])
@@ -111,7 +111,7 @@ export const addUserRole = async (userId: number, roleId: number) =>
  * @param  roleId
  */
 export const removeUserRole = async (userId: number, roleId: number) =>
-  await dbQuery(`DELETE FROM user_roles WHERE userId = $1 AND role_id = $2`, [
+  await dbQuery(`DELETE FROM user_roles WHERE user_id = $1 AND role_id = $2`, [
     userId,
     roleId,
   ])
