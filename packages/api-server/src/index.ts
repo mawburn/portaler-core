@@ -1,13 +1,19 @@
+// @ts-ignore
 import dotenv from 'dotenv'
+// @ts-ignore
 dotenv.config()
 
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import express, { NextFunction, Request, Response } from 'express'
+import express from 'express'
 
 import Auth from './api/auth'
 import Health from './api/health'
 import config from './config'
+import { migrations } from './db/migrations'
+
+// Run DB Migrations
+migrations()
 
 const app = express()
 

@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=albion
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/albionpg
+
+volumes:
+  db_data: {}

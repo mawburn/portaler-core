@@ -4,6 +4,7 @@ import fetch from 'node-fetch'
 
 import config from '../config'
 import wrapAsync from '../middleware/wrapAsync'
+import fetchGuilds from '../utils/discord/fetchGuilds'
 
 const router = Router()
 
@@ -54,12 +55,15 @@ router.get(
       }
 
       const discordJson: DiscordAccessTokenResponse = await discordRes.json()
+      const token = discordJson.access_token
+      const userServers = await fetchGuilds(token)
 
-      res.redirect(`${config.authUrl}/?token=${discordJson.access_token}`)
+      // res.redirect(`${config.authUrl}/?token=${discordJson.access_token}`)
     } catch (err: Error | any) {
       // TODO add logging here
       res.status(500).json({ error: err.message })
     }
   })
 )
+
 export default router

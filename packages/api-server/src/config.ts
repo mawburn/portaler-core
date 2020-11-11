@@ -13,6 +13,13 @@ interface IConfig {
     client: string
     secret: string
   }
+  db: {
+    host: string
+    user: string
+    password: string
+    database: string
+    port: number
+  }
 }
 
 let port = 7777
@@ -41,6 +48,13 @@ const config: IConfig = {
     public: process.env.DISCORD_PUBLIC_TOKEN!,
     client: process.env.DISCORD_CLIENT_TOKEN!,
     secret: process.env.DISCORD_SECRET_TOKEN!,
+  },
+  db: {
+    host: process.env.DB_HOST!,
+    user: process.env.DB_USER!,
+    password: process.env.DB_PASSWORD!,
+    database: process.env.DB_DATABASE!,
+    port: Number(process.env.DB_PORT) || 5432,
   },
 }
 
