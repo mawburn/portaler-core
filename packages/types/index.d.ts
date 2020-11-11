@@ -35,3 +35,13 @@ export interface Portal {
   expiresUtc: Date
   timeLeft: number
 }
+
+export interface UserModel {
+  id: number
+  discordId: string
+  discordName: string
+  serverAccess?: ServerRoleId[]
+  discordRefresh?: string | null
+  email?: string | null
+  createdOn: Date
+}

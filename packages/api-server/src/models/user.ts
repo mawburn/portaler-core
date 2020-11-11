@@ -1,4 +1,7 @@
 import { QueryResult } from 'pg'
+
+import { UserModel } from '@portaler/types'
+
 import { dbQuery } from '../db'
 import { DiscordMe } from '../utils/discord/fetchUser'
 import { DiscordMeGuilds } from '../utils/discord/fetchUserGuilds'
@@ -10,15 +13,6 @@ interface ServerRoleId {
   roleId: number
 }
 
-export interface UserModel {
-  id: number
-  discordId: string
-  discordName: string
-  serverAccess?: ServerRoleId[]
-  discordRefresh?: string | null
-  email?: string | null
-  createdOn: Date
-}
 /**
  * Gets a User from the database
  * @param  discordId
