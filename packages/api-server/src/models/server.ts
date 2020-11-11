@@ -28,7 +28,7 @@ export const addServer = async (guild: Guild): Promise<boolean> => {
 
   if (roleId) {
     await dbQuery(
-      `INSERT INTO roles(server_id, discord_role_id) VALUES ($1, $2)`,
+      `INSERT INTO server_roles(server_id, discord_role_id) VALUES ($1, $2)`,
       [serverId, roleId.id]
     )
 
@@ -49,7 +49,7 @@ export const getRoleId = async (
     `
     SELECT r.id AS id, r.discord_role_id AS discord
     FROM servers AS s
-    JOIN roles AS r ON r.server_id = s.id
+    JOIN server_roles AS r ON r.server_id = s.id
     WHERE s.discord_id = $1
     `,
     [discordServerId]
@@ -78,7 +78,7 @@ export const addRole = async (
 
   if (serverRows.length) {
     await dbQuery(
-      `INSERT INTO roles(server_id, discord_role_id) VALUES ($1, $2)`,
+      `INSERT INTO server_roles(server_id, discord_role_id) VALUES ($1, $2)`,
       [serverRows[0].id, discordRoleId]
     )
   }
@@ -102,7 +102,7 @@ export const updateRole = async (
 
   if (serverRows.length) {
     await dbQuery(
-      `UPDATE roles SET discord_role_id = $1 WHERE server_id = $2`,
+      `UPDATE server_roles SET discord_role_id = $1 WHERE server_id = $2`,
       [discordRoleId, serverRows[0].id]
     )
   }

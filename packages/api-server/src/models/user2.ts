@@ -83,17 +83,21 @@ export const addUser = async (
 
   const {
     rows: serverRows,
-  } = await dbQuery(`SELECT id FROM servers WHERE server_id IN ($1)`, [
+  } = await dbQuery(`SELECT id FROM servers WHERE discord_id IN ($1)`, [
     discordServers,
   ])
 
-  const insertStmt = `INSERT INTO user_servers(user, server_id) VALUES ($1, $2)`
+  if (serverRows.length) {
+    const insertStmt = `INSERT INTO user_servers(user, server_id) VALUES ($1, $2)`
 
-  const insertPromises = serverRows.map(
-    async (s) => await dbQuery(insertStmt, [userId, s.id])
-  )
+    const insertPromises = serverRows.map(
+      async (s) => await dbQuery(insertStmt, [userId, s.id])
+    )
 
-  return Promise.all(insertPromises)
+    return Promise.all(insertPromises)
+  }
+
+  return Promise.resolve(serverRows)
 }
 /**
  * Grant user permissions

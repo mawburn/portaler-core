@@ -1,10 +1,13 @@
 import winston from 'winston'
-import Winston from 'winston'
 
-const logger = Winston.createLogger({
+const logger = winston.createLogger({
   level: 'info',
-  format: Winston.format.json(),
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.json()
+  ),
   defaultMeta: { service: 'user-service' },
+  transports: [new winston.transports.Console()],
 })
 
 export default logger

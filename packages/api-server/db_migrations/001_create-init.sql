@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS servers (
   created_on TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS roles (
+CREATE TABLE IF NOT EXISTS server_roles (
   id serial PRIMARY KEY,
   server_id INT UNIQUE NOT NULL,
   discord_role_id VARCHAR ( 50 ) UNIQUE NOT NULL,
