@@ -22,25 +22,33 @@ client.on('guildCreate', async (server) => {
     const serverId = await addServer(server)
     const role = await getRoleId(server.id)
 
-    if (serverId && role) {
+    console.log(!!serverId && !!role)
+
+    if (!!serverId && !!role) {
+      // TODO this is timing out, I think when I make too many requests
       const users = await server.members.fetch({ force: true })
 
-      const userList = users
-        .map((m) => {
-          if (m.roles.cache.find((r) => r.id === role.discord)) {
-            return getUser(m.id)
-          }
+      console.log('\nusers\n', users)
 
-          return null
-        })
-        .filter(Boolean)
+      const userList: Promise<any>[] = []
+
+      users.forEach((m) => {
+        if (m.roles.cache.find((r) => r.id === role.discord)) {
+          userList.push(getUser(m.id))
+        }
+      })
+
+      console.log('\n\nxxx\n\n')
+      console.log('\n\nUser List\n\n', userList)
 
       const existingUsers = await Promise.all(userList)
+
+      console.log('\n\n\n\n', existingUsers)
 
       const serversAndRoles: Promise<QueryResult>[] = []
 
       existingUsers.map((u) => {
-        console.log(u)
+        console.log('\n', u)
         if (u && typeof u !== 'string') {
           serversAndRoles.push(addUserServer(u.id, serverId))
           serversAndRoles.push(addUserRole(u.id, role.id))
@@ -49,7 +57,7 @@ client.on('guildCreate', async (server) => {
 
       return await Promise.all(serversAndRoles)
     }
-  }, 1000)
+  }, 3000)
 })
 
 // When a member is updated

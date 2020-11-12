@@ -33,7 +33,7 @@ export const addServer = async (guild: Guild): Promise<number> => {
     )
   }
 
-  return Promise.resolve(serverId)
+  return serverId
 }
 /**
  * Gets a role id based on server id
@@ -54,10 +54,10 @@ export const getRoleId = async (
   )
 
   if (rows.length) {
-    return Promise.resolve({ id: rows[0].id, discord: rows[0].discord })
+    return { id: rows[0].id, discord: rows[0].discord }
   }
 
-  return Promise.resolve(null)
+  return null
 }
 /**
  * Add a role to a server

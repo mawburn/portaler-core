@@ -23,7 +23,7 @@ export const getUser = async (
 
   if (userRows.length === 0) {
     logger.info('Return')
-    return Promise.resolve('NoUser')
+    return 'NoUser'
   }
 
   const user: UserModel = {
@@ -45,7 +45,7 @@ export const getUser = async (
   )
 
   if (userServers.length === 0) {
-    return Promise.resolve('NoServers')
+    return 'NoServers'
   }
 
   user.serverAccess = userServers.map((s) => ({
@@ -53,7 +53,7 @@ export const getUser = async (
     roleId: s.role,
   }))
 
-  return Promise.resolve(user)
+  return user
 }
 
 /**
@@ -109,7 +109,7 @@ export const addUser = async (
     return Promise.all(insertPromises)
   }
 
-  return Promise.resolve(serverRows)
+  return serverRows
 }
 
 /**
