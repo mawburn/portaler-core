@@ -22,16 +22,12 @@ client.on('guildCreate', async (server) => {
     const serverId = await addServer(server)
     const role = await getRoleId(server.id)
 
-    console.log(serverId, role)
-
     if (serverId && role) {
-      const users = await server.members.fetch()
+      const users = await server.members.fetch({ force: true })
 
       const userList = users
         .map((m) => {
-          console.log(m.id)
           if (m.roles.cache.find((r) => r.id === role.discord)) {
-            console.log(m.id)
             return getUser(m.id)
           }
 
@@ -44,6 +40,7 @@ client.on('guildCreate', async (server) => {
       const serversAndRoles: Promise<QueryResult>[] = []
 
       existingUsers.map((u) => {
+        console.log(u)
         if (u && typeof u !== 'string') {
           serversAndRoles.push(addUserServer(u.id, serverId))
           serversAndRoles.push(addUserRole(u.id, role.id))
