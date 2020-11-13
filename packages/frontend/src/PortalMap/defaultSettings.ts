@@ -22,9 +22,14 @@ const defaultSettings: CytoscapeOptions = {
     nodeDimensionsIncludeLabels: true,
     // @ts-ignore
     idealEdgeLength: 125,
+    nestingFactor: 0.5,
     fit: true,
     padding: 42,
     animationDuration: 250,
+    tilingPaddingVertical: 20,
+    tilingPaddingHorizontal: 20,
+    // @ts-ignore
+    nodeRepulsion: 7000,
   },
   headless: false,
   styleEnabled: true,
