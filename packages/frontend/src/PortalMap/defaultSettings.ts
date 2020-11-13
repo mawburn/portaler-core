@@ -26,7 +26,9 @@ const defaultSettings: CytoscapeOptions = {
     fit: true,
     padding: 42,
     animationDuration: 250,
+    // @ts-ignore
     tilingPaddingVertical: 20,
+    // @ts-ignore
     tilingPaddingHorizontal: 20,
     // @ts-ignore
     nodeRepulsion: 7000,
