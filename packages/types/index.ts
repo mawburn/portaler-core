@@ -36,16 +36,18 @@ export interface Portal {
   timeLeft: number
 }
 
-interface ServerRoleId {
-  serverId: string
-  roleId: string
+// Discord API
+export interface DiscordMe {
+  id: string
+  username?: string
+  discriminator?: string
 }
-export interface UserModel {
-  id: number
-  discordId: string
-  discordName: string
-  serverAccess?: ServerRoleId[]
-  discordRefresh?: string | null
-  email?: string | null
-  createdOn: Date
+
+export interface DiscordMeGuild {
+  id: string
+  name: string
+  icon: string
+  owner: boolean
+  permissions: string
+  features: string[]
 }

@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS users (
   id serial PRIMARY KEY,
   discord_id VARCHAR ( 50 ) UNIQUE NOT NULL,
   discord_name VARCHAR ( 50 ),
+  discord_discriminator VARCHAR ( 7 ) NOT NULL,
   discord_refresh VARCHAR ( 100 ),
   created_on TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -13,7 +14,7 @@ CREATE TABLE IF NOT EXISTS servers (
   id serial PRIMARY KEY,
   discord_id VARCHAR ( 50 ) UNIQUE NOT NULL,
   discord_name VARCHAR ( 50 ) NOT NULL,
-  subdomain VARCHAR ( 15 ),
+  subdomain VARCHAR ( 15 ) UNIQUE,
   created_on TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
