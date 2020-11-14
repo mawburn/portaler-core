@@ -51,3 +51,12 @@ export interface DiscordMeGuild {
   permissions: string
   features: string[]
 }
+
+// Database
+export interface DBConfig {
+  host: string
+  user: string
+  password: string
+  database: string
+  port: number
+}

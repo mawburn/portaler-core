@@ -1,7 +1,4 @@
-// @ts-ignore
-import dotenv from 'dotenv'
-// @ts-ignore
-dotenv.config()
+import 'dotenv/config'
 
 import bodyParser from 'body-parser'
 import cors from 'cors'
