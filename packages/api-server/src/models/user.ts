@@ -1,7 +1,5 @@
 import { QueryResult } from 'pg'
 
-import { UserModel } from '@portaler/types'
-
 import { dbQuery } from '../db'
 import { DiscordMe } from '../utils/discord/fetchUser'
 import { DiscordMeGuilds } from '../utils/discord/fetchUserGuilds'
@@ -12,11 +10,9 @@ export type UserError = 'NoUser' | 'NoServers' | 'NoRoles'
 /**
  * Gets a User from the database
  * @param  discordId
- * @returns UserModel
+ * @returns any
  */
-export const getUser = async (
-  discordId: string
-): Promise<UserModel | UserError> => {
+export const getUser = async (discordId: string): Promise<any | UserError> => {
   const {
     rows: userRows,
   } = await dbQuery('SELECT * FROM users WHERE discord_id = $1', [discordId])
@@ -26,7 +22,7 @@ export const getUser = async (
     return 'NoUser'
   }
 
-  const user: UserModel = {
+  const user: any = {
     id: userRows[0].id,
     discordId: userRows[0].discord_id,
     discordName: userRows[0].discord_name,

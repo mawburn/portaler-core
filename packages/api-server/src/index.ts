@@ -8,13 +8,9 @@ import Auth from './api/auth'
 import Health from './api/health'
 import config from './config'
 import { migrations } from './db/migrations'
-import { client as botClient } from './bot'
 
 // Run DB Migrations
 migrations()
-
-// Init bot
-botClient.login(config.discord.bot)
 
 const app = express()
 
@@ -26,6 +22,8 @@ app.use(bodyParser.json())
 
 app.use('/api/health', Health)
 app.use('/api/auth', Auth)
+
+app.get('/api/bot', (_, res) => res.redirect(config.discord.botUrl))
 
 app.listen(config.port, () =>
   console.log(`App started on port ${config.host}:${config.port}`)

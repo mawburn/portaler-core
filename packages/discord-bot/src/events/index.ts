@@ -1,7 +1,13 @@
-import { DatabaseConnector } from '@portaler/data-models'
-import { Client, Guild } from 'discord.js'
+import { Client, Guild, GuildMember, PartialGuildMember } from 'discord.js'
+
+import {
+  DatabaseConnector,
+  ServerModel,
+  UserModel,
+} from '@portaler/data-models'
+
+import roleHandler, { removeUser } from './handlers/roleHandler'
 import setupServer from './handlers/setupServer'
-import updateServer from './handlers/updateServer'
 
 interface EventContext {
   client: Client
@@ -11,22 +17,26 @@ interface EventContext {
 const initEvents = (ctx: EventContext) => {
   const { client, db } = ctx
 
+  const serverModel = new ServerModel(db.dbQuery)
+  const userModel = new UserModel(db.dbQuery)
+
   // bot joins a server
-  client.on('guildCreate', (s: Guild) => setupServer(s.id, db))
+  client.on('guildCreate', (server: Guild) => setupServer(server, serverModel))
 
   // when a guild is updated
-  client.on('guildUpdate', (s: Guild) => updateServer(s.id, db))
+  // client.on('guildUpdate', (_, server: Guild) =>
+  //   updateServer(server, serverModel)
+  // )
 
   // when members get updated
-  client.on('guildMemberUpdate', () => null)
-  client.on('guildMemberAdd', () => null)
-  client.on('guildMemberRemove', () => null)
-  client.on('guildBanAdd', () => null)
+  client.on('guildMemberUpdate', (_, member: GuildMember) =>
+    roleHandler(member, userModel, serverModel)
+  )
 
-  // when roles get updated
-  client.on('roleUpdate', () => null)
-  client.on('roleCreate', () => null)
-  client.on('roleDelete', () => null)
+  // when a member leaves a server
+  client.on('guildMemberRemove', (member: GuildMember | PartialGuildMember) =>
+    removeUser(member, userModel, serverModel)
+  )
 }
 
 export default initEvents

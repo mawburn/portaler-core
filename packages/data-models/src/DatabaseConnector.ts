@@ -1,12 +1,14 @@
 import { Pool, PoolConfig, QueryResult } from 'pg'
 
-export default class DatabaseConnector extends Pool {
+export default class DatabaseConnector {
+  pool: Pool
+
   constructor(config: PoolConfig) {
-    super(config)
+    this.pool = new Pool(config)
   }
 
   dbQuery = (
     query: string,
     params: (string | number)[]
-  ): Promise<QueryResult> => this.query(query, params)
+  ): Promise<QueryResult> => this.pool.query(query, params)
 }

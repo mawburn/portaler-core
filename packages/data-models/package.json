@@ -1,6 +1,6 @@
 {
   "name": "@portaler/data-models",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "Database models for Portaler",
   "main": "./out/index.js",
   "types": "./out/index.d.ts",
@@ -9,7 +9,7 @@
   "license": "GNU AGPLv3",
   "private": true,
   "scripts": {
-    "prebuild": "rimraf out",
+    "prebuild": "rimraf out && npm version patch",
     "build": "tsc -p tsconfig.json"
   },
   "peerDependencies": {
@@ -21,5 +21,8 @@
     "@types/pg": "^7.14.6",
     "rimraf": "^3.0.2",
     "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "discord.js": "^12.4.1"
   }
 }

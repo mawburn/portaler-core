@@ -43,8 +43,43 @@ var Server_1 = __importDefault(require("./Server"));
 var UserModel = /** @class */ (function () {
     function UserModel(dbQuery) {
         var _this = this;
-        this.create = function (userInfo, servers, refreshToken) { return __awaiter(_this, void 0, void 0, function () {
-            var serverModel_1, existingServers, dbResUser, userId_1, err_1;
+        this.createUser = function (member, serverId, roles) { return __awaiter(_this, void 0, void 0, function () {
+            var user, userId_1, dbResUser, adds_1, err_1;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 5, , 6]);
+                        return [4 /*yield*/, this.getUserByDiscord(member.user.id)];
+                    case 1:
+                        user = _a.sent();
+                        userId_1 = user ? user.id : null;
+                        if (!!userId_1) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.query("\n          INSERT INTO users(discord_id, discord_name, discord_discriminator)\n          VALUES ($1, $2, $3 RETURNING id;\n          ", [member.user.id, member.user.username, member.user.discriminator])];
+                    case 2:
+                        dbResUser = _a.sent();
+                        userId_1 = dbResUser.rows[0].id;
+                        _a.label = 3;
+                    case 3:
+                        if (userId_1 === null) {
+                            throw new Error('NoUserFound');
+                        }
+                        adds_1 = [];
+                        adds_1.push(this.query("INSERT INTO user_servers(user_id, server_id) VALUES($1, $2)", [userId_1, serverId]));
+                        roles.forEach(function (r) {
+                            adds_1.push(_this.query("INSERT INTO user_roles(user_id, role_id) VALUES($1, $2)", [userId_1, r]));
+                        });
+                        return [4 /*yield*/, Promise.all(adds_1)];
+                    case 4: return [2 /*return*/, _a.sent()];
+                    case 5:
+                        err_1 = _a.sent();
+                        throw err_1;
+                    case 6: return [2 /*return*/];
+                }
+            });
+        }); };
+        this.createLogin = function (userInfo, servers, refreshToken) { return __awaiter(_this, void 0, void 0, function () {
+            var serverModel_1, existingServers, dbResUser, userId_2, err_2;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -76,36 +111,67 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, this.query("\n      INSERT INTO users(discord_id, discord_name, discord_discriminator, discord_refresh)\n      VALUES ($1, $2, $3, $4) RETURNING id;\n      ", [userInfo.id, userInfo.username, userInfo.discriminator, refreshToken])];
                     case 3:
                         dbResUser = _a.sent();
-                        userId_1 = dbResUser.rows[0].id;
+                        userId_2 = dbResUser.rows[0].id;
                         return [4 /*yield*/, Promise.all(existingServers.map(function (s) { return __awaiter(_this, void 0, void 0, function () {
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
-                                        case 0: return [4 /*yield*/, this.query("INSERT INTO user_servers(user_id, server_id) VALUES($1, $2)", [userId_1, s.id])];
+                                        case 0: return [4 /*yield*/, this.query("INSERT INTO user_servers(user_id, server_id) VALUES($1, $2)", [userId_2, s.id])];
                                         case 1: return [2 /*return*/, _a.sent()];
                                     }
                                 });
                             }); }))];
                     case 4:
                         _a.sent();
-                        return [2 /*return*/, userId_1];
+                        return [2 /*return*/, userId_2];
                     case 5:
-                        err_1 = _a.sent();
-                        throw new Error(err_1);
+                        err_2 = _a.sent();
+                        throw new Error(err_2);
                     case 6: return [2 /*return*/];
                 }
             });
         }); };
-        this.addRoles = function (userId, roleId) { return __awaiter(_this, void 0, void 0, function () {
+        this.addRoles = function (userId, roleIds) { return __awaiter(_this, void 0, void 0, function () {
+            var adds;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.query("INSERT INTO user_roles(user_id, role_id) VALUES($1, $2)", [userId, roleId])];
+                    case 0:
+                        adds = roleIds.map(function (r) {
+                            return _this.query("INSERT INTO user_roles(user_id, role_id) VALUES($1, $2)", [
+                                userId,
+                                r,
+                            ]);
+                        });
+                        return [4 /*yield*/, Promise.all(adds)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/, true];
                 }
             });
         }); };
-        this.getUser = function (userId, serverId) { return __awaiter(_this, void 0, void 0, function () {
+        this.getUserByDiscord = function (userId) { return __awaiter(_this, void 0, void 0, function () {
+            var dbResUser, fRow, user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.query("SELECT * FROM users WHERE discord_id = $1", [userId])];
+                    case 1:
+                        dbResUser = _a.sent();
+                        if (dbResUser.rowCount === 0) {
+                            return [2 /*return*/, null];
+                        }
+                        fRow = dbResUser.rows[0];
+                        user = {
+                            id: fRow.id,
+                            discordId: fRow.discord_id,
+                            discordName: fRow.discord_name + "#" + fRow.discriminator,
+                            discordRefresh: fRow.refresh,
+                            createdOn: fRow.created_on,
+                        };
+                        return [2 /*return*/, user];
+                }
+            });
+        }); };
+        this.getFullUser = function (userId, serverId) { return __awaiter(_this, void 0, void 0, function () {
             var dbResUser, fRow, user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -125,6 +191,25 @@ var UserModel = /** @class */ (function () {
                             }); }),
                         };
                         return [2 /*return*/, user];
+                }
+            });
+        }); };
+        this.removeUserRoles = function (userId, roleIds) { return __awaiter(_this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Promise.all(roleIds.map(function (r) {
+                            return _this.query("DELETE FROM user_roles WHERE user_id = $1 AND role_id = $2", [userId, r]);
+                        }))];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        }); };
+        this.removeUserServer = function (userId, serverId) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.query("DELETE FROM user_servers WHERE user_id = $1 AND server_id = $2", [userId, serverId])];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         }); };

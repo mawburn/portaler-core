@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
   created_on TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO users (discord_id, discord_name, discord_refresh)
-VALUES ('0', 'Portaler', 'none');
+INSERT INTO users (discord_id, discord_name, discord_discriminator, discord_refresh)
+VALUES ('0', 'Portaler Server', '4242', 'none');
 
 CREATE TABLE IF NOT EXISTS servers (
   id serial PRIMARY KEY,

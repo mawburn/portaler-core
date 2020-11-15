@@ -41,7 +41,7 @@ router.get(
         grant_type: 'authorization_code',
         code,
         redirect_uri: `${config.discord.redirectUri}`,
-        scope: 'identify email guilds bot',
+        scope: 'identify guilds',
       }
 
       const discordRes = await fetch(`${config.discord.apiUrl}/oauth2/token`, {
@@ -68,7 +68,9 @@ router.get(
         await addUser(dUser, dServers, discordJson.refresh_token)
       }
 
-      res.redirect(`${config.authUrl}/?token=${discordJson.access_token}`)
+      res.redirect(
+        `${config.discord.authUrl}/?token=${discordJson.access_token}`
+      )
     } catch (err: Error | any) {
       logger.error('Error logging in user', err)
       res.status(500).json({ error: err.message })

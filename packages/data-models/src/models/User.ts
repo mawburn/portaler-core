@@ -1,3 +1,4 @@
+import { GuildMember } from 'discord.js'
 import { QueryResult } from 'pg'
 
 import { DiscordMe, DiscordMeGuild } from '@portaler/types'
@@ -33,7 +34,57 @@ export default class UserModel {
     this.query = dbQuery
   }
 
-  create = async (
+  createUser = async (
+    member: GuildMember,
+    serverId: number,
+    roles: number[]
+  ) => {
+    try {
+      const user = await this.getUserByDiscord(member.user.id)
+
+      let userId = user ? user.id : null
+
+      if (!userId) {
+        const dbResUser = await this.query(
+          `
+          INSERT INTO users(discord_id, discord_name, discord_discriminator)
+          VALUES ($1, $2, $3 RETURNING id;
+          `,
+          [member.user.id, member.user.username, member.user.discriminator]
+        )
+
+        userId = dbResUser.rows[0].id
+      }
+
+      if (userId === null) {
+        throw new Error('NoUserFound')
+      }
+
+      const adds = []
+
+      adds.push(
+        this.query(
+          `INSERT INTO user_servers(user_id, server_id) VALUES($1, $2)`,
+          [userId, serverId]
+        )
+      )
+
+      roles.forEach((r) => {
+        adds.push(
+          this.query(
+            `INSERT INTO user_roles(user_id, role_id) VALUES($1, $2)`,
+            [userId!, r]
+          )
+        )
+      })
+
+      return await Promise.all(adds)
+    } catch (err) {
+      throw err
+    }
+  }
+
+  createLogin = async (
     userInfo: DiscordMe,
     servers: DiscordMeGuild[],
     refreshToken: string
@@ -87,16 +138,43 @@ export default class UserModel {
     }
   }
 
-  addRoles = async (userId: number, roleId: number): Promise<boolean> => {
-    await this.query(
-      `INSERT INTO user_roles(user_id, role_id) VALUES($1, $2)`,
-      [userId, roleId]
+  addRoles = async (userId: number, roleIds: number[]): Promise<boolean> => {
+    const adds = roleIds.map((r) =>
+      this.query(`INSERT INTO user_roles(user_id, role_id) VALUES($1, $2)`, [
+        userId,
+        r,
+      ])
     )
+
+    await Promise.all(adds)
 
     return true
   }
 
-  getUser = async (
+  getUserByDiscord = async (userId: string): Promise<IUserModel | null> => {
+    const dbResUser = await this.query(
+      `SELECT * FROM users WHERE discord_id = $1`,
+      [userId]
+    )
+
+    if (dbResUser.rowCount === 0) {
+      return null
+    }
+
+    const fRow = dbResUser.rows[0]
+
+    const user: IUserModel = {
+      id: fRow.id,
+      discordId: fRow.discord_id,
+      discordName: `${fRow.discord_name}#${fRow.discriminator}`,
+      discordRefresh: fRow.refresh,
+      createdOn: fRow.created_on,
+    }
+
+    return user
+  }
+
+  getFullUser = async (
     userId: number | string,
     serverId: number
   ): Promise<IUserModel> => {
@@ -136,4 +214,20 @@ export default class UserModel {
 
     return user
   }
+
+  removeUserRoles = async (userId: number, roleIds: number[]) =>
+    await Promise.all(
+      roleIds.map((r) =>
+        this.query(
+          `DELETE FROM user_roles WHERE user_id = $1 AND role_id = $2`,
+          [userId, r]
+        )
+      )
+    )
+
+  removeUserServer = async (userId: number, serverId: number) =>
+    await this.query(
+      `DELETE FROM user_servers WHERE user_id = $1 AND server_id = $2`,
+      [userId, serverId]
+    )
 }

@@ -3,9 +3,9 @@ interface IConfig {
   port: number
   host: string
   localUrl: string
-  authUrl: string
   discord: {
     authUrl: string
+    botUrl: string
     redirectUri: string
     apiUrl: string
     bot: string
@@ -35,14 +35,20 @@ try {
   // use logger here
 }
 
+const localUrl = `${host}:${port}/api`
+
 const config: IConfig = {
   cors: {},
   port,
   host,
-  localUrl: `${host}:${port}/api`,
-  authUrl: process.env.AUTH_URL!,
+  localUrl,
   discord: {
-    authUrl: process.env.DISCORD_AUTH_URL!,
+    authUrl: `${process.env.DISCORD_AUTH_URL!}&redirect_uri=${
+      process.env.DISCORD_REDIRECT_URI
+    }&response_type=code&scope=identify%20guilds`,
+    botUrl: `${process.env.DISCORD_AUTH_URL!}&scope=bot&permissions=${
+      process.env.DISCORD_BOT_PERMS
+    }`,
     redirectUri: process.env.DISCORD_REDIRECT_URI!,
     apiUrl: process.env.DISCORD_API_URL!,
     bot: process.env.DISCORD_BOT_TOKEN!,
