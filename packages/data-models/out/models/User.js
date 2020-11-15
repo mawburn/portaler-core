@@ -79,7 +79,7 @@ var UserModel = /** @class */ (function () {
             });
         }); };
         this.createLogin = function (userInfo, servers, refreshToken) { return __awaiter(_this, void 0, void 0, function () {
-            var serverModel_1, serverResponse, existingServers, dbResUser, userId_2, err_2;
+            var serverModel_1, serverResponse, existingServers, userExists_1, userId_2, dbResUser, err_2;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -95,7 +95,7 @@ var UserModel = /** @class */ (function () {
                         }
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 5, , 6]);
+                        _a.trys.push([1, 9, , 10]);
                         serverModel_1 = new Server_1.default(this.query);
                         return [4 /*yield*/, Promise.all(servers.map(function (s) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
                                 switch (_a.label) {
@@ -109,25 +109,38 @@ var UserModel = /** @class */ (function () {
                         if (existingServers.length === 0) {
                             throw Error('NoServersFoundForUser');
                         }
-                        return [4 /*yield*/, this.query("\n      INSERT INTO users(discord_id, discord_name, discord_discriminator, discord_refresh)\n      VALUES ($1, $2, $3, $4) RETURNING id;\n      ", [userInfo.id, userInfo.username, userInfo.discriminator, refreshToken])];
+                        return [4 /*yield*/, this.getUserByDiscord(userInfo.id)];
                     case 3:
+                        userExists_1 = _a.sent();
+                        userId_2 = userExists_1 ? userExists_1.id : null;
+                        if (!!userId_2) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this.query("\n          INSERT INTO users(discord_id, discord_name, discord_discriminator, discord_refresh)\n          VALUES ($1, $2, $3, $4) RETURNING id;\n          ", [userInfo.id, userInfo.username, userInfo.discriminator, refreshToken])];
+                    case 4:
                         dbResUser = _a.sent();
                         userId_2 = dbResUser.rows[0].id;
-                        return [4 /*yield*/, Promise.all(existingServers.map(function (s) { return __awaiter(_this, void 0, void 0, function () {
-                                return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0: return [4 /*yield*/, this.query("INSERT INTO user_servers(user_id, server_id) VALUES($1, $2)", [userId_2, s.id])];
-                                        case 1: return [2 /*return*/, _a.sent()];
-                                    }
-                                });
-                            }); }))];
-                    case 4:
+                        return [3 /*break*/, 7];
+                    case 5: return [4 /*yield*/, this.query("UPDATE users SET discord_refresh = $1 WHERE id = $2", [refreshToken, userId_2])];
+                    case 6:
+                        _a.sent();
+                        _a.label = 7;
+                    case 7:
+                        if (userId_2 === null || !userId_2) {
+                            throw new Error('UserNotFoundOrCreated');
+                        }
+                        return [4 /*yield*/, Promise.all(existingServers.map(function (s) {
+                                var _a;
+                                if ((_a = userExists_1 === null || userExists_1 === void 0 ? void 0 : userExists_1.serverAccess) === null || _a === void 0 ? void 0 : _a.find(function (ue) { return ue.serverId === s.discordId; })) {
+                                    return _this.query("INSERT INTO user_servers(user_id, server_id) VALUES($1, $2)", [userId_2, s.id]);
+                                }
+                                return Promise.resolve(null);
+                            }))];
+                    case 8:
                         _a.sent();
                         return [2 /*return*/, userId_2];
-                    case 5:
+                    case 9:
                         err_2 = _a.sent();
-                        throw new Error(err_2);
-                    case 6: return [2 /*return*/];
+                        throw err_2;
+                    case 10: return [2 /*return*/];
                 }
             });
         }); };

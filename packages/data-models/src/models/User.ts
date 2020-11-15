@@ -4,6 +4,7 @@ import { QueryResult } from 'pg'
 import { DiscordMe, DiscordMeGuild } from '@portaler/types'
 
 import ServerModel, { IServerModel } from './Server'
+import { isNull } from 'util'
 
 interface ServerRoleId {
   serverId: string
@@ -116,29 +117,49 @@ export default class UserModel {
         throw Error('NoServersFoundForUser')
       }
 
-      const dbResUser = await this.query(
-        `
-      INSERT INTO users(discord_id, discord_name, discord_discriminator, discord_refresh)
-      VALUES ($1, $2, $3, $4) RETURNING id;
-      `,
-        [userInfo.id, userInfo.username, userInfo.discriminator, refreshToken]
-      )
+      const userExists = await this.getUserByDiscord(userInfo.id)
 
-      const userId = dbResUser.rows[0].id
+      let userId = userExists ? userExists.id : null
+
+      if (!userId) {
+        const dbResUser = await this.query(
+          `
+          INSERT INTO users(discord_id, discord_name, discord_discriminator, discord_refresh)
+          VALUES ($1, $2, $3, $4) RETURNING id;
+          `,
+          [userInfo.id, userInfo.username, userInfo.discriminator, refreshToken]
+        )
+
+        userId = dbResUser.rows[0].id
+      } else {
+        await this.query(
+          `UPDATE users SET discord_refresh = $1 WHERE id = $2`,
+          [refreshToken, userId]
+        )
+      }
+
+      if (userId === null || !userId) {
+        throw new Error('UserNotFoundOrCreated')
+      }
 
       await Promise.all(
-        existingServers.map(
-          async (s) =>
-            await this.query(
+        existingServers.map((s) => {
+          if (
+            userExists?.serverAccess?.find((ue) => ue.serverId === s.discordId)
+          ) {
+            return this.query(
               `INSERT INTO user_servers(user_id, server_id) VALUES($1, $2)`,
-              [userId, s.id]
+              [userId!, s.id]
             )
-        )
+          }
+
+          return Promise.resolve(null)
+        })
       )
 
       return userId
     } catch (err) {
-      throw new Error(err)
+      throw err
     }
   }
 

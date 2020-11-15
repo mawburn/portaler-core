@@ -40,10 +40,10 @@ router.get(
 
       await db.User.createLogin(me, server, discordJson.refresh_token)
 
-      res.redirect(`${config.discord.authUrl}/?user=${me.id}`)
+      res.redirect(`${config.localAuth}/?user=${me.id}`)
     } catch (err: Error | any) {
       logger.error('Error logging in user', err)
-      res.status(500).json({ error: err.message })
+      res.status(500).json({ error: 'Error Logging in User' })
     }
   })
 )

@@ -13,7 +13,13 @@ const verifyUser = wrapAsync(
       return res.status(403)
     }
 
-    const token = req.headers.authorization.split(' ')[1]
+    const authHeaders = req.headers.authorization.split(' ')
+
+    if (authHeaders[0] !== 'Bearer') {
+      return res.status(403)
+    }
+
+    const token = authHeaders[1]
 
     const userServer = await redis.getUser(token)
 

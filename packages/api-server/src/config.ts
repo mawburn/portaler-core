@@ -5,6 +5,7 @@ interface IConfig {
   port: number
   host: string
   localUrl: string
+  localAuth: string
   discord: {
     authUrl: string
     botUrl: string
@@ -39,6 +40,7 @@ const config: IConfig = {
   port,
   host,
   localUrl,
+  localAuth: process.env.AUTH_URL!,
   discord: {
     authUrl: `${process.env.DISCORD_AUTH_URL!}&redirect_uri=${
       process.env.DISCORD_REDIRECT_URI
