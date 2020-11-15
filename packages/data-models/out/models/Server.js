@@ -87,6 +87,20 @@ var ServerModel = /** @class */ (function () {
                 }
             });
         }); };
+        this.getServerIdBySubdomain = function (subDomain) { return __awaiter(_this, void 0, void 0, function () {
+            var dbResServer;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.query("SELECT discord_id FROM servers WHERE subdomain = $1", [subDomain])];
+                    case 1:
+                        dbResServer = _a.sent();
+                        if (dbResServer.rowCount === 0) {
+                            throw new Error('NoServerFound');
+                        }
+                        return [2 /*return*/, dbResServer.rows[0].id];
+                }
+            });
+        }); };
         this.query = dbQuery;
     }
     return ServerModel;

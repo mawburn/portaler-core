@@ -80,4 +80,17 @@ export default class ServerModel {
 
     return server
   }
+
+  getServerIdBySubdomain = async (subDomain: string): Promise<number> => {
+    const dbResServer = await this.query(
+      `SELECT discord_id FROM servers WHERE subdomain = $1`,
+      [subDomain]
+    )
+
+    if (dbResServer.rowCount === 0) {
+      throw new Error('NoServerFound')
+    }
+
+    return dbResServer.rows[0].id
+  }
 }

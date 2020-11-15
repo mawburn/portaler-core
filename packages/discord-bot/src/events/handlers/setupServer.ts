@@ -1,10 +1,10 @@
 import { Guild } from 'discord.js'
 
-import { ServerModel } from '@portaler/data-models'
+import { DatabaseConnector } from '@portaler/data-models'
 
 import config from '../../config'
 
-const setupServer = async (server: Guild, serverModel: ServerModel) => {
+const setupServer = async (server: Guild, db: DatabaseConnector) => {
   const rolePayload = {
     name: config.roleName,
     permissions: 0,
@@ -19,8 +19,8 @@ const setupServer = async (server: Guild, serverModel: ServerModel) => {
       reason: 'Add authentication for Portaler.zone',
     })
 
-    const serverId = await serverModel.create(server.id, server.name)
-    await serverModel.createRole(serverId, role.id)
+    const serverId = await db.Server.create(server.id, server.name)
+    await db.Server.createRole(serverId, role.id)
   } catch (err) {
     console.error(err)
   }

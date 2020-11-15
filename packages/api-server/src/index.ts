@@ -5,9 +5,8 @@ import cors from 'cors'
 import express from 'express'
 
 import Auth from './api/auth'
-import Health from './api/health'
 import config from './config'
-import { migrations } from './db/migrations'
+import { migrations } from './migrations'
 
 // Run DB Migrations
 migrations()
@@ -20,9 +19,9 @@ app.use(cors(config.cors))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.use('/api/health', Health)
 app.use('/api/auth', Auth)
 
+app.get('/api/health', (_, res) => res.status(200).send({ server: 'ok' }))
 app.get('/api/bot', (_, res) => res.redirect(config.discord.botUrl))
 
 app.listen(config.port, () =>

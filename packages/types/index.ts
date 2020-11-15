@@ -60,3 +60,9 @@ export interface DBConfig {
   database: string
   port: number
 }
+
+export interface RedisConfig {
+  host: string
+  password: string
+  port: number
+}

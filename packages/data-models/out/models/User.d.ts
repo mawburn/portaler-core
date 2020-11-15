@@ -1,6 +1,6 @@
+import { GuildMember } from 'discord.js';
 import { QueryResult } from 'pg';
 import { DiscordMe, DiscordMeGuild } from '@portaler/types';
-import { GuildMember } from 'discord.js';
 interface ServerRoleId {
     serverId: string;
     roleId: string;

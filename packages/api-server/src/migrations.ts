@@ -1,8 +1,8 @@
-import { createDb, migrate } from 'postgres-migrations'
 import path from 'path'
+import { createDb, migrate } from 'postgres-migrations'
 
-import config from '../config'
-import logger from '../utils/logger'
+import config from './config'
+import logger from './utils/logger'
 
 export const migrations = async (): Promise<any> => {
   try {

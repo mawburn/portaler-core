@@ -1,3 +1,5 @@
+import { DBConfig, RedisConfig } from '@portaler/types'
+
 interface IConfig {
   cors: {}
   port: number
@@ -14,13 +16,8 @@ interface IConfig {
     secret: string
     role: string
   }
-  db: {
-    host: string
-    user: string
-    password: string
-    database: string
-    port: number
-  }
+  db: DBConfig
+  redis: RedisConfig
 }
 
 let port = 7777
@@ -63,6 +60,11 @@ const config: IConfig = {
     password: process.env.DB_PASSWORD!,
     database: process.env.DB_DATABASE!,
     port: Number(process.env.DB_PORT) || 5432,
+  },
+  redis: {
+    host: process.env.REDIS_HOST!,
+    password: process.env.REDIS_PASSWORD!,
+    port: Number(process.env.REDIS_PORT!),
   },
 }
 

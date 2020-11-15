@@ -18,5 +18,6 @@ export default class ServerModel {
     create: (discordId: string, discordName: string) => Promise<number>;
     createRole: (serverId: number, roleId: string) => Promise<number>;
     getServer: (id: number | string) => Promise<IServerModel>;
+    getServerIdBySubdomain: (subDomain: string) => Promise<number>;
 }
 export {};
