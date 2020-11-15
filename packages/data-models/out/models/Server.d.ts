@@ -17,7 +17,7 @@ export default class ServerModel {
     constructor(dbQuery: (query: string, params: (string | number)[]) => Promise<QueryResult>);
     create: (discordId: string, discordName: string) => Promise<number>;
     createRole: (serverId: number, roleId: string) => Promise<number>;
-    getServer: (id: number | string) => Promise<IServerModel>;
+    getServer: (id: number | string) => Promise<IServerModel | null>;
     getServerIdBySubdomain: (subDomain: string) => Promise<number>;
 }
 export {};

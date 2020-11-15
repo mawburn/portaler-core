@@ -2,6 +2,40 @@ import { GuildMember, PartialGuildMember } from 'discord.js'
 
 import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 
+/**
+ * Remove a user's roles and log them out
+ * @param  userId
+ * @param  serverId
+ * @param  roleIds
+ * @param  db
+ * @param  redis
+ */
+const removeUserRoles = async (
+  userId: number,
+  serverId: number,
+  roleIds: number[],
+  db: DatabaseConnector,
+  redis: RedisConnector
+) => {
+  try {
+    await db.User.removeUserRoles(userId, roleIds)
+
+    const token = await redis.getToken(userId, serverId)
+
+    if (token) {
+      await redis.delUser(token, userId, serverId)
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+/**
+ * Remove a user from a
+ * @param  member
+ * @param  db
+ * @param  redis
+ */
 export const removeUser = async (
   member: GuildMember | PartialGuildMember,
   db: DatabaseConnector,
@@ -12,48 +46,64 @@ export const removeUser = async (
     db.User.getUserByDiscord(member.id),
   ])
 
-  if (user) {
-    const token = await redis.getToken(user.id, server.id)
+  if (user && server) {
+    await db.User.removeUserServer(user.id, server.id)
 
-    await Promise.allSettled([
-      db.User.removeUserRoles(
-        user.id,
-        server.roles.map((r) => r.id)
-      ),
-      db.User.removeUserServer(user.id, server.id),
-      redis.delUser(token, user.id, server.id),
-    ])
+    removeUserRoles(
+      user.id,
+      server.id,
+      server.roles.map((r) => r.id),
+      db,
+      redis
+    )
   }
 }
 
+/**
+ * Handles role updates
+ * Checking against oldMember vs newMember from Discord.js is highly unreliable,
+ * so we need to check against our own data sources
+ * @param  member
+ * @param  db
+ * @param  redis
+ */
 const roleHandler = async (
   member: GuildMember,
   db: DatabaseConnector,
   redis: RedisConnector
 ) => {
-  const server = await db.Server.getServer(member.guild.id)
-  const user = await db.User.getFullUser(member.id, server.id)
+  try {
+    const server = await db.Server.getServer(member.guild.id)
 
-  if (server.roles.some((r) => member.roles.cache.has(r.discordRoleId))) {
-    if (!user) {
-      const discordUser = await db.User.getUserByDiscord(member.id)
+    if (server) {
+      const user = await db.User.getFullUser(member.id, server.id)
+      const roleIds = server.roles.map((r) => r.discordRoleId)
 
-      const roleIds = server.roles.map((r) => r.id)
+      const newRoles = member.roles.cache.map((r) => r.id)
+      const hasRole = newRoles.some((r) => roleIds.includes(r))
 
-      if (discordUser) {
-        await db.User.addRoles(discordUser.id, roleIds)
-      } else {
-        await db.User.createUser(member, server.id, roleIds)
+      if (user && !hasRole) {
+        // role was removed from user
+        removeUserRoles(
+          user.id,
+          server.id,
+          server.roles.map((r) => r.id),
+          db,
+          redis
+        )
+      } else if (!user && hasRole) {
+        const dbUser = await db.User.getUserByDiscord(member.id)
+        const serverRoleIds = server.roles.map((r) => r.id)
+
+        if (dbUser) {
+          await db.User.addRoles(dbUser.id, serverRoleIds, server.id)
+        } else {
+          await db.User.createUser(member, server.id, serverRoleIds)
+        }
       }
     }
-  } else if (user) {
-    await db.User.removeUserRoles(
-      user.id,
-      server.roles.map((r) => r.id)
-    )
-
-    const token = await redis.getToken(user.id, server.id)
-    await redis.delUser(token, user.id, server.id)
+  } catch (err) {
+    console.error(err)
   }
 }
 

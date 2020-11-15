@@ -44,41 +44,56 @@ export default class ServerModel {
 
   createRole = async (serverId: number, roleId: string): Promise<number> => {
     const dbResRole = await this.query(
-      `INSERT INTO server_roles(server_id, discord_role_id VALUES($1, $2) RETURNING id`,
+      `INSERT INTO server_roles(server_id, discord_role_id) VALUES($1, $2) RETURNING id`,
       [serverId, roleId]
     )
 
     return dbResRole.rows[0].id
   }
 
-  getServer = async (id: number | string): Promise<IServerModel> => {
-    const queryString = `
+  getServer = async (id: number | string): Promise<IServerModel | null> => {
+    try {
+      const queryString = `
       SELECT
-        s.id AS id, s.discord_id AS discord_id s.name AS name, s.subdomain AS subdomain, s.created_on AS created_on
-        sr.id AS role_id, sr.discord_role_id AS discord_role_id, sr.last_updated AS role_last_updated
+        s.id AS id,
+        s.discord_id AS discord_id,
+        s.discord_name AS discord_name,
+        s.subdomain AS subdomain,
+        s.created_on AS created_on,
+        sr.id AS role_id,
+        sr.discord_role_id AS discord_role_id,
+        sr.last_updated AS role_last_updated
       FROM servers AS s
-      JOIN server_roles AS sr ON sr.server_id = s.id
+      LEFT JOIN server_roles AS sr ON sr.server_id = s.id
       WHERE ${typeof id === 'number' ? 's.id' : 's.discord_id'} = $1
     `
 
-    const dbResServer = await this.query(queryString, [id])
+      const dbResServer = await this.query(queryString, [id])
 
-    const fRow = dbResServer.rows[0]
+      if (dbResServer.rowCount === 0) {
+        throw new Error('NoServerFound')
+      }
 
-    const server: IServerModel = {
-      id: fRow.id,
-      discordId: fRow.discord_id,
-      discordName: fRow.discord_name,
-      subdomain: fRow.subdomain,
-      createdOn: fRow.created_on,
-      roles: dbResServer.rows.map((r) => ({
-        id: r.role_id,
-        discordRoleId: r.discord_role_id,
-        lastUpdated: r.role_last_updated,
-      })),
+      const fRow = dbResServer.rows[0]
+
+      const server: IServerModel = {
+        id: fRow.id,
+        discordId: fRow.discord_id,
+        discordName: fRow.discord_name,
+        subdomain: fRow.subdomain,
+        createdOn: fRow.created_on,
+        roles: dbResServer.rows.map((r) => ({
+          id: r.role_id,
+          discordRoleId: r.discord_role_id,
+          lastUpdated: r.role_last_updated,
+        })),
+      }
+
+      return server
+    } catch (err) {
+      // TODO add logging here
+      return null
     }
-
-    return server
   }
 
   getServerIdBySubdomain = async (subDomain: string): Promise<number> => {

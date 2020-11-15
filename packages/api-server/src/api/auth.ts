@@ -2,11 +2,7 @@ import btoa from 'btoa'
 import { Request, Response, Router } from 'express'
 import { v4 as uuid } from 'uuid'
 
-import {
-  DatabaseConnector,
-  RedisConnector,
-  UserModel,
-} from '@portaler/data-models'
+import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 
 import config from '../config'
 import wrapAsync from '../middleware/wrapAsync'
@@ -17,8 +13,6 @@ import logger from '../utils/logger'
 
 const db = new DatabaseConnector(config.db)
 const redis = new RedisConnector(config.redis)
-
-const userModel = new UserModel(db.dbQuery)
 
 const router = Router()
 
@@ -44,7 +38,7 @@ router.get(
         fetchUserGuilds(token),
       ])
 
-      await userModel.createLogin(me, server, discordJson.refresh_token)
+      await db.User.createLogin(me, server, discordJson.refresh_token)
 
       res.redirect(`${config.discord.authUrl}/?user=${me.id}`)
     } catch (err: Error | any) {
@@ -66,11 +60,15 @@ router.post(
       const serverId = await db.Server.getServerIdBySubdomain(req.subdomains[0])
       const user = await db.User.getFullUser(req.query.user as string, serverId)
 
-      if (user) {
-        const token = btoa(uuid().replaceAll(/-/gi, ''))
-        await redis.setUser(token, user.id, serverId)
+      if (!user) {
+        throw new Error('UserNotFound')
       }
+
+      const token = btoa(uuid().replaceAll(/-/gi, ''))
+      await redis.setUser(token, user.id, serverId)
+      res.status(200).json({ token })
     } catch (err: Error | any) {
+      logger.info(err)
       res.status(401)
     }
   })

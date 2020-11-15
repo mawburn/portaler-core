@@ -18,9 +18,9 @@ export default class UserModel {
     constructor(dbQuery: (query: string, params: (string | number)[]) => Promise<QueryResult>);
     createUser: (member: GuildMember, serverId: number, roles: number[]) => Promise<QueryResult<any>[]>;
     createLogin: (userInfo: DiscordMe, servers: DiscordMeGuild[], refreshToken: string) => Promise<number>;
-    addRoles: (userId: number, roleIds: number[]) => Promise<boolean>;
+    addRoles: (userId: number, roleIds: number[], serverId: number) => Promise<boolean>;
     getUserByDiscord: (userId: string) => Promise<IUserModel | null>;
-    getFullUser: (userId: number | string, serverId: number) => Promise<IUserModel>;
+    getFullUser: (userId: number | string, serverId: number) => Promise<IUserModel | null>;
     removeUserRoles: (userId: number, roleIds: number[]) => Promise<QueryResult<any>[]>;
     removeUserServer: (userId: number, serverId: number) => Promise<QueryResult<any>>;
 }

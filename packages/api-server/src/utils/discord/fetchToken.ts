@@ -1,3 +1,4 @@
+import btoa from 'btoa'
 import fetch from 'node-fetch'
 
 import config from '../../config'

@@ -54,7 +54,7 @@ var ServerModel = /** @class */ (function () {
             var dbResRole;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.query("INSERT INTO server_roles(server_id, discord_role_id VALUES($1, $2) RETURNING id", [serverId, roleId])];
+                    case 0: return [4 /*yield*/, this.query("INSERT INTO server_roles(server_id, discord_role_id) VALUES($1, $2) RETURNING id", [serverId, roleId])];
                     case 1:
                         dbResRole = _a.sent();
                         return [2 /*return*/, dbResRole.rows[0].id];
@@ -62,14 +62,18 @@ var ServerModel = /** @class */ (function () {
             });
         }); };
         this.getServer = function (id) { return __awaiter(_this, void 0, void 0, function () {
-            var queryString, dbResServer, fRow, server;
+            var queryString, dbResServer, fRow, server, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        queryString = "\n      SELECT\n        s.id AS id, s.discord_id AS discord_id s.name AS name, s.subdomain AS subdomain, s.created_on AS created_on\n        sr.id AS role_id, sr.discord_role_id AS discord_role_id, sr.last_updated AS role_last_updated\n      FROM servers AS s\n      JOIN server_roles AS sr ON sr.server_id = s.id\n      WHERE " + (typeof id === 'number' ? 's.id' : 's.discord_id') + " = $1\n    ";
+                        _a.trys.push([0, 2, , 3]);
+                        queryString = "\n      SELECT\n        s.id AS id,\n        s.discord_id AS discord_id,\n        s.discord_name AS discord_name,\n        s.subdomain AS subdomain,\n        s.created_on AS created_on,\n        sr.id AS role_id,\n        sr.discord_role_id AS discord_role_id,\n        sr.last_updated AS role_last_updated\n      FROM servers AS s\n      LEFT JOIN server_roles AS sr ON sr.server_id = s.id\n      WHERE " + (typeof id === 'number' ? 's.id' : 's.discord_id') + " = $1\n    ";
                         return [4 /*yield*/, this.query(queryString, [id])];
                     case 1:
                         dbResServer = _a.sent();
+                        if (dbResServer.rowCount === 0) {
+                            throw new Error('NoServerFound');
+                        }
                         fRow = dbResServer.rows[0];
                         server = {
                             id: fRow.id,
@@ -84,6 +88,11 @@ var ServerModel = /** @class */ (function () {
                             }); }),
                         };
                         return [2 /*return*/, server];
+                    case 2:
+                        err_1 = _a.sent();
+                        // TODO add logging here
+                        return [2 /*return*/, null];
+                    case 3: return [2 /*return*/];
                 }
             });
         }); };

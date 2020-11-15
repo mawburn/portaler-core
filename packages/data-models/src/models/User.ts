@@ -48,7 +48,7 @@ export default class UserModel {
         const dbResUser = await this.query(
           `
           INSERT INTO users(discord_id, discord_name, discord_discriminator)
-          VALUES ($1, $2, $3 RETURNING id;
+          VALUES ($1, $2, $3) RETURNING id;
           `,
           [member.user.id, member.user.username, member.user.discriminator]
         )
@@ -104,9 +104,13 @@ export default class UserModel {
     try {
       const serverModel = new ServerModel(this.query)
 
-      const existingServers: IServerModel[] = await Promise.all(
+      const serverResponse: (IServerModel | null)[] = await Promise.all(
         servers.map(async (s) => await serverModel.getServer(s.id))
       )
+
+      const existingServers: IServerModel[] = serverResponse.filter(
+        Boolean
+      ) as IServerModel[]
 
       if (existingServers.length === 0) {
         throw Error('NoServersFoundForUser')
@@ -138,7 +142,23 @@ export default class UserModel {
     }
   }
 
-  addRoles = async (userId: number, roleIds: number[]): Promise<boolean> => {
+  addRoles = async (
+    userId: number,
+    roleIds: number[],
+    serverId: number
+  ): Promise<boolean> => {
+    const dbUserServerRes = await this.query(
+      `SELECT * FROM user_servers WHERE user_id = $1 AND server_id = $2`,
+      [userId, serverId]
+    )
+
+    if (dbUserServerRes.rowCount === 0) {
+      await this.query(
+        `INSERT INTO user_servers(user_id, server_id) VALUES($1, $2)`,
+        [userId, serverId]
+      )
+    }
+
     const adds = roleIds.map((r) =>
       this.query(`INSERT INTO user_roles(user_id, role_id) VALUES($1, $2)`, [
         userId,
@@ -152,40 +172,45 @@ export default class UserModel {
   }
 
   getUserByDiscord = async (userId: string): Promise<IUserModel | null> => {
-    const dbResUser = await this.query(
-      `SELECT * FROM users WHERE discord_id = $1`,
-      [userId]
-    )
+    try {
+      const dbResUser = await this.query(
+        `SELECT * FROM users WHERE discord_id = $1`,
+        [userId]
+      )
 
-    if (dbResUser.rowCount === 0) {
+      if (dbResUser.rowCount === 0) {
+        return null
+      }
+
+      const fRow = dbResUser.rows[0]
+
+      const user: IUserModel = {
+        id: fRow.id,
+        discordId: fRow.discord_id,
+        discordName: `${fRow.discord_name}#${fRow.discriminator}`,
+        discordRefresh: fRow.refresh,
+        createdOn: fRow.created_on,
+      }
+
+      return user
+    } catch (err) {
       return null
     }
-
-    const fRow = dbResUser.rows[0]
-
-    const user: IUserModel = {
-      id: fRow.id,
-      discordId: fRow.discord_id,
-      discordName: `${fRow.discord_name}#${fRow.discriminator}`,
-      discordRefresh: fRow.refresh,
-      createdOn: fRow.created_on,
-    }
-
-    return user
   }
 
   getFullUser = async (
     userId: number | string,
     serverId: number
-  ): Promise<IUserModel> => {
-    const dbResUser = await this.query(
-      `
+  ): Promise<IUserModel | null> => {
+    try {
+      const dbResUser = await this.query(
+        `
       SELECT u.id AS id,
         u.discord_id AS discord_id,
         u.discord_name AS discord_name,
         u.discord_discriminator AS discriminator,
         u.discord_refresh AS refresh,
-        u.created_on AS created_on
+        u.created_on AS created_on,
         sr.server_id AS server_id,
         sr.discord_role_id AS role_id
       FROM users AS u
@@ -195,24 +220,31 @@ export default class UserModel {
       WHERE ${typeof userId === 'string' ? 'u.discord_id' : 'u.id'} = $1
         AND sr.server_id = $2
     `,
-      [userId, serverId]
-    )
+        [userId, serverId]
+      )
 
-    const fRow = dbResUser.rows[0]
+      if (dbResUser.rowCount === 0) {
+        return null
+      }
 
-    const user: IUserModel = {
-      id: fRow.id,
-      discordId: fRow.discord_id,
-      discordName: `${fRow.discord_name}#${fRow.discriminator}`,
-      discordRefresh: fRow.refresh,
-      createdOn: fRow.created_on,
-      serverAccess: dbResUser.rows.map((r) => ({
-        serverId: r.server_id,
-        roleId: r.role_id,
-      })),
+      const fRow = dbResUser.rows[0]
+
+      const user: IUserModel = {
+        id: fRow.id,
+        discordId: fRow.discord_id,
+        discordName: `${fRow.discord_name}#${fRow.discriminator}`,
+        discordRefresh: fRow.refresh,
+        createdOn: fRow.created_on,
+        serverAccess: dbResUser.rows.map((r) => ({
+          serverId: r.server_id,
+          roleId: r.role_id,
+        })),
+      }
+
+      return user
+    } catch (err) {
+      return null
     }
-
-    return user
   }
 
   removeUserRoles = async (userId: number, roleIds: number[]) =>
