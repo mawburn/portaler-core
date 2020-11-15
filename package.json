@@ -9,7 +9,9 @@
     "build:front": "cd packages/frontend && yarn build",
     "dev:api": "cd packages/api-server && yarn start:dev",
     "build:api": "cd packages/api-server && yarn build",
-    "clean": "rimraf packages/frontend/node_modules && rimraf packages/main-api/node_modules && rimraf node_modules",
+    "dev:bot": "cd package/discord-bot && yarn start:dev",
+    "build:bot": "cd packages/discord-bot && yarn build",
+    "clean": "rimraf packages/frontend/node_modules && rimraf packages/discord-bot/node_modules && rimraf packages/api-server/node_modules && rimraf node_modules",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./packages",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./packages"
   },

@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=albion
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/albionpg
+  cache:
+    image: redis:6-alpine
+    command: redis-server --requirepass redis
+    ports:
+      - '6379:6379'
+
+volumes:
+  db_data: {}
