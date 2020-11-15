@@ -44,24 +44,42 @@ var util_1 = require("util");
 var RedisConnector = /** @class */ (function () {
     function RedisConnector(config) {
         var _this = this;
-        this.setUser = function (token, userId, serverId) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, this.setAsync(token, userId + ":" + serverId)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        }); }); };
+        this.setUser = function (token, userId, serverId) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Promise.all([
+                            this.setAsync(token, userId + ":" + serverId),
+                            this.setAsync(userId + ":" + serverId, token),
+                        ])];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); };
         this.getUser = function (token) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, this.getAsync(token)];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         }); }); };
-        this.delUser = function (token) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+        this.getToken = function (userId, serverId) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, this.delAsync(token)];
+                case 0: return [4 /*yield*/, this.getAsync(userId + ":" + serverId)];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         }); }); };
+        this.delUser = function (token, userId, serverId) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Promise.all([
+                            this.delAsync(token),
+                            this.delAsync(userId + ":" + serverId),
+                        ])];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        }); };
         this.client = redis_1.default.createClient(config);
         this.getAsync = util_1.promisify(this.client.get).bind(this.client);
         this.setAsync = util_1.promisify(this.client.set).bind(this.client);

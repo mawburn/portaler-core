@@ -5,7 +5,8 @@ export default class RedisConnector {
     setAsync: (key: string, value: string) => Promise<any>;
     delAsync: (key: string) => Promise<any>;
     constructor(config: ClientOpts);
-    setUser: (token: string, userId: number, serverId: number) => Promise<any>;
+    setUser: (token: string, userId: number, serverId: number) => Promise<void>;
     getUser: (token: string) => Promise<string>;
-    delUser: (token: string) => Promise<any>;
+    getToken: (userId: number, serverId: number) => Promise<any>;
+    delUser: (token: string, userId: number, serverId: number) => Promise<[any, any]>;
 }

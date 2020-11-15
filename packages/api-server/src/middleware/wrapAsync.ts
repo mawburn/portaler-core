@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 
-const warpAsync = (fn: Function) => (
+const wrapAsync = (fn: Function) => (
   req: Request,
   res: Response,
   next: NextFunction
@@ -8,4 +8,4 @@ const warpAsync = (fn: Function) => (
   Promise.resolve(fn(req, res, next)).catch(next)
 }
 
-export default warpAsync
+export default wrapAsync

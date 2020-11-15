@@ -14,7 +14,6 @@ import fetchToken from '../utils/discord/fetchToken'
 import fetchUser from '../utils/discord/fetchUser'
 import fetchUserGuilds from '../utils/discord/fetchUserGuilds'
 import logger from '../utils/logger'
-import { resolveTypeReferenceDirective } from 'typescript'
 
 const db = new DatabaseConnector(config.db)
 const redis = new RedisConnector(config.redis)

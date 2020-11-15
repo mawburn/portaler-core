@@ -16,10 +16,21 @@ export default class RedisConnector {
     this.delAsync = promisify(this.client.del).bind(this.client)
   }
 
-  setUser = async (token: string, userId: number, serverId: number) =>
-    await this.setAsync(token, `${userId}:${serverId}`)
+  setUser = async (token: string, userId: number, serverId: number) => {
+    await Promise.all([
+      this.setAsync(token, `${userId}:${serverId}`),
+      this.setAsync(`${userId}:${serverId}`, token),
+    ])
+  }
 
   getUser = async (token: string): Promise<string> => await this.getAsync(token)
 
-  delUser = async (token: string) => await this.delAsync(token)
+  getToken = async (userId: number, serverId: number) =>
+    await this.getAsync(`${userId}:${serverId}`)
+
+  delUser = async (token: string, userId: number, serverId: number) =>
+    await Promise.all([
+      this.delAsync(token),
+      this.delAsync(`${userId}:${serverId}`),
+    ])
 }

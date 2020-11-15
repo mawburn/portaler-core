@@ -7,20 +7,21 @@ export const removeUser = async (
   db: DatabaseConnector,
   redis: RedisConnector
 ) => {
-  await redis.delUser(member.id, member.guild.id)
-
   const [server, user] = await Promise.all([
     db.Server.getServer(member.guild.id),
     db.User.getUserByDiscord(member.id),
   ])
 
   if (user) {
-    await Promise.all([
+    const token = await redis.getToken(user.id, server.id)
+
+    await Promise.allSettled([
       db.User.removeUserRoles(
         user.id,
         server.roles.map((r) => r.id)
       ),
       db.User.removeUserServer(user.id, server.id),
+      redis.delUser(token, user.id, server.id),
     ])
   }
 }
@@ -51,7 +52,8 @@ const roleHandler = async (
       server.roles.map((r) => r.id)
     )
 
-    await redis.delUser(user.discordId, server.discordId)
+    const token = await redis.getToken(user.id, server.id)
+    await redis.delUser(token, user.id, server.id)
   }
 }
 
