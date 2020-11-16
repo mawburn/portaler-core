@@ -35,6 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -84,6 +91,24 @@ var RedisConnector = /** @class */ (function () {
                             this.delAsync(userId + ":" + serverId),
                         ])];
                     case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        }); };
+        this.delServer = function (serverId, userIds) { return __awaiter(_this, void 0, void 0, function () {
+            var tokenList, delTokens, delUsers, delServer;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Promise.all(userIds.map(function (uid) { return _this.getToken(uid, serverId); }))];
+                    case 1:
+                        tokenList = _a.sent();
+                        delTokens = tokenList.map(function (t) { return _this.delAsync(t); });
+                        delUsers = userIds.map(function (uid) { return _this.delAsync(uid + ":" + serverId); });
+                        delServer = this.delAsync("server:" + serverId);
+                        return [4 /*yield*/, Promise.allSettled(__spreadArrays(delTokens, delUsers, [delServer]))];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         }); };

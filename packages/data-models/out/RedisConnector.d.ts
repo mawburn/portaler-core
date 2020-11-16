@@ -9,4 +9,5 @@ export default class RedisConnector {
     getUser: (token: string) => Promise<string>;
     getToken: (userId: number, serverId: number) => Promise<any>;
     delUser: (token: string, userId: number, serverId: number) => Promise<[any, any]>;
+    delServer: (serverId: number, userIds: number[]) => Promise<void>;
 }

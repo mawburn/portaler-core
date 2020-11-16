@@ -39,4 +39,16 @@ export default class RedisConnector {
       this.delAsync(token),
       this.delAsync(`${userId}:${serverId}`),
     ])
+
+  delServer = async (serverId: number, userIds: number[]) => {
+    const tokenList = await Promise.all(
+      userIds.map((uid) => this.getToken(uid, serverId))
+    )
+
+    const delTokens = tokenList.map((t) => this.delAsync(t))
+    const delUsers = userIds.map((uid) => this.delAsync(`${uid}:${serverId}`))
+    const delServer = this.delAsync(`server:${serverId}`)
+
+    await Promise.allSettled([...delTokens, ...delUsers, delServer])
+  }
 }
