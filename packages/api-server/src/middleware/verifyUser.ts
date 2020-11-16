@@ -1,11 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 
-import { RedisConnector } from '@portaler/data-models'
-
-import config from '../config'
+import { redis } from '../db'
 import wrapAsync from './wrapAsync'
-
-const redis = new RedisConnector(config.redis)
 
 const verifyUser = wrapAsync(
   async (req: Request, res: Response, next: NextFunction) => {

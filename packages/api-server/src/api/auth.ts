@@ -2,9 +2,8 @@ import btoa from 'btoa'
 import { Request, Response, Router } from 'express'
 import { v4 as uuid } from 'uuid'
 
-import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
-
 import config from '../config'
+import { db, redis } from '../db'
 import wrapAsync from '../middleware/wrapAsync'
 import fetchToken from '../utils/discord/fetchToken'
 import fetchUser from '../utils/discord/fetchUser'
@@ -12,9 +11,6 @@ import fetchUserGuilds from '../utils/discord/fetchUserGuilds'
 import logger from '../utils/logger'
 
 const isProd = process.env.NODE_ENV === 'production'
-
-const db = new DatabaseConnector(config.db)
-const redis = new RedisConnector(config.redis)
 
 const router = Router()
 

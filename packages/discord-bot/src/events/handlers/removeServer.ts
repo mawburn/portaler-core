@@ -30,6 +30,8 @@ const removeServer = async (server: Guild, db: DatabaseConnector) => {
     db.dbQuery('DELETE FROM user_roles WHERE role_id = $1', [r.id])
   )
 
+  // TODO cleanup redis
+
   await Promise.allSettled([userServerDel, rolesDel, ...userRolesDel])
   console.log('ServerDeleted') // TODO log this for real somewhere
 }

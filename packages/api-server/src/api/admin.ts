@@ -1,9 +1,8 @@
-import { DatabaseConnector } from '@portaler/data-models'
 import { Request, Response, Router } from 'express'
-import config from '../config'
+
+import { db, redis } from '../db'
 import wrapAsync from '../middleware/wrapAsync'
 
-const db = new DatabaseConnector(config.db)
 const router = Router()
 
 router.get(
@@ -46,6 +45,10 @@ router.post(
       ])
 
       const server = await db.Server.getServer(body.id)
+
+      if (server && server.subdomain) {
+        await redis.setAsync(`server:${server.id}`, server.subdomain)
+      }
 
       return res.status(200).json(server)
     } catch (err) {

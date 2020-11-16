@@ -1,10 +1,9 @@
 import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
-import config from '../config'
 
-const db = new DatabaseConnector(config.db)
-const redis = new RedisConnector(config.redis)
-
-const populateServers = async () => {
+const populateServers = async (
+  db: DatabaseConnector,
+  redis: RedisConnector
+) => {
   const dbServerRes = await db.dbQuery(
     `SELECT id, subdomain FROM servers ORDER BY id`,
     []

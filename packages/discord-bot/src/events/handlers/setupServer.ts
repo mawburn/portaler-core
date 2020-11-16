@@ -4,6 +4,7 @@ import { DatabaseConnector } from '@portaler/data-models'
 
 import config from '../../config'
 import { IUserModel } from '@portaler/data-models/out/models/User'
+import { redis } from '../../../../api-server/src/db'
 
 const setupServer = async (server: Guild, db: DatabaseConnector) => {
   const rolePayload = {
@@ -66,7 +67,13 @@ const setupServer = async (server: Guild, db: DatabaseConnector) => {
         db.User.createUser(m, sid, [serverRoleId])
       )
 
-      await Promise.allSettled([...addRolesToUsers, ...addUsersAndRoles])
+      const addToRedis = redis.setAsync(`server:${sid}`, '')
+
+      await Promise.allSettled([
+        addToRedis,
+        ...addRolesToUsers,
+        ...addUsersAndRoles,
+      ])
     }
   } catch (err) {
     console.error(err)

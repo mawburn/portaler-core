@@ -13,11 +13,9 @@ import checkAdmin from './middleware/checkAdmin'
 import syntaxError from './middleware/syntaxError'
 import verifyUser from './middleware/verifyUser'
 import { migrations } from './migrations'
-import populateServers from './utils/populateServers'
 
 // Run DB Migrations
-migrations()
-populateServers()
+;async () => await migrations()
 
 const app = express()
 
