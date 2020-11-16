@@ -11,15 +11,25 @@ import fetchUser from '../utils/discord/fetchUser'
 import fetchUserGuilds from '../utils/discord/fetchUserGuilds'
 import logger from '../utils/logger'
 
+const isProd = process.env.NODE_ENV === 'production'
+
 const db = new DatabaseConnector(config.db)
 const redis = new RedisConnector(config.redis)
 
 const router = Router()
 
-router.get('/login', (req: Request, res: Response) =>
-  res.redirect(config.discord.authUrl)
-)
+router.get('/login', (req: Request, res: Response) => {
+  if (!req.subdomains[0] && isProd) {
+    res.send(500)
+  }
 
+  const subDomain = !isProd ? 'local' : req.subdomains[0]
+
+  res.cookie('subdomain', `${subDomain}.`, { maxAge: 300, httpOnly: false })
+  res.redirect(config.discord.authUrl)
+})
+
+// should come from auth.portaler
 router.get(
   '/callback',
   wrapAsync(async (req: Request, res: Response) => {
@@ -27,6 +37,12 @@ router.get(
       if (!req.query.code) {
         throw new Error('No Code Provided')
       }
+
+      if (!req.cookies.subdomain && isProd) {
+        throw new Error('NoRedirect')
+      }
+
+      const subdomain = isProd ? req.cookies.subdomain : ''
 
       const code = req.query.code as string
 
@@ -38,38 +54,35 @@ router.get(
         fetchUserGuilds(token),
       ])
 
-      await db.User.createLogin(me, server, discordJson.refresh_token)
+      const userId = await db.User.createLogin(
+        me,
+        server,
+        discordJson.refresh_token
+      )
 
-      res.redirect(`${config.localAuth}/?user=${me.id}`)
+      const serverId = await db.Server.getServerIdBySubdomain(
+        isProd ? subdomain.slice(0, -1) : 'localhost'
+      )
+
+      const user = await db.User.getFullUser(userId, serverId)
+
+      if (!user) {
+        return res.sendStatus(401)
+      }
+
+      const uid: string = uuid()
+
+      const ourToken = btoa(uid.replace(/-/gi, '')).replace(/=/gi, '')
+      await redis.setUser(token, user.id, serverId)
+
+      const protocol = req.secure ? 'https://' : 'http://'
+
+      res.redirect(
+        `${protocol}${subdomain}${config.localUrl}/?token=${ourToken}`
+      )
     } catch (err: Error | any) {
       logger.error('Error logging in user', err)
       res.status(500).json({ error: 'Error Logging in User' })
-    }
-  })
-)
-
-// Should come from correct subdomain
-router.post(
-  '/login',
-  wrapAsync(async (req: Request, res: Response) => {
-    try {
-      if (!req.query.user || !req.subdomains[0]) {
-        throw new Error('401')
-      }
-
-      const serverId = await db.Server.getServerIdBySubdomain(req.subdomains[0])
-      const user = await db.User.getFullUser(req.query.user as string, serverId)
-
-      if (!user) {
-        throw new Error('UserNotFound')
-      }
-
-      const token = btoa(uuid().replaceAll(/-/gi, ''))
-      await redis.setUser(token, user.id, serverId)
-      res.status(200).json({ token })
-    } catch (err: Error | any) {
-      logger.info(err)
-      res.status(401)
     }
   })
 )

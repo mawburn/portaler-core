@@ -98,7 +98,7 @@ export default class ServerModel {
 
   getServerIdBySubdomain = async (subDomain: string): Promise<number> => {
     const dbResServer = await this.query(
-      `SELECT discord_id FROM servers WHERE subdomain = $1`,
+      `SELECT id FROM servers WHERE subdomain = $1`,
       [subDomain]
     )
 
