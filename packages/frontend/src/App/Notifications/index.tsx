@@ -6,8 +6,11 @@ import Alert from '@material-ui/lab/Alert'
 import useBadCredentials from '../hooks/useBadCredentials'
 
 const Notifications = () => {
-  const [badPass, reset] = useBadCredentials()
+  // TODO FIX THIS
+  // const [badPass, reset] = useBadCredentials()
 
+  const badPass = false
+  const reset = () => null
   return (
     <Snackbar
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}

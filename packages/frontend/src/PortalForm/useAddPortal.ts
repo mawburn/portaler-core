@@ -5,7 +5,7 @@ import useToken from '../common/hooks/useToken'
 import { PortalSize } from '../common/types'
 
 const useAddPortal = () => {
-  const [token] = useToken()
+  const token = useToken()
   const checkPortals = useGetPortals()
 
   return useCallback(
@@ -29,7 +29,7 @@ const useAddPortal = () => {
       fetch(`/api/portal`, {
         method: 'POST',
         headers: {
-          'X-Tebro-Auth': token,
+          Authorization: `Bearer ${token}`,
         },
         body,
       }).then(() => checkPortals(true))

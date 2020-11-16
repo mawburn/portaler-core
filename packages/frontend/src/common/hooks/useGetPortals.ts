@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../reducers'
 import { ErrorActionTypes } from '../../reducers/errorReducer'
 import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
-import { BAD_PASS } from '../data/constants'
 import { Portal } from '../types'
 import fetchPortals from '../utils/fetchPortals'
 import useConfigSelector from './useConfigSelector'
@@ -30,12 +29,12 @@ const useGetPortals = (): ((force?: boolean) => void) => {
 
   const checkPortals = useCallback(
     async (force: boolean = false) => {
-      if ((config?.token !== BAD_PASS || config?.isPublic) && zonesLength > 0) {
+      if ((!config?.token || config?.isPublic) && zonesLength > 0) {
         const now = new Date()
 
         if (force || now.getTime() - portalState.lastUpdated > 10000) {
           try {
-            const res = await fetchPortals(config?.token)
+            const res = await fetchPortals(config?.token ?? null)
 
             updatePortals(res)
           } catch (err) {

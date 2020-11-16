@@ -13,14 +13,15 @@ import checkAdmin from './middleware/checkAdmin'
 import syntaxError from './middleware/syntaxError'
 import verifyUser from './middleware/verifyUser'
 import { migrations } from './migrations'
+import populateServers from './utils/populateServers'
 
 // Run DB Migrations
 migrations()
+populateServers()
 
 const app = express()
 
 app.use(cors(config.cors))
-// app.options('cors stuff here', cors(config.cors))
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -32,6 +33,7 @@ app.use('/api/auth', Auth)
 
 app.get('/api/health', (_, res) => res.status(200).send({ server: 'ok' }))
 app.get('/api/bot', (_, res) => res.redirect(config.discord.botUrl))
+app.get('/api/config', (_, res) => res.status(200).send({ publicRead: false }))
 
 app.use('/api/admin', checkAdmin, Admin)
 app.use('/api', verifyUser, Api)

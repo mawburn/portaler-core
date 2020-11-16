@@ -45,15 +45,22 @@ var RedisConnector = /** @class */ (function () {
     function RedisConnector(config) {
         var _this = this;
         this.setUser = function (token, userId, serverId) { return __awaiter(_this, void 0, void 0, function () {
+            var hasUser;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, Promise.all([
+                    case 0: return [4 /*yield*/, this.getUser(userId + ":" + serverId)];
+                    case 1:
+                        hasUser = _a.sent();
+                        if (!hasUser) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.delUser(hasUser, userId, serverId)];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3: return [4 /*yield*/, Promise.all([
                             this.setAsync(token, userId + ":" + serverId),
                             this.setAsync(userId + ":" + serverId, token),
                         ])];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
+                    case 4: return [2 /*return*/, _a.sent()];
                 }
             });
         }); };

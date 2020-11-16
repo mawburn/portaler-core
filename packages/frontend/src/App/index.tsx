@@ -13,8 +13,10 @@ import Notifications from './Notifications'
 import SideBar from './SideBar'
 import styles from './styles.module.scss'
 import theme from './theme'
+import useSetToken from './hooks/useSetToken'
 
 const App = () => {
+  useSetToken()
   useGetConfig()
   useGetZones()
   useGetPortalTimer()

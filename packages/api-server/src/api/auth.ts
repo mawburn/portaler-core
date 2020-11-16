@@ -73,7 +73,7 @@ router.get(
       const uid: string = uuid()
 
       const ourToken = btoa(uid.replace(/-/gi, '')).replace(/=/gi, '')
-      await redis.setUser(token, user.id, serverId)
+      await redis.setUser(ourToken, user.id, serverId)
 
       const protocol = req.secure ? 'https://' : 'http://'
 

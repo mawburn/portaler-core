@@ -17,7 +17,13 @@ export default class RedisConnector {
   }
 
   setUser = async (token: string, userId: number, serverId: number) => {
-    await Promise.all([
+    const hasUser = await this.getUser(`${userId}:${serverId}`)
+
+    if (hasUser) {
+      await this.delUser(hasUser, userId, serverId)
+    }
+
+    return await Promise.all([
       this.setAsync(token, `${userId}:${serverId}`),
       this.setAsync(`${userId}:${serverId}`, token),
     ])

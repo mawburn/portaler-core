@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { BAD_PASS } from '../../common/data/constants'
 import useConfigSelector from '../../common/hooks/useConfigSelector'
 import useGetPortals from '../../common/hooks/useGetPortals'
+import useToken from '../../common/hooks/useToken'
 import fetchPortals from '../../common/utils/fetchPortals'
 import { ErrorActionTypes } from '../../reducers/errorReducer'
 import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
@@ -13,14 +13,11 @@ const useGetPortalTimer = () => {
   const checkPortals = useGetPortals()
   const checkPortalsRef = useRef<() => void>(checkPortals)
   const dispatch = useDispatch()
-  const config = useConfigSelector()
+  const token = useToken()
 
   useEffect(() => {
-    if (
-      (config?.token !== BAD_PASS || config?.isPublic) &&
-      initialLoad.current
-    ) {
-      fetchPortals(config.token)
+    if (token && initialLoad.current) {
+      fetchPortals(token)
         .then((portals) => {
           dispatch({ type: PortalMapActionTypes.UPDATEMAP, portals })
           initialLoad.current = false
@@ -29,7 +26,7 @@ const useGetPortalTimer = () => {
           dispatch({ type: ErrorActionTypes.ADD, error: err.message })
         )
     }
-  }, [config, dispatch])
+  }, [token, dispatch])
 
   useEffect(() => {
     checkPortalsRef.current = checkPortals

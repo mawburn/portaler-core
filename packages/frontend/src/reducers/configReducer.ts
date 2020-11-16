@@ -1,8 +1,6 @@
 import clone from 'lodash/cloneDeep'
 import { Reducer } from 'react'
 
-import { BAD_PASS } from '../common/data/constants'
-
 export enum ConfigActionTypes {
   TOKEN = 'config/token',
   CLEARTOKEN = 'config/clearToken',
@@ -16,15 +14,15 @@ interface ConfigAction {
 }
 
 export interface ConfigState {
-  token: string
+  token: string | null
   isPublic: boolean
 }
 
-const tokenStore = (): string => {
+const tokenStore = (): string | null => {
   const token = window.localStorage.getItem('token')
 
   if (token === null) {
-    return BAD_PASS
+    return null
   }
 
   return token
@@ -41,11 +39,15 @@ const configReducer: Reducer<any, ConfigAction> = (
 ): ConfigState => {
   switch (action.type) {
     case ConfigActionTypes.TOKEN:
-      window.localStorage.setItem('token', action.token ?? BAD_PASS)
-      return { ...state, token: action.token ?? BAD_PASS }
+      if (!!action.token) {
+        window.localStorage.setItem('token', action.token)
+        return { ...state, token: action.token }
+      }
+
+      return state
     case ConfigActionTypes.CLEARTOKEN:
       window.localStorage.removeItem('token')
-      return { ...state, token: BAD_PASS }
+      return { ...state, token: null }
     case ConfigActionTypes.SETPUBLIC:
       return { ...state, isPublic: !!action.isPublic }
     default:
