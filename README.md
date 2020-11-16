@@ -1,10 +1,10 @@
-# <img src="/assets/logo/logo-32x32.png" /> Portaler
+# <img src="./assets/logo/logo-32x32.png" /> Portaler
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/76c8bf82-cf50-4310-8121-8196249f49bc/deploy-status)](https://app.netlify.com/sites/portaler/deploys)
 
-Portaler is a self hosted mapping tool for Avalonian Roads in Albion Online.
+Portaler is a mapping tool for Avalonian Roads in Albion Online, that can be either self hosted or hosting can be purchased through in game currency.
 
-<img src="https://i.imgur.com/bSn5AC8.png" width="600px" alt="screenshot" />
+<img src="./assets/screenshot.png" width="600px" alt="screenshot" />
 
 ## Monorepo
 
