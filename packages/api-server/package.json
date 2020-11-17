@@ -1,5 +1,5 @@
 {
-  "name": "api-server",
+  "name": "@portaler/api-server",
   "version": "0.0.1",
   "description": "API & Discord bot for Portaler",
   "main": "src/index.js",
@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@portaler/data-models": "*",
-    "@types/compression": "^1.7.0",
     "apollo-server-express": "^2.19.0",
     "async": "^3.2.0",
     "body-parser": "^1.19.0",
@@ -41,6 +40,7 @@
     "@portaler/types": "*",
     "@types/async": "^3.2.3",
     "@types/btoa": "^1.2.3",
+    "@types/compression": "^1.7.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.8",
     "@types/node": "^14.14.7",

@@ -1,10 +1,10 @@
-FROM node:12 as build
+FROM node:12-alpine
 
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN yarn install --non-interactive
+RUN yarn workspace @portaler/discord-bot install --non-interactive --production
 
 RUN yarn build:bot
 
