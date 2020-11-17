@@ -2,3 +2,4 @@ assets
 data
 .github
 node_modules
+out
