@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN yarn workspace @portaler/api-server install --non-interactive --production
+RUN yarn workspace @portaler/api-server install --non-interactive
 
 RUN yarn build:api
 

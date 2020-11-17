@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN yarn workspace @portaler/discord-bot install --non-interactive --production
+RUN yarn workspace @portaler/discord-bot install --non-interactive
 
 RUN yarn build:bot
 
