@@ -1,12 +1,15 @@
 import { Guild } from 'discord.js'
 
-import { DatabaseConnector } from '@portaler/data-models'
+import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
+import { IUserModel } from '@portaler/data-models/out/models/User'
 
 import config from '../../config'
-import { IUserModel } from '@portaler/data-models/out/models/User'
-import { redis } from '../../../../api-server/src/db'
 
-const setupServer = async (server: Guild, db: DatabaseConnector) => {
+const setupServer = async (
+  server: Guild,
+  db: DatabaseConnector,
+  redis: RedisConnector
+) => {
   const rolePayload = {
     name: config.roleName,
     permissions: 0,

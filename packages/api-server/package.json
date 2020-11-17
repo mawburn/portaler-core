@@ -8,8 +8,8 @@
   "license": "GNU AGPLv3",
   "private": false,
   "scripts": {
-    "build": "tsc",
-    "start": "node index.js",
+    "build": "tsc -p tsconfig.json",
+    "start": "node out/index.js",
     "start:dev": "ts-node-dev src/index.ts",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src"

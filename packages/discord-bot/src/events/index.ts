@@ -16,7 +16,7 @@ const initEvents = (ctx: EventContext) => {
   const { client, db, redis } = ctx
 
   // bot joins a server
-  client.on('guildCreate', (server: Guild) => setupServer(server, db))
+  client.on('guildCreate', (server: Guild) => setupServer(server, db, redis))
 
   client.on('guildDelete', (server: Guild) => removeServer(server, db, redis))
 

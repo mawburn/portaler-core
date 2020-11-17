@@ -9,9 +9,9 @@
   "private": true,
   "scripts": {
     "prebuild": "rimraf out",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json",
     "prestart": "yarn install",
-    "start": "node index.js",
+    "start": "node out/index.js",
     "start:dev": "ts-node-dev src/index.ts",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src"
