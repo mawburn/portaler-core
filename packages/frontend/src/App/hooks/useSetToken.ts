@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { ConfigActionTypes } from '../../reducers/configReducer'
+import { ErrorActionTypes } from '../../reducers/errorReducer'
 
 const useSetToken = () => {
   const dispatch = useDispatch()
@@ -11,7 +12,12 @@ const useSetToken = () => {
 
     if (urlToken) {
       window.history.replaceState(null, '', window.location.pathname)
-      dispatch({ type: ConfigActionTypes.TOKEN, token: urlToken })
+
+      if (urlToken !== 'invalid') {
+        dispatch({ type: ConfigActionTypes.TOKEN, token: urlToken })
+      } else {
+        dispatch({ type: ErrorActionTypes.ADD, error: 'Invalid Login' })
+      }
     }
   }, [dispatch])
 }

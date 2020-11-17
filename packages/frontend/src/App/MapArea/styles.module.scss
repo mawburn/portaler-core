@@ -1,0 +1,21 @@
+.replaceContainer {
+  align-items: center;
+  background: url('../../common/images/mapBg.png');
+  box-shadow: inset 0 0 42px rgba(0, 0, 0, 0.25);
+  display: flex;
+  font-size: 2rem;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+
+  h1 {
+    display: flex;
+    font-size: 3rem;
+  }
+
+  .logo {
+    height: auto;
+    width: 64px;
+    margin-right: 1rem;
+  }
+}

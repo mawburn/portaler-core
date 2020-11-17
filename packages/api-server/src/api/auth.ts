@@ -40,6 +40,7 @@ router.get(
 
       const subdomain = isProd ? req.cookies.subdomain : ''
 
+      const protocol = req.secure ? 'https://' : 'http://'
       const code = req.query.code as string
 
       const discordJson = await fetchToken(code)
@@ -63,15 +64,16 @@ router.get(
       const user = await db.User.getFullUser(userId, serverId)
 
       if (!user) {
-        return res.sendStatus(401)
+        res.status(401)
+        return res
+          .status(401)
+          .redirect(`${protocol}${subdomain}${config.localUrl}/?token=invalid`)
       }
 
       const uid: string = uuid()
 
       const ourToken = btoa(uid.replace(/-/gi, '')).replace(/=/gi, '')
       await redis.setUser(ourToken, user.id, serverId)
-
-      const protocol = req.secure ? 'https://' : 'http://'
 
       res.redirect(
         `${protocol}${subdomain}${config.localUrl}/?token=${ourToken}`

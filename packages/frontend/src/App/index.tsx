@@ -14,6 +14,8 @@ import SideBar from './SideBar'
 import styles from './styles.module.scss'
 import theme from './theme'
 import useSetToken from './hooks/useSetToken'
+import useToken from '../common/hooks/useToken'
+import MapArea from './MapArea'
 
 const App = () => {
   useSetToken()
@@ -28,7 +30,7 @@ const App = () => {
         <Notifications />
         <MainLayout>
           <SideBar />
-          <PortalMap />
+          <MapArea />
         </MainLayout>
         <DemoBar />
         <Footer />
