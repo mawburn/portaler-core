@@ -51,16 +51,16 @@ router.get(
       )
 
       const serverId = await db.Server.getServerIdBySubdomain(
-        isProd ? subdomain.slice(0, -1) : 'localhost'
+        isProd ? subdomain : 'localhost'
       )
 
       const user = await db.User.getFullUser(userId, serverId)
 
+      const redirectUrl = `${protocol}${subdomain}.${config.localUrl}`
+
       if (!user) {
         res.status(401)
-        return res
-          .status(401)
-          .redirect(`${protocol}${subdomain}${config.localUrl}/?token=invalid`)
+        return res.status(401).redirect(`${redirectUrl}/?token=invalid`)
       }
 
       const uid: string = uuid()
@@ -68,9 +68,7 @@ router.get(
       const ourToken = btoa(uid.replace(/-/gi, '')).replace(/=/gi, '')
       await redis.setUser(ourToken, user.id, serverId)
 
-      res.redirect(
-        `${protocol}${subdomain}${config.localUrl}/?token=${ourToken}`
-      )
+      res.redirect(`${redirectUrl}/?token=${ourToken}`)
     } catch (err: Error | any) {
       logger.error('Error logging in user', err)
       res.status(500).json({ error: 'Error Logging in User' })
