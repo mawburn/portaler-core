@@ -2,7 +2,7 @@ FROM node:12 as build
 
 WORKDIR /usr/src/app
 
-COPY ../ .
+COPY . .
 
 RUN yarn install --non-interactive
 
