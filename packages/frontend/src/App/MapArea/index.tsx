@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import useToken from '../../common/hooks/useToken'
-import LoginButton from '../../LoginButton'
 import PortalMap from '../../PortalMap'
 
 import styles from './styles.module.scss'

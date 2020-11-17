@@ -2,7 +2,6 @@ import React from 'react'
 
 import { CssBaseline, ThemeProvider } from '@material-ui/core'
 
-import PortalMap from '../PortalMap'
 import DemoBar from './DemoBar'
 import Footer from './Footer'
 import useGetConfig from './hooks/useGetConfig'
@@ -14,7 +13,6 @@ import SideBar from './SideBar'
 import styles from './styles.module.scss'
 import theme from './theme'
 import useSetToken from './hooks/useSetToken'
-import useToken from '../common/hooks/useToken'
 import MapArea from './MapArea'
 
 const App = () => {

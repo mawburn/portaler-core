@@ -1,15 +1,12 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 
 import useToken from '../../common/hooks/useToken'
 import LoginButton from '../../LoginButton'
 import PortalForm from '../../PortalForm'
-import { RootState } from '../../reducers'
 import styles from '../styles.module.scss'
 
 const SideBar = () => {
   const token = useToken()
-  const zones = useSelector((state: RootState) => state.zones.list)
 
   return (
     <aside className={styles.searchSide}>
