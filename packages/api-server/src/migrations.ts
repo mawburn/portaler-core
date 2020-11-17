@@ -1,5 +1,5 @@
 import path from 'path'
-import { createDb, migrate } from 'postgres-migrations'
+import { migrate } from 'postgres-migrations'
 
 import config from './config'
 import logger from './utils/logger'

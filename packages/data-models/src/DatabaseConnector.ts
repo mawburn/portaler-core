@@ -1,4 +1,4 @@
-import { Pool, PoolConfig, QueryResult } from 'pg'
+import pg, { Pool, PoolConfig, QueryResult } from 'pg'
 
 import ServerModel from './models/Server'
 import UserModel from './models/User'

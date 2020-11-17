@@ -3,6 +3,11 @@ import { NextFunction, Request, Response } from 'express'
 import { redis } from '../db'
 import wrapAsync from './wrapAsync'
 
+export interface AuthRequest extends Request {
+  userId: number
+  serverId: number
+}
+
 const verifyUser = wrapAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     if (!req.headers.authorization) {
@@ -34,8 +39,8 @@ const verifyUser = wrapAsync(
       return res.sendStatus(403)
     }
 
-    ;(req as any).userId = userId
-    ;(req as any).serverId = serverId
+    ;(req as AuthRequest).userId = Number(userId)
+    ;(req as AuthRequest).serverId = Number(serverId)
 
     next()
   }

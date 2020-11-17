@@ -1,10 +1,12 @@
+SET TIME ZONE 'UTC';
+
 CREATE TABLE IF NOT EXISTS users (
   id serial PRIMARY KEY,
   discord_id VARCHAR ( 50 ) UNIQUE NOT NULL,
   discord_name VARCHAR ( 50 ),
   discord_discriminator VARCHAR ( 7 ) NOT NULL,
   discord_refresh VARCHAR ( 100 ),
-  created_on TIMESTAMP NOT NULL DEFAULT NOW()
+  created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 INSERT INTO users (discord_id, discord_name, discord_discriminator, discord_refresh)
@@ -15,14 +17,14 @@ CREATE TABLE IF NOT EXISTS servers (
   discord_id VARCHAR ( 50 ) UNIQUE NOT NULL,
   discord_name VARCHAR ( 50 ) NOT NULL,
   subdomain VARCHAR ( 15 ) UNIQUE,
-  created_on TIMESTAMP NOT NULL DEFAULT NOW()
+  created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS server_roles (
   id serial PRIMARY KEY,
   server_id INT UNIQUE NOT NULL,
   discord_role_id VARCHAR ( 50 ) UNIQUE NOT NULL,
-  last_updated TIMESTAMP NOT NULL DEFAULT NOW()
+  last_updated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS user_servers (
@@ -45,7 +47,7 @@ CREATE TABLE IF NOT EXISTS portals (
   conn1 VARCHAR ( 100 ) NOT NULL,
   conn2 VARCHAR ( 100 ) NOT NULL,
   size SMALLINT NOT NULL,
-  expires TIMESTAMP NOT NULL,
+  expires TIMESTAMP WITH TIME ZONE NOT NULL,
   created_by INT NOT NULL,
-  created_on TIMESTAMP NOT NULL DEFAULT NOW()
+  created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );

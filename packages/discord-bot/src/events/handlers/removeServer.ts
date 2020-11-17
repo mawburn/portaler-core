@@ -24,20 +24,17 @@ const removeServer = async (
     [serverId]
   )
 
-  const rolesDel = db.dbQuery('DELETE FROM user_roles WHERE server_id = $1', [
-    serverId,
-  ])
-
   const userRolesDel = dbRolesRes.rows.map((r) =>
     db.dbQuery('DELETE FROM user_roles WHERE role_id = $1', [r.id])
   )
 
+  console.log(dbUserIds.rows.map((u) => u.user_id))
   await redis.delServer(
     serverId,
-    dbUserIds.rows.map((u) => u.id)
+    dbUserIds.rows.map((u) => u.user_id)
   )
 
-  await Promise.allSettled([rolesDel, ...userRolesDel])
+  await Promise.allSettled(userRolesDel)
   console.log('ServerDeleted') // TODO log this for real somewhere
 }
 

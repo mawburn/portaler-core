@@ -29,6 +29,7 @@ const useAddPortal = () => {
       fetch(`/api/portal`, {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body,

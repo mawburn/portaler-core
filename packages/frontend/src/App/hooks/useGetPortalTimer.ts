@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
-import useConfigSelector from '../../common/hooks/useConfigSelector'
 import useGetPortals from '../../common/hooks/useGetPortals'
 import useToken from '../../common/hooks/useToken'
 import fetchPortals from '../../common/utils/fetchPortals'

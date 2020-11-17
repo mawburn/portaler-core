@@ -1,6 +1,7 @@
 import 'dotenv/config'
 
 import bodyParser from 'body-parser'
+import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
@@ -9,21 +10,21 @@ import Api from './api'
 import Admin from './api/admin'
 import Auth from './api/auth'
 import config from './config'
+import { db } from './db'
 import checkAdmin from './middleware/checkAdmin'
 import syntaxError from './middleware/syntaxError'
 import verifyUser from './middleware/verifyUser'
 import { migrations } from './migrations'
 
-// Run DB Migrations
-;async () => await migrations()
-
 const app = express()
+
+migrations()
 
 app.use(cors(config.cors))
 
-app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cookieParser())
+app.use(compression())
 
 app.use(syntaxError)
 
