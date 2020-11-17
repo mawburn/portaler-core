@@ -15,13 +15,6 @@ const isProd = process.env.NODE_ENV === 'production'
 const router = Router()
 
 router.get('/login', (req: Request, res: Response) => {
-  if (!req.subdomains[0] && isProd) {
-    res.send(500)
-  }
-
-  const subDomain = !isProd ? 'local' : req.subdomains[0]
-
-  res.cookie('subdomain', `${subDomain}.`, { maxAge: 300, httpOnly: false })
   res.redirect(config.discord.authUrl)
 })
 
