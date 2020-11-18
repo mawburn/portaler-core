@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 
 import { Button, FormControl, withStyles } from '@material-ui/core'
 
@@ -7,35 +7,44 @@ import styles from './styles.module.scss'
 
 const DiscordButton = withStyles(() => ({
   root: {
-    color: '#FFF',
     backgroundColor: '#7289DA',
     '&:hover': {
-      backgroundColor: '#7289DA',
+      backgroundColor: '#869ADF',
     },
-    fontWeight: 700,
-    fontSize: '1.25rem',
-    marginTop: '0.5rem',
   },
 }))(Button)
 
-const PasswordForm = () => {
-  const authUrl =
-    process.env.NODE_ENV === 'production' ? '' : process.env.REACT_APP_AUTH
+const cookieAndRedirect = (e: MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault()
+  e.stopPropagation()
 
-  return (
-    <div className={styles.btnContainer}>
-      Login with
-      <FormControl fullWidth>
-        <DiscordButton
-          variant="contained"
-          href={`${authUrl}/api/auth/login`}
-          size="large"
-        >
-          <img src={discordLogoWhite} alt="discord" className={styles.logo} />{' '}
-        </DiscordButton>
-      </FormControl>
-    </div>
-  )
+  const host = window.location.hostname.split('.')
+  document.cookie = `subdomain=${host[0]};path=/;domain=${host[1]}.${host[2]};SameSite=Lax`
+
+  setTimeout(() => {
+    const authUrl =
+      process.env.NODE_ENV === 'production' ? '' : process.env.REACT_APP_AUTH
+    window.location.href = `${authUrl}/api/auth/login`
+  }, 5)
 }
+
+const PasswordForm = () => (
+  <div className={styles.btnContainer}>
+    <h2>Login with</h2>
+    <FormControl fullWidth>
+      <DiscordButton
+        variant="contained"
+        onClick={cookieAndRedirect}
+        size="large"
+      >
+        <img src={discordLogoWhite} alt="discord" className={styles.logo} />{' '}
+      </DiscordButton>
+    </FormControl>
+    <div className={styles.disclaimer}>
+      We use cookies to hold a user's login information. By clicking the login
+      button above you consent to cookies.
+    </div>
+  </div>
+)
 
 export default PasswordForm

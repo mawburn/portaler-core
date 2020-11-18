@@ -5,10 +5,22 @@
 }
 
 .btnContainer {
-  margin-top: 2rem;
-  font-size: 1.5rem;
-  font-weight: 600;
+  margin-top: 1.5rem;
   align-items: center;
   display: flex;
   flex-direction: column;
+
+  h2 {
+    font-size: 1.75rem;
+    opacity: 90%;
+    font-weight: 600;
+  }
+}
+
+.disclaimer {
+  margin: 1rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: normal;
+  text-align: center;
+  opacity: 80%;
 }

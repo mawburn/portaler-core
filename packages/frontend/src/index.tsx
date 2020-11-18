@@ -8,9 +8,6 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import store from './store'
 
-const host = window.location.hostname.split('.')
-document.cookie = `subdomain=${host[0]};path=/;domain=${host[1]}.${host[2]}`
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

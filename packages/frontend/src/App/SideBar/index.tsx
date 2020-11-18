@@ -14,10 +14,7 @@ const SideBar = () => {
       {token ? (
         <>
           <header className={styles.mainHeader}>
-            <h1>
-              <img alt="logo" src={portalerSmall} className={styles.logo} />
-              Portaler
-            </h1>
+            <img alt="logo" src={portalerSmall} className={styles.logo} />
           </header>
           <PortalForm />
         </>
