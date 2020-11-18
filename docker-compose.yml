@@ -11,9 +11,10 @@ services:
       - '5432:5432'
     volumes:
       - db_data:/var/lib/albionpg
-  cache:
-    image: redis:6-alpine
-    command: redis-server --requirepass redis
+  rediscache:
+    image: bitnami/redis:6.0
+    environment:
+      - REDIS_PASSWORD=redis
     ports:
       - '6379:6379'
 

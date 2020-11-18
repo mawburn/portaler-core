@@ -14,7 +14,7 @@ client.login(process.env.DISCORD_BOT_TOKEN)
 const db = new DatabaseConnector(config.db)
 const redis = new RedisConnector(config.redis)
 
-;async () => await populateServers(db, redis)
+;(async () => await populateServers(db, redis))()
 
 client.on('ready', () => initEvents({ client, db, redis }))
 

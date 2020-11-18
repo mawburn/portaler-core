@@ -10,7 +10,6 @@
   "scripts": {
     "prebuild": "rimraf out",
     "build": "tsc -p tsconfig.json",
-    "prestart": "yarn install",
     "start": "node out/index.js",
     "start:dev": "ts-node-dev src/index.ts",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src",
@@ -18,6 +17,7 @@
   },
   "dependencies": {
     "@portaler/data-models": "*",
+    "@portaler/utils": "*",
     "btoa": "^1.2.1",
     "discord.js": "^12.4.1",
     "dotenv": "^8.2.0",
@@ -25,6 +25,7 @@
     "luxon": "^1.25.0",
     "node-fetch": "^2.6.1",
     "pg": "^8.5.1",
+    "postgres-migrations": "^5.1.0",
     "redis": "^3.0.2",
     "rimraf": "^3.0.2",
     "typescript": "^4.0.5",
