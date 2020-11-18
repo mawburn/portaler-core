@@ -27,8 +27,6 @@
     "pg": "^8.5.1",
     "postgres-migrations": "^5.1.0",
     "redis": "^3.0.2",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.0.5",
     "winston": "^3.3.3"
   },
   "devDependencies": {
@@ -37,6 +35,7 @@
     "@types/node": "^14.14.7",
     "@types/node-fetch": "^2.5.7",
     "@types/pg": "^7.14.6",
-    "ts-node-dev": "^1.0.0"
+    "ts-node-dev": "^1.0.0",
+    "typescript": "^4.0.5"
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import useToken from '../../common/hooks/useToken'
+import { portalerSmall } from '../../common/images'
 import LoginButton from '../../LoginButton'
 import PortalForm from '../../PortalForm'
 import styles from '../styles.module.scss'
@@ -14,11 +15,7 @@ const SideBar = () => {
         <>
           <header className={styles.mainHeader}>
             <h1>
-              <img
-                alt="logo"
-                src={`${process.env.PUBLIC_URL}/android-chrome-192x192.png`}
-                className={styles.logo}
-              />
+              <img alt="logo" src={portalerSmall} className={styles.logo} />
               Portaler
             </h1>
           </header>

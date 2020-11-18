@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
-import useToken from '../../common/hooks/useToken'
-import PortalMap from '../../PortalMap'
 
+import useToken from '../../common/hooks/useToken'
+import { portalerSplash } from '../../common/images'
+import PortalMap from '../../PortalMap'
 import styles from './styles.module.scss'
 
 interface MapAreaProps {}
@@ -11,14 +12,7 @@ const MapArea: FC<MapAreaProps> = () => {
 
   return !token ? (
     <div className={styles.replaceContainer}>
-      <h1>
-        <img
-          alt="logo"
-          src={`${process.env.PUBLIC_URL}/android-chrome-192x192.png`}
-          className={styles.logo}
-        />
-        Portaler
-      </h1>
+      <img alt="logo" src={portalerSplash} className={styles.logo} />
     </div>
   ) : (
     <PortalMap />

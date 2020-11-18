@@ -1,5 +1,5 @@
 {
-  "name": "@portaler/mono",
+  "name": "@portaler/core",
   "version": "0.0.1",
   "description": "Avalonian Roads Mapping tool for Albion Online",
   "repository": "https://github.com/Portaler-Zone/portaler-core",
@@ -24,8 +24,8 @@
     "clean": "concurrently \"yarn clean:shared\" \"yarn clean:packages\" && rimraf node_modules",
     "clean:out": "concurrently \"rimraf shared/**/out\" \"rimraf packages/**/out\" \"rimraf packages/**/build\"",
     "clean:all": "yarn clean out && yarn clean",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./packages",
-    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./packages"
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./packages ./shared",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./packages ./shared"
   },
   "workspaces": [
     "packages/*",
