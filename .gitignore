@@ -27,3 +27,6 @@ yarn-error.log*
 **/*.env
 /cert
 **/*.pem
+
+.vscode
+out

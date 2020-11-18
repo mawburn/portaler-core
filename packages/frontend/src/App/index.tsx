@@ -2,7 +2,6 @@ import React from 'react'
 
 import { CssBaseline, ThemeProvider } from '@material-ui/core'
 
-import PortalMap from '../PortalMap'
 import DemoBar from './DemoBar'
 import Footer from './Footer'
 import useGetConfig from './hooks/useGetConfig'
@@ -13,8 +12,11 @@ import Notifications from './Notifications'
 import SideBar from './SideBar'
 import styles from './styles.module.scss'
 import theme from './theme'
+import useSetToken from './hooks/useSetToken'
+import MapArea from './MapArea'
 
 const App = () => {
+  useSetToken()
   useGetConfig()
   useGetZones()
   useGetPortalTimer()
@@ -26,7 +28,7 @@ const App = () => {
         <Notifications />
         <MainLayout>
           <SideBar />
-          <PortalMap />
+          <MapArea />
         </MainLayout>
         <DemoBar />
         <Footer />

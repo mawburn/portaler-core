@@ -1,0 +1,6 @@
+{
+  "name": "@portaler/types",
+  "version": "0.1.6",
+  "types": "index.ts",
+  "private": true
+}

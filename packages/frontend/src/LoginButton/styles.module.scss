@@ -1,0 +1,26 @@
+.logo {
+  display: block;
+  width: 7rem;
+  margin-right: 1rem;
+}
+
+.btnContainer {
+  margin-top: 1.5rem;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-size: 1.75rem;
+    opacity: 0.9;
+    font-weight: 600;
+  }
+}
+
+.disclaimer {
+  margin: 1rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: normal;
+  text-align: center;
+  opacity: 0.8;
+}

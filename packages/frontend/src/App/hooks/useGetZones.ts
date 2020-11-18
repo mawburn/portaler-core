@@ -2,7 +2,6 @@ import { DateTime } from 'luxon'
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { BAD_PASS } from '../../common/data/constants'
 import useConfigSelector from '../../common/hooks/useConfigSelector'
 import useToken from '../../common/hooks/useToken'
 import { Zone } from '../../common/types'
@@ -33,7 +32,7 @@ const useGetZones = () => {
   const hasHydrated = useRef<boolean>(false)
   const dispatch = useDispatch()
   const config = useConfigSelector()
-  const [token] = useToken()
+  const token = useToken()
 
   useEffect(() => {
     const loadedState = zoneStorage()
@@ -45,13 +44,14 @@ const useGetZones = () => {
         type: ZoneActionTypes.HYDRATE,
         fullState: loadedState,
       })
-    } else if (!loadedState && (token !== BAD_PASS || config?.isPublic)) {
+    } else if (!loadedState && token) {
       hasHydrated.current = true
+      const headers = new Headers()
+
+      headers.set('Authorization', `Bearer ${token}`)
 
       fetch(`/api/zone`, {
-        headers: {
-          'X-Tebro-Auth': token,
-        },
+        headers,
       })
         .then((r) => {
           if (!r.ok) {

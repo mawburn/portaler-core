@@ -7,6 +7,7 @@ export enum PortalMapActionTypes {
   UPDATEMAP = 'portals/updateMap',
   INSPECT = 'portals/inspectPortal',
   CLEARINSPECT = 'portals/clearInspectedPortal',
+  CLEARALL = 'portals/clearAllPortals',
 }
 
 interface PortalMapAction {
@@ -31,9 +32,9 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
   state: PortalMap = clone(initialState),
   action: PortalMapAction
 ): PortalMap => {
+  const now = new Date()
+
   if (action.type === PortalMapActionTypes.UPDATEMAP) {
-    // TODO maybe do a smart compare here?
-    const now = new Date()
     return {
       ...state,
       lastUpdated: now.getTime(),
@@ -46,6 +47,8 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
       return { ...state, inspectPortalId: action.inspectId! }
     case PortalMapActionTypes.CLEARINSPECT:
       return { ...state, inspectPortalId: null }
+    case PortalMapActionTypes.CLEARALL:
+      return { portals: [], inspectPortalId: null, lastUpdated: now.getTime() }
     default:
       return state
   }
