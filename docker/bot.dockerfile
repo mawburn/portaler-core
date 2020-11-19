@@ -28,6 +28,5 @@ COPY --from=build /usr/build/packages/discord-bot /usr/app/packages/discord-bot
 ENV NODE_ENV production
 
 RUN yarn install --pure-lockfile --non-interactive --production
-RUN yarn global add forever
 
-CMD ["forever", "start", "packages/discord-bot/out/index.js"]
+CMD ["yarn", "start:bot"]

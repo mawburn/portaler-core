@@ -32,6 +32,4 @@ RUN yarn install --pure-lockfile --non-interactive --production
 
 EXPOSE 4242
 
-RUN yarn global add forever
-
-CMD ["forever", "start", "packages/api-server/out/index.js"]
+CMD ["yarn", "start:api"]
