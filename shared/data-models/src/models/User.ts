@@ -4,7 +4,6 @@ import { QueryResult } from 'pg'
 import { DiscordMe, DiscordMeGuild } from '@portaler/types'
 
 import ServerModel, { IServerModel } from './Server'
-import { isNull } from 'util'
 
 interface ServerRoleId {
   serverId: string
