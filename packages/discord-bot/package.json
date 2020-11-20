@@ -1,0 +1,41 @@
+{
+  "name": "@portaler/discord-bot",
+  "version": "0.0.1",
+  "description": "Portaler Discord Bot",
+  "main": "out/index.js",
+  "repository": "https://github.com/Portaler-Zone/portaler-core",
+  "author": "mawburn <mawburn7@gmail.com>",
+  "license": "GNU AGPLv3",
+  "private": true,
+  "scripts": {
+    "prebuild": "rimraf out",
+    "build": "tsc -p tsconfig.json",
+    "start": "node out/index.js",
+    "start:dev": "ts-node-dev src/index.ts",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src"
+  },
+  "dependencies": {
+    "@portaler/data-models": "*",
+    "@portaler/utils": "*",
+    "btoa": "^1.2.1",
+    "discord.js": "^12.4.1",
+    "dotenv": "^8.2.0",
+    "lodash": "^4.17.20",
+    "luxon": "^1.25.0",
+    "node-fetch": "^2.6.1",
+    "pg": "^8.5.1",
+    "postgres-migrations": "^5.1.0",
+    "redis": "^3.0.2",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@portaler/types": "*",
+    "@types/btoa": "^1.2.3",
+    "@types/node": "^14.14.7",
+    "@types/node-fetch": "^2.5.7",
+    "@types/pg": "^7.14.6",
+    "ts-node-dev": "^1.0.0",
+    "typescript": "^4.0.5"
+  }
+}

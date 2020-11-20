@@ -15,7 +15,7 @@ const Notifications = () => {
       onClose={reset}
       autoHideDuration={4200}
     >
-      <Alert severity="error">Bad password. Please log in again.</Alert>
+      <Alert severity="error">Invalid Login. Please log in again.</Alert>
     </Snackbar>
   )
 }

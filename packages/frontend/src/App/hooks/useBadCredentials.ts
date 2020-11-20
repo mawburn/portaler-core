@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { RootState } from '../../reducers'
 import { ConfigActionTypes } from '../../reducers/configReducer'
+import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
 
 const useBadCredentials = (): [boolean, () => void] => {
   const [badPass, setBadPass] = useState<boolean>(false)
@@ -10,9 +11,10 @@ const useBadCredentials = (): [boolean, () => void] => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (errors.includes('Bad Password')) {
+    if (errors.includes('Invalid Login')) {
       setBadPass(true)
       dispatch({ type: ConfigActionTypes.CLEARTOKEN })
+      dispatch({ type: PortalMapActionTypes.CLEARALL })
     }
   }, [errors, dispatch])
 

@@ -21,5 +21,8 @@ export const tiers = {
 
 // Logos
 export { default as discordLogo } from './logos/discord.svg'
+export { default as discordLogoWhite } from './logos/discord-white.svg'
 export { default as githubLogo } from './logos/github.svg'
 export { default as twitchLogo } from './logos/twitch.svg'
+export { default as portalerSmall } from './logos/portalerSmall.png'
+export { default as portalerSplash } from './logos/portalerSplash.png'
