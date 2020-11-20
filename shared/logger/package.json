@@ -1,0 +1,19 @@
+{
+  "name": "@portaler/logger",
+  "version": "0.0.1",
+  "description": "Logging service for NodeJS",
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
+  "repository": "https://github.com/Portaler-Zone/portaler-core",
+  "author": "mawburn <mawburn7@gmail.com>",
+  "license": "GNU AGPLv3",
+  "private": true,
+  "scripts": {
+    "prebuild": "rimraf out && npm version patch",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.795.0",
+    "winston": "^3.3.3"
+  }
+}
