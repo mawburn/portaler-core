@@ -22,6 +22,8 @@ client.on('ready', () => {
   initEvents({ client, db, redis })
 })
 
+logger.startUploader()
+
 // Clear portals that have expired
 // This is in the bot because the bot should only have one instance running
 // where as the web server could be multiple
