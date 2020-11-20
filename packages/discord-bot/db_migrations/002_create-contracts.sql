@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS server_contracts (
   created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_server_contracts ON (server_id, plan_size, ends_on);
+CREATE INDEX idx_server_contracts ON server_contracts (server_id, plan_size, ends_on);
 
 ALTER TABLE user_roles
 ADD COLUMN created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW();
