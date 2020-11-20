@@ -4,7 +4,7 @@ import { DateTime, ISOTimeOptions } from 'luxon'
 import { db } from '../db'
 import { AuthRequest } from '../middleware/verifyUser'
 import wrapAsync from '../middleware/wrapAsync'
-import logger from '../utils/logger'
+import logger from '../logger'
 
 const router = Router()
 // TODO move most of this to redis, just recreate current API for now
@@ -48,7 +48,11 @@ router.get(
 
       res.status(200).send(portals)
     } catch (err) {
-      logger.error(err)
+      logger.log.error(
+        'Error fetching portals',
+        { user: req.userId, server: req.serverId },
+        err
+      )
       res.status(500).send({ error: 'Error fetching portals' })
     }
   })
@@ -97,7 +101,11 @@ router.post(
 
       res.sendStatus(200)
     } catch (err) {
-      logger.error(err)
+      logger.log.error(
+        'Error setting portals',
+        { user: req.userId, server: req.serverId },
+        err
+      )
       res.status(500).send({ error: 'Error setting portals' })
     }
   })

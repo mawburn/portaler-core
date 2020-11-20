@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@portaler/data-models": "*",
+    "@portaler/logger": "*",
     "@portaler/utils": "*",
     "body-parser": "^1.19.0",
     "btoa": "^1.2.1",
@@ -47,6 +48,7 @@
     "@types/pg": "^7.14.6",
     "@types/redis": "^2.8.28",
     "@types/uuid": "^8.3.0",
+    "aws-sdk": "^2.797.0",
     "ts-node-dev": "^1.0.0",
     "typescript": "^4.0.5"
   }

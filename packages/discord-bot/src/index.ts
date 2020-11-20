@@ -1,6 +1,7 @@
 import 'dotenv/config'
 
 import { Client } from 'discord.js'
+import logger from './logger'
 
 import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 
@@ -16,7 +17,10 @@ const redis = new RedisConnector(config.redis)
 
 ;(async () => await populateServers(db, redis))()
 
-client.on('ready', () => initEvents({ client, db, redis }))
+client.on('ready', () => {
+  logger.log.info('Discord Bot Started')
+  initEvents({ client, db, redis })
+})
 
 // Clear portals that have expired
 // This is in the bot because the bot should only have one instance running

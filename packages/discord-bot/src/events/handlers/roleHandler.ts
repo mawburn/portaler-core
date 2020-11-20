@@ -1,6 +1,7 @@
 import { GuildMember, PartialGuildMember } from 'discord.js'
 
 import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
+import logger from '../../logger'
 
 /**
  * Remove a user's roles and log them out
@@ -26,7 +27,11 @@ const removeUserRoles = async (
       await redis.delUser(token, userId, serverId)
     }
   } catch (err) {
-    console.error(err)
+    logger.log.error(
+      'Error removing user roles',
+      { userId, serverId, roleIds },
+      err
+    )
   }
 }
 

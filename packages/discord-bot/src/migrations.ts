@@ -1,7 +1,8 @@
 import path from 'path'
-import { migrate, createDb } from 'postgres-migrations'
+import { createDb, migrate } from 'postgres-migrations'
 
 import config from './config'
+import logger from './logger'
 
 const migrations = async (): Promise<any> => {
   try {
@@ -12,7 +13,7 @@ const migrations = async (): Promise<any> => {
 
     await migrate(config.db, path.resolve('./db_migrations'))
   } catch (err) {
-    console.error('Error migrating data', err)
+    logger.log.error('Error migrating data', err)
   }
 }
 

@@ -13,8 +13,11 @@ import config from './config'
 import checkAdmin from './middleware/checkAdmin'
 import syntaxError from './middleware/syntaxError'
 import verifyUser from './middleware/verifyUser'
+import logger from './logger'
 
 const app = express()
+
+logger.startUploader()
 
 app.use(cors(config.cors))
 
@@ -34,5 +37,5 @@ app.use('/api/admin', checkAdmin, Admin)
 app.use('/api', verifyUser, Api)
 
 app.listen(config.port, () =>
-  console.log(`App started on port ${config.host}:${config.port}`)
+  logger.log.info(`Server started on port: ${config.port}`)
 )

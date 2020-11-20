@@ -4,6 +4,7 @@ import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 import { IUserModel } from '@portaler/data-models/out/models/User'
 
 import config from '../../config'
+import logger from '../../logger'
 
 const setupServer = async (
   server: Guild,
@@ -79,7 +80,11 @@ const setupServer = async (
       ])
     }
   } catch (err) {
-    console.error(err)
+    logger.log.error(
+      'Error setting up server',
+      { name: server.name, id: server.id },
+      err
+    )
   }
 }
 

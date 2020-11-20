@@ -1,33 +1,38 @@
 import { S3 } from 'aws-sdk'
 import { ClientConfiguration } from 'aws-sdk/clients/acm'
 import fs from 'fs'
+import { DateTime } from 'luxon'
 import path from 'path'
 import winston, { Logger } from 'winston'
 
-interface S3Creds {
+export interface S3Creds {
   client: ClientConfiguration
-  params: {
-    Bucket: string
-    Key: string
-    Body: string
-  }
+  bucket: string
 }
 
+const oneHrMs = 60 * 60 * 1000
 export default class LoggingService {
-  logger: Logger
-  s3: S3 | null
-  uploadTimer: number
+  log: Logger
   interval: NodeJS.Timeout | undefined
-  logPath: string
 
-  constructor(service: string, awsCreds?: S3Creds, uploadTimerInMs?: number) {
+  private s3: S3 | null
+  private uploadTimer: number
+  private logPath: string
+  private bucket: string | undefined
+
+  /**
+   * @param  service Name of the service using the logger
+   * @param  awsCreds credentials
+   * @param  uploadHours how often in hours
+   */
+  constructor(service: string, awsCreds?: S3Creds, uploadHours: number = 1) {
     this.logPath = path.join(__dirname, '/serverlogs')
 
     if (!fs.existsSync(this.logPath)) {
       fs.mkdirSync(this.logPath)
     }
 
-    this.logger = winston.createLogger({
+    this.log = winston.createLogger({
       format: winston.format.json(),
       defaultMeta: { service, timestamp: Date.now() },
       transports: [
@@ -46,7 +51,8 @@ export default class LoggingService {
     })
 
     this.s3 = awsCreds ? new S3(awsCreds.client) : null
-    this.uploadTimer = uploadTimerInMs ?? 60 * 60 * 1000 // 1hr default
+    this.bucket = awsCreds?.bucket
+    this.uploadTimer = uploadHours * oneHrMs
   }
 
   startUploader = () => {
@@ -63,22 +69,28 @@ export default class LoggingService {
 
   private uploader = () =>
     setInterval(() => {
-      fs.readdirSync(this.logPath, (err: Error, filenames: string[]) => {
+      const now = DateTime.utc().toISO({
+        suppressMilliseconds: true,
+        includeOffset: false,
+      })
+
+      fs.readdir(this.logPath, (err: Error | null, filenames: string[]) => {
         if (err) {
           console.error(err)
           return
         }
 
-        filenames.forEach((filename: string) => {
-          fs.readFileSync(
-            path.join(this.logPath, filename),
-            'utf-8',
-            (err, content) => {
-              if (err) {
-                console.error(err)
-              }
-            }
-          )
+        filenames.forEach(async (filename: string) => {
+          const file = fs.readFileSync(path.join(this.logPath, filename), {
+            encoding: 'utf-8',
+          })
+
+          await this.s3?.upload({
+            Bucket: this.bucket!,
+            ACL: 'private',
+            Key: `/errors/${filename}_${now}`,
+            Body: file,
+          })
         })
       })
     }, this.uploadTimer)

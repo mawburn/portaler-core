@@ -1,5 +1,6 @@
 import { CorsOptions } from 'cors'
 
+import { S3Creds } from '@portaler/logger'
 import { DBConfig, RedisConfig } from '@portaler/types'
 
 interface IConfig {
@@ -19,6 +20,7 @@ interface IConfig {
   }
   db: DBConfig
   redis: RedisConfig
+  awsCreds?: S3Creds
 }
 
 const port = Number(process.env.PORT || 4242)
@@ -69,6 +71,16 @@ const config: IConfig = {
     password: process.env.REDIS_PASSWORD!,
     port: Number(process.env.REDIS_PORT || 6379),
   },
+}
+
+if (process.env.AWS_SECRET) {
+  config.awsCreds = {
+    client: {
+      accessKeyId: process.env.AWS_KEY!,
+      secretAccessKey: process.env.AWS_SECRET!,
+    },
+    bucket: process.env.AWS_BUCKET!,
+  }
 }
 
 export default config

@@ -6,8 +6,9 @@
   "license": "GNU AGPLv3",
   "scripts": {
     "build:data": "cd shared/data-models && yarn build",
+    "build:logger": "cd shared/logger && yarn build",
     "build:utils": "cd shared/universal-utils && yarn build",
-    "build:shared": "concurrently \"yarn build:data\" \"yarn build:utils\" && yarn",
+    "build:shared": "concurrently \"yarn build:data\" \"yarn build:utils\" \"yarn build:logger\" && yarn",
     "dev:api": "cd packages/api-server && yarn start:dev",
     "dev:bot": "cd packages/discord-bot && yarn start:dev",
     "dev:front": "cd packages/frontend && yarn start",
