@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS zones (
   color VARCHAR ( 10 ) NOT NULL
 );
 
-CREATE INDEX idx_zone_name ON zones (zone_name);
+CREATE INDEX idx_zone_name_color ON zones (zone_name, color);
 
 INSERT INTO zones (albion_id, zone_name, tier, zone_type, color) VALUES
 	('4300', 'Arthur''s Rest', 'I', 'PLAYERCITY_BLACK_NOFURNITURE', 'city'),
