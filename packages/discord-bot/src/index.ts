@@ -2,6 +2,7 @@ import 'dotenv/config'
 
 import { Client } from 'discord.js'
 import logger from './logger'
+import initDb from './initDb'
 
 import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 
@@ -23,6 +24,8 @@ client.on('ready', () => {
 })
 
 logger.startUploader()
+
+initDb(db, redis)()
 
 // Clear portals that have expired
 // This is in the bot because the bot should only have one instance running
