@@ -8,7 +8,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - db_data:/var/lib/albionpg
+      - db_data:/var/lib/postgresql/data
     networks:
       - portaler
   rediscache:
@@ -33,41 +33,9 @@ services:
     env_file:
       - .env.example
     ports:
-      - '4241:4242'
+      - '7777:4242'
     depends_on:
-      - pgdb
-      - rediscache
-    networks:
-      - portaler
-  api_server2:
-    image: mawburn/portaler:latest
-    env_file:
-      - .env.example
-    ports:
-      - '4242:4242'
-    depends_on:
-      - pgdb
-      - rediscache
-    networks:
-      - portaler
-  api_server3:
-    image: mawburn/portaler:latest
-    env_file:
-      - .env.example
-    ports:
-      - '4243:4242'
-    depends_on:
-      - pgdb
-      - rediscache
-    networks:
-      - portaler
-  api_server4:
-    image: mawburn/portaler:latest
-    env_file:
-      - .env.example
-    ports:
-      - '4244:4242'
-    depends_on:
+      - discord_bot
       - pgdb
       - rediscache
     networks:
