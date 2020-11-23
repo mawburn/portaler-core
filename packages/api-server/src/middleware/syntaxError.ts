@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
+import logger from '../logger'
 
 const syntaxError = (
   error: Error,
@@ -7,6 +8,7 @@ const syntaxError = (
   next: NextFunction
 ) => {
   if (error instanceof SyntaxError) {
+    logger.log.error('Syntax Error', error)
     return res.status(500).json({ error: 'SyntaxError' })
   } else {
     next()

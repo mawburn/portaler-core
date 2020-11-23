@@ -8,13 +8,13 @@ import wrapAsync from '../middleware/wrapAsync'
 import fetchToken from '../utils/discord/fetchToken'
 import fetchUser from '../utils/discord/fetchUser'
 import fetchUserGuilds from '../utils/discord/fetchUserGuilds'
-import logger from '../utils/logger'
+import logger from '../logger'
 
 const isProd = process.env.NODE_ENV === 'production'
 
 const router = Router()
 
-router.get('/login', (req: Request, res: Response) => {
+router.get('/login', (_, res: Response) => {
   res.redirect(config.discord.authUrl)
 })
 
@@ -70,7 +70,7 @@ router.get(
 
       res.redirect(`${redirectUrl}/?token=${ourToken}`)
     } catch (err: Error | any) {
-      logger.error('Error logging in user', err)
+      logger.log.error('Error logging in User', err)
       res.status(500).json({ error: 'Error Logging in User' })
     }
   })
