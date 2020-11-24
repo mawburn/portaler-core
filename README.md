@@ -16,7 +16,7 @@
 
 <br />
 
-![Netlify Status](https://api.netlify.com/api/v1/badges/76c8bf82-cf50-4310-8121-8196249f49bc/deploy-status) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler?label=docker%20api%20&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-bot?label=docker%20discord%20bot&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-bot) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-hermes?label=docker%20discord%20hermes&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-hermes) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-local?label=docker%20discord%20local&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-local)
+![Netlify Status](https://api.netlify.com/api/v1/badges/76c8bf82-cf50-4310-8121-8196249f49bc/deploy-status) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler?label=docker%20api%20&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-bot?label=docker%20discord%20bot&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-bot) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-hermes?label=docker%20discord%20hermes&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-hermes)
 
 **Contents**
 

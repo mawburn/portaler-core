@@ -2,6 +2,8 @@
   <img alt="portaler" src="https://portaler.zone/portaler-github.png" />
 </p>
 
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-local?label=docker%20discord%20local&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-local)
+
 # Portaler Local
 
 We build a distribute a special version of Portaler that is meant to run on your local machine and configured out of the box. However, there are some requirements that you'll need to be setup. Unfortunately, sometimes they can be tricky if you're on Windows, but it can be done.
