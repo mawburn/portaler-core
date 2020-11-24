@@ -27,7 +27,7 @@ const waitOnHermes = async () =>
     {
       retries: 100,
       randomize: false,
-      onRetry: (_, count) => {
+      onRetry: (_: any, count: number) => {
         logger.log.info('Database not ready.', count)
       },
     }
