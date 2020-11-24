@@ -10,19 +10,19 @@ import Api from './api'
 import Admin from './api/admin'
 import Auth from './api/auth'
 import config from './config'
+import waitOnHermes from './db'
+import logger from './logger'
 import checkAdmin from './middleware/checkAdmin'
 import syntaxError from './middleware/syntaxError'
 import verifyUser from './middleware/verifyUser'
-import logger from './logger'
-import waitOnHermes from './db'
+
+logger.startUploader()
 
 // initialize the server
 ;(async () => {
   await waitOnHermes()
 
   const app = express()
-
-  logger.startUploader()
 
   app.use(cors(config.cors))
 

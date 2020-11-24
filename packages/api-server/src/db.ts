@@ -4,6 +4,7 @@ import fetch from 'node-fetch'
 import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 
 import config from './config'
+import logger from './logger'
 
 let db: DatabaseConnector
 let redis: RedisConnector
@@ -26,7 +27,9 @@ const waitOnHermes = async () =>
     {
       retries: 100,
       randomize: false,
-      onRetry: console.log,
+      onRetry: (_, count) => {
+        logger.log.info('Database not ready.', count)
+      },
     }
   )
 
