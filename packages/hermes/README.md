@@ -20,6 +20,6 @@ http://localhost:3434/health
 
 Which returns `{ serverReady: true }`
 
-The API will shut down after an hour, which should be plenty of time. It doesn't need to run forever. The backgorund services will keep running forever.
+The API will shut down after an hour, which should be plenty of time. It doesn't need to run forever. The background services will keep running forever.
 
 In the future Hermes could provide a ton of functionality like health checks, database backups, and alert scripts.
