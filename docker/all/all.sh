@@ -1,8 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
-sleep 30s
-yarn start:hermes
-sleep 45s
-yarn start:api
-
-nginx -g 'daemon off;'
+echo "Starting services"
+cd /usr/app && yarn start:hermes & yarn start:api & nginx -g "daemon off;"
+echo "Application running!"

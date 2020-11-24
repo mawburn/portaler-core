@@ -11,6 +11,7 @@ COPY packages/hermes ./packages/hermes
 
 RUN yarn install --non-interactive --pure-lockfile
 
+RUN yarn build:shared
 RUN yarn build:api
 RUN yarn clean
 

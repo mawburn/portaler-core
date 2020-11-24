@@ -15,6 +15,7 @@ ENV REACT_APP_DISABLE_AUTH true
 
 RUN yarn install --non-interactive --pure-lockfile
 
+RUN yarn build:shared
 RUN yarn build:api
 RUN yarn build:hermes
 RUN cd packages/frontend && yarn build
@@ -24,8 +25,9 @@ FROM node:12-alpine
 
 RUN apk update
 RUN apk add nginx
+RUN mkdir -p /run/nginx
 RUN adduser -D -g 'www' www
-RUN mkdir /www
+RUN mkdir -p /www
 RUN chown -R www:www /var/lib/nginx
 RUN chown -R www:www /www
 
@@ -35,6 +37,7 @@ COPY package.json .
 COPY yarn.lock .
 COPY tsconfig.json .
 COPY docker/all/nginx.conf /etc/nginx/conf.d/default.conf
+
 
 COPY --from=build /usr/build/shared /usr/app/shared
 COPY --from=build /usr/build/packages/api-server /usr/app/packages/api-server
@@ -57,7 +60,8 @@ RUN yarn install --pure-lockfile --non-interactive --production
 
 EXPOSE 80
 
-COPY docker/all/all.sh .
-RUN chmod +x ./all.sh
+RUN apk add --no-cache --upgrade bash
+ADD docker/all/all.sh /
+RUN chmod +x /all.sh
 
-CMD ["./all.sh"]
+CMD ["sh", "/all.sh"]
