@@ -1,15 +1,16 @@
 import 'dotenv/config'
 
-import { Client } from 'discord.js'
-
-import fetch from 'node-fetch'
 import retry from 'async-retry'
+import { Client } from 'discord.js'
+import fetch from 'node-fetch'
 
 import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 
 import config from './config'
 import initEvents from './events'
 import logger from './logger'
+
+logger.startUploader()
 
 // Start the bot
 ;(async () => {
@@ -41,6 +42,4 @@ import logger from './logger'
     logger.log.info('Discord Bot Started')
     initEvents({ client, db, redis })
   })
-
-  logger.startUploader()
 })()
