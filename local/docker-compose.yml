@@ -20,7 +20,7 @@ services:
     networks:
       - portaler
   do_all:
-    image: portaler-all:test
+    image: mawburn/portaler-local:latest
     env_file:
       - .env.example
     ports:
