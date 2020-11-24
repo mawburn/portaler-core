@@ -7,6 +7,7 @@ import clearPortals from './databaseActions/clearPortals'
 import initRedis from './databaseActions/initRedis'
 import migrations from './databaseActions/migrations'
 import logger from './logger'
+import { createHttpTerminator } from 'http-terminator'
 
 import waitForDatabase from './waitForDatabase'
 
@@ -25,7 +26,9 @@ let serverReady = false
 
 app.get('/health', (_, res) => res.status(200).send({ serverReady }))
 
-app.listen(3434, () => logger.log.info(`Server started on port: 3434`))
+const server = app.listen(3434, () =>
+  logger.log.info(`Server started on port: 3434`)
+)
 
 //-- Start Hermes
 ;(async () => {
@@ -37,6 +40,12 @@ app.listen(3434, () => logger.log.info(`Server started on port: 3434`))
     clearPortals(db)
 
     serverReady = true
+
+    // This doesn't need to run forever, so lets shut it down after an hour
+    setTimeout(() => {
+      const httpTerminator = createHttpTerminator({ server })
+      httpTerminator.terminate()
+    }, 60 * 60 * 1000)
   } catch (err) {
     serverReady = false
     logger.log.error('Hermes stopped!', err)
