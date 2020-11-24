@@ -2,7 +2,7 @@
   <img alt="portaler" src="https://portaler.zone/portaler-github.png" />
 </p>
 
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-local?label=docker%20discord%20local&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-local)
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-local?label=docker%20local&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-local)
 
 # Portaler Local
 
