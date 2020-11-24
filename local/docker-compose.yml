@@ -3,8 +3,10 @@ version: '3.7'
 services:
   pgdb:
     image: postgres:13-alpine
-    env_file:
-      - .env.example
+    environment:
+      - POSTGRES_DB=albion
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
       - '5432:5432'
     volumes:
@@ -13,16 +15,21 @@ services:
       - portaler
   rediscache:
     image: bitnami/redis:6.0
-    env_file:
-      - .env.example
+    environment:
+      - REDIS_PASSWORD=redis
     ports:
       - '6379:6379'
     networks:
       - portaler
   do_all:
     image: mawburn/portaler-local:latest
-    env_file:
-      - .env.example
+    environment:
+      - DB_HOST=pgdb
+      - REDIS_HOST=rediscache
+      - POSTGRES_DB=albion
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - REDIS_PASSWORD=redis
     ports:
       - '8042:80'
     depends_on:
