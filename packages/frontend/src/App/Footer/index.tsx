@@ -1,23 +1,12 @@
 import React from 'react'
-import { discordLogo, githubLogo, twitchLogo } from '../../common/images'
+import { discordLogo, githubLogo } from '../../common/images'
+import Twitch from './Twitch'
 
 import styles from './styles.module.scss'
 
 const Footer = () => (
   <footer className={styles.footer}>
-    <div className={styles.twitch}>
-      {process.env.REACT_APP_TWITCH && (
-        <a
-          href={process.env.REACT_APP_TWITCH}
-          className={styles.link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src={twitchLogo} className={styles.twitchLogo} alt="twitch" />
-          Twitch
-        </a>
-      )}
-    </div>
+    <Twitch />
     <div className={styles.footerRight}>
       <div className={styles.github}>
         <a

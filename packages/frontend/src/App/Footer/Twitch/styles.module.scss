@@ -1,0 +1,71 @@
+.twitch {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+
+  .twitchLogo {
+    height: 2rem;
+    width: 2rem;
+    margin-right: 0.5rem;
+  }
+
+  .link {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    color: #fdd835;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  .stream {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.ledBox {
+  margin-left: 1rem;
+}
+
+.ledGreen {
+  margin: 0 auto;
+  width: 1rem;
+  height: 1rem;
+  background-color: #abff00;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 2px 1px, inset #73a800 0 -1px 5px,
+    #abff00 0 2px 12px;
+  animation: glowing 2s infinite;
+}
+
+.fadeIn {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  animation: fadeIn ease 5s;
+}
+
+@keyframes glowing {
+  from {
+    background-color: #abff00;
+  }
+  50% {
+    background-color: #6ac100;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #73a800 0 -1px 9px,
+      #abff00 0 -1px 0;
+  }
+  to {
+    background-color: #abff00;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
