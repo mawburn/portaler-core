@@ -34,7 +34,7 @@ router.get(
 
       const now = DateTime.utc()
 
-      const portals: Portal[] = dbPortalRes.rows.map((p) => {
+      const portals: Portal[] = dbPortalRes.rows.map((p: any) => {
         const expires = DateTime.fromJSDate(p.expires).toUTC()
 
         return {

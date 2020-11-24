@@ -14,28 +14,36 @@ import checkAdmin from './middleware/checkAdmin'
 import syntaxError from './middleware/syntaxError'
 import verifyUser from './middleware/verifyUser'
 import logger from './logger'
+import waitOnHermes from './db'
 
-const app = express()
+// initialize the server
+;(async () => {
+  await waitOnHermes()
 
-logger.startUploader()
+  const app = express()
 
-app.use(cors(config.cors))
+  logger.startUploader()
 
-app.use(bodyParser.json())
-app.use(cookieParser())
-app.use(compression())
+  app.use(cors(config.cors))
 
-app.use(syntaxError)
+  app.use(bodyParser.json())
+  app.use(cookieParser())
+  app.use(compression())
 
-app.use('/api/auth', Auth)
+  app.use(syntaxError)
 
-app.get('/api/health', (_, res) => res.status(200).send({ server: 'ok' }))
-app.get('/api/bot', (_, res) => res.redirect(config.discord.botUrl))
-app.get('/api/config', (_, res) => res.status(200).send({ publicRead: false }))
+  app.use('/api/auth', Auth)
 
-app.use('/api/admin', checkAdmin, Admin)
-app.use('/api', verifyUser, Api)
+  app.get('/api/health', (_, res) => res.status(200).send({ server: 'ok' }))
+  app.get('/api/bot', (_, res) => res.redirect(config.discord.botUrl))
+  app.get('/api/config', (_, res) =>
+    res.status(200).send({ publicRead: false })
+  )
 
-app.listen(config.port, () =>
-  logger.log.info(`Server started on port: ${config.port}`)
-)
+  app.use('/api/admin', checkAdmin, Admin)
+  app.use('/api', verifyUser, Api)
+
+  app.listen(config.port, () =>
+    logger.log.info(`Server started on port: ${config.port}`)
+  )
+})()

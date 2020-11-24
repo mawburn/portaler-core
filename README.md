@@ -16,7 +16,16 @@
 
 <br />
 
-![Netlify Status](https://api.netlify.com/api/v1/badges/76c8bf82-cf50-4310-8121-8196249f49bc/deploy-status) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler?label=docker%20api%20&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-bot?label=docker%20discord%20bot&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-bot)
+![Netlify Status](https://api.netlify.com/api/v1/badges/76c8bf82-cf50-4310-8121-8196249f49bc/deploy-status) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler?label=docker%20api%20&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-bot?label=docker%20discord%20bot&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-bot) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-hermes?label=docker%20discord%20hermes&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-hermes) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-local?label=docker%20discord%20local&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-local)
+
+**Contents**
+
+- [What it is](#what-it-is)
+- [About the codebase](#about-the-codebase)
+- [Running](#running)
+  - [Running Locally](./local)
+- [Supporting](#supporting)
+- [Development](#development)
 
 <br />
 
@@ -34,7 +43,7 @@ Portaler can either be self hosted or we can provide hosting for your group thro
 
 ---
 
-## Monorepo
+### Monorepo
 
 This is a monorepo utilizing [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). Individual applications can be found in the [packages](/packages) folder.
 
@@ -53,6 +62,8 @@ Contained under packages/\* folder
   - Also contains the database migration files
 - [fontend](/packages/frontend)
   - The React frontend
+- [hermes](/packages/hermes)
+  - Hermes is a maintnece bot that runs things like database migrations and portal cleanups.
 
 ### Locally shared libraries
 
@@ -69,18 +80,23 @@ Contained under the shared/\* folder
 
 ## Running
 
-If you would like to run the project for yourself, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the docker folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
+**If you just want to run for yourself locally, please see the instructions [here](./local).**
+
+---
+
+If you would like to run the project on your own server, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the docker folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
 
     docker-compose up -d
-
-More about [docker-compose](https://docs.docker.com/compose/).
 
 Links to our dockerhub images:
 
 - [api-server](https://hub.docker.com/repository/docker/mawburn/portaler)
 - [discord-bot](https://hub.docker.com/repository/docker/mawburn/portaler-bot)
+- [hermes](https://hub.docker.com/repository/docker/mawburn/portaler-hermes)
 
-**Note:** Currently you will need to setup a [Discord developer account](https://discord.com/developers) and provide your own OAuth and Bot credentials. We do have plans on making this easier for people to self host in the future by disabling auth.
+You will also need to create an application and a Discord developer account. You can find that [here](https://discord.com/developers/docs/intro).
+
+If you need help setting up docker, [check out the instructions for running locally](./local) just use the docker compose contained in the [docker](/docker) folder instead.
 
 ---
 
@@ -120,11 +136,14 @@ To run the following commands, from the root of the project simply type:
 - `dev:api` - Starts the api-server in development mode
 - `dev:bot` - Starts the discord-bot in development mode
 - `dev:front` - Starts the frontend in development mode
+- `dev:hermes` - Starts hermes in development mode
 - `build:api` - Builds the api-server for production
 - `build:bot` - Builds the dicsord-bot for production
 - `build:front` - Builds the frontend for production
+- `build:hermes` - Builds hermes for production
 - `start:api` - Starts the api-server from production mode (must be built first)
 - `start:bot` - Starts the discord-bot from production mode (must be built first)
+- `start:hermes` - Starts hermes from production mode (must be built first)
 - `clean:shared` - Deletes the node_modules folder for all the shared/\* modules
 - `clean:packages` - Deletes the node_modules folder for all the packages/\* modules
 - `clean` - Deletes all node_modules folders everywhere

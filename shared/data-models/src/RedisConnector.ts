@@ -9,7 +9,10 @@ export default class RedisConnector {
   delAsync: (key: string) => Promise<any>
 
   constructor(config: ClientOpts) {
-    this.client = redis.createClient(config)
+    this.client = redis.createClient({
+      ...config,
+      retry_strategy: ({ error }) => this.client.emit('error', error),
+    })
 
     this.getAsync = promisify(this.client.get).bind(this.client)
     this.setAsync = promisify(this.client.set).bind(this.client)

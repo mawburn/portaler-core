@@ -1,19 +1,28 @@
 import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 import { Zone } from '@portaler/types'
 
-import logger from './logger'
+import logger from '../logger'
 
-/**
- * Because we should only have 1 instance of the bot running, we can use it to initialize things
- */
-const initDb = (db: DatabaseConnector, redis: RedisConnector) => async () => {
+const initRedis = async (db: DatabaseConnector, redis: RedisConnector) => {
   try {
+    // Populate redis cache with servers
+    const dbServerRes = await db.dbQuery(
+      `SELECT id, subdomain FROM servers ORDER BY id;`,
+      []
+    )
+
+    await Promise.all(
+      dbServerRes.rows.map((s: any) =>
+        redis.setAsync(`server:${s.id}`, s.subdomain)
+      )
+    )
+
     const zoneRes = await db.dbQuery(
       `
     SELECT id, zone_name, tier, color
     FROM zones
     WHERE color IN ('road', 'city', 'red', 'black', 'yellow', 'blue')
-    ORDER BY zone_name
+    ORDER BY zone_name;
     `,
       []
     )
@@ -31,4 +40,4 @@ const initDb = (db: DatabaseConnector, redis: RedisConnector) => async () => {
   }
 }
 
-export default initDb
+export default initRedis

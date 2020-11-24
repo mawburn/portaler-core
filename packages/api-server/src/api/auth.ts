@@ -24,7 +24,7 @@ router.get(
   wrapAsync(async (req: Request, res: Response) => {
     try {
       if (!req.query.code) {
-        throw new Error('No Code Provided')
+        throw new Error('NoCodeProvided')
       }
 
       if (!req.cookies.subdomain && isProd) {

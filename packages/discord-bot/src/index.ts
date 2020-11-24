@@ -1,37 +1,46 @@
 import 'dotenv/config'
 
 import { Client } from 'discord.js'
-import logger from './logger'
-import initDb from './initDb'
+
+import fetch from 'node-fetch'
+import retry from 'async-retry'
 
 import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 
 import config from './config'
 import initEvents from './events'
-import populateServers from './populateServers'
+import logger from './logger'
 
-const client = new Client()
-client.login(process.env.DISCORD_BOT_TOKEN)
+// Start the bot
+;(async () => {
+  await retry(
+    async () => {
+      const hermes = await fetch('http://localhost:3434/health').then((res) =>
+        res.json()
+      )
 
-const db = new DatabaseConnector(config.db)
-const redis = new RedisConnector(config.redis)
+      if (!hermes.serverReady) {
+        throw new Error('Database not ready')
+      } else {
+        return true
+      }
+    },
+    {
+      retries: 100,
+      randomize: false,
+    }
+  )
 
-;(async () => await populateServers(db, redis))()
+  const client = new Client()
+  client.login(process.env.DISCORD_BOT_TOKEN)
 
-client.on('ready', () => {
-  logger.log.info('Discord Bot Started')
-  initEvents({ client, db, redis })
-})
+  const db = new DatabaseConnector(config.db)
+  const redis = new RedisConnector(config.redis)
 
-logger.startUploader()
+  client.on('ready', () => {
+    logger.log.info('Discord Bot Started')
+    initEvents({ client, db, redis })
+  })
 
-initDb(db, redis)()
-
-// Clear portals that have expired
-// This is in the bot because the bot should only have one instance running
-// where as the web server could be multiple
-// ....for now
-setInterval(
-  () => db.dbQuery('DELETE FROM portals WHERE expires < NOW();', []),
-  10000
-)
+  logger.startUploader()
+})()

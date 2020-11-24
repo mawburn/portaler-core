@@ -92,7 +92,7 @@ const PortalMap = () => {
     const elms = elements.current
     const allKeys: string[] = []
 
-    if (filteredZones.length && cy.current) {
+    if (cy.current) {
       filteredZones.forEach((z) => {
         // used to add portals first
         const id = 'azone' + z.name.toLowerCase().replace(/ /g, '')

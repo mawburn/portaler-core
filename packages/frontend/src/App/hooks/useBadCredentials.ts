@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../../reducers'
-import { ConfigActionTypes } from '../../reducers/configReducer'
-import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
+import { RootState } from '../../reducers';
+import { ConfigActionTypes } from '../../reducers/configReducer';
+import { PortalMapActionTypes } from '../../reducers/portalMapReducer';
 
 const useBadCredentials = (): [boolean, () => void] => {
   const [badPass, setBadPass] = useState<boolean>(false)
