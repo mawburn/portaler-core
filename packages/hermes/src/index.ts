@@ -11,11 +11,7 @@ logger.startUploader()
 //-- Start Hermes
 ;(async () => {
   try {
-    const { db, redis } = await getDatabases(
-      config.db,
-      config.redis,
-      logger.log.info
-    )
+    const { db } = await getDatabases(config.db, config.redis, logger.log.info)
 
     clearPortals(db)
   } catch (err) {
