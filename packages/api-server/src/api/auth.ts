@@ -2,12 +2,12 @@ import btoa from 'btoa'
 import { Router } from 'express'
 import { v4 as uuid } from 'uuid'
 
-import config from '../config'
-import { db, redis } from '../db'
+import config from '../utils/config'
+import { db, redis } from '../utils/db'
 import fetchToken from '../utils/discord/fetchToken'
 import fetchUser from '../utils/discord/fetchUser'
 import fetchUserGuilds from '../utils/discord/fetchUserGuilds'
-import logger from '../logger'
+import logger from '../utils/logger'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -66,7 +66,7 @@ router.get('/callback', async (req, res) => {
     await redis.setUser(ourToken, user.id, serverId)
 
     res.redirect(`${redirectUrl}/?token=${ourToken}`)
-  } catch (err: Error | any) {
+  } catch (err) {
     logger.log.error('Error logging in User', err)
     res.status(500).json({ error: 'Error Logging in User' })
   }

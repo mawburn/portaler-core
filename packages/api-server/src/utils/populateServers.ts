@@ -1,4 +1,4 @@
-import { db, redis } from '../db'
+import { db, redis } from './db'
 
 const populateServers = async () => {
   const dbServerRes = await db.dbQuery(

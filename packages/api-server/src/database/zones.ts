@@ -1,7 +1,7 @@
 import { Zone } from '@portaler/types'
 
-import { db } from '../db'
-import logger from '../logger'
+import { db } from '../utils/db'
+import logger from '../utils/logger'
 
 export let zoneList: Zone[] = []
 

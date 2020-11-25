@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { DateTime, ISOTimeOptions } from 'luxon'
 
-import { db } from '../db'
-import logger from '../logger'
+import { db } from '../utils/db'
+import logger from '../utils/logger'
 import { getServerPortals } from '../database/portals'
 
 const router = Router()
@@ -92,7 +92,7 @@ router.post('/', async (req, res) => {
 
     res.sendStatus(200)
   } catch (err) {
-  logger.log.error(
+    logger.log.error(
       'Error setting portals',
       { user: req.userId, server: req.serverId },
       err

@@ -16,7 +16,7 @@
 
 <br />
 
-![Netlify Status](https://api.netlify.com/api/v1/badges/76c8bf82-cf50-4310-8121-8196249f49bc/deploy-status) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler?label=docker%20api%20&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-bot?label=docker%20discord%20bot&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-bot) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-hermes?label=docker%20hermes&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-hermes)
+![Netlify Status](https://api.netlify.com/api/v1/badges/76c8bf82-cf50-4310-8121-8196249f49bc/deploy-status) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler?label=docker%20api%20&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-bot?label=docker%20discord%20bot&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-bot)
 
 **Contents**
 
@@ -62,8 +62,6 @@ Contained under packages/\* folder
   - Also contains the database migration files
 - [fontend](/packages/frontend)
   - The React frontend
-- [hermes](/packages/hermes)
-  - Hermes is a maintnece bot that runs things like database migrations and portal cleanups.
 
 ### Locally shared libraries
 
@@ -92,7 +90,6 @@ Links to our dockerhub images:
 
 - [api-server](https://hub.docker.com/repository/docker/mawburn/portaler)
 - [discord-bot](https://hub.docker.com/repository/docker/mawburn/portaler-bot)
-- [hermes](https://hub.docker.com/repository/docker/mawburn/portaler-hermes)
 
 You will also need to create an application and a Discord developer account. You can find that [here](https://discord.com/developers/docs/intro).
 
@@ -136,14 +133,11 @@ To run the following commands, from the root of the project simply type:
 - `dev:api` - Starts the api-server in development mode
 - `dev:bot` - Starts the discord-bot in development mode
 - `dev:front` - Starts the frontend in development mode
-- `dev:hermes` - Starts hermes in development mode
 - `build:api` - Builds the api-server for production
 - `build:bot` - Builds the dicsord-bot for production
 - `build:front` - Builds the frontend for production
-- `build:hermes` - Builds hermes for production
 - `start:api` - Starts the api-server from production mode (must be built first)
 - `start:bot` - Starts the discord-bot from production mode (must be built first)
-- `start:hermes` - Starts hermes from production mode (must be built first)
 - `clean:shared` - Deletes the node_modules folder for all the shared/\* modules
 - `clean:packages` - Deletes the node_modules folder for all the packages/\* modules
 - `clean` - Deletes all node_modules folders everywhere

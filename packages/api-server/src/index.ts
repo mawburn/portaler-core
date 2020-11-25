@@ -9,24 +9,18 @@ import express from 'express'
 import Api from './api'
 import Admin from './api/admin'
 import Auth from './api/auth'
-import config from './config'
-import { populateZoneList } from './database/zones'
-import getDb from './db'
-import logger from './logger'
+import initServer from './initServer'
 import checkAdmin from './middleware/checkAdmin'
 import syntaxError from './middleware/syntaxError'
 import verifyUser from './middleware/verifyUser'
-import migrations from './migrations'
-import populateServers from './utils/populateServers'
+import config from './utils/config'
+import logger from './utils/logger'
 
 logger.startUploader()
 
 // initialize the server
 ;(async () => {
-  await getDb()
-  await migrations()
-  await populateZoneList()
-  await populateServers()
+  await initServer()
 
   const app = express()
 

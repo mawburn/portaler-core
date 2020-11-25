@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
-import { db, redis } from '../db'
-import logger from '../logger'
+import { db, redis } from '../utils/db'
+import logger from '../utils/logger'
 
 const router = Router()
 

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import Portals from './portals'
+import Portals from './portal'
 import Zone from './zone'
 
 const router = Router()

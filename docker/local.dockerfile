@@ -8,7 +8,6 @@ COPY tsconfig.json .
 
 COPY shared ./shared
 COPY packages/api-server ./packages/api-server
-COPY packages/hermes ./packages/hermes
 COPY packages/frontend ./packages/frontend
 
 ENV REACT_APP_DISABLE_AUTH true
@@ -17,7 +16,6 @@ RUN yarn install --non-interactive --pure-lockfile
 
 RUN yarn build:shared
 RUN yarn build:api
-RUN yarn build:hermes
 RUN cd packages/frontend && yarn build
 RUN yarn clean
 
@@ -41,7 +39,6 @@ COPY docker/all/nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /usr/build/shared /usr/app/shared
 COPY --from=build /usr/build/packages/api-server /usr/app/packages/api-server
-COPY --from=build /usr/build/packages/hermes /usr/app/packages/hermes
 COPY --from=build /usr/build/packages/frontend/build /www
 
 ENV NODE_ENV production

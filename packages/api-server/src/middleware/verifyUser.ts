@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 
-import { redis } from '../db'
-import logger from '../logger'
+import { redis } from '../utils/db'
+import logger from '../utils/logger'
 
 const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
   try {

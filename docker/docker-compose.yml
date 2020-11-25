@@ -19,12 +19,6 @@ services:
       - '6379:6379'
     networks:
       - portaler
-  hermes:
-    image: mawburn/portaler-hermes:latest
-    env_file:
-      - .env.example
-    networks:
-      - portaler
   discord_bot:
     image: mawburn/portaler-bot:latest
     env_file:
@@ -32,7 +26,6 @@ services:
     depends_on:
       - pgdb
       - rediscache
-      - hermes
     networks:
       - portaler
   api_server:
@@ -45,7 +38,6 @@ services:
       - discord_bot
       - pgdb
       - rediscache
-      - hermes
     networks:
       - portaler
 
