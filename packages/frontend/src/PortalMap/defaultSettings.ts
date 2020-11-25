@@ -40,6 +40,7 @@ const defaultSettings: CytoscapeOptions = {
   motionBlur: false,
   motionBlurOpacity: 0.2,
   pixelRatio: 'auto',
+  wheelSensitivity: 0.5,
 }
 
 export default defaultSettings
