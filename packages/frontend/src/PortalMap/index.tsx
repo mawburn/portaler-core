@@ -71,6 +71,10 @@ const PortalMap = () => {
       } as CytoscapeOptions)
 
       cy.current.on('tap', 'node', cyEventHandler)
+
+      if (process.env.NODE_ENV === 'production') {
+        cy.current.warnings(false)
+      }
     } else {
       cy.current.style(graphStyle)
     }
