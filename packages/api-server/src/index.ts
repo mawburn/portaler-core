@@ -10,17 +10,23 @@ import Api from './api'
 import Admin from './api/admin'
 import Auth from './api/auth'
 import config from './config'
-import waitOnHermes from './db'
+import { populateZoneList } from './database/zones'
+import getDb from './db'
 import logger from './logger'
 import checkAdmin from './middleware/checkAdmin'
 import syntaxError from './middleware/syntaxError'
 import verifyUser from './middleware/verifyUser'
+import migrations from './migrations'
+import populateServers from './utils/populateServers'
 
 logger.startUploader()
 
 // initialize the server
 ;(async () => {
-  await waitOnHermes()
+  await getDb()
+  await migrations()
+  await populateZoneList()
+  await populateServers()
 
   const app = express()
 

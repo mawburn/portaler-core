@@ -1,9 +1,7 @@
 import path from 'path'
 import { createDb, migrate } from 'postgres-migrations'
-
-import config from '../config'
-
-import logger from '../logger'
+import config from './config'
+import logger from './logger'
 
 const migrations = async () => {
   try {
