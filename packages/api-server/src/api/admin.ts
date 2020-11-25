@@ -5,112 +5,6 @@ import logger from '../logger'
 
 const router = Router()
 
-router.get('/server', async (req, res) => {
-  const discordId = req.query.id
-
-  if (!discordId && typeof discordId !== 'string') {
-    return res.send(400)
-  }
-
-  const dbServer = await db.Server.getServer(discordId as string)
-
-  if (dbServer) {
-    return res.status(200).send(dbServer)
-  }
-
-  res.send(404)
-})
-
-// adds a server
-router.post('/server', async (req, res) => {
-  const { discordId, discordName } = req.body
-
-  if (discordId || discordName) {
-    res.send(400)
-    return
-  }
-
-  try {
-    const serverId = await db.Server.create(discordId, discordName)
-
-    return res.status(200).send({ id: serverId })
-  } catch (err) {
-    logger.log.error('Error setting server', discordId, discordName)
-  }
-
-  res.send(500)
-})
-
-// create a role for a server
-router.post('/server/roles', async (req, res) => {
-  const { serverId, roleId } = req.body
-
-  if (serverId || roleId) {
-    res.send(400)
-    return
-  }
-
-  const serverRoleId = await db.Server.createRole(serverId, roleId)
-
-  if (serverRoleId) {
-    return res.status(200).send({ id: serverRoleId })
-  }
-})
-
-// removes a server and its associations
-router.delete('/server', async (req, res) => {
-  const { discordId, discordName } = req.body
-
-  if (discordId || discordName) {
-    res.send(400)
-    return
-  }
-
-  try {
-    const dbRes = await db.dbQuery(
-      'DELETE FROM servers WHERE discord_id = $1 RETURNING id',
-      [discordId]
-    )
-
-    const serverId = dbRes.rows[0].id
-
-    const dbUserIds = await db.dbQuery(
-      'DELETE FROM user_servers WHERE server_id = $1 RETURNING user_id',
-      [serverId]
-    )
-
-    const dbRolesRes = await db.dbQuery(
-      'DELETE FROM server_roles WHERE server_id = $1 RETURNING user_id',
-      [serverId]
-    )
-
-    const userRolesDel = dbRolesRes.rows.map((r) =>
-      db.dbQuery('DELETE FROM user_roles WHERE role_id = $1', [r.id])
-    )
-
-    logger.log.info(
-      'Users deleted',
-      dbUserIds.rows.map((u) => u.user_id)
-    )
-
-    await redis.delServer(
-      serverId,
-      dbUserIds.rows.map((u) => u.user_id)
-    )
-
-    await Promise.allSettled(userRolesDel)
-    logger.log.info('ServerDeleted', discordName)
-    res.send(204)
-  } catch (err) {
-    logger.log.error(
-      'Error deleting server',
-      { id: discordId, name: discordName },
-      err
-    )
-    res.send(500)
-  }
-})
-
 // Lists all our servers
 router.get('/list', async (req, res) => {
   try {
@@ -129,6 +23,7 @@ router.get('/list', async (req, res) => {
 
     return res.status(200).json(servers)
   } catch (err) {
+    logger.log.error('No Server', err)
     return res.status(500).write(err)
   }
 })
@@ -150,13 +45,121 @@ router.post('/addSubdomain', async (req, res) => {
     const server = await db.Server.getServer(body.id)
 
     if (server && server.subdomain) {
-      await redis.setAsync(`server:${discordId}`, server.subdomain)
+      await redis.setAsync(`server:${server.discordId}`, server.subdomain)
     }
 
     return res.status(200).json(server)
   } catch (err) {
+    logger.log.error('Subdomain', err)
     return res.status(500).json({ error: err.message })
   }
 })
+
+// // Gets a single server
+// router.get('/server', async (req, res) => {
+//   const discordId = req.query.id
+
+//   if (!discordId && typeof discordId !== 'string') {
+//     return res.send(400)
+//   }
+
+//   const dbServer = await db.Server.getServer(discordId as string)
+
+//   if (dbServer) {
+//     return res.status(200).send(dbServer)
+//   }
+
+//   res.send(404)
+// })
+
+// // adds a server
+// router.post('/server', async (req, res) => {
+//   const { discordId, discordName } = req.body
+
+//   if (discordId || discordName) {
+//     res.send(400)
+//     return
+//   }
+
+//   try {
+//     const serverId = await db.Server.create(discordId, discordName)
+
+//     return res.status(200).send({ id: serverId })
+//   } catch (err) {
+//     logger.log.error('Error setting server', discordId, discordName)
+//   }
+
+//   res.send(500)
+// })
+
+// // create a role for a server
+// router.post('/server/roles', async (req, res) => {
+//   const { serverId, roleId } = req.body
+
+//   if (serverId || roleId) {
+//     res.send(400)
+//     return
+//   }
+
+//   const serverRoleId = await db.Server.createRole(serverId, roleId)
+
+//   if (serverRoleId) {
+//     return res.status(200).send({ id: serverRoleId })
+//   }
+// })
+
+// // removes a server and its associations
+// router.delete('/server', async (req, res) => {
+//   const { discordId, discordName } = req.body
+
+//   if (discordId || discordName) {
+//     res.send(400)
+//     return
+//   }
+
+//   try {
+//     const dbRes = await db.dbQuery(
+//       'DELETE FROM servers WHERE discord_id = $1 RETURNING id',
+//       [discordId]
+//     )
+
+//     const serverId = dbRes.rows[0].id
+
+//     const dbUserIds = await db.dbQuery(
+//       'DELETE FROM user_servers WHERE server_id = $1 RETURNING user_id',
+//       [serverId]
+//     )
+
+//     const dbRolesRes = await db.dbQuery(
+//       'DELETE FROM server_roles WHERE server_id = $1 RETURNING user_id',
+//       [serverId]
+//     )
+
+//     const userRolesDel = dbRolesRes.rows.map((r) =>
+//       db.dbQuery('DELETE FROM user_roles WHERE role_id = $1', [r.id])
+//     )
+
+//     logger.log.info(
+//       'Users deleted',
+//       dbUserIds.rows.map((u) => u.user_id)
+//     )
+
+//     await redis.delServer(
+//       serverId,
+//       dbUserIds.rows.map((u) => u.user_id)
+//     )
+
+//     await Promise.allSettled(userRolesDel)
+//     logger.log.info('ServerDeleted', discordName)
+//     res.send(204)
+//   } catch (err) {
+//     logger.log.error(
+//       'Error deleting server',
+//       { id: discordId, name: discordName },
+//       err
+//     )
+//     res.send(500)
+//   }
+// })
 
 export default router
