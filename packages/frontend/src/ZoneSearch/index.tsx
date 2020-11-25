@@ -1,6 +1,12 @@
 import clone from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
-import React, { FC, useCallback, useRef, useState } from 'react'
+import React, {
+  FC,
+  MutableRefObject,
+  useCallback,
+  useRef,
+  useState,
+} from 'react'
 
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
@@ -16,6 +22,7 @@ interface ZoneSearchProps {
   value: ZoneLight
   variant?: 'filled' | 'outlined' | 'standard'
   update: (zone: ZoneLight) => void
+  ref?: MutableRefObject<null>
 }
 
 const ZoneSearch: FC<ZoneSearchProps> = ({
@@ -24,6 +31,7 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
   value,
   variant = 'standard',
   update,
+  ref,
 }) => {
   const acRef = useRef(null)
   const [currentZoneList, setCurrentZoneList] = useState<ZoneLight[]>(zoneList)
@@ -77,7 +85,7 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
       getOptionLabel={(o: ZoneLight) => o.name}
       onChange={(_, val: ZoneLight | null) => update(val ?? DEFAULT_ZONE)}
       renderInput={(params) => (
-        <TextField {...params} label={label} variant={variant as any} />
+        <TextField {...params} ref={ref} label={label} variant={variant as any} />
       )}
     />
   )

@@ -66,6 +66,8 @@ const MappingBar = () => {
     }
   }, [fromId, setFrom])
 
+  const firstFieldRef = useRef<any>(null) //TODO figure out typing for this, HTMLInputElement is not ok apparently
+
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -80,6 +82,7 @@ const MappingBar = () => {
           setHours(null)
           setMinutes(null)
           setPortalSize(DEFAULT_PORTAL_SIZE)
+          firstFieldRef.current?.focus()
         } else {
           throw new Error('you suck')
         }
@@ -100,6 +103,7 @@ const MappingBar = () => {
               update={setFrom}
               label="From"
               zoneList={filteredFrom}
+              ref={firstFieldRef}
             />
           </div>
           <div className={styles.row}>
