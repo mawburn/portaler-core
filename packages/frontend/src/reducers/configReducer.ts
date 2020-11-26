@@ -19,6 +19,10 @@ export interface ConfigState {
 }
 
 const tokenStore = (): string | null => {
+  if (process.env.REACT_APP_DISABLE_AUTH === 'true') {
+    return 'disabled'
+  }
+
   const token = window.localStorage.getItem('token')
 
   if (token === null) {

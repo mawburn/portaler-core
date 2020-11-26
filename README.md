@@ -18,6 +18,15 @@
 
 ![Netlify Status](https://api.netlify.com/api/v1/badges/76c8bf82-cf50-4310-8121-8196249f49bc/deploy-status) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler?label=docker%20api%20&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler) [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mawburn/portaler-bot?label=docker%20discord%20bot&style=flat-square)](https://hub.docker.com/repository/docker/mawburn/portaler-bot)
 
+**Contents**
+
+- [What it is](#what-it-is)
+- [About the codebase](#about-the-codebase)
+- [Running](#running)
+  - [Running Locally](./local)
+- [Supporting](#supporting)
+- [Development](#development)
+
 <br />
 
 # What it is
@@ -34,7 +43,7 @@ Portaler can either be self hosted or we can provide hosting for your group thro
 
 ---
 
-## Monorepo
+### Monorepo
 
 This is a monorepo utilizing [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). Individual applications can be found in the [packages](/packages) folder.
 
@@ -69,18 +78,22 @@ Contained under the shared/\* folder
 
 ## Running
 
-If you would like to run the project for yourself, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the docker folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
+**If you just want to run for yourself locally, please see the instructions [here](./local).**
+
+---
+
+If you would like to run the project on your own server, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the docker folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
 
     docker-compose up -d
-
-More about [docker-compose](https://docs.docker.com/compose/).
 
 Links to our dockerhub images:
 
 - [api-server](https://hub.docker.com/repository/docker/mawburn/portaler)
 - [discord-bot](https://hub.docker.com/repository/docker/mawburn/portaler-bot)
 
-**Note:** Currently you will need to setup a [Discord developer account](https://discord.com/developers) and provide your own OAuth and Bot credentials. We do have plans on making this easier for people to self host in the future by disabling auth.
+You will also need to create an application and a Discord developer account. You can find that [here](https://discord.com/developers/docs/intro).
+
+If you need help setting up docker, [check out the instructions for running locally](./local) just use the docker compose contained in the [docker](/docker) folder instead.
 
 ---
 

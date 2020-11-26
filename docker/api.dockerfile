@@ -11,6 +11,7 @@ COPY packages/api-server ./packages/api-server
 
 RUN yarn install --non-interactive --pure-lockfile
 
+RUN yarn build:shared
 RUN yarn build:api
 RUN yarn clean
 

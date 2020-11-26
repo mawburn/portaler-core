@@ -1,37 +1,28 @@
 import 'dotenv/config'
 
 import { Client } from 'discord.js'
-import logger from './logger'
-import initDb from './initDb'
 
-import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
+import getDatabases from '@portaler/data-models'
 
 import config from './config'
 import initEvents from './events'
-import populateServers from './populateServers'
-
-const client = new Client()
-client.login(process.env.DISCORD_BOT_TOKEN)
-
-const db = new DatabaseConnector(config.db)
-const redis = new RedisConnector(config.redis)
-
-;(async () => await populateServers(db, redis))()
-
-client.on('ready', () => {
-  logger.log.info('Discord Bot Started')
-  initEvents({ client, db, redis })
-})
+import logger from './logger'
 
 logger.startUploader()
 
-initDb(db, redis)()
+// Start the bot
+;(async () => {
+  const client = new Client()
+  client.login(process.env.DISCORD_BOT_TOKEN)
 
-// Clear portals that have expired
-// This is in the bot because the bot should only have one instance running
-// where as the web server could be multiple
-// ....for now
-setInterval(
-  () => db.dbQuery('DELETE FROM portals WHERE expires < NOW();', []),
-  10000
-)
+  const { db, redis } = await getDatabases(
+    config.db,
+    config.redis,
+    logger.log.info
+  )
+
+  client.on('ready', () => {
+    logger.log.info('Discord Bot Started')
+    initEvents({ client, db, redis })
+  })
+})()
