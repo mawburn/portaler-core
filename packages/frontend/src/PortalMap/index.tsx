@@ -73,7 +73,7 @@ const PortalMap = () => {
       cy.current.on('tap', 'node', cyEventHandler)
 
       if (process.env.NODE_ENV === 'production') {
-        cy.current.warnings(false)
+        cy.current?.warnings && cy.current.warnings(false)
       }
     } else {
       cy.current.style(graphStyle)
