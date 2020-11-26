@@ -82,6 +82,7 @@ const MappingBar = () => {
           setHours(null)
           setMinutes(null)
           setPortalSize(DEFAULT_PORTAL_SIZE)
+
           firstFieldRef.current?.focus()
         } else {
           throw new Error('you suck')
@@ -103,7 +104,7 @@ const MappingBar = () => {
               update={setFrom}
               label="From"
               zoneList={filteredFrom}
-              ref={firstFieldRef}
+              inputRef={firstFieldRef}
             />
           </div>
           <div className={styles.row}>
