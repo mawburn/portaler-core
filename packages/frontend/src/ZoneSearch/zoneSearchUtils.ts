@@ -1,20 +1,16 @@
 import startsWith from 'lodash/startsWith' // lodash is faster than native implementation
 
 import { FilterOptionsState } from '@material-ui/lab/useAutocomplete'
-
-export interface ZoneLight {
-  name: string
-  value: string
-}
+import { Zone } from '@portaler/types'
 
 export const filterZones = (
-  zoneList: ZoneLight[],
-  state: FilterOptionsState<ZoneLight>
+  zoneList: Zone[],
+  state: FilterOptionsState<Zone>
 ) => {
   const inputValueLower: string = state.inputValue.toLowerCase()
 
   const newZoneList = zoneList.filter((z) =>
-    startsWith(z.value, inputValueLower)
+    startsWith(z.name.toLowerCase(), inputValueLower)
   )
 
   if (newZoneList.length) {
@@ -24,12 +20,13 @@ export const filterZones = (
   const inputTerms = inputValueLower.split(' ')
 
   return inputTerms.reduce(
-    (list: ZoneLight[], term) => list.filter((i) => i.value.indexOf(term) >= 0),
+    (list: Zone[], term) =>
+      list.filter((i) => i.name.toLowerCase().indexOf(term) >= 0),
     zoneList
   )
 }
 
-export const getMaxString = (curList: ZoneLight[], input: string): string => {
+export const getMaxString = (curList: Zone[], input: string): string => {
   if (curList.length === 1) {
     return curList[0].name
   } else if (curList.length === 0) {

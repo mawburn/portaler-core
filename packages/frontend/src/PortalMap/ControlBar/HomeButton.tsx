@@ -4,11 +4,11 @@ import { IconButton } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 
 import getHomeZone from '../../common/utils/getHomeZone'
-import { ZoneLight } from '../../ZoneSearch/zoneSearchUtils'
+import { Zone } from '@portaler/types'
 import styles from './styles.module.scss'
 
 export interface HomeButtonProps {
-  handleHome: (zone: ZoneLight) => void
+  handleHome: (zone: Zone) => void
 }
 
 const HomeButton: FC<HomeButtonProps> = ({ handleHome }) => {

@@ -1,4 +1,4 @@
-import { Portal } from '../types'
+import { Portal } from '@portaler/types'
 
 const fetchPortals = (token: string | null): Promise<Portal[]> => {
   if (!token) {

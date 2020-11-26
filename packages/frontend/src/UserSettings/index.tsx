@@ -6,24 +6,24 @@ import {
   AccordionSummary,
   Snackbar,
 } from '@material-ui/core'
-import PersonIcon from '@material-ui/icons/Person'
+import HomeIcon from '@material-ui/icons/Home'
 import Alert from '@material-ui/lab/Alert'
+import { Zone } from '@portaler/types'
 
 import getHomeZone from '../common/utils/getHomeZone'
 import ZoneSearch from '../ZoneSearch'
-import { ZoneLight } from '../ZoneSearch/zoneSearchUtils'
 import styles from './styles.module.scss'
 
 interface UserSettingsProps {
-  zones: ZoneLight[]
+  zones: Zone[]
 }
 
 const UserSettings: FC<UserSettingsProps> = ({ zones }) => {
   const initialLoad = useRef<boolean>(true)
-  const [home, setHome] = useState<ZoneLight>(getHomeZone())
+  const [home, setHome] = useState<Zone>(getHomeZone())
   const [saved, setSaved] = useState<boolean>(false)
 
-  const handleUpdate = useCallback((zone: ZoneLight) => {
+  const handleUpdate = useCallback((zone: Zone) => {
     window.localStorage.setItem('homeZone', JSON.stringify(zone))
     setHome(zone)
   }, [])
@@ -40,7 +40,7 @@ const UserSettings: FC<UserSettingsProps> = ({ zones }) => {
     <div className={styles.accordion}>
       <Accordion>
         <AccordionSummary className={styles.main}>
-          <PersonIcon className={styles.icon} /> User Settings
+          <HomeIcon className={styles.icon} /> Set Your Home
         </AccordionSummary>
         <AccordionDetails>
           <ZoneSearch

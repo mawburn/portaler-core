@@ -1,5 +1,11 @@
-/// <reference types="typescript" />
-export type ZoneColor = 'black' | 'red' | 'yellow' | 'blue' | 'road' | 'city'
+export type ZoneColor =
+  | 'black'
+  | 'red'
+  | 'yellow'
+  | 'blue'
+  | 'road'
+  | 'city'
+  | 'home'
 
 export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
 
@@ -11,7 +17,6 @@ export interface Resource {
 }
 
 export interface ZoneInfo {
-  type: string
   markers?: string[]
   resources?: Resource[]
   royalConnections?: number[]
@@ -23,13 +28,22 @@ export interface Zone {
   name: string
   tier: string
   color: ZoneColor
+  type: string
+  albionId?: string
   info?: ZoneInfo
 }
 
-export interface Portal {
+export interface PortalPayload {
   connection: [string, string] // sorted alphabetically
   size: PortalSize
-  expiresUtc: Date
+  hours: number
+  minutes: number
+}
+export interface Portal {
+  id: number
+  connection: [string, string] // sorted alphabetically
+  size: PortalSize
+  expiresUtc: string
   timeLeft: number
 }
 

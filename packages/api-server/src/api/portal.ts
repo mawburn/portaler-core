@@ -3,19 +3,10 @@ import { DateTime, ISOTimeOptions } from 'luxon'
 
 import { db } from '../utils/db'
 import logger from '../utils/logger'
-import { getServerPortals } from '../database/portals'
+import { getServerPortals, IPortalModel } from '../database/portals'
+import { Portal, PortalPayload } from '@portaler/types'
 
 const router = Router()
-// TODO move most of this to redis, just recreate current API for now
-type PortalSize = 2 | 7 | 20
-
-interface Portal {
-  source: string
-  target: string
-  size: PortalSize
-  expires: string
-  timeLeft: number
-}
 
 const ISO_OPTS: ISOTimeOptions = {
   suppressMilliseconds: true,
@@ -24,18 +15,23 @@ const ISO_OPTS: ISOTimeOptions = {
 
 router.get('/', async (req, res) => {
   try {
-    const dbPortals = await getServerPortals(req.serverId)
+    const dbPortals: IPortalModel[] = await getServerPortals(req.serverId)
     const now = DateTime.utc()
 
-    const portals: Portal[] = dbPortals.map((p: any) => {
+    const portals: Portal[] = dbPortals.map((p) => {
       const expires = DateTime.fromJSDate(p.expires).toUTC()
 
+      const connection: [string, string] = [p.conn1, p.conn2].sort() as [
+        string,
+        string
+      ]
+
       return {
-        source: p.conn1,
-        target: p.conn2,
+        id: p.id,
+        connection,
         size: p.size,
-        expires: expires.toISO(ISO_OPTS),
-        timeLeft: expires.diff(now).as('minutes'),
+        expiresUtc: expires.toISO(ISO_OPTS),
+        timeLeft: expires.diff(now).as('seconds'),
       }
     })
 
@@ -52,14 +48,19 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const body = req.body
+    const body: PortalPayload = req.body
 
-    const expires = DateTime.utc().plus({
-      hours: Number(body.hours),
-      minutes: Number(body.minutes),
-    })
+    const hours = body.size === 0 ? 999 : Number(body.hours)
+    const minutes = body.size === 0 ? 999 : Number(body.minutes)
 
-    const conns = [body.source, body.target].sort()
+    const expires = DateTime.utc()
+      .plus({
+        hours,
+        minutes,
+      })
+      .toJSDate()
+
+    const conns = body.connection.sort()
 
     // TODO move the queries in this function to the new package
     // retain backwards compatibility until we can edit connections
@@ -90,7 +91,7 @@ router.post('/', async (req, res) => {
       )
     }
 
-    res.sendStatus(200)
+    res.sendStatus(204)
   } catch (err) {
     logger.log.error(
       'Error setting portals',

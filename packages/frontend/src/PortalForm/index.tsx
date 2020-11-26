@@ -1,3 +1,4 @@
+import clone from 'lodash/cloneDeep'
 import React, {
   FormEvent,
   useCallback,
@@ -10,61 +11,52 @@ import { useSelector } from 'react-redux'
 
 import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
 import DeviceHubIcon from '@material-ui/icons/DeviceHub'
+import { PortalSize, Zone } from '@portaler/types'
 
 import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../common/data/constants'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
-import ZoneSearch from '../ZoneSearch'
-import { ZoneLight } from '../ZoneSearch/zoneSearchUtils'
 import { RootState } from '../reducers'
-import { PortalSize, Zone } from '../common/types'
 import UserSettings from '../UserSettings'
+import ZoneSearch from '../ZoneSearch'
 import PortalSizeSelector from './PortalSizeSelector'
+import styles from './styles.module.scss'
 import useAddPortal from './useAddPortal'
 
-import styles from './styles.module.scss'
+const portalSizeValid = (size: PortalSize) => [0, 2, 7, 20].includes(size)
 
 const MappingBar = () => {
   const fromId = useSelector(
     (state: RootState) => state.portalMap.inspectPortalId
   )
 
-  const oldFromId = useRef<string>(fromId?.toLowerCase() ?? '')
-  const [from, setFrom] = useState<ZoneLight>(DEFAULT_ZONE)
-  const [to, setTo] = useState<ZoneLight>(DEFAULT_ZONE)
+  const oldFromId = useRef<number>(0)
+  const [from, setFrom] = useState<Zone>(DEFAULT_ZONE)
+  const [to, setTo] = useState<Zone>(DEFAULT_ZONE)
   const [portalSize, setPortalSize] = useState<PortalSize>(DEFAULT_PORTAL_SIZE)
   const [hours, setHours] = useState<number | null>(null)
   const [minutes, setMinutes] = useState<number | null>(null)
 
   const zones: Zone[] = useZoneListSelector()
 
-  const zoneNames = useMemo<ZoneLight[]>(() => {
-    const newZones = zones
-      .map((n) => ({ name: n.name, value: n.name.toLowerCase() }))
-      .sort((a, b) => a.value.localeCompare(b.value))
-
-    newZones.unshift(DEFAULT_ZONE)
-
-    return newZones
-  }, [zones])
-
   const addPortal = useAddPortal()
 
-  const filteredFrom = useMemo<ZoneLight[]>(
-    () => zoneNames.filter((z) => z?.value !== to?.value),
-    [to, zoneNames]
+  const filteredFrom = useMemo<Zone[]>(
+    () => zones.filter((z) => z?.name !== to?.name),
+    [to, zones]
   )
 
-  const filteredTo = useMemo<ZoneLight[]>(
-    () => zoneNames.filter((z) => z?.value !== from?.value),
-    [from, zoneNames]
+  const filteredTo = useMemo<Zone[]>(
+    () => zones.filter((z) => z?.name !== from?.name),
+    [from, zones]
   )
 
   useEffect(() => {
-    if (fromId && fromId?.toLocaleLowerCase() !== oldFromId.current) {
-      setFrom({ name: fromId, value: fromId?.toLowerCase() })
-      oldFromId.current = fromId.toLowerCase()
+    if (fromId && fromId !== oldFromId.current) {
+      const newZone = zones.find((z) => z.id === fromId) || DEFAULT_ZONE
+      setFrom(clone(newZone))
+      oldFromId.current = fromId
     }
-  }, [fromId, setFrom])
+  }, [fromId, setFrom, zones])
 
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
@@ -74,8 +66,18 @@ const MappingBar = () => {
         const hr = Number(hours)
         const min = Number(minutes)
 
-        if (from?.name && to?.name && portalSize && hr + min > 0) {
-          addPortal(from.name, to.name, portalSize, hr, min)
+        if (
+          from?.name &&
+          to?.name &&
+          portalSizeValid(portalSize) &&
+          (hr + min > 0 || portalSize === 0)
+        ) {
+          addPortal({
+            connection: [from.name, to.name],
+            size: portalSize,
+            hours: hr,
+            minutes: min,
+          })
           setTo(DEFAULT_ZONE)
           setHours(null)
           setMinutes(null)
@@ -161,7 +163,7 @@ const MappingBar = () => {
           </div>
         </div>
       </form>
-      <UserSettings zones={zoneNames} />
+      <UserSettings zones={zones} />
     </>
   )
 }

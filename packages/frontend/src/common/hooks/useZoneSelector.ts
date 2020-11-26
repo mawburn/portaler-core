@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
-import { Zone } from '../types'
+import { Zone } from '@portaler/types'
+
 import useZoneListSelector from './useZoneListSelector'
 
 const useZoneSelector = (name: string): Zone | null => {

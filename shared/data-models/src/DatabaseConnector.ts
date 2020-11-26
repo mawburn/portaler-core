@@ -12,7 +12,7 @@ export default class DatabaseConnector {
 
   dbQuery = (
     query: string,
-    params: (string | number)[] = []
+    params: (string | number | Date)[] = []
   ): Promise<QueryResult> => this.pool.query(query, params)
 
   Server = new ServerModel(this.dbQuery)

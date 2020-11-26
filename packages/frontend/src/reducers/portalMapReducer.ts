@@ -1,7 +1,6 @@
 import clone from 'lodash/cloneDeep'
 import { Reducer } from 'react'
-
-import { Portal } from '../common/types'
+import { Portal } from '@portaler/types'
 
 export enum PortalMapActionTypes {
   UPDATEMAP = 'portals/updateMap',
@@ -13,12 +12,12 @@ export enum PortalMapActionTypes {
 interface PortalMapAction {
   type: PortalMapActionTypes
   portals?: Portal[]
-  inspectId?: string
+  inspectId?: number
 }
 
 export interface PortalMap {
   portals: Portal[]
-  inspectPortalId: string | null
+  inspectPortalId: number | null
   lastUpdated: number
 }
 
