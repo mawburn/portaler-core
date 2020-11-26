@@ -56,8 +56,9 @@ const PortalMap = () => {
   const cyEventHandler = useCallback(
     (e: cytoscape.EventObject) => {
       const name = e.target.data('zoneName')
+      const id = e.target.data('zoneId')
 
-      dispatch({ type: PortalMapActionTypes.INSPECT, inspectId: name })
+      dispatch({ type: PortalMapActionTypes.INSPECT, inspectId: id })
       setActiveZoneName(name)
     },
     [dispatch]
@@ -117,7 +118,7 @@ const PortalMap = () => {
           elms.set(id, {
             added: false,
             element: {
-              data: { id, zoneName: z.name, label: z.name },
+              data: { id, zoneName: z.name, zoneId: z.id, label: z.name },
               css: {
                 width,
                 height,
@@ -130,9 +131,9 @@ const PortalMap = () => {
                 'text-outline-width': 1,
                 'text-outline-opacity': 0.5,
                 'text-margin-y': -5,
-                shape: z.info?.type.includes('TUNNEL_HIDEOUT')
+                shape: z.type.includes('TUNNEL_HIDEOUT')
                   ? 'pentagon'
-                  : z.info?.type.includes('TUNNEL_')
+                  : z.type.includes('TUNNEL_')
                   ? 'cut-rectangle'
                   : '',
               },
@@ -156,9 +157,9 @@ const PortalMap = () => {
                 width: 42,
                 height: 42,
                 backgroundColor: zoneColorToColor.home,
-                shape: homeZone.info?.type.includes('TUNNEL_HIDEOUT')
+                shape: homeZone.type.includes('TUNNEL_HIDEOUT')
                   ? 'pentagon'
-                  : homeZone.info?.type.includes('TUNNEL_')
+                  : homeZone.type.includes('TUNNEL_')
                   ? 'cut-rectangle'
                   : '',
               },
@@ -172,7 +173,7 @@ const PortalMap = () => {
         const target = hashKey(p.connection[1])
 
         // just to fix the score if the characteres end up being the same, add k e y
-        const id = `edge${source}${target}`
+        const id = hashKey('e', p.id)
         allKeys.push(id)
 
         const label = `${Math.floor(p.timeLeft / 60)}h ${Math.round(

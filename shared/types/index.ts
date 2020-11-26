@@ -17,7 +17,6 @@ export interface Resource {
 }
 
 export interface ZoneInfo {
-  type: string
   markers?: string[]
   resources?: Resource[]
   royalConnections?: number[]
@@ -29,6 +28,8 @@ export interface Zone {
   name: string
   tier: string
   color: ZoneColor
+  type: string
+  albionId?: string
   info?: ZoneInfo
 }
 
@@ -42,7 +43,7 @@ export interface Portal {
   id: number
   connection: [string, string] // sorted alphabetically
   size: PortalSize
-  expiresUtc: Date
+  expiresUtc: string
   timeLeft: number
 }
 

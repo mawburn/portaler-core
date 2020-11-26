@@ -51,7 +51,7 @@ const ZoneInfo: FC<ZoneInfoProps> = ({ zone }) =>
         <strong>Name:</strong> {zone.name}
       </Paper>
       <Paper variant="outlined" className={styles.zoneInfo}>
-        <strong>Type:</strong> {zone.info?.type}
+        <strong>Type:</strong> {zone.type}
       </Paper>
       {/* {resources &&
         resources.map((r, i) => (
