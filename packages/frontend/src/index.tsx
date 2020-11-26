@@ -9,12 +9,12 @@ import store from './store'
 import ErrorBoundary from './ErrorBoundary'
 
 ReactDOM.render(
-  <ErrorBoundary>
-    <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </React.StrictMode>
-  </ErrorBoundary>,
+  // <ErrorBoundary>
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
+  // </ErrorBoundary>,
   document.getElementById('root')
 )
