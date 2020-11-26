@@ -2,7 +2,7 @@
   "name": "@portaler/core",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4242",
+  "proxy": "http://localhost:7777",
   "license": "GNU AGPLv3",
   "scripts": {
     "start": "react-scripts start",

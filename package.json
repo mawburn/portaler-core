@@ -12,8 +12,6 @@
     "dev:api": "cd packages/api-server && yarn start:dev",
     "dev:bot": "cd packages/discord-bot && yarn start:dev",
     "dev:front": "cd packages/frontend && yarn start",
-    "prebuild:api": "yarn build:shared",
-    "prebuild:bot": "yarn build:shared",
     "prebuild:front": "yarn build:utils",
     "build:api": "cd packages/api-server && yarn build",
     "build:bot": "cd packages/discord-bot && yarn build",

@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 
-import config from '../../config'
+import config from '../config'
 
 export interface DiscordMe {
   id: string

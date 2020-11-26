@@ -1,7 +1,7 @@
 import btoa from 'btoa'
 import fetch from 'node-fetch'
 
-import config from '../../config'
+import config from '../config'
 
 const creds = btoa(`${config.discord.client}:${config.discord.secret}`)
 

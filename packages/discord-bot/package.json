@@ -24,14 +24,11 @@
     "dotenv": "^8.2.0",
     "lodash": "^4.17.20",
     "luxon": "^1.25.0",
-    "node-fetch": "^2.6.1",
-    "pg": "^8.5.1",
-    "postgres-migrations": "^5.1.0",
-    "redis": "^3.0.2",
-    "winston": "^3.3.3"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@portaler/types": "*",
+    "@types/async-retry": "^1.4.2",
     "@types/btoa": "^1.2.3",
     "@types/luxon": "^1.25.0",
     "@types/node": "^14.14.7",

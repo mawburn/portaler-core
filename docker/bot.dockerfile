@@ -11,6 +11,7 @@ COPY packages/discord-bot ./packages/discord-bot
 
 RUN yarn install --non-interactive --pure-lockfile
 
+RUN yarn build:shared
 RUN yarn build:bot
 RUN yarn clean
 
