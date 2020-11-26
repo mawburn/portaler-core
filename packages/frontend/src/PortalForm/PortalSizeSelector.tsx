@@ -11,6 +11,8 @@ import {
 } from '@material-ui/core'
 import { PortalSize } from '@portaler/types'
 
+import styles from './styles.module.scss'
+
 const TwoPortal = withStyles({
   root: {
     color: colors.lightGreen[500],
@@ -72,6 +74,7 @@ const PortalSizeSelector: FC<PortalSizeSelectorProps> = ({ size, update }) => {
         name="portalSize"
         value={`${size}`}
         onChange={handleChange}
+        className={styles.portalRadioGroup}
       >
         <FormControlLabel value="2" control={<TwoPortal />} label="2" />
         <FormControlLabel value="7" control={<SevenPortal />} label="7" />
