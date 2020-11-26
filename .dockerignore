@@ -1,5 +1,14 @@
+.git
+.vscode
+.DS_Store
 assets
 data
 .github
+local
 node_modules
-out
+
+**/node_modules
+**/out
+**/.env*
+**/.editorconfig
+**/LICENSE

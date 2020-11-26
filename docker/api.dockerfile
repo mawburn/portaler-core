@@ -28,6 +28,7 @@ COPY --from=build /usr/build/packages/api-server /usr/app/packages/api-server
 
 ENV NODE_ENV production
 ENV PORT 4242
+ENV DISABLE_AUTH false
 
 RUN yarn install --pure-lockfile --non-interactive --production
 
