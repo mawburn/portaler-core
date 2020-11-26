@@ -34,6 +34,22 @@ const updateLayout = {
 
 const future = Duration.fromObject({ hours: 500 }).as('milliseconds')
 
+const getShape = (zone: Zone): string => {
+  if (zone.type.includes('TUNNEL_HIDEOUT')) {
+    return 'pentagon'
+  }
+
+  if (zone.type.includes('TUNNEL_')) {
+    return 'cut-rectangle'
+  }
+
+  if (zone.color === 'city') {
+    return 'star'
+  }
+
+  return ''
+}
+
 const PortalMap = () => {
   const dispatch = useDispatch()
   const zones = useZoneListSelector()
@@ -134,13 +150,7 @@ const PortalMap = () => {
                 'text-outline-width': 1,
                 'text-outline-opacity': 0.5,
                 'text-margin-y': -5,
-                shape: z.type.includes('TUNNEL_HIDEOUT')
-                  ? 'pentagon'
-                  : z.type.includes('TUNNEL_')
-                  ? 'cut-rectangle'
-                  : z.color === 'city'
-                  ? 'star'
-                  : '',
+                shape: getShape(z),
               },
             },
           })

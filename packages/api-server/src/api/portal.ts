@@ -15,10 +15,10 @@ const ISO_OPTS: ISOTimeOptions = {
 
 router.get('/', async (req, res) => {
   try {
-    const dbPortals = await getServerPortals(req.serverId)
+    const dbPortals: IPortalModel[] = await getServerPortals(req.serverId)
     const now = DateTime.utc()
 
-    const portals: Portal[] = dbPortals.map((p: IPortalModel) => {
+    const portals: Portal[] = dbPortals.map((p) => {
       const expires = DateTime.fromJSDate(p.expires).toUTC()
 
       const connection: [string, string] = [p.conn1, p.conn2].sort() as [
