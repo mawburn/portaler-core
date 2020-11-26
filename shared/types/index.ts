@@ -32,6 +32,12 @@ export interface Zone {
   info?: ZoneInfo
 }
 
+export interface PortalPayload {
+  connection: [string, string] // sorted alphabetically
+  size: PortalSize
+  hours: number
+  minutes: number
+}
 export interface Portal {
   id: number
   connection: [string, string] // sorted alphabetically

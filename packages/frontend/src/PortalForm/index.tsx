@@ -65,7 +65,12 @@ const MappingBar = () => {
         const min = Number(minutes)
 
         if (from?.name && to?.name && portalSize && hr + min > 0) {
-          addPortal(from.name, to.name, portalSize, hr, min)
+          addPortal({
+            connection: [from.name, to.name],
+            size: portalSize,
+            hours: hr,
+            minutes: min,
+          })
           setTo(DEFAULT_ZONE)
           setHours(null)
           setMinutes(null)
