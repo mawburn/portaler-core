@@ -32,7 +32,7 @@ const updateLayout = {
   fit: false,
 }
 
-const future = Duration.fromObject({ hours: 500 }).as('seconds')
+const future = Duration.fromObject({ hours: 500 }).as('milliseconds')
 
 const PortalMap = () => {
   const dispatch = useDispatch()
