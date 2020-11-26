@@ -16,4 +16,5 @@ export const zoneColorToColor: ZoneColorMap = {
   blue: '#3d679c',
   road: '#1de9b6',
   home: '#aa00ff',
+  city: '#42a5f5',
 }

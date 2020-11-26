@@ -22,6 +22,8 @@ import PortalSizeSelector from './PortalSizeSelector'
 import styles from './styles.module.scss'
 import useAddPortal from './useAddPortal'
 
+const portalSizeValid = (size: PortalSize) => [0, 2, 7, 20].includes(size)
+
 const MappingBar = () => {
   const fromId = useSelector(
     (state: RootState) => state.portalMap.inspectPortalId
@@ -64,7 +66,12 @@ const MappingBar = () => {
         const hr = Number(hours)
         const min = Number(minutes)
 
-        if (from?.name && to?.name && portalSize && hr + min > 0) {
+        if (
+          from?.name &&
+          to?.name &&
+          portalSizeValid(portalSize) &&
+          (hr + min > 0 || portalSize === 0)
+        ) {
           addPortal({
             connection: [from.name, to.name],
             size: portalSize,

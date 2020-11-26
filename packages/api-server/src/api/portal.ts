@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
         connection,
         size: p.size,
         expiresUtc: expires.toISO(ISO_OPTS),
-        timeLeft: expires.diff(now).as('minutes'),
+        timeLeft: expires.diff(now).as('seconds'),
       }
     })
 
@@ -50,10 +50,13 @@ router.post('/', async (req, res) => {
   try {
     const body: PortalPayload = req.body
 
+    const hours = body.size === 0 ? 999 : Number(body.hours)
+    const minutes = body.size === 0 ? 999 : Number(body.minutes)
+
     const expires = DateTime.utc()
       .plus({
-        hours: Number(body.hours),
-        minutes: Number(body.minutes),
+        hours,
+        minutes,
       })
       .toJSDate()
 

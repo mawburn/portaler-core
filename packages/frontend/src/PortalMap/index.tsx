@@ -2,6 +2,7 @@ import cytoscape, { CytoscapeOptions } from 'cytoscape'
 import COSEBilkent from 'cytoscape-cose-bilkent'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { DateTime, Duration } from 'luxon'
 
 import { PortalSize, Zone } from '@portaler/types'
 import { hashKey } from '@portaler/utils'
@@ -30,6 +31,8 @@ const updateLayout = {
   ...defaultSettings.layout,
   fit: false,
 }
+
+const future = Duration.fromObject({ hours: 500 }).as('seconds')
 
 const PortalMap = () => {
   const dispatch = useDispatch()
@@ -105,8 +108,8 @@ const PortalMap = () => {
         const isHome = home.name === z.name
 
         const backgroundColor = zoneColorToColor[isHome ? 'home' : z.color]
-        const width = isHome ? 42 : 30
-        const height = isHome ? 42 : 30
+        const width = isHome || z.color === 'city' ? 42 : 30
+        const height = isHome || z.color === 'city' ? 42 : 30
 
         if (!elms.has(id)) {
           const zoneTier = zoneTiers.find(
@@ -135,6 +138,8 @@ const PortalMap = () => {
                   ? 'pentagon'
                   : z.type.includes('TUNNEL_')
                   ? 'cut-rectangle'
+                  : z.color === 'city'
+                  ? 'star'
                   : '',
               },
             },
@@ -176,9 +181,14 @@ const PortalMap = () => {
         const id = hashKey('e', p.id)
         allKeys.push(id)
 
-        const label = `${Math.floor(p.timeLeft / 60)}h ${Math.round(
-          p.timeLeft % 60
-        )}m`
+        const timeLeft = p.timeLeft * 1000
+
+        const label =
+          timeLeft > future
+            ? ''
+            : Duration.fromMillis(timeLeft).toFormat("h'h' m'm'")
+
+        console.log(timeLeft, future, timeLeft > future)
 
         if (!elms.has(id)) {
           elms.set(id, {

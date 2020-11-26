@@ -41,6 +41,16 @@ const TwentyPortal = withStyles({
   checked: {},
 })((props) => <Radio color="default" {...props} />)
 
+const RoyalPortal = withStyles({
+  root: {
+    color: '#aa00ff',
+    '&$checked': {
+      color: '#d500f9',
+    },
+  },
+  checked: {},
+})((props) => <Radio color="default" {...props} />)
+
 interface PortalSizeSelectorProps {
   size: PortalSize
   update: (size: PortalSize) => void
@@ -66,6 +76,7 @@ const PortalSizeSelector: FC<PortalSizeSelectorProps> = ({ size, update }) => {
         <FormControlLabel value="2" control={<TwoPortal />} label="2" />
         <FormControlLabel value="7" control={<SevenPortal />} label="7" />
         <FormControlLabel value="20" control={<TwentyPortal />} label="20" />
+        <FormControlLabel value="0" control={<RoyalPortal />} label="Royal" />
       </RadioGroup>
     </FormControl>
   )
