@@ -14,7 +14,8 @@ import {
 } from '../../reducers/zoneReducer'
 
 const zoneStorage = (): ZoneState | null => {
-  const zonesString: string | null = window.localStorage.getItem('zones')
+  // TODO leave this off for a week or so
+  const zonesString: string | null = null // window.localStorage.getItem('zones')
 
   if (zonesString) {
     const zoneState: ZoneState = JSON.parse(zonesString)
