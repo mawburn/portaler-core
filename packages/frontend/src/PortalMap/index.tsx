@@ -3,14 +3,15 @@ import COSEBilkent from 'cytoscape-cose-bilkent'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { PortalSize, Zone } from '@portaler/types'
+import { hashKey } from '@portaler/utils'
+
 import zoneTiers from '../common/data/zoneTiers'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
 import { tiers } from '../common/images'
-import { Zone } from '../common/types'
 import getHomeZone from '../common/utils/getHomeZone'
 import { RootState } from '../reducers'
 import { PortalMapActionTypes } from '../reducers/portalMapReducer'
-import { ZoneLight } from '../ZoneSearch/zoneSearchUtils'
 import ControlBar from './ControlBar'
 import { changeScore } from './cytoUtils'
 import defaultSettings from './defaultSettings'
@@ -82,7 +83,9 @@ const PortalMap = () => {
         (z) =>
           !!portals?.find(
             (p) =>
-              p.source === z.name || p.target === z.name || z.name === home.name
+              p.connection[0] === z.name ||
+              p.connection[1] === z.name ||
+              z.name === home.name
           )
       ),
     [zones, portals, home.name]
@@ -95,7 +98,7 @@ const PortalMap = () => {
     if (filteredZones.length && cy.current) {
       filteredZones.forEach((z) => {
         // used to add portals first
-        const id = 'azone' + z.name.toLowerCase().replace(/ /g, '')
+        const id = hashKey(z.name)
         allKeys.push(id)
 
         const isHome = home.name === z.name
@@ -127,12 +130,11 @@ const PortalMap = () => {
                 'text-outline-width': 1,
                 'text-outline-opacity': 0.5,
                 'text-margin-y': -5,
-                shape:
-                  z.type.indexOf('TUNNEL_HIDEOUT') >= 0
-                    ? 'pentagon'
-                    : z.type.indexOf('TUNNEL_') >= 0
-                    ? 'cut-rectangle'
-                    : '',
+                shape: z.info?.type.includes('TUNNEL_HIDEOUT')
+                  ? 'pentagon'
+                  : z.info?.type.includes('TUNNEL_')
+                  ? 'cut-rectangle'
+                  : '',
               },
             },
           })
@@ -140,7 +142,7 @@ const PortalMap = () => {
       })
 
       if (allKeys.length === 0 && home) {
-        const id = 'azone' + home.name.toLowerCase().replace(/ /g, '')
+        const id = hashKey(home.name)
         allKeys.push(id)
 
         const homeZone = zones.find((z) => z.name === home.name)
@@ -154,12 +156,11 @@ const PortalMap = () => {
                 width: 42,
                 height: 42,
                 backgroundColor: zoneColorToColor.home,
-                shape:
-                  homeZone.type.indexOf('TUNNEL_HIDEOUT') >= 0
-                    ? 'pentagon'
-                    : homeZone.type.indexOf('TUNNEL_') >= 0
-                    ? 'cut-rectangle'
-                    : '',
+                shape: homeZone.info?.type.includes('TUNNEL_HIDEOUT')
+                  ? 'pentagon'
+                  : homeZone.info?.type.includes('TUNNEL_')
+                  ? 'cut-rectangle'
+                  : '',
               },
             },
           })
@@ -167,8 +168,8 @@ const PortalMap = () => {
       }
 
       portals.forEach((p) => {
-        const source = 'azone' + p.source.toLowerCase().replace(/ /g, '')
-        const target = 'azone' + p.target.toLowerCase().replace(/ /g, '')
+        const source = hashKey(p.connection[0])
+        const target = hashKey(p.connection[1])
 
         // just to fix the score if the characteres end up being the same, add k e y
         const id = `edge${source}${target}`
@@ -190,7 +191,7 @@ const PortalMap = () => {
               },
               classes: p.timeLeft < 30 ? 'timeLow' : '',
               css: {
-                lineColor: portalSizeToColor[p.size],
+                lineColor: portalSizeToColor[p.size as PortalSize],
                 width: 5,
                 'text-outline-color': '#222',
                 'text-outline-width': 2,
@@ -201,7 +202,7 @@ const PortalMap = () => {
         } else {
           const updateElm = cy.current.$(`#${id}`)
           updateElm.data('label', label)
-          updateElm.css('lineColor', portalSizeToColor[p.size])
+          updateElm.css('lineColor', portalSizeToColor[p.size as PortalSize])
 
           if (p.timeLeft < 30) {
             updateElm.addClass('timeLow')
@@ -242,7 +243,7 @@ const PortalMap = () => {
 
       if (remove.length) {
         remove.forEach((k) => {
-          if (`azone${home.name}` !== k) {
+          if (hashKey(home.name) !== k) {
             cy.current.remove(cy.current.$(`#${k}`))
             elements.current.delete(k)
           }
@@ -263,8 +264,8 @@ const PortalMap = () => {
     }
   }, [score, remove, home.name])
 
-  const handleHome = useCallback((zone: ZoneLight) => {
-    const home = cy.current.$(`#azone${zone.value.replace(/ /g, '')}`)
+  const handleHome = useCallback((zone: Zone) => {
+    const home = cy.current.$(`#${hashKey(zone.name)}`)
 
     cy.current.zoom({ level: 1, position: home.position() }).center(home)
   }, [])
@@ -278,7 +279,7 @@ const PortalMap = () => {
       <ControlBar
         handleHome={handleHome}
         reloadMap={reloadMap}
-        info={activeZone}
+        zone={activeZone || null}
       />
       <div className={styles.cyto}>
         <div ref={containerRef} />

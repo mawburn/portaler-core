@@ -2,10 +2,11 @@ import { isEqual } from 'lodash'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { Portal } from '@portaler/types'
+
 import { RootState } from '../../reducers'
 import { ErrorActionTypes } from '../../reducers/errorReducer'
 import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
-import { Portal } from '../types'
 import fetchPortals from '../utils/fetchPortals'
 import useConfigSelector from './useConfigSelector'
 import useZoneListSelector from './useZoneListSelector'

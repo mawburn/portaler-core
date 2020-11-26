@@ -2,9 +2,10 @@ import { DateTime } from 'luxon'
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { Zone } from '@portaler/types'
+
 import useConfigSelector from '../../common/hooks/useConfigSelector'
 import useToken from '../../common/hooks/useToken'
-import { Zone } from '../../common/types'
 import { ErrorActionTypes } from '../../reducers/errorReducer'
 import {
   ZoneAction,
@@ -50,7 +51,7 @@ const useGetZones = () => {
 
       headers.set('Authorization', `Bearer ${token}`)
 
-      fetch(`/api/zone`, {
+      fetch(`/api/zone/list`, {
         headers,
       })
         .then((r) => {

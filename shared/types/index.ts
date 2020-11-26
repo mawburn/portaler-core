@@ -1,5 +1,11 @@
-/// <reference types="typescript" />
-export type ZoneColor = 'black' | 'red' | 'yellow' | 'blue' | 'road' | 'city'
+export type ZoneColor =
+  | 'black'
+  | 'red'
+  | 'yellow'
+  | 'blue'
+  | 'road'
+  | 'city'
+  | 'home'
 
 export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
 
@@ -27,6 +33,7 @@ export interface Zone {
 }
 
 export interface Portal {
+  id: number
   connection: [string, string] // sorted alphabetically
   size: PortalSize
   expiresUtc: Date
