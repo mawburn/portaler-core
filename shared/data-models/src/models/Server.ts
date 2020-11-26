@@ -103,7 +103,7 @@ export default class ServerModel {
     )
 
     if (dbResServer.rowCount === 0) {
-      throw new Error('NoServerFound')
+      throw new Error('NoSubdomainServerFound')
     }
 
     return dbResServer.rows[0].id

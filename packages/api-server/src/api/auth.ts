@@ -28,7 +28,7 @@ router.get('/callback', async (req, res) => {
       throw new Error('NoRedirect')
     }
 
-    const subdomain = isProd ? `${req.cookies.subdomain}.` : ''
+    const subdomain = isProd ? req.cookies.subdomain : ''
 
     const protocol = req.secure ? 'https://' : 'http://'
     const code = req.query.code as string
@@ -53,7 +53,7 @@ router.get('/callback', async (req, res) => {
 
     const user = await db.User.getFullUser(userId, serverId)
 
-    const redirectUrl = `${protocol}${subdomain}${config.localUrl}`
+    const redirectUrl = `${protocol}${subdomain}.${config.localUrl}`
 
     if (!user) {
       res.status(401)
