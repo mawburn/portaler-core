@@ -6,12 +6,15 @@ import { Provider } from 'react-redux'
 
 import App from './App'
 import store from './store'
+import ErrorBoundary from './ErrorBoundary'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+  <ErrorBoundary>
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>
+  </ErrorBoundary>,
   document.getElementById('root')
 )
