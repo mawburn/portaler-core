@@ -6,7 +6,7 @@ import {
   AccordionSummary,
   Snackbar,
 } from '@material-ui/core'
-import PersonIcon from '@material-ui/icons/Person'
+import HomeIcon from '@material-ui/icons/Home'
 import Alert from '@material-ui/lab/Alert'
 import { Zone } from '@portaler/types'
 
@@ -40,7 +40,7 @@ const UserSettings: FC<UserSettingsProps> = ({ zones }) => {
     <div className={styles.accordion}>
       <Accordion>
         <AccordionSummary className={styles.main}>
-          <PersonIcon className={styles.icon} /> User Settings
+          <HomeIcon className={styles.icon} /> Set Your Home
         </AccordionSummary>
         <AccordionDetails>
           <ZoneSearch
