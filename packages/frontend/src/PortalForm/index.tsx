@@ -120,6 +120,7 @@ const MappingBar = () => {
               <FormLabel component="legend">Time Left</FormLabel>
               <div className={styles.flexColumn}>
                 <TextField
+                  disabled={portalSize === 0}
                   id="time-hour"
                   className={styles.durationField}
                   type="number"
@@ -131,6 +132,7 @@ const MappingBar = () => {
                   onChange={(e) => setHours(Number(e.currentTarget.value))}
                 />
                 <TextField
+                  disabled={portalSize === 0}
                   id="time-minute"
                   className={styles.durationField}
                   type="number"
