@@ -1,21 +1,25 @@
-import React, { FC, useEffect, useState } from 'react'
-import { twitchLogo } from '../../../common/images'
+import React, { useEffect, useState } from 'react'
 
+import { twitchLogo } from '../../../common/images'
 import styles from './styles.module.scss'
 
-interface TwitchProps {}
+const isHypno = process.env.REACT_APP_TWITCH?.toLowerCase().includes(
+  'hypnocode'
+)
 
-const socket = new WebSocket('wss://goop.portaler.zone/twitch')
+const socket = isHypno ? new WebSocket('wss://goop.portaler.zone/twitch') : null
 
-const Twitch: FC<TwitchProps> = () => {
+const Twitch = () => {
   const [isLive, setIsLive] = useState<'yes' | 'no'>('no')
 
   useEffect(() => {
     const setLive = (e: any) => setIsLive(e.data)
 
-    socket.addEventListener('message', setLive)
+    if (isHypno) {
+      socket?.addEventListener('message', setLive)
+    }
 
-    return () => socket.removeEventListener('message', setLive)
+    return () => socket?.removeEventListener('message', setLive)
   }, [])
 
   return process.env.REACT_APP_TWITCH ? (
@@ -27,7 +31,7 @@ const Twitch: FC<TwitchProps> = () => {
         rel="noopener noreferrer"
       >
         <img src={twitchLogo} className={styles.twitchLogo} alt="twitch" />
-        {isLive === 'no' ? (
+        {isLive !== 'yes' ? (
           'Twitch'
         ) : (
           <div className={styles.fadeIn}>

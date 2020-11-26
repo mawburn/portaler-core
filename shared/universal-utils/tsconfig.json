@@ -5,7 +5,7 @@
     "module": "commonjs",
     "outDir": "./out",
     "declaration": true,
-    "noEmit": true,
+    "noEmit": false,
     "rootDir": "src"
   },
   "include": ["src/**/*"]
