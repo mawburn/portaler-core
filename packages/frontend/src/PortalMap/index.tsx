@@ -2,7 +2,7 @@ import cytoscape, { CytoscapeOptions } from 'cytoscape'
 import COSEBilkent from 'cytoscape-cose-bilkent'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DateTime, Duration } from 'luxon'
+import { Duration } from 'luxon'
 
 import { PortalSize, Zone } from '@portaler/types'
 import { hashKey } from '@portaler/utils'
