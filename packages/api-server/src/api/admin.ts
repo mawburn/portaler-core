@@ -45,7 +45,7 @@ router.post('/addSubdomain', async (req, res) => {
     const server = await db.Server.getServer(body.id)
 
     if (server && server.subdomain) {
-      await redis.setAsync(`server:${server.discordId}`, server.subdomain)
+      await redis.setAsync(`server:${server.id}`, server.subdomain)
     }
 
     return res.status(200).json(server)
