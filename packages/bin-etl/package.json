@@ -1,0 +1,21 @@
+{
+  "name": "@portaler/bin-etl",
+  "version": "0.0.1",
+  "description": "AO Bin Dump ETL",
+  "main": "src/index.js",
+  "repository": "https://github.com/Portaler-Zone/portaler-core",
+  "author": "",
+  "license": "GNU AGPLv3",
+  "private": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node out/index.js",
+    "start:dev": "ts-node-dev --files src/index.ts",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
