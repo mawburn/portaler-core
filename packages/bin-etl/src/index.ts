@@ -14,18 +14,18 @@ function processFile(n: string) {
 
 function handleJson(data: any) {
     const cluster = data.world.clusters.cluster
-    const selectedFields = []
-    for (let m of cluster) {
-      const sf = {
-        "name": m["@displayname"],
-        "type": m["@type"],
-        "resources": extractResources(m),
-        "markers": extractMapMarkers(m),
-      }
-      selectedFields.push(sf)
-    }
+    const selectedFields = cluster.map(buildSelectedField)
     const stringData = JSON.stringify(selectedFields.filter(isValidZone))
     fs.writeFileSync("data-dump.json", stringData)
+}
+
+function buildSelectedField(m: any): any {
+  return {
+    "name": m["@displayname"],
+    "type": m["@type"],
+    "resources": extractResources(m),
+    "markers": extractMapMarkers(m),
+  }
 }
 
 function isValidZone(sf: any) {
