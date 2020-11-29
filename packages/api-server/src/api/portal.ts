@@ -4,13 +4,14 @@ import { DateTime, ISOTimeOptions } from 'luxon'
 import { Portal, PortalPayload } from '@portaler/types'
 
 import {
-  addServerPortal,
   deleteServerPortal,
   getServerPortals,
   IPortalModel,
   updateServerPortal,
 } from '../database/portals'
+import { db } from '../utils/db'
 import logger from '../utils/logger'
+import { UserAction } from '@portaler/data-models/out/models/User'
 
 const router = Router()
 
@@ -68,11 +69,66 @@ router.post('/', async (req, res) => {
   try {
     const body: PortalPayload = req.body
 
-    const expires = getExpireTime(body.size, body.hours, body.minutes)
+    const hours = body.size === 0 ? 999 : Number(body.hours)
+    const minutes = body.size === 0 ? 999 : Number(body.minutes)
+
+    const expires = DateTime.utc()
+      .plus({
+        hours,
+        minutes,
+      })
+      .toJSDate()
 
     const conns = body.connection.sort()
 
-    await addServerPortal(req.serverId, conns, body.size, expires, req.userId)
+    // TODO move the queries in this function to the new package
+    // retain backwards compatibility until we can edit connections
+    const dbRes = await db.dbQuery(
+      `
+      SELECT id FROM portals
+      WHERE server_id = $1 AND conn1 = $2 AND conn2 = $3;
+    `,
+      [req.serverId, conns[0], conns[1]]
+    )
+
+    if (dbRes.rowCount === 0) {
+      await db.dbQuery(
+        `
+      INSERT INTO portals (server_id, conn1, conn2, size, expires, created_by)
+      VALUES ($1, $2, $3, $4, $5, $6);
+    `,
+        [req.serverId, conns[0], conns[1], body.size, expires, req.userId]
+      )
+
+      await db.User.logUserAction(
+        req.userId,
+        req.serverId,
+        UserAction.add,
+        JSON.stringify({
+          conns,
+          expires,
+        })
+      )
+    } else {
+      await db.dbQuery(
+        `
+        UPDATE portals
+        SET size = $1, expires = $2
+        WHERE id = $3 RETURNING id;
+      `,
+        [body.size, expires, dbRes.rows[0].id]
+      )
+
+      await db.User.logUserAction(
+        req.userId,
+        req.serverId,
+        UserAction.update,
+        JSON.stringify({
+          from: dbRes.rows[0].json_field,
+          to: dbRes.rows[0].json_field,
+        })
+      )
+    }
 
     res.sendStatus(204)
   } catch (err) {
@@ -85,6 +141,29 @@ router.post('/', async (req, res) => {
   }
 })
 
+router.delete('/', async (req, res) => {
+  try {
+    const portalIds = req.body.portals
+      .map((p: number) => {
+        const id = Number(p)
+
+        if (isNaN(id)) {
+          return null
+        }
+
+        return id
+      })
+      .filter(Boolean)
+
+    await deleteServerPortal(portalIds, req.userId, req.serverId)
+    res.send(204)
+  } catch (err) {
+    logger.log.error('Unable to delete', err)
+    res.status(500).send({ error: 'Error deleting portal' })
+  }
+})
+
+// TODO update in later PR
 router.put('/:id(\\d+)', async (req, res) => {
   try {
     const body = req.body
@@ -103,16 +182,6 @@ router.put('/:id(\\d+)', async (req, res) => {
   } catch (err) {
     logger.log.error('Unable to delete', err)
     res.status(500).send({ error: 'Error updating portals' })
-  }
-})
-
-router.delete('/:id(\\d+)', async (req, res) => {
-  try {
-    await deleteServerPortal(Number(req.params.id), req.userId, req.serverId)
-    res.send(204)
-  } catch (err) {
-    logger.log.error('Unable to delete', err)
-    res.status(500).send({ error: 'Error deleting portal' })
   }
 })
 

@@ -1,4 +1,4 @@
-import cytoscape, { CytoscapeOptions } from 'cytoscape'
+import cytoscape, { CytoscapeOptions, EdgeSingular } from 'cytoscape'
 import COSEBilkent from 'cytoscape-cose-bilkent'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -25,6 +25,14 @@ cytoscape.use(COSEBilkent)
 interface CytoMapElement {
   added: boolean
   element: object
+}
+
+export interface CytoEdgeData {
+  id: string
+  label: string
+  portalId: number
+  source: string
+  target: string
 }
 
 const updateLayout = {
@@ -72,13 +80,24 @@ const PortalMap = () => {
     [zones, activeZoneName]
   )
 
+  const [activeZoneEdgeData, setActiveZoneEdgeData] = useState<CytoEdgeData[]>(
+    []
+  )
+
   const cyEventHandler = useCallback(
     (e: cytoscape.EventObject) => {
-      const name = e.target.data('zoneName')
-      const id = e.target.data('zoneId')
+      const t = e.target
+      const name = t.data('zoneName')
+      const id = t.data('zoneId')
 
       dispatch({ type: PortalMapActionTypes.INSPECT, inspectId: id })
       setActiveZoneName(name)
+      setActiveZoneEdgeData(
+        t
+          .connectedEdges()
+          .toArray()
+          .map((e: EdgeSingular) => e.data())
+      )
     },
     [dispatch]
   )
@@ -204,6 +223,7 @@ const PortalMap = () => {
             element: {
               data: {
                 id,
+                portalId: p.id,
                 source,
                 target,
                 label,
@@ -299,6 +319,7 @@ const PortalMap = () => {
         handleHome={handleHome}
         reloadMap={reloadMap}
         zone={activeZone || null}
+        edgeData={activeZoneEdgeData}
       />
       <div className={styles.cyto}>
         <div ref={containerRef} />

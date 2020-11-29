@@ -53,23 +53,23 @@ export const addServerPortal = async (
 }
 
 export const deleteServerPortal = async (
-  portalId: number,
+  portalIds: number[],
   userId: number,
   serverId: number
 ): Promise<void> => {
   const portalDb = await db.dbQuery(
     `
-    SELECT ROW_TO_JSON(portal) as json_field, server_id
-    FROM (SELECT * FROM portals WHERE id = $1) portal
+    SELECT ROW_TO_JSON(portal) as json_field
+    FROM (SELECT * FROM portals WHERE id = ANY($1::int[]) AND server_id = $2) portal
     `,
-    [portalId]
+    [portalIds, serverId]
   )
 
-  if (serverId === portalDb.rows[0].server_id) {
-    await db.dbQuery(`DELETE FROM portals WHERE id = $1 AND serverId = $2`, [
-      portalId,
-      serverId,
-    ])
+  if (portalDb.rowCount > 0) {
+    await db.dbQuery(
+      `DELETE FROM portals WHERE id = ANY($1::int[]) AND serverId = $2`,
+      [portalIds, serverId]
+    )
 
     await db.User.logUserAction(
       userId,
