@@ -16,7 +16,7 @@ RUN yarn install --non-interactive --pure-lockfile
 
 RUN yarn build:shared
 RUN yarn build:api
-RUN cd packages/frontend && yarn build
+RUN yarn build:front
 RUN yarn clean
 
 FROM node:12-alpine
