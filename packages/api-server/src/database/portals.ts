@@ -75,7 +75,7 @@ export const deleteServerPortal = async (
       userId,
       serverId,
       UserAction.delete,
-      JSON.stringify(portalDb.rows[0])
+      JSON.stringify(portalDb.rows[0].json_field)
     )
     return
   }
