@@ -1,0 +1,14 @@
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: netlify
+          FOLDER: packages/frontend
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
