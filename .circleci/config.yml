@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  docker: circleci/docker@1.4.0
+
 commands:
   build_push:
     description: "Builds and pushes a docker image to docker hub"
@@ -11,10 +14,13 @@ commands:
     steps:
       - checkout
       - setup_remote_docker
-      - run:
-          name: Login to Docker hub
-          command: |
-            docker login -username=mmcken3 --password=${DOCKERHUB_PASSWORD}
+      - docker/check:
+          docker-username: mmcken3
+          docker-password: ${DOCKERHUB_PASSWORD}
+      # - run:
+      #     name: Login to Docker hub
+      #     command: |
+      #       docker login -username=mmcken3 --password=${DOCKERHUB_PASSWORD}
       - run:
           name: Build and tag
           command: |
