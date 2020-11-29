@@ -19,6 +19,12 @@ export interface IUserModel {
   createdOn: Date
 }
 
+export enum UserAction {
+  add = 'add',
+  update = 'update',
+  delete = 'delete',
+}
+
 export default class UserModel {
   private query: (
     query: string,
@@ -266,6 +272,20 @@ export default class UserModel {
       return null
     }
   }
+
+  logUserAction = async (
+    userId: number,
+    serverId: number,
+    action: UserAction,
+    details: string
+  ) =>
+    await this.query(
+      `
+      INSERT INTO user_logs (user_id, server_id, user_action, details)
+      VALUES ($1, $2, $3, $4);
+    `,
+      [userId, serverId, action, details]
+    )
 
   removeUserRoles = async (userId: number, roleIds: number[]) =>
     await Promise.all(

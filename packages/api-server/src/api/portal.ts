@@ -1,16 +1,34 @@
 import { Router } from 'express'
 import { DateTime, ISOTimeOptions } from 'luxon'
 
-import { db } from '../utils/db'
-import logger from '../utils/logger'
-import { getServerPortals, IPortalModel } from '../database/portals'
 import { Portal, PortalPayload } from '@portaler/types'
+
+import {
+  addServerPortal,
+  deleteServerPortal,
+  getServerPortals,
+  IPortalModel,
+  updateServerPortal,
+} from '../database/portals'
+import logger from '../utils/logger'
 
 const router = Router()
 
 const ISO_OPTS: ISOTimeOptions = {
   suppressMilliseconds: true,
   includeOffset: false,
+}
+
+const getExpireTime = (size: number, hours: number, minutes: number) => {
+  const _hours = size === 0 ? 999 : Number(hours)
+  const _minutes = size === 0 ? 999 : Number(minutes)
+
+  return DateTime.utc()
+    .plus({
+      hours: _hours,
+      minutes: _minutes,
+    })
+    .toJSDate()
 }
 
 router.get('/', async (req, res) => {
@@ -50,46 +68,11 @@ router.post('/', async (req, res) => {
   try {
     const body: PortalPayload = req.body
 
-    const hours = body.size === 0 ? 999 : Number(body.hours)
-    const minutes = body.size === 0 ? 999 : Number(body.minutes)
-
-    const expires = DateTime.utc()
-      .plus({
-        hours,
-        minutes,
-      })
-      .toJSDate()
+    const expires = getExpireTime(body.size, body.hours, body.minutes)
 
     const conns = body.connection.sort()
 
-    // TODO move the queries in this function to the new package
-    // retain backwards compatibility until we can edit connections
-    const dbRes = await db.dbQuery(
-      `
-      SELECT id FROM portals
-      WHERE server_id = $1 AND conn1 = $2 AND conn2 = $3;
-    `,
-      [req.serverId, conns[0], conns[1]]
-    )
-
-    if (dbRes.rowCount === 0) {
-      await db.dbQuery(
-        `
-      INSERT INTO portals (server_id, conn1, conn2, size, expires, created_by)
-      VALUES ($1, $2, $3, $4, $5, $6);
-    `,
-        [req.serverId, conns[0], conns[1], body.size, expires, req.userId]
-      )
-    } else {
-      await db.dbQuery(
-        `
-        UPDATE portals
-        SET size = $1, expires = $2
-        WHERE id = $3;
-      `,
-        [body.size, expires, dbRes.rows[0].id]
-      )
-    }
+    await addServerPortal(req.serverId, conns, body.size, expires, req.userId)
 
     res.sendStatus(204)
   } catch (err) {
@@ -99,6 +82,37 @@ router.post('/', async (req, res) => {
       err
     )
     res.status(500).send({ error: 'Error setting portals' })
+  }
+})
+
+router.put('/:id(\\d+)', async (req, res) => {
+  try {
+    const body = req.body
+    const expireTime = getExpireTime(body.size, body.hours, body.minutes)
+    const conns = body.connection.sort()
+
+    await updateServerPortal(
+      Number(req.params.id),
+      conns,
+      body.size,
+      expireTime,
+      req.userId,
+      req.serverId
+    )
+    res.send(204)
+  } catch (err) {
+    logger.log.error('Unable to delete', err)
+    res.status(500).send({ error: 'Error updating portals' })
+  }
+})
+
+router.delete('/:id(\\d+)', async (req, res) => {
+  try {
+    await deleteServerPortal(Number(req.params.id), req.userId, req.serverId)
+    res.send(204)
+  } catch (err) {
+    logger.log.error('Unable to delete', err)
+    res.status(500).send({ error: 'Error deleting portal' })
   }
 })
 
