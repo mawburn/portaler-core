@@ -73,11 +73,7 @@ const setupServer = async (
 
       const addToRedis = redis.setAsync(`server:${sid}`, '')
 
-      await Promise.allSettled([
-        addToRedis,
-        ...addRolesToUsers,
-        ...addUsersAndRoles,
-      ])
+      await Promise.all([addToRedis, ...addRolesToUsers, ...addUsersAndRoles])
     }
   } catch (err) {
     logger.log.error(

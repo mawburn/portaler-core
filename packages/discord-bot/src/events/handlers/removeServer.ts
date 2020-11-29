@@ -40,7 +40,7 @@ const removeServer = async (
       dbUserIds.rows.map((u) => u.user_id)
     )
 
-    await Promise.allSettled(userRolesDel)
+    await Promise.all(userRolesDel)
     logger.log.info('ServerDeleted', server.name)
   } catch (err) {
     logger.log.error(

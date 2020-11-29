@@ -149,7 +149,7 @@ router.post('/addSubdomain', async (req, res) => {
 //       dbUserIds.rows.map((u) => u.user_id)
 //     )
 
-//     await Promise.allSettled(userRolesDel)
+//     await Promise.all(userRolesDel)
 //     logger.log.info('ServerDeleted', discordName)
 //     res.send(204)
 //   } catch (err) {
