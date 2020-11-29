@@ -12,7 +12,7 @@ jobs:
           personal_token: ${{ secrets.ACCESS_TOKEN }}
           src_path: /.
           dst_path: /.
-          dst_repo_name: portaler-zone/portaler-core
+          dst_repo_name: portaler-core
           dst_branch: netlify
           clean: true
-          exclude: */api-server/*
+          exclude: */{api-server,discord-bot,bin-etl,data-models}/*
