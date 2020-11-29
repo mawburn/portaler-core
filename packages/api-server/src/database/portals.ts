@@ -106,16 +106,14 @@ export const updateServerPortal = async (
       SET conn1 = $1,
         conn2 = $2,
         size = $3,
-        expires = $4,
-        updated_by = $5,
-        updated_on = NOW()
-      WHERE id = $6 AND serverId = $7 RETURNING `,
-      [conns[0], conns[1], size, expires, userId, portalId, serverId]
+        expires = $4
+      WHERE id = $5 AND serverId = $6 RETURNING `,
+      [conns[0], conns[1], size, expires, portalId, serverId]
     )
 
     const portalUpdateDb = await db.dbQuery(
       `
-      SELECT ROW_TO_JSON(portal) as json_field, server_id
+      SELECT ROW_TO_JSON(portal) as json_field
       FROM (SELECT * FROM portals WHERE id = $1) portal
       `,
       [portalId]
