@@ -30,7 +30,7 @@ function buildSelectedField(m: any): any {
 
 function isValidZone(sf: any) {
   const type: String = sf.type
-  return (type.startsWith("TUNNEL") || type.startsWith("OPENPVP") || type.startsWith("SAFEAREA"))
+  return (type.startsWith("TUNNEL") || type.startsWith("OPENPVP") || type.startsWith("SAFEAREA") || type.startsWith("PLAYERCITY"))
 }
 
 function extractResources(m: any) {
