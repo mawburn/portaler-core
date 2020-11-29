@@ -69,15 +69,7 @@ router.post('/', async (req, res) => {
   try {
     const body: PortalPayload = req.body
 
-    const hours = body.size === 0 ? 999 : Number(body.hours)
-    const minutes = body.size === 0 ? 999 : Number(body.minutes)
-
-    const expires = DateTime.utc()
-      .plus({
-        hours,
-        minutes,
-      })
-      .toJSDate()
+    const expires = getExpireTime(body.size, body.hours, body.minutes)
 
     const conns = body.connection.sort()
 
@@ -85,7 +77,7 @@ router.post('/', async (req, res) => {
     // retain backwards compatibility until we can edit connections
     const dbRes = await db.dbQuery(
       `
-      SELECT id FROM portals
+      SELECT ROW_TO_JSON(portal) as json_field FROM portals
       WHERE server_id = $1 AND conn1 = $2 AND conn2 = $3;
     `,
       [req.serverId, conns[0], conns[1]]
