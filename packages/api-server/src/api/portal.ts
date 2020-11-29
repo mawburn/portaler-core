@@ -110,7 +110,7 @@ router.post('/', async (req, res) => {
         })
       )
     } else {
-      await db.dbQuery(
+      const updateRes = await db.dbQuery(
         `
         UPDATE portals
         SET size = $1, expires = $2
@@ -119,13 +119,21 @@ router.post('/', async (req, res) => {
         [body.size, expires, dbRes.rows[0].id]
       )
 
+      const portalUpdateDb = await db.dbQuery(
+        `
+        SELECT ROW_TO_JSON(portal) as json_field
+        FROM (SELECT * FROM portals WHERE id = $1) portal
+        `,
+        [updateRes.rows[0].id]
+      )
+
       await db.User.logUserAction(
         req.userId,
         req.serverId,
         UserAction.update,
         JSON.stringify({
           from: dbRes.rows[0].json_field,
-          to: dbRes.rows[0].json_field,
+          to: portalUpdateDb.rows[0].json_field,
         })
       )
     }
