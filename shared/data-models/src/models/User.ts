@@ -273,13 +273,13 @@ export default class UserModel {
     }
   }
 
-  logUserAction = async (
+  logUserAction = (
     userId: number,
     serverId: number,
     action: UserAction,
     details: string
-  ) =>
-    await this.query(
+  ): Promise<QueryResult> =>
+    this.query(
       `
       INSERT INTO user_logs (user_id, server_id, user_action, details)
       VALUES ($1, $2, $3, $4);
@@ -287,8 +287,11 @@ export default class UserModel {
       [userId, serverId, action, details]
     )
 
-  removeUserRoles = async (userId: number, roleIds: number[]) =>
-    await Promise.all(
+  removeUserRoles = (
+    userId: number,
+    roleIds: number[]
+  ): Promise<QueryResult<any>[]> =>
+    Promise.all(
       roleIds.map((r) =>
         this.query(
           `DELETE FROM user_roles WHERE user_id = $1 AND role_id = $2`,
@@ -297,8 +300,8 @@ export default class UserModel {
       )
     )
 
-  removeUserServer = async (userId: number, serverId: number) =>
-    await this.query(
+  removeUserServer = (userId: number, serverId: number): Promise<QueryResult> =>
+    this.query(
       `DELETE FROM user_servers WHERE user_id = $1 AND server_id = $2`,
       [userId, serverId]
     )

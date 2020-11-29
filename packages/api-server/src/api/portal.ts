@@ -171,26 +171,4 @@ router.delete('/', async (req, res) => {
   }
 })
 
-// TODO update in later PR
-router.put('/:id(\\d+)', async (req, res) => {
-  try {
-    const body = req.body
-    const expireTime = getExpireTime(body.size, body.hours, body.minutes)
-    const conns = body.connection.sort()
-
-    await updateServerPortal(
-      Number(req.params.id),
-      conns,
-      body.size,
-      expireTime,
-      req.userId,
-      req.serverId
-    )
-    res.send(204)
-  } catch (err) {
-    logger.log.error('Unable to delete', err)
-    res.status(500).send({ error: 'Error updating portals' })
-  }
-})
-
 export default router
