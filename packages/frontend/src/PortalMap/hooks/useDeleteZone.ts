@@ -1,12 +1,15 @@
 import { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { CytoEdgeData } from '../'
 import useGetPortals from '../../common/hooks/useGetPortals'
 import useToken from '../../common/hooks/useToken'
+import { ErrorActionTypes } from '../../reducers/errorReducer'
 
 const useDeleteZone = () => {
   const token = useToken()
   const checkPortals = useGetPortals()
+  const dispatch = useDispatch()
 
   const deletePortals = useCallback(
     async (edgeData: CytoEdgeData[]) => {
@@ -21,11 +24,13 @@ const useDeleteZone = () => {
         body: JSON.stringify({ portals: portalIds }),
       })
 
-      if (res.ok) {
-        checkPortals(true)
+      if (!res.ok) {
+        dispatch({ type: ErrorActionTypes.ADD, error: 'Unable to delete Zone' })
       }
+
+      checkPortals(true)
     },
-    [token, checkPortals]
+    [token, checkPortals, dispatch]
   )
 
   return deletePortals
