@@ -49,10 +49,10 @@ workflows:
   version: 2
   portaler:
       jobs:
-        - api_build
-          filters:
-            branches:
-              only:
-                - feature/ci
+        - api_build:
+            filters:
+              branches:
+                only:
+                  - feature/ci
         # - bot_build
         # can add local build here at the end with depends on the other two to force it to be last
