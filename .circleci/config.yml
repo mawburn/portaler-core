@@ -12,20 +12,20 @@ commands:
       - checkout
       - setup_remote_docker
       - run:
-        name: Login to Docker hub
-        command: |
-          docker login -stuff
+          name: Login to Docker hub
+          command: |
+            docker login -stuff
       - run:
-        name: Build and tag
-        command: |
-          docker build -t <<parameters.service-name>> -f ./docker/<<parameters.dockerfile-name>>.dockerfile
-          # docker tag <<parameters.service-name>>:latest <<parameters.service-name>>:latest
-          docker tag <<parameters.service-name>>:latest <<parameters.service-name>>:${CIRCLE_TAG}
+          name: Build and tag
+          command: |
+            docker build -t <<parameters.service-name>> -f ./docker/<<parameters.dockerfile-name>>.dockerfile
+            # docker tag <<parameters.service-name>>:latest <<parameters.service-name>>:latest
+            docker tag <<parameters.service-name>>:latest <<parameters.service-name>>:${CIRCLE_TAG}
       - run:
-        name: Push image to docker hub
-        command: |
-          docker push <<parameters.service-name>>:latest
-          docker push <<parameters.service-name>>:${CIRCLE_TAG}
+          name: Push image to docker hub
+          command: |
+            docker push <<parameters.service-name>>:latest
+            docker push <<parameters.service-name>>:${CIRCLE_TAG}
 
 jobs:
   api_build:
@@ -33,8 +33,8 @@ jobs:
       - image: circleci/python:3.6.4
     steps:
       - build_push:
-        service-name: "portaler"
-        dockerfile-name: "api"
+          service-name: "portaler"
+          dockerfile-name: "api"
 
 workflows:
   version: 2
