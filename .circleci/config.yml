@@ -15,8 +15,8 @@ commands:
       - checkout
       - setup_remote_docker
       - docker/check:
-          docker-username: mmcken3
-          docker-password: ${DOCKERHUB_PASSWORD}
+          docker-username: DOCKERHUB_LOGIN
+          docker-password: DOCKERHUB_PASSWORD
       # - run:
       #     name: Login to Docker hub
       #     command: |
