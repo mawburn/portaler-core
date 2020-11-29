@@ -1,16 +1,35 @@
 import { Router } from 'express'
 import { DateTime, ISOTimeOptions } from 'luxon'
 
+import { Portal, PortalPayload } from '@portaler/types'
+
+import {
+  deleteServerPortal,
+  getServerPortals,
+  IPortalModel,
+  updateServerPortal,
+} from '../database/portals'
 import { db } from '../utils/db'
 import logger from '../utils/logger'
-import { getServerPortals, IPortalModel } from '../database/portals'
-import { Portal, PortalPayload } from '@portaler/types'
+import { UserAction } from '@portaler/data-models/out/models/User'
 
 const router = Router()
 
 const ISO_OPTS: ISOTimeOptions = {
   suppressMilliseconds: true,
   includeOffset: false,
+}
+
+const getExpireTime = (size: number, hours: number, minutes: number) => {
+  const _hours = size === 0 ? 999 : Number(hours)
+  const _minutes = size === 0 ? 999 : Number(minutes)
+
+  return DateTime.utc()
+    .plus({
+      hours: _hours,
+      minutes: _minutes,
+    })
+    .toJSDate()
 }
 
 router.get('/', async (req, res) => {
@@ -80,14 +99,42 @@ router.post('/', async (req, res) => {
     `,
         [req.serverId, conns[0], conns[1], body.size, expires, req.userId]
       )
+
+      await db.User.logUserAction(
+        req.userId,
+        req.serverId,
+        UserAction.add,
+        JSON.stringify({
+          conns,
+          expires,
+        })
+      )
     } else {
-      await db.dbQuery(
+      const updateRes = await db.dbQuery(
         `
         UPDATE portals
         SET size = $1, expires = $2
-        WHERE id = $3;
+        WHERE id = $3 RETURNING id;
       `,
         [body.size, expires, dbRes.rows[0].id]
+      )
+
+      const portalUpdateDb = await db.dbQuery(
+        `
+        SELECT ROW_TO_JSON(portal) as json_field
+        FROM (SELECT * FROM portals WHERE id = $1) portal
+        `,
+        [updateRes.rows[0].id]
+      )
+
+      await db.User.logUserAction(
+        req.userId,
+        req.serverId,
+        UserAction.update,
+        JSON.stringify({
+          from: dbRes.rows[0].json_field,
+          to: portalUpdateDb.rows[0].json_field,
+        })
       )
     }
 
@@ -99,6 +146,28 @@ router.post('/', async (req, res) => {
       err
     )
     res.status(500).send({ error: 'Error setting portals' })
+  }
+})
+
+router.delete('/', async (req, res) => {
+  try {
+    const portalIds = req.body.portals
+      .map((p: number) => {
+        const id = Number(p)
+
+        if (isNaN(id)) {
+          return null
+        }
+
+        return id
+      })
+      .filter(Boolean)
+
+    await deleteServerPortal(portalIds, req.userId, req.serverId)
+    res.send(204)
+  } catch (err) {
+    logger.log.error('Unable to delete', err)
+    res.status(500).send({ error: 'Error deleting portal' })
   }
 })
 
