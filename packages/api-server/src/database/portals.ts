@@ -67,7 +67,7 @@ export const deleteServerPortal = async (
 
   if (portalDb.rowCount > 0) {
     await db.dbQuery(
-      `DELETE FROM portals WHERE id = ANY($1::int[]) AND serverId = $2`,
+      `DELETE FROM portals WHERE id = ANY($1::int[]) AND server_id = $2`,
       [portalIds, serverId]
     )
 

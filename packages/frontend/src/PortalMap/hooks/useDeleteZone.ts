@@ -7,6 +7,7 @@ import useToken from '../../common/hooks/useToken'
 const useDeleteZone = () => {
   const token = useToken()
   const checkPortals = useGetPortals()
+
   const deletePortals = useCallback(
     async (edgeData: CytoEdgeData[]) => {
       const portalIds = edgeData.map((e) => e.portalId)
