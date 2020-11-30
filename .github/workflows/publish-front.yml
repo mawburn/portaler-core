@@ -15,4 +15,4 @@ jobs:
           dst_repo_name: portaler-core
           dst_branch: netlify
           clean: true
-          exclude: */{api-server,discord-bot,bin-etl,data-models}/*
+          exclude: */api-server/*
