@@ -22,12 +22,12 @@ commands:
           name: Build and tag
           command: |
             docker build -t <<parameters.service-name>> -f ./docker/<<parameters.dockerfile-name>>.dockerfile .
-            # docker tag <<parameters.service-name>>:latest <<parameters.service-name>>:${CIRCLE_TAG}
+            docker tag <<parameters.service-name>>:latest <<parameters.service-name>>:${CIRCLE_TAG}
       - run:
           name: Push image to docker hub
           command: |
             docker push <<parameters.service-name>>:latest
-            # docker push <<parameters.service-name>>:${CIRCLE_TAG}
+            docker push <<parameters.service-name>>:${CIRCLE_TAG}
 
 jobs:
   api_build:
@@ -44,6 +44,13 @@ jobs:
       - build_push:
           service-name: "mawburn/portaler-bot"
           dockerfile-name: "bot"
+  local_build:
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - build_push:
+          service-name: "mawburn/portaler-local"
+          dockerfile-name: "local"
 
 workflows:
   version: 2
@@ -51,8 +58,13 @@ workflows:
       jobs:
         - api_build:
             filters:
-              branches:
-                only:
-                  - feature/ci
-        # - bot_build
-        # can add local build here at the end with depends on the other two to force it to be last
+              tags:
+                only: /^v.*/
+        - bot_build:
+            filters:
+              tags:
+                only: /^v.*/
+        - local_build:
+            filters:
+              tags:
+                only: /^v.*/
