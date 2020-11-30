@@ -13,7 +13,7 @@ commands:
         type: string
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
           version: 19.03.13
       - docker/check:
           docker-username: DOCKERHUB_LOGIN
