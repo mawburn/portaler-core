@@ -28,7 +28,6 @@ commands:
             docker build -t <<parameters.service-name>> -f ./docker/<<parameters.dockerfile-name>>.dockerfile .
             # docker tag <<parameters.service-name>>:latest <<parameters.service-name>>:${CIRCLE_TAG}
             docker tag <<parameters.service-name>>:latest <<parameters.service-name>>:test
-            docker build -t <<parameters.service-name>> -f ./docker/<<parameters.dockerfile-name>>.dockerfile
       - run:
           name: Push image to docker hub
           command: |
