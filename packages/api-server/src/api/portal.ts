@@ -77,8 +77,8 @@ router.post('/', async (req, res) => {
     // retain backwards compatibility until we can edit connections
     const dbRes = await db.dbQuery(
       `
-      SELECT ROW_TO_JSON(portal) as json_field FROM portals
-      WHERE (SELECT * FROM portals WHERE server_id = $1 AND conn1 = $2 AND conn2 = $3) portal;
+      SELECT ROW_TO_JSON(portal) as json_field
+      FROM (SELECT * FROM portals WHERE server_id = $1 AND conn1 = $2 AND conn2 = $3) portal;
     `,
       [req.serverId, conns[0], conns[1]]
     )
