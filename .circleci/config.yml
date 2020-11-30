@@ -60,11 +60,17 @@ workflows:
             filters:
               tags:
                 only: /^v.*/
+            branches:
+              ignore: /.*/
         - bot_build:
             filters:
               tags:
                 only: /^v.*/
+            branches:
+              ignore: /.*/
         - local_build:
             filters:
               tags:
                 only: /^v.*/
+            branches:
+              ignore: /.*/
