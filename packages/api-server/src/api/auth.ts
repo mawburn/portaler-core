@@ -2,6 +2,8 @@ import btoa from 'btoa'
 import { Router } from 'express'
 import { v4 as uuid } from 'uuid'
 
+import { UserAction } from '@portaler/data-models/out/models/User'
+
 import config from '../utils/config'
 import { db, redis } from '../utils/db'
 import fetchToken from '../utils/discord/fetchToken'
@@ -64,6 +66,13 @@ router.get('/callback', async (req, res) => {
 
     const ourToken = btoa(uid.replace(/-/gi, '')).replace(/=/gi, '')
     await redis.setUser(ourToken, user.id, serverId)
+
+    await db.User.logUserAction(
+      req.userId,
+      req.serverId,
+      UserAction.login,
+      JSON.stringify({ user })
+    )
 
     res.redirect(`${redirectUrl}/?token=${ourToken}`)
   } catch (err) {

@@ -23,6 +23,7 @@ export enum UserAction {
   add = 'add',
   update = 'update',
   delete = 'delete',
+  login = 'login',
 }
 
 export default class UserModel {

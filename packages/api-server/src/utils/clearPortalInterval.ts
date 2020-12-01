@@ -7,14 +7,10 @@ const clearPortalInterval = () =>
       await db.dbQuery(`
         DELETE FROM portals WHERE expires < NOW();
         DELETE FROM portals WHERE size = 0 AND
-        ((
-          conn1 NOT IN (SELECT conn1 FROM portals WHERE size <> 0) OR
-          conn1 NOT IN (SELECT conn2 FROM portals WHERE size <> 0)
-        ) AND
-        (
-          conn2 NOT IN (SELECT conn1 FROM portals WHERE size <> 0) OR
-          conn2 NOT IN (SELECT conn2 FROM portals WHERE size <> 0)
-        ));
+          conn1 NOT IN (SELECT conn1 FROM portals WHERE size <> 0) AND
+          conn1 NOT IN (SELECT conn2 FROM portals WHERE size <> 0) AND
+          conn2 NOT IN (SELECT conn1 FROM portals WHERE size <> 0) AND
+          conn2 NOT IN (SELECT conn2 FROM portals WHERE size <> 0);
       `)
     } catch (err) {
       logger.log.error('Error deleting expired portals', err)

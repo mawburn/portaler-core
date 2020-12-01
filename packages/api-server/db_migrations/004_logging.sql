@@ -1,4 +1,4 @@
-CREATE TYPE user_action_enum AS ENUM ('add', 'update', 'delete');
+CREATE TYPE user_action_enum AS ENUM ('add', 'update', 'delete', 'login');
 
 CREATE TABLE IF NOT EXISTS user_logs (
   user_id INT NOT NULL,
