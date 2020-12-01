@@ -44,7 +44,7 @@ const DeleteNode: FC<DeleteNodeProps> = ({ edgeData, zoneName }) => {
       </IconButton>
       <Dialog
         open={isOpen}
-        onClose={handleClose}
+        onClose={() => handleClose(false)}
         aria-labelledby="alert-dialog-title"
       >
         <DialogTitle id="alert-dialog-title">
