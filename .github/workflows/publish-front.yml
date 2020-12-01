@@ -12,6 +12,7 @@ jobs:
           personal_token: ${{ secrets.ACCESS_TOKEN }}
           src_path: /.
           dst_path: /.
+          dst_owner: portaler-zone
           dst_repo_name: portaler-core
           dst_branch: netlify
           clean: true
