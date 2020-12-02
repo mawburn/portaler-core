@@ -32,15 +32,13 @@
 
 # What it is
 
-Portaler is a mapping tool for Avalonian Roads in Albion Online. It is fully Albion TOS compliant, because every user action is completely manual and nothing is automatically pulled or scraped from the Albion client or network packets. This tool simply provides a clean way for guilds/alliances share roads mapping internally.
+Portaler is a mapping tool for Avalonian Roads in Albion Online, that provides real time private data to your guild or alliance. It is fully Albion TOS compliant, because every user action is completely manual and nothing is automatically pulled or scraped from the Albion client or network packets. This tool simply provides a clean way for guilds/alliances share roads mapping internally.
 
 The data we use to populate information is collected mostly from [Albion Data Project](https://www.albion-online-data.com/) as well as other manual crowd sourced methods.
 
 <p align="center">
   <img src="https://portaler.zone/screenshot.png" width="600px" alt="screenshot" />
 </p>
-
-Portaler can either be self hosted or we can provide hosting for your group through **in game currency**. We are not allowed to take real money for our services, but if you would like to support the project monetarily out of the kindness of your heart, please see the [Supporting](#supporting) section at the bottom.
 
 ---
 
