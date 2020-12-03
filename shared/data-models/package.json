@@ -1,6 +1,6 @@
 {
   "name": "@portaler/data-models",
-  "version": "0.0.63",
+  "version": "0.0.64",
   "description": "Database models for Portaler",
   "main": "out/index.js",
   "types": "out/index.d.ts",
