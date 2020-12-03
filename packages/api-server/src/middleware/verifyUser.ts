@@ -3,22 +3,43 @@ import { NextFunction, Request, Response } from 'express'
 import { redis } from '../utils/db'
 import logger from '../utils/logger'
 
+const isProd = process.env.NODE_ENV === 'production'
+
 const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (process.env.DISABLE_AUTH === 'true') {
       req.userId = 1
       req.serverId = 1
-      next()
-      return
+      return next()
+    }
+
+    const configSubdomain = isProd ? req.subdomains[0] : process.env.HOST
+
+    const serverConfigRes = await redis.getAsync(`server:${configSubdomain}`)
+    const serverConfig = serverConfigRes ? JSON.parse(serverConfigRes) : false
+
+    if (serverConfig && serverConfig.isPublic) {
+      req.isPublic = true
+      req.serverId = serverConfig.serverId
     }
 
     if (!req.headers.authorization) {
+      if (serverConfig.isPublic) {
+        req.userId = 0
+        return next()
+      }
+
       return res.sendStatus(401)
     }
 
     const authHeaders = req.headers.authorization.split(' ')
 
     if (authHeaders[0] !== 'Bearer') {
+      if (serverConfig.isPublic) {
+        req.userId = 0
+        return next()
+      }
+
       return res.sendStatus(401)
     }
 
@@ -27,6 +48,11 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     const userServer = await redis.getUser(token)
 
     if (!userServer) {
+      if (serverConfig.isPublic) {
+        req.userId = 0
+        return next()
+      }
+
       return res.sendStatus(403)
     }
 
@@ -34,10 +60,12 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
 
     const subdomain = await redis.getAsync(`server:${serverId}`)
 
-    if (
-      process.env.NODE_ENV === 'production' &&
-      subdomain !== req.subdomains[0]
-    ) {
+    if (isProd && subdomain !== req.subdomains[0]) {
+      if (serverConfig.isPublic) {
+        req.userId = 0
+        return next()
+      }
+
       return res.sendStatus(403)
     }
 

@@ -4,18 +4,20 @@ import { Reducer } from 'react'
 export enum ConfigActionTypes {
   TOKEN = 'config/token',
   CLEARTOKEN = 'config/clearToken',
-  SETPUBLIC = 'config/setPublic',
+  SETCONFIG = 'config/set',
 }
 
 interface ConfigAction {
   type: ConfigActionTypes
   token?: string
   isPublic?: boolean
+  discordUrl?: string
 }
 
 export interface ConfigState {
   token: string | null
   isPublic: boolean
+  discordUrl: string | null
 }
 
 const tokenStore = (): string | null => {
@@ -35,6 +37,7 @@ const tokenStore = (): string | null => {
 const initialState: ConfigState = {
   token: tokenStore(),
   isPublic: false,
+  discordUrl: null,
 }
 
 const configReducer: Reducer<any, ConfigAction> = (
@@ -52,8 +55,12 @@ const configReducer: Reducer<any, ConfigAction> = (
     case ConfigActionTypes.CLEARTOKEN:
       window.localStorage.removeItem('token')
       return { ...state, token: null }
-    case ConfigActionTypes.SETPUBLIC:
-      return { ...state, isPublic: !!action.isPublic }
+    case ConfigActionTypes.SETCONFIG:
+      return {
+        ...state,
+        isPublic: !!action.isPublic,
+        discordUrl: action.discordUrl || null,
+      }
     default:
       return state
   }

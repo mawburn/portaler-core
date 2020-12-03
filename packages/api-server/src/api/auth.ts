@@ -30,7 +30,7 @@ router.get('/callback', async (req, res) => {
       throw new Error('NoRedirect')
     }
 
-    const subdomain = isProd ? req.cookies.subdomain : ''
+    const subdomain = isProd ? req.cookies.subdomain : process.env.HOST
 
     const protocol = req.secure ? 'https://' : 'http://'
     const code = req.query.code as string
@@ -55,7 +55,9 @@ router.get('/callback', async (req, res) => {
 
     const user = await db.User.getFullUser(userId, serverId)
 
-    const redirectUrl = `${protocol}${subdomain}.${config.localUrl}`
+    const redirectUrl = isProd
+      ? `${protocol}${subdomain}.${config.localUrl}`
+      : `${protocol}${process.env.HOST}:${process.env.FRONTEND_PORT}`
 
     if (!user) {
       res.status(401)
@@ -68,8 +70,8 @@ router.get('/callback', async (req, res) => {
     await redis.setUser(ourToken, user.id, serverId)
 
     await db.User.logUserAction(
-      req.userId,
-      req.serverId,
+      user.id,
+      serverId,
       UserAction.login,
       JSON.stringify({ user })
     )

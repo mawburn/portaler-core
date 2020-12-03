@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import { Zone } from '@portaler/types'
 
 import useConfigSelector from '../../common/hooks/useConfigSelector'
-import useToken from '../../common/hooks/useToken'
 import { ErrorActionTypes } from '../../reducers/errorReducer'
 import {
   ZoneAction,
@@ -34,7 +33,6 @@ const useGetZones = () => {
   const hasHydrated = useRef<boolean>(false)
   const dispatch = useDispatch()
   const config = useConfigSelector()
-  const token = useToken()
 
   useEffect(() => {
     const loadedState = zoneStorage()
@@ -46,11 +44,13 @@ const useGetZones = () => {
         type: ZoneActionTypes.HYDRATE,
         fullState: loadedState,
       })
-    } else if (!loadedState && token) {
+    } else if (!loadedState && (config.token || config.isPublic)) {
       hasHydrated.current = true
       const headers = new Headers()
 
-      headers.set('Authorization', `Bearer ${token}`)
+      if (config.token) {
+        headers.set('Authorization', `Bearer ${config.token}`)
+      }
 
       fetch(`/api/zone/list`, {
         headers,
@@ -69,7 +69,7 @@ const useGetZones = () => {
           dispatch({ type: ErrorActionTypes.ADD, error: err.message })
         })
     }
-  }, [dispatch, token, config])
+  }, [dispatch, config])
 }
 
 export default useGetZones

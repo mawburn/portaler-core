@@ -16,8 +16,8 @@ import useSetToken from './hooks/useSetToken'
 import MapArea from './MapArea'
 
 const App = () => {
-  useSetToken()
   useGetConfig()
+  useSetToken()
   useGetZones()
   useGetPortalTimer()
 

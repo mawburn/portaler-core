@@ -7,7 +7,6 @@ import {
   deleteServerPortal,
   getServerPortals,
   IPortalModel,
-  updateServerPortal,
 } from '../database/portals'
 import { db } from '../utils/db'
 import logger from '../utils/logger'
@@ -67,6 +66,10 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
+    if (req.userId === 0) {
+      return res.send(401)
+    }
+
     const body: PortalPayload = req.body
 
     const expires = getExpireTime(body.size, body.hours, body.minutes)
@@ -143,6 +146,10 @@ router.post('/', async (req, res) => {
 
 router.delete('/', async (req, res) => {
   try {
+    if (req.userId === 0) {
+      return res.send(401)
+    }
+
     const portalIds = req.body.portals
       .map((p: number) => {
         const id = Number(p)

@@ -32,23 +32,32 @@ router.get('/list', async (req, res) => {
 router.post('/addSubdomain', async (req, res) => {
   try {
     const body = req.body
+    const discordUrl = req.body.discordUrl || null
 
     if (typeof body.id !== 'number' || typeof body.subdomain !== 'string') {
       throw new Error('BadPayload')
     }
 
-    await db.dbQuery(`UPDATE servers SET subdomain = $1 WHERE id = $2`, [
-      body.subdomain,
-      body.id,
-    ])
+    await db.dbQuery(
+      `UPDATE servers SET subdomain = $1, is_public = $2, discord_url = $3 WHERE id = $4`,
+      [body.subdomain, !!body.isPublic, discordUrl, body.id]
+    )
 
     const server = await db.Server.getServer(body.id)
 
     if (server && server.subdomain) {
       await redis.setAsync(`server:${server.id}`, server.subdomain)
+      await redis.setAsync(
+        `server:${server.subdomain}`,
+        JSON.stringify({
+          isPublic: server.isPublic,
+          serverId: server.id,
+          discordUrl: server.discordUrl,
+        })
+      )
     }
 
-    return res.status(200).json(server)
+    return res.status(200).send(server)
   } catch (err) {
     logger.log.error('Subdomain', err)
     return res.status(500).json({ error: err.message })
