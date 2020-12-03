@@ -76,7 +76,20 @@ const setupServer = async (
         db.User.createUser(m, sid, [serverRoleId])
       )
 
-      const addToRedis = redis.setAsync(`server:${sid}`, '')
+      const subdomain = dbServer && dbServer.subdomain ? dbServer.subdomain : ''
+
+      const addToRedis = redis.setAsync(`server:${sid}`, subdomain)
+
+      if (subdomain) {
+        await redis.setAsync(
+          `server:${subdomain}`,
+          JSON.stringify({
+            isPublic: dbServer?.isPublic,
+            serverId: dbServer?.id,
+            discordUrl: dbServer?.discordUrl,
+          })
+        )
+      }
 
       await Promise.all([addToRedis, ...addRolesToUsers, ...addUsersAndRoles])
     }

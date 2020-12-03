@@ -1,3 +1,8 @@
+export interface ServerConfig {
+  publicRead: boolean
+  discordUrl: string | null
+}
+
 export type ZoneColor =
   | 'black'
   | 'red'

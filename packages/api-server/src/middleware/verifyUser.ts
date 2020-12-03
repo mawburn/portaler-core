@@ -3,6 +3,8 @@ import { NextFunction, Request, Response } from 'express'
 import { redis } from '../utils/db'
 import logger from '../utils/logger'
 
+const isProd = process.env.NODE_ENV === 'production'
+
 const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (process.env.DISABLE_AUTH === 'true') {
@@ -60,10 +62,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
 
     const subdomain = await redis.getAsync(`server:${serverId}`)
 
-    if (
-      process.env.NODE_ENV === 'production' &&
-      subdomain !== req.subdomains[0]
-    ) {
+    if (isProd && subdomain !== req.subdomains[0]) {
       if (serverConfig.isPublic) {
         req.userId = 0
         next()

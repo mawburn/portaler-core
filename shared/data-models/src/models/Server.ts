@@ -14,6 +14,7 @@ export interface IServerModel {
   subdomain?: string | null
   createdOn: Date
   isPublic: boolean
+  discordUrl?: string | null
 }
 
 export default class ServerModel {
@@ -70,7 +71,8 @@ export default class ServerModel {
         s.discord_name AS discord_name,
         s.subdomain AS subdomain,
         s.created_on AS created_on,
-        s.is_public AS is_public
+        s.is_public AS is_public,
+        s.discord_url AS discord_url,
         sr.id AS role_id,
         sr.discord_role_id AS discord_role_id,
         sr.last_updated AS role_last_updated
@@ -94,6 +96,7 @@ export default class ServerModel {
         subdomain: fRow.subdomain,
         createdOn: fRow.created_on,
         isPublic: fRow.is_public,
+        discordUrl: fRow.discord_url,
         roles: dbResServer.rows.map((r) => ({
           id: r.role_id,
           discordRoleId: r.discord_role_id,
@@ -103,7 +106,7 @@ export default class ServerModel {
 
       return server
     } catch (err) {
-      // TODO add logging here
+      console.error(err)
       return null
     }
   }

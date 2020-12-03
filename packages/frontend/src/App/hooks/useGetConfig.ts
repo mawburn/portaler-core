@@ -1,13 +1,20 @@
 import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+
+import { ServerConfig } from '@portaler/types'
+
 import { ConfigActionTypes } from '../../reducers/configReducer'
 
 const useGetConfig = () => {
   const dispatch = useDispatch()
 
   const updateConfig = useCallback(
-    (publicRead: boolean) => {
-      dispatch({ type: ConfigActionTypes.SETPUBLIC, isPublic: publicRead })
+    (c: ServerConfig) => {
+      dispatch({
+        type: ConfigActionTypes.SETCONFIG,
+        isPublic: c.publicRead,
+        discordUrl: c.discordUrl,
+      })
     },
     [dispatch]
   )
