@@ -9,6 +9,7 @@ import express from 'express'
 import Api from './api'
 import Admin from './api/admin'
 import Auth from './api/auth'
+import ConfigRouter from './api/config'
 import initServer from './initServer'
 import checkAdmin from './middleware/checkAdmin'
 import syntaxError from './middleware/syntaxError'
@@ -36,9 +37,7 @@ logger.startUploader()
 
   app.get('/api/health', (_, res) => res.status(200).send({ server: 'ok' }))
   app.get('/api/bot', (_, res) => res.redirect(config.discord.botUrl))
-  app.get('/api/config', (_, res) =>
-    res.status(200).send({ publicRead: false })
-  )
+  app.get('/api/config', ConfigRouter)
 
   app.use('/api/admin', checkAdmin, Admin)
   app.use('/api', verifyUser, Api)

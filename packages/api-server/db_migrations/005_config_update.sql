@@ -1,0 +1,2 @@
+ALTER TABLE servers
+ADD COLUMN is_public BOOLEAN NOT NULL DEFAULT false;

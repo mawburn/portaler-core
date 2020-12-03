@@ -13,6 +13,7 @@ export interface IServerModel {
   roles: ServerRoles[]
   subdomain?: string | null
   createdOn: Date
+  isPublic: boolean
 }
 
 export default class ServerModel {
@@ -51,6 +52,15 @@ export default class ServerModel {
     return dbResRole.rows[0].id
   }
 
+  getServerConfig = async (subdomain: string): Promise<boolean> => {
+    const dbRes = await this.query(
+      `SELECT is_public FROM servers WHERE subdomain = $1`,
+      [subdomain]
+    )
+
+    return dbRes.rowCount > 0 ? dbRes.rows[0].is_public : false
+  }
+
   getServer = async (id: number | string): Promise<IServerModel | null> => {
     try {
       const queryString = `
@@ -60,6 +70,7 @@ export default class ServerModel {
         s.discord_name AS discord_name,
         s.subdomain AS subdomain,
         s.created_on AS created_on,
+        s.is_public AS is_public
         sr.id AS role_id,
         sr.discord_role_id AS discord_role_id,
         sr.last_updated AS role_last_updated
@@ -82,6 +93,7 @@ export default class ServerModel {
         discordName: fRow.discord_name,
         subdomain: fRow.subdomain,
         createdOn: fRow.created_on,
+        isPublic: fRow.is_public,
         roles: dbResServer.rows.map((r) => ({
           id: r.role_id,
           discordRoleId: r.discord_role_id,

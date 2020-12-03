@@ -12,13 +12,33 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
       return
     }
 
+    const serverConfigRes = await redis.getAsync(`server:${req.subdomains[0]}`)
+    const serverConfig = serverConfigRes ? JSON.parse(serverConfigRes) : false
+
+    if (serverConfig && serverConfig.isPublic) {
+      req.isPublic = true
+      req.serverId = serverConfig.serverId
+    }
+
     if (!req.headers.authorization) {
+      if (serverConfig.isPublic) {
+        req.userId = 0
+        next()
+        return
+      }
+
       return res.sendStatus(401)
     }
 
     const authHeaders = req.headers.authorization.split(' ')
 
     if (authHeaders[0] !== 'Bearer') {
+      if (serverConfig.isPublic) {
+        req.userId = 0
+        next()
+        return
+      }
+
       return res.sendStatus(401)
     }
 
@@ -27,6 +47,12 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     const userServer = await redis.getUser(token)
 
     if (!userServer) {
+      if (serverConfig.isPublic) {
+        req.userId = 0
+        next()
+        return
+      }
+
       return res.sendStatus(403)
     }
 
@@ -38,6 +64,12 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
       process.env.NODE_ENV === 'production' &&
       subdomain !== req.subdomains[0]
     ) {
+      if (serverConfig.isPublic) {
+        req.userId = 0
+        next()
+        return
+      }
+
       return res.sendStatus(403)
     }
 
