@@ -34,7 +34,9 @@ const setupServer = async (
 
     const discordRoles = await server.roles.cache
 
-    const hasRole = discordRoles.find((r) => r.name === config.roleName)
+    const hasRole = discordRoles.find(
+      (r) => r.id === dbServer?.roles[0].discordRoleId
+    )
 
     const role =
       hasRole ||
@@ -45,7 +47,10 @@ const setupServer = async (
 
     const sid = serverId ?? (await db.Server.create(server.id, server.name))
 
-    const serverRoleId = await db.Server.createRole(sid, role.id)
+    const serverRoleId =
+      hasRole && dbServer
+        ? dbServer.roles[0].id
+        : await db.Server.createRole(sid, role.id)
 
     // if we already had the role, then look for all the users with it
     if (hasRole) {
