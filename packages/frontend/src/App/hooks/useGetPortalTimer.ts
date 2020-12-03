@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import useConfigSelector from '../../common/hooks/useConfigSelector'
 
 import useGetPortals from '../../common/hooks/useGetPortals'
-import useToken from '../../common/hooks/useToken'
 import fetchPortals from '../../common/utils/fetchPortals'
 import { ErrorActionTypes } from '../../reducers/errorReducer'
 import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
