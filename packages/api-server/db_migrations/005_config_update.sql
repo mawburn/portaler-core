@@ -2,4 +2,4 @@ ALTER TABLE servers
 ADD COLUMN is_public BOOLEAN NOT NULL DEFAULT false;
 
 ALTER TABLE servers
-ADD COLUMN discord_url VARCHAR(25);
+ADD COLUMN discord_url VARCHAR(100);
