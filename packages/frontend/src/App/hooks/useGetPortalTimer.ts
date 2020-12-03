@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
+import useConfigSelector from '../../common/hooks/useConfigSelector'
 
 import useGetPortals from '../../common/hooks/useGetPortals'
 import useToken from '../../common/hooks/useToken'
@@ -12,11 +13,11 @@ const useGetPortalTimer = () => {
   const checkPortals = useGetPortals()
   const checkPortalsRef = useRef<() => void>(checkPortals)
   const dispatch = useDispatch()
-  const token = useToken()
+  const config = useConfigSelector()
 
   useEffect(() => {
-    if (token && initialLoad.current) {
-      fetchPortals(token)
+    if ((config.token || config.isPublic) && initialLoad.current) {
+      fetchPortals(config)
         .then((portals) => {
           dispatch({ type: PortalMapActionTypes.UPDATEMAP, portals })
           initialLoad.current = false
@@ -25,7 +26,7 @@ const useGetPortalTimer = () => {
           dispatch({ type: ErrorActionTypes.ADD, error: err.message })
         )
     }
-  }, [token, dispatch])
+  }, [config, dispatch])
 
   useEffect(() => {
     checkPortalsRef.current = checkPortals

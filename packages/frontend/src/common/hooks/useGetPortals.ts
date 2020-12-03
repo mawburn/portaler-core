@@ -35,7 +35,7 @@ const useGetPortals = (): ((force?: boolean) => void) => {
 
         if (force || now.getTime() - portalState.lastUpdated > 10000) {
           try {
-            const res = await fetchPortals(config?.token ?? null)
+            const res = await fetchPortals(config)
 
             updatePortals(res)
           } catch (err) {

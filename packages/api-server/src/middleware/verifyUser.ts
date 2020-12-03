@@ -10,11 +10,12 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     if (process.env.DISABLE_AUTH === 'true') {
       req.userId = 1
       req.serverId = 1
-      next()
-      return
+      return next()
     }
 
-    const serverConfigRes = await redis.getAsync(`server:${req.subdomains[0]}`)
+    const configSubdomain = isProd ? req.subdomains[0] : process.env.HOST
+
+    const serverConfigRes = await redis.getAsync(`server:${configSubdomain}`)
     const serverConfig = serverConfigRes ? JSON.parse(serverConfigRes) : false
 
     if (serverConfig && serverConfig.isPublic) {
@@ -25,8 +26,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     if (!req.headers.authorization) {
       if (serverConfig.isPublic) {
         req.userId = 0
-        next()
-        return
+        return next()
       }
 
       return res.sendStatus(401)
@@ -37,8 +37,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     if (authHeaders[0] !== 'Bearer') {
       if (serverConfig.isPublic) {
         req.userId = 0
-        next()
-        return
+        return next()
       }
 
       return res.sendStatus(401)
@@ -51,8 +50,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     if (!userServer) {
       if (serverConfig.isPublic) {
         req.userId = 0
-        next()
-        return
+        return next()
       }
 
       return res.sendStatus(403)
@@ -65,8 +63,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     if (isProd && subdomain !== req.subdomains[0]) {
       if (serverConfig.isPublic) {
         req.userId = 0
-        next()
-        return
+        return next()
       }
 
       return res.sendStatus(403)

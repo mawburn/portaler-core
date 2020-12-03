@@ -1,13 +1,16 @@
 import { Portal } from '@portaler/types'
+import { ConfigState } from '../../reducers/configReducer'
 
-const fetchPortals = (token: string | null): Promise<Portal[]> => {
-  if (!token) {
+const fetchPortals = (config: ConfigState): Promise<Portal[]> => {
+  if (!config.token && !config.isPublic) {
     return Promise.resolve([])
   }
 
   const headers = new Headers()
 
-  headers.set('Authorization', `Bearer ${token}`)
+  if (config.token) {
+    headers.set('Authorization', `Bearer ${config.token}`)
+  }
 
   return fetch(`/api/portal`, {
     headers,

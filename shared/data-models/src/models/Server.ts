@@ -106,7 +106,6 @@ export default class ServerModel {
 
       return server
     } catch (err) {
-      console.error(err)
       return null
     }
   }
