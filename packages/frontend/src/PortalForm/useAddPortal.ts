@@ -20,7 +20,7 @@ const useAddPortal = () => {
           Authorization: `Bearer ${token}`,
         },
         body,
-      }).then(() => checkPortals(true))
+      }).then(async () => await checkPortals(true))
     },
     [token, checkPortals]
   )

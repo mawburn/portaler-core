@@ -30,10 +30,14 @@ const useGetPortals = (): ((force?: boolean) => void) => {
 
   const checkPortals = useCallback(
     async (force: boolean = false) => {
+      console.log(config, force)
       if ((!config?.token || config?.isPublic) && zonesLength > 0) {
         const now = new Date()
 
+        console.log(now)
+
         if (force || now.getTime() - portalState.lastUpdated > 10000) {
+          console.log(force)
           try {
             const res = await fetchPortals(config)
 
