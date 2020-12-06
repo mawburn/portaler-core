@@ -1,3 +1,4 @@
+import cn from 'clsx'
 import clone from 'lodash/cloneDeep'
 import React, {
   FormEvent,
@@ -16,6 +17,7 @@ import { PortalSize, Zone } from '@portaler/types'
 import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../common/data/constants'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
 import { RootState } from '../reducers'
+import { InputError } from '../types'
 import UserSettings from '../UserSettings'
 import ZoneSearch from '../ZoneSearch'
 import PortalSizeSelector from './PortalSizeSelector'
@@ -23,6 +25,46 @@ import styles from './styles.module.scss'
 import useAddPortal from './useAddPortal'
 
 const portalSizeValid = (size: PortalSize) => [0, 2, 7, 20].includes(size)
+
+const formValidator = (
+  from: Zone,
+  to: Zone,
+  portalSize: number,
+  hours: number | null,
+  minutes: number | null
+): InputError[] => {
+  const errors: InputError[] = []
+
+  if (from.id === DEFAULT_ZONE.id || !from) {
+    errors.push({ fieldName: 'from', errorText: 'Insert From Zone' })
+  }
+
+  if (to.id === DEFAULT_ZONE.id || !to) {
+    errors.push({ fieldName: 'to', errorText: 'Insert To Zone' })
+  }
+
+  if (portalSize !== 0) {
+    if (!minutes && !hours) {
+      errors.push({ fieldName: 'timer', errorText: 'Insert Time' })
+    }
+  }
+
+  return errors
+}
+
+const getError = (name: string, errors: InputError[]): string | null => {
+  if (!errors.length) {
+    return null
+  }
+
+  const errorVal = errors.find((e) => e.fieldName === name)
+
+  if (!errorVal) {
+    return null
+  }
+
+  return errorVal.errorText
+}
 
 const MappingBar = () => {
   const fromId = useSelector(
@@ -35,6 +77,7 @@ const MappingBar = () => {
   const [portalSize, setPortalSize] = useState<PortalSize>(DEFAULT_PORTAL_SIZE)
   const [hours, setHours] = useState<number | null>(null)
   const [minutes, setMinutes] = useState<number | null>(null)
+  const [errors, setErrors] = useState<InputError[]>([])
 
   const zones: Zone[] = useZoneListSelector()
 
@@ -61,6 +104,15 @@ const MappingBar = () => {
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
+
+      const err = formValidator(from, to, portalSize, hours, minutes)
+
+      if (err.length > 0) {
+        setErrors(err)
+        return
+      }
+
+      setErrors([])
 
       try {
         const hr = Number(hours)
@@ -98,6 +150,7 @@ const MappingBar = () => {
         <div className={styles.mappingBar}>
           <div className={styles.row}>
             <ZoneSearch
+              error={getError('from', errors)}
               value={from}
               update={setFrom}
               label="From"
@@ -106,6 +159,7 @@ const MappingBar = () => {
           </div>
           <div className={styles.row}>
             <ZoneSearch
+              error={getError('to', errors)}
               value={to}
               update={setTo}
               label="To"
@@ -120,9 +174,13 @@ const MappingBar = () => {
               <FormLabel component="legend">Time Left</FormLabel>
               <div className={styles.flexColumn}>
                 <TextField
+                  error={!!getError('timer', errors)}
+                  helperText={getError('timer', errors)}
                   disabled={portalSize === 0}
                   id="time-hour"
-                  className={styles.durationField}
+                  className={cn(styles.durationField, {
+                    [styles.disabled]: portalSize === 0,
+                  })}
                   type="number"
                   label="Hour(s)"
                   InputProps={{
@@ -132,9 +190,13 @@ const MappingBar = () => {
                   onChange={(e) => setHours(Number(e.currentTarget.value))}
                 />
                 <TextField
+                  error={!!getError('timer', errors)}
+                  helperText={getError('timer', errors)}
                   disabled={portalSize === 0}
                   id="time-minute"
-                  className={styles.durationField}
+                  className={cn(styles.durationField, {
+                    [styles.disabled]: portalSize === 0,
+                  })}
                   type="number"
                   label="Minute(s)"
                   InputProps={{
