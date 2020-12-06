@@ -150,6 +150,7 @@ const MappingBar = () => {
         <div className={styles.mappingBar}>
           <div className={styles.row}>
             <ZoneSearch
+              error={getError('from', errors)}
               value={from}
               update={setFrom}
               label="From"
@@ -158,6 +159,7 @@ const MappingBar = () => {
           </div>
           <div className={styles.row}>
             <ZoneSearch
+              error={getError('to', errors)}
               value={to}
               update={setTo}
               label="To"
