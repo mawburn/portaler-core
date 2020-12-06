@@ -17,7 +17,7 @@ const OpenDrawer = () => {
         aria-label="drawer toggle"
         title="open drawer"
       >
-        <ChevronRightIcon />
+        <ChevronRightIcon fontSize="large" />
       </IconButton>
     </div>
   ) : null

@@ -29,7 +29,7 @@ const SideBar = () => {
         aria-label="drawer toggle"
         title="close drawer"
       >
-        <ChevronLeftIcon />
+        <ChevronLeftIcon fontSize="large" />
       </IconButton>
       <aside className={styles.searchSide}>
         {token ? (
