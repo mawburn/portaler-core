@@ -147,7 +147,7 @@ router.post('/', async (req, res) => {
 router.delete('/', async (req, res) => {
   try {
     if (req.userId === 0) {
-      return res.send(401)
+      return res.sendStatus(401)
     }
 
     const portalIds = req.body.portals
@@ -163,7 +163,7 @@ router.delete('/', async (req, res) => {
       .filter(Boolean)
 
     await deleteServerPortal(portalIds, req.userId, req.serverId)
-    res.send(204)
+    res.sendStatus(204)
   } catch (err) {
     logger.log.error('Unable to delete', err)
     res.status(500).send({ error: 'Error deleting portal' })
