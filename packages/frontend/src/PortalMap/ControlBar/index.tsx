@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
 
 import { Zone } from '@portaler/types'
 
@@ -16,22 +16,19 @@ interface ControlBarProps {
   edgeData: CytoEdgeData[]
 }
 
-const ControlBar: FC<ControlBarProps> = ({
-  handleHome,
-  reloadMap,
-  zone,
-  edgeData,
-}) => (
-  <div className={styles.bar}>
-    <div>
-      <ZoneInfo zone={zone} />
+const ControlBar = forwardRef<HTMLDivElement, ControlBarProps>(
+  ({ handleHome, reloadMap, zone, edgeData }, ref) => (
+    <div ref={ref} className={styles.bar}>
+      <div>
+        <ZoneInfo zone={zone} />
+      </div>
+      <div className={styles.controls}>
+        <DeleteNode edgeData={edgeData} zoneName={zone?.name} />
+        <HomeButton handleHome={handleHome} />
+        <ReloadMap handleClick={reloadMap} />
+      </div>
     </div>
-    <div className={styles.controls}>
-      <DeleteNode edgeData={edgeData} zoneName={zone?.name} />
-      <HomeButton handleHome={handleHome} />
-      <ReloadMap handleClick={reloadMap} />
-    </div>
-  </div>
+  )
 )
 
 export default ControlBar

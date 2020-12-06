@@ -12,6 +12,10 @@
 
 .durationField {
   width: 45%;
+
+  &.disabled {
+    opacity: 0.42;
+  }
 }
 
 .createBtn {

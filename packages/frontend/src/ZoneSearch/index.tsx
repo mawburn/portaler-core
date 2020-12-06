@@ -15,16 +15,18 @@ interface ZoneSearchProps {
   zoneList: Zone[]
   label: string
   value: Zone
-  variant?: 'filled' | 'outlined' | 'standard'
   update: (zone: Zone) => void
+  variant?: 'filled' | 'outlined' | 'standard'
+  error?: string | null
 }
 
 const ZoneSearch: FC<ZoneSearchProps> = ({
   zoneList,
   label,
   value,
-  variant = 'standard',
   update,
+  variant = 'standard',
+  error = null,
 }) => {
   const acRef = useRef(null)
   const [currentZoneList, setCurrentZoneList] = useState<Zone[]>(zoneList)
@@ -73,7 +75,13 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
       getOptionLabel={(o: Zone) => o.name}
       onChange={(_, val: Zone | null) => update(val ?? DEFAULT_ZONE)}
       renderInput={(params) => (
-        <TextField {...params} label={label} variant={variant as any} />
+        <TextField
+          {...params}
+          error={!!error}
+          helperText={error}
+          label={label}
+          variant={variant as any}
+        />
       )}
     />
   )

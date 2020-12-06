@@ -1,11 +1,16 @@
-import cytoscape, { CytoscapeOptions, EdgeSingular } from 'cytoscape'
+import cytoscape, {
+  CytoscapeOptions,
+  EdgeSingular,
+  EventObject,
+} from 'cytoscape'
 import COSEBilkent from 'cytoscape-cose-bilkent'
+import { Duration } from 'luxon'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Duration } from 'luxon'
 
 import { PortalSize, Zone } from '@portaler/types'
 import { hashKey } from '@portaler/utils'
+import useEventListener from '@use-it/event-listener'
 
 import zoneTiers from '../common/data/zoneTiers'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
@@ -59,6 +64,7 @@ const getShape = (zone: Zone): string => {
 }
 
 const PortalMap = () => {
+  const controlBar = useRef<HTMLDivElement | null>(null)
   const dispatch = useDispatch()
   const zones = useZoneListSelector()
   const portals = useSelector((state: RootState) => state.portalMap.portals)
@@ -84,23 +90,57 @@ const PortalMap = () => {
     []
   )
 
-  const cyEventHandler = useCallback(
-    (e: cytoscape.EventObject) => {
-      const t = e.target
-      const name = t.data('zoneName')
-      const id = t.data('zoneId')
+  const clearActives = useCallback(() => {
+    setActiveZoneEdgeData([])
+    setActiveZoneName('')
+  }, [])
 
-      dispatch({ type: PortalMapActionTypes.INSPECT, inspectId: id })
-      setActiveZoneName(name)
-      setActiveZoneEdgeData(
-        t
-          .connectedEdges()
-          .toArray()
-          .map((e: EdgeSingular) => e.data())
-      )
+  const cyClickHandler = useCallback(
+    (e: EventObject) => {
+      const t = e.target
+
+      if (t === cy.current) {
+        clearActives()
+        return
+      }
+
+      if (t.isNode()) {
+        const name = t.data('zoneName')
+        const id = t.data('zoneId')
+
+        dispatch({ type: PortalMapActionTypes.INSPECT, inspectId: id })
+        setActiveZoneName(name)
+        setActiveZoneEdgeData(
+          t
+            .connectedEdges()
+            .toArray()
+            .map((e: EdgeSingular) => e.data())
+        )
+      } else if (t.isEdge()) {
+        setActiveZoneEdgeData([t.data()])
+      }
     },
-    [dispatch]
+    [clearActives, dispatch]
   )
+
+  const domEventHandler = useCallback(
+    (e: any) => {
+      const t = e.target
+
+      if (t.nodeName.toLowerCase() !== 'canvas') {
+        if (controlBar.current === t || controlBar.current?.contains(t)) {
+          return
+        }
+
+        clearActives()
+        return
+      }
+    },
+    [clearActives]
+  )
+
+  // listen to all click events
+  useEventListener('click', domEventHandler)
 
   useEffect(() => {
     if (!cy.current) {
@@ -110,11 +150,11 @@ const PortalMap = () => {
         container: containerRef.current,
       } as CytoscapeOptions)
 
-      cy.current.on('tap', 'node', cyEventHandler)
+      cy.current.on('tap', cyClickHandler)
     } else {
       cy.current.style(graphStyle)
     }
-  }, [cyEventHandler])
+  }, [cyClickHandler])
 
   const filteredZones = useMemo(
     () =>
@@ -225,6 +265,7 @@ const PortalMap = () => {
                 id,
                 portalId: p.id,
                 source,
+                portalName: `${p.connection[0]} to ${p.connection[1]}`,
                 target,
                 label,
               },
@@ -316,6 +357,7 @@ const PortalMap = () => {
   return (
     <div className={styles.mapContainer}>
       <ControlBar
+        ref={controlBar}
         handleHome={handleHome}
         reloadMap={reloadMap}
         zone={activeZone || null}
