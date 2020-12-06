@@ -48,7 +48,11 @@ const DeleteNode: FC<DeleteNodeProps> = ({ edgeData, zoneName }) => {
         aria-labelledby="alert-dialog-title"
       >
         <DialogTitle id="alert-dialog-title">
-          Are you sure you want to delete this "{zoneName}" its connections?
+          {(edgeData[0] as any).portalName
+            ? `Are you sure you want to to delete this portal - "${
+                (edgeData[0] as any).portalName
+              }"?`
+            : `Are you sure you want to delete this "${zoneName}" its connections?`}
         </DialogTitle>
         <DialogActions>
           <Button

@@ -24,7 +24,7 @@ router.get('/list', async (req, res) => {
     return res.status(200).json(servers)
   } catch (err) {
     logger.log.error('No Server', err)
-    return res.status(500).write(err)
+    return res.status(500).send(err)
   }
 })
 
