@@ -1,6 +1,6 @@
 import React from 'react'
 import { discordLogo, githubLogo } from '../../common/images'
-import Twitch from './Twitch'
+import Twitch from '../Twitch'
 
 import styles from './styles.module.scss'
 

@@ -26,8 +26,8 @@ const App = () => {
       <CssBaseline />
       <div className={styles.appContainer}>
         <Notifications />
+        <SideBar />
         <MainLayout>
-          <SideBar />
           <MapArea />
         </MainLayout>
         <DemoBar />

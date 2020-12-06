@@ -8,6 +8,7 @@ import HomeButton from './HomeButton'
 import ReloadMap from './ReloadMap'
 import styles from './styles.module.scss'
 import ZoneInfo from './ZoneInfo'
+import OpenDrawer from './OpenDrawer'
 
 interface ControlBarProps {
   handleHome: (zone: Zone) => void
@@ -24,6 +25,7 @@ const ControlBar: FC<ControlBarProps> = ({
 }) => (
   <div className={styles.bar}>
     <div>
+      <OpenDrawer />
       <ZoneInfo zone={zone} />
     </div>
     <div className={styles.controls}>

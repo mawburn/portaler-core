@@ -1,11 +1,14 @@
 import { combineReducers } from 'redux'
+
 import config, { ConfigState } from './configReducer'
+import drawerOpen from './drawerOpen'
 import errors from './errorReducer'
-import zones, { ZoneState } from './zoneReducer'
 import portalMap, { PortalMap } from './portalMapReducer'
+import zones, { ZoneState } from './zoneReducer'
 
 export interface RootState {
   config: ConfigState
+  drawerOpen: boolean
   errors: string[]
   portalMap: PortalMap
   zones: ZoneState
@@ -20,6 +23,7 @@ export interface RootState {
 
 const rootReducer = combineReducers<RootState>({
   config,
+  drawerOpen,
   errors,
   portalMap,
   zones,

@@ -3,6 +3,7 @@ import COSEBilkent from 'cytoscape-cose-bilkent'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Duration } from 'luxon'
+import cn from 'clsx'
 
 import { PortalSize, Zone } from '@portaler/types'
 import { hashKey } from '@portaler/utils'
@@ -62,6 +63,7 @@ const PortalMap = () => {
   const dispatch = useDispatch()
   const zones = useZoneListSelector()
   const portals = useSelector((state: RootState) => state.portalMap.portals)
+  const drawerOpen = useSelector((state: RootState) => state.drawerOpen)
 
   const oldScore = useRef<number>(-1)
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -314,7 +316,11 @@ const PortalMap = () => {
   }, [])
 
   return (
-    <div className={styles.mapContainer}>
+    <div
+      className={cn(styles.mapContainer, {
+        [styles.drawerClosed]: !drawerOpen,
+      })}
+    >
       <ControlBar
         handleHome={handleHome}
         reloadMap={reloadMap}

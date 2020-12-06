@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { twitchLogo } from '../../../common/images'
+import { twitchLogo } from '../../common/images'
 import styles from './styles.module.scss'
 
 const isHypno = process.env.REACT_APP_TWITCH?.toLowerCase().includes(
