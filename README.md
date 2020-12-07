@@ -34,7 +34,7 @@
 
 Portaler is a mapping tool for Avalonian Roads in Albion Online, that provides real time private data to your guild or alliance. It is fully Albion TOS compliant, because every user action is completely manual and nothing is automatically pulled or scraped from the Albion client or network packets. This tool simply provides a clean way for guilds/alliances share roads mapping internally.
 
-The data we use to populate information is collected mostly from [Albion Data Project](https://www.albion-online-data.com/) as well as other manual crowd sourced methods.
+The data we use to populate information is collected mostly from [Albion Data Project](https://www.albion-online-data.com/).
 
 <p align="center">
   <img src="https://portaler.zone/screenshot.png" width="600px" alt="screenshot" />
