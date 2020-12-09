@@ -1,6 +1,7 @@
 import { Router } from 'express'
-import config from '../utils/config'
+import fetch from 'node-fetch'
 
+import config from '../utils/config'
 import { db, redis } from '../utils/db'
 import logger from '../utils/logger'
 
