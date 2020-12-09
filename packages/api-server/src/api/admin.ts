@@ -1,7 +1,10 @@
 import { Router } from 'express'
+import config from '../utils/config'
 
 import { db, redis } from '../utils/db'
 import logger from '../utils/logger'
+
+const alphaTest = new RegExp(/^[a-z0-9]+$/gi)
 
 const router = Router()
 
@@ -34,8 +37,23 @@ router.post('/addSubdomain', async (req, res) => {
     const body = req.body
     const discordUrl = req.body.discordUrl || null
 
-    if (typeof body.id !== 'number' || typeof body.subdomain !== 'string') {
+    if (
+      typeof body.id !== 'number' ||
+      (typeof body.subdomain !== 'string' && alphaTest.test(body.subdomain))
+    ) {
       throw new Error('BadPayload')
+    }
+
+    // configure your own DNS service
+    if (config.dns) {
+      const dnsOk = await fetch(config.dns, {
+        method: 'POST',
+        body: JSON.stringify({ subdomain: body.subdomain }),
+      }).then((res) => res.ok)
+
+      if (!dnsOk) {
+        throw new Error('DNS Config Error')
+      }
     }
 
     await db.dbQuery(
