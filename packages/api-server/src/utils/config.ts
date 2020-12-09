@@ -21,6 +21,7 @@ interface IConfig {
   db: DBConfig
   redis: RedisConfig
   awsCreds?: S3Creds
+  dns: string | null
 }
 
 const port = Number(process.env.PORT || 4242)
@@ -71,6 +72,7 @@ const config: IConfig = {
     password: process.env.REDIS_PASSWORD!,
     port: Number(process.env.REDIS_PORT || 6379),
   },
+  dns: process.env.USE_DNS || null,
 }
 
 if (process.env.AWS_SECRET) {
