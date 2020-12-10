@@ -2,6 +2,7 @@ import { Client, Guild, GuildMember, PartialGuildMember } from 'discord.js'
 
 import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 
+import messageHandler from './handlers/messageHandler'
 import removeServer from './handlers/removeServer'
 import roleHandler, { removeUser } from './handlers/roleHandler'
 import setupServer from './handlers/setupServer'
@@ -34,6 +35,8 @@ const initEvents = (ctx: EventContext) => {
   client.on('guildMemberRemove', (member: GuildMember | PartialGuildMember) =>
     removeUser(member, db, redis)
   )
+
+  client.on('message', messageHandler)
 }
 
 export default initEvents

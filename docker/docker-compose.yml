@@ -23,6 +23,8 @@ services:
     image: mawburn/portaler-bot:latest
     env_file:
       - .env.example
+    environment:
+      - API_URL=https://api_server/
     depends_on:
       - pgdb
       - rediscache

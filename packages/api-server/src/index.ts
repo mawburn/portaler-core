@@ -7,9 +7,9 @@ import cors from 'cors'
 import express from 'express'
 
 import Api from './api'
-import Admin from './api/admin'
 import Auth from './api/auth'
 import ConfigRouter from './api/config'
+import DiscordActions from './api/discordActions'
 import Zone from './api/zone'
 import initServer from './initServer'
 import checkAdmin from './middleware/checkAdmin'
@@ -36,15 +36,13 @@ logger.startUploader()
 
   // Un-authed routes
   app.use('/api/auth', Auth)
-
   app.get('/api/health', (_, res) => res.status(200).send({ server: 'ok' }))
   app.get('/api/bot', (_, res) => res.redirect(config.discord.botUrl))
-
   app.use('/api/config', ConfigRouter)
   app.use('/api/zone', Zone)
 
   // Authed routes
-  app.use('/api/admin', checkAdmin, Admin)
+  app.use('/api/discord', checkAdmin, DiscordActions)
   app.use('/api', verifyUser, Api)
 
   app.listen(config.port, () =>
