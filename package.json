@@ -27,7 +27,7 @@
     "clean:shared": "rimraf shared/**/node_modules",
     "clean:packages": "rimraf packages/**/node_modules",
     "clean": "concurrently \"yarn clean:shared\" \"yarn clean:packages\" && rimraf node_modules",
-    "clean:out": "concurrently \"rimraf shared/**/out\" \"rimraf packages/**/out\" \"rimraf packages/**/build\"",
+    "clean:out": "concurrently \"rimraf shared/**/out\" \"rimraf packages/**/out\" \"rimraf packages/**/build\" \"rimraf packages/homepage/public\"",
     "clean:all": "yarn clean out && yarn clean",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./packages ./shared",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./packages ./shared"

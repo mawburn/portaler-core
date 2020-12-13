@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'gatsby'
 
 import Layout from '../components/Layout'
-import Image from '../components/image'
 import SEO from '../components/seo'
 
 import Screenshot from '../components/screenshot'
@@ -33,11 +32,6 @@ const IndexPage = () => (
         </a>
       </p>
     </article>
-    {/* <div className={styles.hostingInfo}>
-      <p>
-      We can also provide hosting services for your group. See our{' '}
-      <Link to="/server-pricing">Server Pricing</Link> page for more info.</p>
-    </div> */}
     <Screenshot />
     <p className={styles.screenshot}>Screenshot 2020-11-22</p>
   </Layout>
