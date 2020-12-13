@@ -1,0 +1,19 @@
+.baseContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 1rem;
+  min-height: calc(100vh - 4.25rem);
+
+  &,
+  > * {
+    text-shadow: 3px 4px 2px rgba(#000, 0.25);
+  }
+}
+
+.header {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+}

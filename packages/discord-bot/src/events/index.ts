@@ -36,7 +36,7 @@ const initEvents = (ctx: EventContext) => {
     removeUser(member, db, redis)
   )
 
-  client.on('message', messageHandler)
+  // client.on('message', messageHandler)
 }
 
 export default initEvents

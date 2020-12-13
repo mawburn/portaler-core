@@ -1,0 +1,74 @@
+.frontPage {
+  margin-top: 1rem;
+  &,
+  h1 {
+    font-size: 1.25rem;
+    font-weight: normal;
+    text-align: center;
+  }
+
+  h1 {
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.screenshot {
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: -1.5rem;
+}
+
+.hostingInfo {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 4.2rem;
+  font-size: 1.25rem;
+
+  a {
+    font-weight: 700;
+  }
+
+  @media all and (max-width: 480px) {
+    margin-top: 2rem;
+  }
+}
+
+.pricingH1,
+.pricingH2 {
+  text-align: center;
+}
+
+.pricingH2 {
+  color: #fff;
+}
+
+.pricingInfo {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem auto;
+  max-width: 50rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+}
+
+.pricingTable {
+  margin: 1rem auto;
+
+  th {
+    text-align: left;
+  }
+
+  th,
+  td {
+    padding: 0.5rem;
+  }
+
+  td:first-child {
+    font-weight: 700;
+  }
+}
