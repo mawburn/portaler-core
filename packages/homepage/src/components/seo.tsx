@@ -1,7 +1,6 @@
+import { graphql, useStaticQuery } from 'gatsby'
 import React, { FC } from 'react'
-
 import { Helmet } from 'react-helmet'
-import { useStaticQuery, graphql } from 'gatsby'
 
 interface SEOProps {
   title?: string
@@ -48,6 +47,10 @@ const SEO: FC<SEOProps> = ({
         {
           property: `og:title`,
           content: title,
+        },
+        {
+          property: `og:image`,
+          content: `https://portaler.zone/logo.png`,
         },
         {
           property: `og:description`,
