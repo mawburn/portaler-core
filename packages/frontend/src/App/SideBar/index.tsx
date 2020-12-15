@@ -16,7 +16,7 @@ const SideBar = () => {
   const dispatch = useDispatch()
 
   const handleLogout = useCallback(
-    () => (e: MouseEvent) => {
+    (e: MouseEvent) => {
       e.preventDefault()
       e.stopPropagation()
       dispatch({ type: ConfigActionTypes.CLEARTOKEN })
@@ -33,9 +33,12 @@ const SideBar = () => {
           </header>
           <PortalForm />
           <div className={styles.logout}>
-            <Button size="small" onClick={handleLogout}>
-              <ExitToAppIcon />
-              <span>Logout</span>
+            <Button
+              size="small"
+              onClick={handleLogout}
+              startIcon={<ExitToAppIcon />}
+            >
+              Logout
             </Button>
           </div>
         </>
