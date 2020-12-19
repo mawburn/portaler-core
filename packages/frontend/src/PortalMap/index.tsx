@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import cytoscape, {
   CytoscapeOptions,
   EdgeSingular,
@@ -16,6 +17,7 @@ import zoneTiers from '../common/data/zoneTiers'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
 import { tiers } from '../common/images'
 import getHomeZone from '../common/utils/getHomeZone'
+import mistWalker from '../common/utils/mistWalker'
 import { RootState } from '../reducers'
 import { PortalMapActionTypes } from '../reducers/portalMapReducer'
 import ControlBar from './ControlBar'
@@ -355,7 +357,11 @@ const PortalMap = () => {
   }, [])
 
   return (
-    <div className={styles.mapContainer}>
+    <div
+      className={clsx(styles.mapContainer, {
+        [styles.hideSidebar]: !mistWalker.showSidebar,
+      })}
+    >
       <ControlBar
         ref={controlBar}
         handleHome={handleHome}
