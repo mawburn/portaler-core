@@ -3,4 +3,8 @@
   grid-template-columns: 350px auto;
   height: 100%;
   padding: 0;
+
+  &.hideSidebar {
+    display: flex;
+  }
 }

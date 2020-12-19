@@ -2,18 +2,19 @@ import React from 'react'
 
 import { CssBaseline, ThemeProvider } from '@material-ui/core'
 
-import DemoBar from './DemoBar'
+import mistWalker from '../common/utils/mistWalker'
 import Footer from './Footer'
 import useGetConfig from './hooks/useGetConfig'
 import useGetPortalTimer from './hooks/useGetPortalTimer'
 import useGetZones from './hooks/useGetZones'
+import useSetToken from './hooks/useSetToken'
 import MainLayout from './MainLayout'
+import MapArea from './MapArea'
+import MistBar from './MistBar'
 import Notifications from './Notifications'
 import SideBar from './SideBar'
 import styles from './styles.module.scss'
 import theme from './theme'
-import useSetToken from './hooks/useSetToken'
-import MapArea from './MapArea'
 
 const App = () => {
   useGetConfig()
@@ -26,11 +27,11 @@ const App = () => {
       <CssBaseline />
       <div className={styles.appContainer}>
         <Notifications />
+        {mistWalker.isWalker && <MistBar />}
         <MainLayout>
-          <SideBar />
+          {mistWalker.showSidebar && <SideBar />}
           <MapArea />
         </MainLayout>
-        <DemoBar />
         <Footer />
       </div>
     </ThemeProvider>

@@ -1,0 +1,30 @@
+.mist {
+  display: flex;
+  justify-content: space-between;
+  height: 4.2rem;
+  width: 100%;
+  padding: 0 1rem;
+
+  a {
+    font-weight: 700;
+  }
+}
+
+.centerText {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  padding: 0 1rem;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+
+.mistColor {
+  margin-left: 0.25rem;
+  color: #00eaff;
+}
+
+.bannerImg {
+  height: 100%;
+  padding: 0.25rem 0;
+}
