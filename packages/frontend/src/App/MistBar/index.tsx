@@ -20,7 +20,7 @@ const MistBar = () => (
         <strong className={styles.mistColor}>Mist Walkers</strong>. The
         information in this map is not guaranteed to be 100% correct, but it's
         as accurate as we are human.
-        <br /> Come say hi to us or request help on{' '}
+        <br /> Feel free to request help or chat on our{' '}
         <Link
           href="https://discord.gg/tCjd7FC5ys"
           color="secondary"
@@ -28,8 +28,8 @@ const MistBar = () => (
         >
           Discord
         </Link>
-        . Or if you see us in game, say hi and Silver tips to fund gear
-        replacement and tomes are always welcome!
+        . If you see us in game, feel free to say hello! Silver donations to
+        help further exploration will always be welcomed!
       </p>
     </div>
     <div>
