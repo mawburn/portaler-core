@@ -1,18 +1,26 @@
+@import '../../vars';
+
 .header {
   align-items: center;
   display: flex;
   height: 4.2rem;
   justify-content: space-between;
-  background-color: #424242;
+  background-color: lighten($baseBg, 4.2%);
   padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  width: 100%;
 
   img {
     max-height: 3.25rem;
+    margin-right: 1rem;
   }
-}
 
-.logo {
-}
+  @media (max-width: $breakpointSm) {
+    padding: 0 0.25rem;
+  }
 
-.nav {
+  @media (max-width: $breakpointXs) {
+    padding: 0 0.1rem;
+  }
 }

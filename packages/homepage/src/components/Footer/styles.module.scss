@@ -1,12 +1,11 @@
+@import '../../vars';
+
 .footer {
   align-items: center;
   display: flex;
   justify-content: center;
-  background: rgba(#333, 0.75);
-  position: sticky;
-  bottom: 0;
+  background: rgba(#000, 0.15);
   width: 100%;
-  height: 50px;
   height: 4.2rem;
 
   a {

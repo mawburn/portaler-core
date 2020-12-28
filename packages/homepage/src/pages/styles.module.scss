@@ -1,24 +1,10 @@
-.frontPage {
-  margin-top: 1rem;
-  &,
-  h1 {
-    font-size: 1.25rem;
-    font-weight: normal;
-    text-align: center;
-  }
+@import '../vars';
 
-  h1 {
-    display: inline;
-    margin: 0;
-    padding: 0;
-  }
-}
-
-.screenshot {
-  text-align: center;
-  font-size: 0.8rem;
-  margin-top: -1.5rem;
-}
-
-.signupPage {
+// index
+.indexMain {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }

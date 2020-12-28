@@ -1,5 +1,8 @@
+@import '../../vars';
+
 html {
   box-sizing: border-box;
+  height: 100%;
 }
 
 *,
@@ -9,64 +12,37 @@ html {
 }
 
 body {
-  color: #fdfdfd;
+  color: $fontColor;
   font-family: Lato, sans-serif;
   font-weight: normal;
-  background-color: #333;
-  background-image: url('../../images/mapBg.png');
+  background-color: $baseBg;
 }
 
 body,
 #___gatsby,
 #gatsby-focus-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   min-height: 100vh;
 }
 
 a {
   &,
   :any-link {
-    color: #fdd835;
+    color: $secondary;
     text-decoration: none;
   }
 }
 
-.height {
-  height: calc(100vh - 3rem);
-  padding: 0 1rem;
+@media (max-width: $breakpointSm) {
+  .hideSm {
+    display: none !important;
+  }
 }
 
-.placeholder {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.main-logo {
-  width: 300px;
-}
-
-.screenshot {
-  margin: 2rem auto;
-  max-width: 600px;
-  width: 100%;
-}
-
-.info {
-  font-size: 1rem;
-
-  .join-test {
-    font-size: 1.25rem;
-    font-family: monospace;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 0.25rem;
-    margin: 0 0.25rem;
-    word-wrap: none;
-    display: inline-block;
-
-    @media all and (max-width: 480px) {
-      margin: 0.25rem 0;
-    }
+@media (max-width: $breakpointXs) {
+  .hideXs {
+    display: none !important;
   }
 }

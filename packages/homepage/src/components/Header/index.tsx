@@ -1,16 +1,15 @@
 import { Link } from 'gatsby'
-import React, { FC } from 'react'
+import React from 'react'
 
 import Navbar from '../Navbar'
 
 import logo from './header-logo.png'
-
 import styles from './styles.module.scss'
 
-const Header: FC = ({ children }) => (
+const Header = () => (
   <header className={styles.header}>
     <div className={styles.logo}>
-      <Link to="/">
+      <Link to="/" title="home">
         <img src={logo} alt="portaler" />
       </Link>
     </div>

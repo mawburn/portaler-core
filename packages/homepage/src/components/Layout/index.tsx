@@ -19,8 +19,10 @@ const Layout: FC = ({ children }) => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <Header />
-    xyz
-    <Footer />
+    <div className={styles.baseContainer}>
+      {children}
+      <Footer />
+    </div>
   </ThemeProvider>
 )
 
