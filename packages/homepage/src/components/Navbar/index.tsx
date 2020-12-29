@@ -13,7 +13,7 @@ const Navbar: FC<NavbarProps> = ({ current }) => (
     <ul>
       <li>
         <Link
-          to="/"
+          to="https://discord.gg/BRUmgF4Mnm"
           className={cn({ [styles.active]: current === 'signup' })}
           title="sign your discord server up to use portaler"
         >

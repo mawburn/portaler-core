@@ -25,6 +25,7 @@ const OtherStuff = () => (
           be rough...
         </h4>
         <iframe
+          loading="lazy"
           title="First Death - Portaler Mapping"
           className={styles.youtube}
           src="https://www.youtube.com/embed/pI81UkjKbKA?start=7"
