@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'gatsby'
 
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
@@ -7,6 +6,12 @@ import SEO from '../components/seo'
 import MainLogo from '../components/MainLogo'
 
 import WhatIs from '../components/WhatIs'
+
+import Features from '../components/Features'
+
+import JoinDiscord from '../components/JoinDiscord'
+
+import OtherStuff from '../components/OtherStuff'
 
 import styles from './styles.module.scss'
 
@@ -20,6 +25,9 @@ const IndexPage = () => (
     <main className={styles.indexMain}>
       <MainLogo />
       <WhatIs />
+      <JoinDiscord />
+      <Features />
+      <OtherStuff />
     </main>
   </Layout>
 )

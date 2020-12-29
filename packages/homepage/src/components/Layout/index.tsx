@@ -3,11 +3,7 @@ import './index.scss'
 import React, { FC } from 'react'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
-import {
-  createMuiTheme,
-  makeStyles,
-  ThemeProvider,
-} from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/core/styles'
 
 import Footer from '../Footer'
 import Header from '../Header'
@@ -19,10 +15,8 @@ const Layout: FC = ({ children }) => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <Header />
-    <div className={styles.baseContainer}>
-      {children}
-      <Footer />
-    </div>
+    <div className={styles.baseContainer}>{children}</div>
+    <Footer />
   </ThemeProvider>
 )
 

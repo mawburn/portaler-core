@@ -22,11 +22,11 @@ const Navbar: FC<NavbarProps> = ({ current }) => (
       </li>
       <li>
         <Link
-          to="/"
+          to="https://map.portaler.zone"
           className={cn({ [styles.active]: current === 'dashboard' })}
-          title="login and see your dashboard"
+          title="public map"
         >
-          Dashboard
+          Public Map
         </Link>
       </li>
       <li className="hideXs">

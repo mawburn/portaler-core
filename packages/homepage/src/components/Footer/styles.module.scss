@@ -4,9 +4,9 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  background: rgba(#000, 0.15);
+  background: darken($baseBg, 2%);
   width: 100%;
-  height: 4.2rem;
+  padding: 1rem 0;
 
   a {
     padding: 0 1rem;

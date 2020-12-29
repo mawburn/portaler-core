@@ -1,3 +1,4 @@
+import Paper from '@material-ui/core/Paper'
 import { Link } from 'gatsby'
 import React from 'react'
 
@@ -5,7 +6,7 @@ import styles from './styles.module.scss'
 
 const WhatIs = () => (
   <div className={styles.container}>
-    <article className={styles.what}>
+    <Paper elevation={4} className={styles.what}>
       <h1>Portaler</h1> is a{' '}
       <strong>
         <Link to="https://wiki.albiononline.com/wiki/Roads_of_Avalon">
@@ -22,7 +23,11 @@ const WhatIs = () => (
         groups to share private maps with each other based on Discord
         authentication and roles.
       </p>
-    </article>
+      <p>
+        Input for Portaler is completely manual and therefore TOS compliant and
+        approved.
+      </p>
+    </Paper>
   </div>
 )
 
