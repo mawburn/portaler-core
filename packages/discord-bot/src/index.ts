@@ -7,6 +7,7 @@ import getDatabases from '@portaler/data-models'
 import config from './config'
 import initEvents from './events'
 import logger from './logger'
+import { loadRoles } from './unattachedRoles'
 
 logger.startUploader()
 
@@ -25,4 +26,6 @@ logger.startUploader()
     logger.log.info('Discord Bot Started')
     initEvents({ client, db, redis })
   })
+
+  await loadRoles()
 })()

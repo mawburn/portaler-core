@@ -11,7 +11,7 @@ import React, {
 import { useSelector } from 'react-redux'
 
 import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
-import DeviceHubIcon from '@material-ui/icons/DeviceHub'
+import LinearScaleIcon from '@material-ui/icons/LinearScale'
 import { PortalSize, Zone } from '@portaler/types'
 
 import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../common/data/constants'
@@ -218,7 +218,7 @@ const MappingBar = () => {
                 variant="contained"
                 color="primary"
                 type="submit"
-                endIcon={<DeviceHubIcon />}
+                endIcon={<LinearScaleIcon />}
                 size="large"
               >
                 Create Connection

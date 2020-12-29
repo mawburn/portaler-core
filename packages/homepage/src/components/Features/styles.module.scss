@@ -1,0 +1,29 @@
+@import '../../vars';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 2rem;
+  max-width: 1200px;
+  flex-wrap: wrap;
+}
+
+.card {
+  margin-top: 1rem;
+  width: 280px;
+
+  @media (max-width: $breakpointLg) {
+    width: 250px;
+  }
+}
+
+.media {
+  height: 0;
+  padding-top: 56.25%; // 16:9
+
+  &.free {
+    background-color: rgba(#000, 0.1);
+  }
+}

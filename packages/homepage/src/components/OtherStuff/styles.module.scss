@@ -1,0 +1,29 @@
+@import '../../vars';
+
+.otherStuff {
+  text-align: center;
+
+  h3 {
+    font-size: 2rem;
+  }
+
+  .color {
+    color: #00eaff;
+  }
+}
+
+.mistWalkers {
+  margin-top: 4.2rem;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.youtube {
+  width: 560px;
+  height: 315px;
+
+  @media (max-width: $breakpointXs) {
+    width: 304px;
+    height: 171px;
+  }
+}
