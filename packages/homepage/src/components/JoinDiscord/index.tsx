@@ -5,6 +5,8 @@ import withStyles from '@material-ui/core/styles/withStyles'
 
 import discord from '../../images/discord-white.svg'
 
+import styles from './styles.module.scss'
+
 const DiscordButton = withStyles(() => ({
   root: {
     backgroundColor: '#7289DA',
@@ -13,8 +15,6 @@ const DiscordButton = withStyles(() => ({
     },
   },
 }))(Button)
-
-import styles from './styles.module.scss'
 
 const JoinDiscord = () => (
   <div className={styles.container}>

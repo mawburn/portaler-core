@@ -26,8 +26,7 @@ const OtherStuff = () => (
         </h4>
         <iframe
           title="First Death - Portaler Mapping"
-          width="560"
-          height="315"
+          className={styles.youtube}
           src="https://www.youtube.com/embed/pI81UkjKbKA?start=7"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

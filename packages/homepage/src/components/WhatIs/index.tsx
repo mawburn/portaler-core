@@ -1,6 +1,7 @@
-import Paper from '@material-ui/core/Paper'
 import { Link } from 'gatsby'
 import React from 'react'
+
+import Paper from '@material-ui/core/Paper'
 
 import styles from './styles.module.scss'
 
@@ -19,9 +20,9 @@ const WhatIs = () => (
       </strong>
       .
       <p>
-        Portaler is a web application that allows guilds, alliances, or other
-        groups to share private maps with each other based on Discord
-        authentication and roles.
+        Portaler is an open source web application that allows guilds,
+        alliances, or other groups to share private maps with each other based
+        on Discord authentication and roles.
       </p>
       <p>
         Input for Portaler is completely manual and therefore TOS compliant and

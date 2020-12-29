@@ -1,17 +1,12 @@
 import React from 'react'
 
-import Layout from '../components/Layout'
-import SEO from '../components/seo'
-
-import MainLogo from '../components/MainLogo'
-
-import WhatIs from '../components/WhatIs'
-
 import Features from '../components/Features'
-
 import JoinDiscord from '../components/JoinDiscord'
-
+import Layout from '../components/Layout'
+import MainLogo from '../components/MainLogo'
 import OtherStuff from '../components/OtherStuff'
+import SEO from '../components/seo'
+import WhatIs from '../components/WhatIs'
 
 import styles from './styles.module.scss'
 

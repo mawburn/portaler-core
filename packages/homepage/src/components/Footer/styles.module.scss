@@ -7,8 +7,17 @@
   background: darken($baseBg, 2%);
   width: 100%;
   padding: 1rem 0;
+  flex-wrap: wrap;
 
   a {
     padding: 0 1rem;
   }
+}
+
+.githubLogo {
+  fill: #fff;
+  height: 0.9rem;
+  width: 0.9rem;
+  margin-right: 0.5rem;
+  margin-bottom: -2px;
 }

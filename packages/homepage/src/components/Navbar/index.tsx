@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
 import cn from 'clsx'
 import { Link } from 'gatsby'
+import React, { FC } from 'react'
 
 import styles from './styles.module.scss'
 
