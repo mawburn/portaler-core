@@ -35,10 +35,11 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-google-fonts`,
+      resolve: 'gatsby-plugin-web-font-loader',
       options: {
-        fonts: [`rubik:400,700`],
-        display: 'swap',
+        google: {
+          families: ['Rubik:400,700'],
+        },
       },
     },
     {
