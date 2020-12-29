@@ -1,0 +1,14 @@
+@import '../../vars';
+
+.logo {
+  text-align: center;
+  width: 375px;
+
+  @media (max-width: $breakpointSm) {
+    width: 350px;
+  }
+
+  @media (max-width: $breakpointXs) {
+    width: 250px;
+  }
+}

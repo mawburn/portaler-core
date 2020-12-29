@@ -5,6 +5,7 @@ import { IUserModel } from '@portaler/data-models/out/models/User'
 
 import config from '../../config'
 import logger from '../../logger'
+import unattachedRoles from '../../unattachedRoles'
 
 const setupServer = async (
   server: Guild,
@@ -44,6 +45,8 @@ const setupServer = async (
         data: rolePayload,
         reason: 'Add authentication for Portaler.zone',
       }))
+
+    unattachedRoles('add', typeof role === 'string' ? role : role.id)
 
     const sid = serverId ?? (await db.Server.create(server.id, server.name))
 

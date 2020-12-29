@@ -110,14 +110,16 @@ export default class ServerModel {
     }
   }
 
-  getServerIdBySubdomain = async (subDomain: string): Promise<number> => {
+  getServerIdBySubdomain = async (
+    subDomain: string
+  ): Promise<number | null> => {
     const dbResServer = await this.query(
       `SELECT id FROM servers WHERE subdomain = $1`,
-      [subDomain]
+      [subDomain.toLowerCase()]
     )
 
     if (dbResServer.rowCount === 0) {
-      throw new Error('NoSubdomainServerFound')
+      return null
     }
 
     return dbResServer.rows[0].id

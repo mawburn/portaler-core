@@ -53,6 +53,10 @@ router.get('/callback', async (req, res) => {
       isProd ? subdomain : 'localhost'
     )
 
+    if (!serverId) {
+      throw new Error('NoSubdomainServerFound')
+    }
+
     const user = await db.User.getFullUser(userId, serverId)
 
     const redirectUrl = isProd
