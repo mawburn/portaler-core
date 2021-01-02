@@ -18,7 +18,6 @@ import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../common/data/constants'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
 import { RootState } from '../reducers'
 import { InputError } from '../types'
-import UserSettings from '../UserSettings'
 import ZoneSearch from '../ZoneSearch'
 import PortalSizeSelector from './PortalSizeSelector'
 import styles from './styles.module.scss'
@@ -145,90 +144,87 @@ const MappingBar = () => {
   )
 
   return (
-    <>
-      <form onSubmit={handleSubmit} autoComplete="off">
-        <div className={styles.mappingBar}>
-          <div className={styles.row}>
-            <ZoneSearch
-              error={getError('from', errors)}
-              value={from}
-              update={setFrom}
-              label="From"
-              zoneList={filteredFrom}
-            />
-          </div>
-          <div className={styles.row}>
-            <ZoneSearch
-              error={getError('to', errors)}
-              value={to}
-              update={setTo}
-              label="To"
-              zoneList={filteredTo}
-            />
-          </div>
-          <div className={styles.row}>
-            <PortalSizeSelector size={portalSize} update={setPortalSize} />
-          </div>
-          <div className={styles.row}>
-            <FormControl fullWidth component="fieldset">
-              <FormLabel component="legend">Time Left</FormLabel>
-              <div className={styles.flexColumn}>
-                <TextField
-                  error={!!getError('timer', errors)}
-                  helperText={getError('timer', errors)}
-                  disabled={portalSize === 0}
-                  id="time-hour"
-                  className={cn(styles.durationField, {
-                    [styles.disabled]: portalSize === 0,
-                  })}
-                  type="number"
-                  label="Hour(s)"
-                  InputProps={{
-                    inputProps: { min: 0, max: 24 },
-                    value: hours ?? '',
-                  }}
-                  onChange={(e) => setHours(Number(e.currentTarget.value))}
-                />
-                <TextField
-                  error={!!getError('timer', errors)}
-                  helperText={getError('timer', errors)}
-                  disabled={portalSize === 0}
-                  id="time-minute"
-                  className={cn(styles.durationField, {
-                    [styles.disabled]: portalSize === 0,
-                  })}
-                  type="number"
-                  label="Minute(s)"
-                  InputProps={{
-                    inputProps: { min: 0, max: 59 },
-                    value: minutes ?? '',
-                  }}
-                  onBlur={(e) =>
-                    e.currentTarget.value === '0' ? setMinutes(null) : null
-                  }
-                  onChange={(e) => setMinutes(Number(e.currentTarget.value))}
-                />
-              </div>
-            </FormControl>
-          </div>
-          <div className={styles.row}>
-            <FormControl fullWidth>
-              <Button
-                className={styles.createBtn}
-                variant="contained"
-                color="primary"
-                type="submit"
-                endIcon={<LinearScaleIcon />}
-                size="large"
-              >
-                Create Connection
-              </Button>
-            </FormControl>
-          </div>
+    <form onSubmit={handleSubmit} autoComplete="off">
+      <div className={styles.mappingBar}>
+        <div className={styles.row}>
+          <ZoneSearch
+            error={getError('from', errors)}
+            value={from}
+            update={setFrom}
+            label="From"
+            zoneList={filteredFrom}
+          />
         </div>
-      </form>
-      <UserSettings zones={zones} />
-    </>
+        <div className={styles.row}>
+          <ZoneSearch
+            error={getError('to', errors)}
+            value={to}
+            update={setTo}
+            label="To"
+            zoneList={filteredTo}
+          />
+        </div>
+        <div className={styles.row}>
+          <PortalSizeSelector size={portalSize} update={setPortalSize} />
+        </div>
+        <div className={styles.row}>
+          <FormControl fullWidth component="fieldset">
+            <FormLabel component="legend">Time Left</FormLabel>
+            <div className={styles.flexColumn}>
+              <TextField
+                error={!!getError('timer', errors)}
+                helperText={getError('timer', errors)}
+                disabled={portalSize === 0}
+                id="time-hour"
+                className={cn(styles.durationField, {
+                  [styles.disabled]: portalSize === 0,
+                })}
+                type="number"
+                label="Hour(s)"
+                InputProps={{
+                  inputProps: { min: 0, max: 24 },
+                  value: hours ?? '',
+                }}
+                onChange={(e) => setHours(Number(e.currentTarget.value))}
+              />
+              <TextField
+                error={!!getError('timer', errors)}
+                helperText={getError('timer', errors)}
+                disabled={portalSize === 0}
+                id="time-minute"
+                className={cn(styles.durationField, {
+                  [styles.disabled]: portalSize === 0,
+                })}
+                type="number"
+                label="Minute(s)"
+                InputProps={{
+                  inputProps: { min: 0, max: 59 },
+                  value: minutes ?? '',
+                }}
+                onBlur={(e) =>
+                  e.currentTarget.value === '0' ? setMinutes(null) : null
+                }
+                onChange={(e) => setMinutes(Number(e.currentTarget.value))}
+              />
+            </div>
+          </FormControl>
+        </div>
+        <div className={styles.row}>
+          <FormControl fullWidth>
+            <Button
+              className={styles.createBtn}
+              variant="contained"
+              color="primary"
+              type="submit"
+              endIcon={<LinearScaleIcon />}
+              size="large"
+            >
+              Create Connection
+            </Button>
+          </FormControl>
+        </div>
+      </div>
+    </form>
   )
 }
 

@@ -1,30 +1,37 @@
 import clone from 'lodash/cloneDeep'
 import { Reducer } from 'react'
-import { Portal } from '@portaler/types'
+
+import { Portal, Zone } from '@portaler/types'
+
+import { DEFAULT_ZONE } from '../common/data/constants'
 
 export enum PortalMapActionTypes {
   UPDATEMAP = 'portals/updateMap',
   INSPECT = 'portals/inspectPortal',
   CLEARINSPECT = 'portals/clearInspectedPortal',
   CLEARALL = 'portals/clearAllPortals',
+  CENTER = 'portals/centerZone',
 }
 
 interface PortalMapAction {
   type: PortalMapActionTypes
   portals?: Portal[]
   inspectId?: number
+  centerZone?: Zone
 }
 
 export interface PortalMap {
   portals: Portal[]
   inspectPortalId: number | null
   lastUpdated: number
+  centerZone: Zone
 }
 
 const initialState: PortalMap = {
   portals: [],
   inspectPortalId: null,
   lastUpdated: 0,
+  centerZone: DEFAULT_ZONE,
 }
 
 const portalMapReducer: Reducer<any, PortalMapAction> = (
@@ -47,7 +54,17 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
     case PortalMapActionTypes.CLEARINSPECT:
       return { ...state, inspectPortalId: null }
     case PortalMapActionTypes.CLEARALL:
-      return { portals: [], inspectPortalId: null, lastUpdated: now.getTime() }
+      return {
+        ...state,
+        portals: [],
+        inspectPortalId: null,
+        lastUpdated: now.getTime(),
+      }
+    case PortalMapActionTypes.CENTER:
+      return {
+        ...state,
+        centerZone: clone(action.centerZone || DEFAULT_ZONE),
+      }
     default:
       return state
   }

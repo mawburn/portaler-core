@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import {
   Accordion,
@@ -10,18 +10,16 @@ import HomeIcon from '@material-ui/icons/Home'
 import Alert from '@material-ui/lab/Alert'
 import { Zone } from '@portaler/types'
 
+import useZoneListSelector from '../common/hooks/useZoneListSelector'
 import getHomeZone from '../common/utils/getHomeZone'
 import ZoneSearch from '../ZoneSearch'
 import styles from './styles.module.scss'
 
-interface UserSettingsProps {
-  zones: Zone[]
-}
-
-const UserSettings: FC<UserSettingsProps> = ({ zones }) => {
+const UserSettings = () => {
   const initialLoad = useRef<boolean>(true)
   const [home, setHome] = useState<Zone>(getHomeZone())
   const [saved, setSaved] = useState<boolean>(false)
+  const zones = useZoneListSelector()
 
   const handleUpdate = useCallback((zone: Zone) => {
     window.localStorage.setItem('homeZone', JSON.stringify(zone))

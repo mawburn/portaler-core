@@ -29,12 +29,14 @@ const Features = () => (
     <Card raised className={styles.card}>
       <CardHeader title="Live Updates" />
       <CardMedia className={styles.media} image={liveImg} />
-      <CardContent>See the status of your map in real time!</CardContent>
+      <CardContent>
+        See the status of your guild's map in real time!
+      </CardContent>
     </Card>
     <Card raised className={styles.card}>
       <CardHeader title="Free Hosting" />
       <CardMedia className={cn(styles.media, styles.free)} image={freeImg} />
-      <CardContent>Just sign up and for free hosting!</CardContent>
+      <CardContent>Sign up for free hosting!</CardContent>
     </Card>
   </div>
 )
