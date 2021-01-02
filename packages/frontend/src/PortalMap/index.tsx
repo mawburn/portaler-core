@@ -271,7 +271,7 @@ const PortalMap = () => {
                 target,
                 label,
               },
-              classes: p.timeLeft < 30 ? 'timeLow' : '',
+              classes: p.timeLeft < 6000 ? 'timeLow' : '',
               css: {
                 lineColor: portalSizeToColor[p.size as PortalSize],
                 width: 5,
@@ -286,7 +286,7 @@ const PortalMap = () => {
           updateElm.data('label', label)
           updateElm.css('lineColor', portalSizeToColor[p.size as PortalSize])
 
-          if (p.timeLeft < 30) {
+          if (p.timeLeft < 6000) {
             updateElm.addClass('timeLow')
           }
         }
