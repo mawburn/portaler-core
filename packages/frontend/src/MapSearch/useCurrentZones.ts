@@ -17,9 +17,9 @@ const useCurrentZones = (): Zone[] => {
       setOfPortals.add(p.connection[1].toLowerCase())
     })
 
-    return (Array.from(setOfPortals)
+    return Array.from(setOfPortals)
       .map((p) => zones.find((z) => z.name.toLowerCase() === p))
-      .filter(Boolean) || []) as Zone[]
+      .filter(Boolean) as Zone[]
   }, [zones, portals])
 }
 
