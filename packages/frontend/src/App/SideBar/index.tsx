@@ -10,6 +10,8 @@ import LoginButton from '../../LoginButton'
 import PortalForm from '../../PortalForm'
 import { ConfigActionTypes } from '../../reducers/configReducer'
 import styles from '../styles.module.scss'
+import MapSearch from '../../MapSearch'
+import UserSettings from '../../UserSettings'
 
 const SideBar = () => {
   const token = useToken()
@@ -32,6 +34,8 @@ const SideBar = () => {
             <img alt="logo" src={portalerSmall} className={styles.logo} />
           </header>
           <PortalForm />
+          <MapSearch />
+          <UserSettings />
           <div className={styles.logout}>
             <Button
               size="small"
