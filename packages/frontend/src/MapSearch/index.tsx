@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { Zone } from '@portaler/types'
 
 import { DEFAULT_ZONE } from '../common/data/constants'
+import { PortalMapActionTypes } from '../reducers/portalMapReducer'
 import ZoneSearch from '../ZoneSearch'
 import useCurrentZones from './useCurrentZones'
-import { useDispatch } from 'react-redux'
-import { PortalMapActionTypes } from '../reducers/portalMapReducer'
 
 const MapSearch = () => {
   const curZones = useCurrentZones()

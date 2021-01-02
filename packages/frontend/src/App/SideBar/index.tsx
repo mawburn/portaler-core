@@ -7,11 +7,11 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import useToken from '../../common/hooks/useToken'
 import { portalerSmall } from '../../common/images'
 import LoginButton from '../../LoginButton'
+import MapSearch from '../../MapSearch'
 import PortalForm from '../../PortalForm'
 import { ConfigActionTypes } from '../../reducers/configReducer'
-import styles from '../styles.module.scss'
-import MapSearch from '../../MapSearch'
 import UserSettings from '../../UserSettings'
+import styles from '../styles.module.scss'
 
 const SideBar = () => {
   const token = useToken()
