@@ -5,6 +5,7 @@ import cytoscape, {
   EventObject,
 } from 'cytoscape'
 import COSEBilkent from 'cytoscape-cose-bilkent'
+import isEqual from 'lodash/isEqual'
 import { Duration } from 'luxon'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,6 +14,7 @@ import { PortalSize, Zone } from '@portaler/types'
 import { hashKey } from '@portaler/utils'
 import useEventListener from '@use-it/event-listener'
 
+import { DEFAULT_ZONE } from '../common/data/constants'
 import zoneTiers from '../common/data/zoneTiers'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
 import { tiers } from '../common/images'
@@ -70,6 +72,9 @@ const PortalMap = () => {
   const dispatch = useDispatch()
   const zones = useZoneListSelector()
   const portals = useSelector((state: RootState) => state.portalMap.portals)
+  const centerZone = useSelector(
+    (state: RootState) => state.portalMap.centerZone
+  )
 
   const oldScore = useRef<number>(-1)
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -271,7 +276,7 @@ const PortalMap = () => {
                 target,
                 label,
               },
-              classes: p.timeLeft < 30 ? 'timeLow' : '',
+              classes: p.timeLeft < 3600 ? 'timeLow' : '',
               css: {
                 lineColor: portalSizeToColor[p.size as PortalSize],
                 width: 5,
@@ -286,7 +291,7 @@ const PortalMap = () => {
           updateElm.data('label', label)
           updateElm.css('lineColor', portalSizeToColor[p.size as PortalSize])
 
-          if (p.timeLeft < 30) {
+          if (p.timeLeft < 3600) {
             updateElm.addClass('timeLow')
           }
         }
@@ -346,11 +351,17 @@ const PortalMap = () => {
     }
   }, [score, remove, home.name])
 
-  const handleHome = useCallback((zone: Zone) => {
+  const handleCenter = useCallback((zone: Zone) => {
     const home = cy.current.$(`#${hashKey(zone.name)}`)
 
     cy.current.zoom({ level: 1, position: home.position() }).center(home)
   }, [])
+
+  useEffect(() => {
+    if (!isEqual(centerZone, DEFAULT_ZONE)) {
+      handleCenter(centerZone)
+    }
+  }, [centerZone, handleCenter])
 
   const reloadMap = useCallback(() => {
     cy.current.layout(defaultSettings.layout).run()
@@ -364,7 +375,7 @@ const PortalMap = () => {
     >
       <ControlBar
         ref={controlBar}
-        handleHome={handleHome}
+        handleHome={handleCenter}
         reloadMap={reloadMap}
         zone={activeZone || null}
         edgeData={activeZoneEdgeData}
