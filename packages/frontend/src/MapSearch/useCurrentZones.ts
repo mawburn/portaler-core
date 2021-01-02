@@ -10,7 +10,6 @@ const useCurrentZones = (): Zone[] => {
   const portals = usePortalsSelector()
 
   return useMemo<Zone[]>(() => {
-    const zoneList: Zone[] = []
     const setOfPortals = new Set()
 
     portals.forEach((p) => {
@@ -18,15 +17,9 @@ const useCurrentZones = (): Zone[] => {
       setOfPortals.add(p.connection[1].toLowerCase())
     })
 
-    Array.from(setOfPortals).forEach((p) => {
-      const zone = zones.find((z) => z.name.toLowerCase() === p)
-
-      if (zone) {
-        zoneList.push(zone)
-      }
-    })
-
-    return zoneList
+    return (Array.from(setOfPortals)
+      .map((p) => zones.find((z) => z.name.toLowerCase() === p))
+      .filter(Boolean) || []) as Zone[]
   }, [zones, portals])
 }
 
