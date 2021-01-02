@@ -19,7 +19,8 @@ const useCurrentZones = (): Zone[] => {
 
     return Array.from(setOfPortals)
       .map((p) => zones.find((z) => z.name.toLowerCase() === p))
-      .filter(Boolean) as Zone[]
+      .filter(Boolean)
+      .sort((a, b) => a!.name.localeCompare(b!.name)) as Zone[]
   }, [zones, portals])
 }
 
