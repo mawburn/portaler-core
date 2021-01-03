@@ -354,7 +354,7 @@ const PortalMap = () => {
   const handleCenter = useCallback((zone: Zone) => {
     const home = cy.current.$(`#${hashKey(zone.name)}`)
 
-    cy.current.zoom({ level: 1, position: home.position() }).center(home)
+    cy.current.zoom({ level: 2, position: home.position() }).center(home)
   }, [])
 
   useEffect(() => {

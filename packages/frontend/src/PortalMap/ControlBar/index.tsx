@@ -3,9 +3,11 @@ import React, { forwardRef } from 'react'
 import { Zone } from '@portaler/types'
 
 import { CytoEdgeData } from '../'
+import mistWalker from '../../common/utils/mistWalker'
 import DeleteNode from './DeleteNode'
 import HomeButton from './HomeButton'
 import ReloadMap from './ReloadMap'
+import Search from './Search'
 import styles from './styles.module.scss'
 import ZoneInfo from './ZoneInfo'
 
@@ -23,7 +25,11 @@ const ControlBar = forwardRef<HTMLDivElement, ControlBarProps>(
         <ZoneInfo zone={zone} />
       </div>
       <div className={styles.controls}>
-        <DeleteNode edgeData={edgeData} zoneName={zone?.name} />
+        {!mistWalker.isWalker ? (
+          <DeleteNode edgeData={edgeData} zoneName={zone?.name} />
+        ) : (
+          <Search />
+        )}
         <HomeButton handleHome={handleHome} />
         <ReloadMap handleClick={reloadMap} />
       </div>
