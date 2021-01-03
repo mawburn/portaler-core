@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Button, FormControl, IconButton, Modal } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
-import mistWalker from '../../common/utils/mistWalker'
+
 import MapSearch from '../../MapSearch'
 import styles from './styles.module.scss'
 
