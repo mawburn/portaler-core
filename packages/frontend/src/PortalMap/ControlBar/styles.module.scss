@@ -31,3 +31,26 @@
 .control {
   padding: 0 0.25rem;
 }
+
+.modalBody {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+
+  h2 {
+    text-align: center;
+  }
+
+  .innerModal {
+    width: 42rem;
+    background: #333;
+    padding: 1rem 4.2rem 4.2rem 4.2rem;
+  }
+
+  .innerBtn {
+    margin-top: 2em;
+  }
+}
