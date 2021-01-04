@@ -1,7 +1,6 @@
 const mistWalkerUtil = (): {
   showSidebar: boolean
   isWalker: boolean
-  showSide: boolean
 } => {
   const isWalker = window.location.host.split('.')[0] === 'map'
 
@@ -13,7 +12,6 @@ const mistWalkerUtil = (): {
   return {
     showSidebar,
     isWalker,
-    showSide,
   }
 }
 
