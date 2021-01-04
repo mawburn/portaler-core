@@ -25,11 +25,10 @@ const ControlBar = forwardRef<HTMLDivElement, ControlBarProps>(
         <ZoneInfo zone={zone} />
       </div>
       <div className={styles.controls}>
-        {!mistWalker.isWalker ? (
+        {(!mistWalker.isWalker || mistWalker.showSidebar) && (
           <DeleteNode edgeData={edgeData} zoneName={zone?.name} />
-        ) : (
-          <Search />
         )}
+        {mistWalker.isWalker && <Search />}
         <HomeButton handleHome={handleHome} />
         <ReloadMap handleClick={reloadMap} />
       </div>
