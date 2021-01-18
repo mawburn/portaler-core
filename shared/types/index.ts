@@ -9,7 +9,10 @@ export type ZoneColor =
   | 'yellow'
   | 'blue'
   | 'road'
+  | 'road-ho'
   | 'city'
+  | 'passage-black'
+  | 'passage-red'
   | 'home'
 
 export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
