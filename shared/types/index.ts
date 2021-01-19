@@ -22,6 +22,7 @@ export type PortalSize = 0 | 2 | 7 | 20
 export interface Resource {
   name: string
   tier: Tier
+  count: number
 }
 
 export interface ZoneInfo {

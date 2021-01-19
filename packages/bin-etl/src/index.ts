@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import FullZone from './FullZone'
+import fs from 'fs'
 
 import getNewFile from './getNewFile'
 import worldProcess from './worldProcess'
@@ -14,7 +15,11 @@ const fileGetter = async () => {
     return
   }
 
-  worldProcess(fileData)
+  const inserts = worldProcess(fileData)
+
+  inserts.forEach((file, i) => {
+    fs.writeFileSync(`./file-${i}.sql`, file)
+  })
 }
 
 fileGetter()

@@ -1,10 +1,6 @@
-import { ZoneColor } from '@portaler/types'
+import { Resource, ZoneColor } from '@portaler/types'
 
-import FullZone from './FullZone'
-
-const insertStatement = `INSERT INTO table_name(column_list) 
-VALUES(value_list)
-ON CONFLICT target action;`
+import FullZone, { MapMarker, Mob } from './FullZone'
 
 const getColor = (type: string): ZoneColor => {
   if (type.includes('PLAYERCITY')) {
@@ -84,14 +80,85 @@ const getTier = (filename: string): string => {
 }
 
 interface InsertUpdate {
-  insert: string
-  update: {
-    id: string
-    setStr: string
-  }
+  insertZone: string
+  insertConn: string
+  insertResources: string[]
+  insertMarkers: string[]
+  insertMobs: string[]
 }
 
-const worldProcess = (worldFile: FullZone[]) => {
+const resourceMapProcess = (
+  zId: string,
+  resource?: Resource | Resource[]
+): string[] => {
+  if (!resource) {
+    return []
+  }
+
+  if (Array.isArray(resource)) {
+    return resource.map(
+      (r) =>
+        `((SELECT id FROM zones WHERE albion_id = '${zId}'), '${
+          r.name
+        }', ${Number(r.tier)}, ${Number(r.count)})`
+    )
+  }
+
+  return [
+    `((SELECT id FROM zones WHERE albion_id = '${zId}'), '${
+      resource.name
+    }', ${Number(resource.tier)}, ${Number(resource.count)})`,
+  ]
+}
+
+const miniMapMarkerProcess = (
+  zId: string,
+  marker?: MapMarker | MapMarker[]
+): string[] => {
+  if (!marker) {
+    return []
+  }
+
+  if (Array.isArray(marker)) {
+    return marker.map(
+      (m) =>
+        `((SELECT id FROM zones WHERE albion_id = '${zId}'), '${
+          m.type
+        }', ${Number(m.pos.split(' ')[0])}, ${Number(m.pos.split(' ')[1])})`
+    )
+  }
+
+  return [
+    `((SELECT id FROM zones WHERE albion_id = '${zId}'), '${
+      marker.type
+    }', ${Number(marker.pos.split(' ')[0])}, ${Number(
+      marker.pos.split(' ')[1]
+    )})`,
+  ]
+}
+
+const mobCountProcess = (zId: string, mob?: Mob | Mob[]): string[] => {
+  if (!mob) {
+    return []
+  }
+
+  if (Array.isArray(mob)) {
+    return mob.map(
+      (m) =>
+        `((SELECT id FROM zones WHERE albion_id = '${zId}'), '${
+          m.name
+        }', ${Number(m.count)})`
+    )
+  }
+
+  return [
+    `((SELECT id FROM zones WHERE albion_id = '${zId}'), '${
+      mob.name
+    }', ${Number(mob.count)})`,
+  ]
+}
+
+const worldProcess = (worldFile: FullZone[]): string[] => {
   // trim file by type
   const trimmedType = worldFile.filter(
     (z: FullZone) =>
@@ -104,19 +171,46 @@ const worldProcess = (worldFile: FullZone[]) => {
   const valueArr: InsertUpdate[] = trimmedType.map((z: FullZone) => {
     const tier = getTier(z.file)
     const color = getColor(z.type)
+
     return {
-      insert: `('${z.id}', '${z.displayname}', '${tier}','${z.type}', '${color}')`,
-      update: {
-        id: z.id,
-        setStr: `zone_name = ${z.displayname}, tier = ${tier}, zone_type = ${z.type}, color = ${color}`,
-      },
+      insertZone: `('${z.id}', '${z.displayname}', '${tier}','${z.type}', '${color}')`,
+      insertConn: ``,
+      insertResources: resourceMapProcess(z.id, z.distribution.resource),
+      insertMarkers: miniMapMarkerProcess(z.id, z.minimapmarkers?.marker),
+      insertMobs: mobCountProcess(z.id, z.mobcounts?.mob),
     }
   })
 
-  const insertStatement = `
+  const insertZoneStatement = `
   INSERT INTO zones (albion_id, zone_name, tier, zone_type, color) VALUES
-  ${valueArr.map((v: InsertUpdate) => v.insert).join('\n')}
-  ON CONFLICT DO NOTHING;`
+  ${valueArr.map((v: InsertUpdate) => v.insertZone).join('\n')}
+  ON CONFLICT DO NOTHING;
+  `
+
+  const insertZoneResources = `
+  INSERT INTO zone_resources VALUES
+  ${valueArr.map((v: InsertUpdate) => v.insertResources.join('\n'))}
+  ON CONFLICT DO NOTHING;
+  `
+
+  const insertZoneMarkers = `
+  INSERT INTO zone_markers VALUES
+  ${valueArr.map((v: InsertUpdate) => v.insertMarkers.join('\n'))}
+  ON CONFLICT DO NOTHING;
+  `
+
+  const insertZoneMobs = `
+  INSERT INTO zone_mobs VALUES
+  ${valueArr.map((v: InsertUpdate) => v.insertMobs.join('\n'))}
+  ON CONFLICT DO NOTHING;
+  `
+
+  return [
+    insertZoneStatement,
+    insertZoneResources,
+    insertZoneMarkers,
+    insertZoneMobs,
+  ]
 }
 
 export default worldProcess

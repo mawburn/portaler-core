@@ -1,3 +1,5 @@
+import { Resource } from '@portaler/types'
+
 export interface Connection {
   to: string
   type?: string // look at later
@@ -35,7 +37,7 @@ interface PortalExit {
   targetid: string
 }
 
-interface MapMarker {
+export interface MapMarker {
   type: string
   pos: string
 }
@@ -59,13 +61,7 @@ interface Road {
   links: string
 }
 
-interface Resource {
-  name: string
-  tier: string
-  count: string
-}
-
-interface Mob {
+export interface Mob {
   name: string
   count: string
 }
@@ -115,7 +111,7 @@ export default interface FullZone {
   roads: Road
   distribution: {
     realestates: string
-    resouce: Resource[]
+    resource?: Resource | Resource[]
   }
   mobcounts: {
     mob: Mob | Mob[]
