@@ -28,6 +28,7 @@ services:
     depends_on:
       - pgdb
       - rediscache
+      - bin_etl
     networks:
       - portaler
   api_server:
@@ -37,7 +38,16 @@ services:
     ports:
       - '7777:4242'
     depends_on:
-      - discord_bot
+      - pgdb
+      - rediscache
+      - bin_etl
+    networks:
+      - portaler
+  bin_etl:
+    image: mawburn/portaler-etl:latest
+    env_file:
+      - .env.example
+    depends_on:
       - pgdb
       - rediscache
     networks:
