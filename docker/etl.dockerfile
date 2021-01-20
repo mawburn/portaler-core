@@ -7,12 +7,12 @@ COPY yarn.lock .
 COPY tsconfig.json .
 
 COPY shared ./shared
-COPY packages ./packages
+COPY packages/bin-etl ./packages/bin-etl
 
 RUN yarn install --non-interactive --pure-lockfile
 
 RUN yarn build:shared
-RUN yarn build:etl
+RUN yarn build:binetl
 RUN yarn clean
 
 FROM node:12-alpine
