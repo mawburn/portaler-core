@@ -81,3 +81,9 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
+      - etl_build:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
