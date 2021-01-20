@@ -84,3 +84,12 @@ export interface RedisConfig {
   password: string
   port: number
 }
+
+export interface IZoneModel {
+  id: number
+  albion_id: string
+  zone_name: string
+  tier: Tier
+  zone_type: string
+  color: ZoneColor
+}

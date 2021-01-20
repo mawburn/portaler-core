@@ -13,15 +13,14 @@ import {
 } from '../../reducers/zoneReducer'
 
 const zoneStorage = (): ZoneState | null => {
-  // TODO leave this off for a week or so
-  const zonesString: string | null = null // window.localStorage.getItem('zones')
+  const zonesString: string | null = window.localStorage.getItem('zones')
 
   if (zonesString) {
     const zoneState: ZoneState = JSON.parse(zonesString)
     const now = DateTime.utc()
     const lastUpdated = DateTime.fromMillis(zoneState.lastUpdated)
 
-    if (now.weekday !== 1 && now.diff(lastUpdated, 'days').as('days') < 3) {
+    if (now.diff(lastUpdated, 'hours').as('hours') < 2) {
       return zoneState
     }
   }

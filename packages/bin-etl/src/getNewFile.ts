@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+
 import FullZone from './FullZone'
 
 const accessToken: string = process.env.ACCESS_TOKEN!

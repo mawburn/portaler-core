@@ -3,6 +3,9 @@ ALTER TABLE servers ALTER COLUMN subdomain TYPE VARCHAR(50);
 ALTER TABLE royal_connections ALTER COLUMN conn_type TYPE VARCHAR(50);
 ALTER TABLE user_logs ALTER COLUMN details TYPE JSONB USING details::jsonb;
 
+DROP TABLE IF EXISTS server_contracts;
+DROP INDEX IF EXISTS idx_server_contracts;
+
 CREATE TABLE IF NOT EXISTS zone_resources (
   id serial PRIMARY KEY,
   zone_id INT NOT NULL,

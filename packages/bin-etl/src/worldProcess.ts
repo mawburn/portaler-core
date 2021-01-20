@@ -1,5 +1,8 @@
+import md5 from 'md5'
+
 import { Resource } from '@portaler/types'
 
+import { db } from './db'
 import FullZone, { MapMarker, Mob } from './FullZone'
 import getColor from './getColor'
 import getMarker from './getMarker'
@@ -10,7 +13,6 @@ const fixStr = (str: string) => str.replace(/'/gi, "''")
 interface InsertUpdate {
   insertZone?: string
   updateZone?: string
-  insertConn: string
   insertResources: (string | null)[] | null
   insertMarkers: (string | null)[] | null
   insertMobs: (string | null)[] | null
@@ -117,7 +119,7 @@ const mobCountProcess = (
       ]
 }
 
-const worldProcess = (worldFile: FullZone[]): string[] => {
+const worldProcess = async (worldFile: FullZone[]): Promise<string[]> => {
   // trim file by type
   const trimmedType = worldFile.filter(
     (z: FullZone) =>
@@ -136,7 +138,22 @@ const worldProcess = (worldFile: FullZone[]): string[] => {
       z.type !== 'PASSAGE_SAFEAREA'
   )
 
+  const zones = await db.dbQuery(`
+    SELECT albion_id, zone_name, tier, zone_type, color, is_deep_road
+    FROM zones;
+  `)
+
+  const zoneHashes = new Map<string, [string, string]>()
+
+  zones.rows.forEach((r) => {
+    const hashStr = `${r.albion_id}${r.zone_name}${r.tier}${r.zone_type}${r.color}${r.is_deep_road}`.toUpperCase()
+    zoneHashes.set(r.albion_id, [hashStr, md5(hashStr)])
+  })
+
   const zoneExits: ZoneExits = {}
+
+  let insertLen = 0
+  let updateLen = 0
 
   const valueArr: InsertUpdate[] = trimmedType.map((z: FullZone) => {
     const tier = getTier(z.file)
@@ -166,7 +183,6 @@ const worldProcess = (worldFile: FullZone[]): string[] => {
 
     // TODO query all zones and see if anything has changed or if it exists
     const retObj: InsertUpdate = {
-      insertConn: ``,
       insertResources: resourceMapProcess(
         z.id,
         color === 'city',
@@ -184,28 +200,42 @@ const worldProcess = (worldFile: FullZone[]): string[] => {
       .toString()
       .toUpperCase()
 
-    if (true) {
+    const oldHash = zoneHashes.get(z.id)
+
+    if (!oldHash) {
+      ++insertLen
       retObj.insertZone = `('${z.id}', '${fixStr(
         z.displayname
       )}', '${tier}','${fixStr(z.type)}', '${color}', ${isDeep})`
-    } else if (false) {
-      retObj.updateZone = `UPDATE zones SET zone_name = '${fixStr(
-        z.displayname
-      )}', tier = '${tier}', zone_type = '${fixStr(
-        z.type
-      )}', color = '${color}', is_deep_road = ${isDeep}
-      WHERE albion_id = ${z.id};`
+    } else {
+      const hashStr = `${z.id}${z.displayname}${tier}${z.type}${color}${isDeep}`.toUpperCase()
+      const newHash = md5(hashStr)
+
+      if (oldHash[1] !== newHash) {
+        console.log('->', oldHash[0], hashStr)
+        ++updateLen
+        retObj.updateZone = `UPDATE zones SET zone_name = '${fixStr(
+          z.displayname
+        )}', tier = '${tier}', zone_type = '${fixStr(
+          z.type
+        )}', color = '${color}', is_deep_road = ${isDeep}
+        WHERE albion_id = '${z.id}';`
+      }
     }
 
     return retObj
   })
 
-  const insertZoneStatement = `
-  INSERT INTO zones (albion_id, zone_name, tier, zone_type, color, is_deep_road) VALUES
-  ${valueArr
+  const insertValues = valueArr
     .map((v: InsertUpdate) => v.insertZone)
     .filter(Boolean)
-    .join(',\n')}
+    .join(',\n')
+
+  const insertZoneStatement = !insertValues.length
+    ? 'SELECT NOW();'
+    : `
+  INSERT INTO zones (albion_id, zone_name, tier, zone_type, color, is_deep_road) VALUES
+  ${insertValues}
   ON CONFLICT DO NOTHING;
   `
 

@@ -30,4 +30,4 @@ ENV NODE_ENV production
 
 RUN yarn install --pure-lockfile --non-interactive --production
 
-CMD ["yarn", "start:etl"]
+CMD ["yarn", "start:binetl"]

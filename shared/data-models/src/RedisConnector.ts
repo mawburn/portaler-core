@@ -1,3 +1,4 @@
+import { Zone } from '@portaler/types'
 import { promises } from 'fs'
 import redis, { RedisClient, ClientOpts } from 'redis'
 import { promisify } from 'util'
@@ -54,4 +55,10 @@ export default class RedisConnector {
 
     await Promise.all([...delTokens, ...delUsers, delServer])
   }
+
+  setZones = async (zones: Zone[]) =>
+    await this.setAsync('zones', JSON.stringify(zones))
+
+  getZones = async (): Promise<Zone[] | undefined> =>
+    await this.getAsync('zones')
 }
