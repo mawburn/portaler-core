@@ -17,25 +17,40 @@ export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
 
 // 0 is a royal to royal connection
 export type PortalSize = 0 | 2 | 7 | 20
+
+interface ZoneLite {
+  id: number
+  name: string
+  tier: string
+  color: ZoneColor
+  type: string
+  isDeep?: boolean
+}
 export interface Resource {
   name: string
   tier: number
   count: number
 }
 
+export interface Marker {
+  name: string
+  pos: [number, number]
+}
+
+export interface Mob {
+  name: string
+  tier: string
+  count: number
+}
 export interface ZoneInfo {
   markers?: string[]
   resources?: Resource[]
-  royalConnections?: number[]
+  mobs?: Mob[]
+  royalConnections?: ZoneLite[]
   miniMapUrl?: string
 }
 
-export interface Zone {
-  id: number
-  name: string
-  tier: string
-  color: ZoneColor
-  type: string
+export interface Zone extends ZoneLite {
   albionId?: string
   info?: ZoneInfo
 }

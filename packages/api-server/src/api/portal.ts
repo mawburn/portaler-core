@@ -64,6 +64,39 @@ router.get('/', async (req, res) => {
   }
 })
 
+router.get('/:id', async (req, res) => {
+  try {
+    const dbPortals: IPortalModel[] = await getServerPortals(req.serverId)
+    const now = DateTime.utc()
+
+    const portals: Portal[] = dbPortals.map((p) => {
+      const expires = DateTime.fromJSDate(p.expires).toUTC()
+
+      const connection: [string, string] = [p.conn1, p.conn2].sort() as [
+        string,
+        string
+      ]
+
+      return {
+        id: p.id,
+        connection,
+        size: p.size,
+        expiresUtc: expires.toISO(ISO_OPTS),
+        timeLeft: expires.diff(now).as('seconds'),
+      }
+    })
+
+    res.status(200).send(portals)
+  } catch (err) {
+    logger.log.error(
+      'Error fetching portals',
+      { user: req.userId, server: req.serverId },
+      err
+    )
+    res.status(500).send({ error: 'Error fetching portals' })
+  }
+})
+
 router.post('/', async (req, res) => {
   try {
     if (req.userId === 0) {
