@@ -2582,7 +2582,7 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
   integrity sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==
 
-"@types/luxon@^1.25.0":
+"@types/luxon@^1.25.0", "@types/luxon@^1.25.1":
   version "1.25.1"
   resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-1.25.1.tgz#9f33aead0c7fdb86434059410c7a712517d97cd8"
   integrity sha512-enkMO4WJcbdkhK1eZrItF616buau02wtrSN+DDt9Qj9U23boSAXNJm0fMlgwpTDaRHq3S0D/SPIRbxy4YxBjiA==
@@ -2611,7 +2611,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node-fetch@2", "@types/node-fetch@^2.5.7":
+"@types/node-fetch@2", "@types/node-fetch@^2.5.7", "@types/node-fetch@^2.5.8":
   version "2.5.8"
   resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.5.8.tgz#e199c835d234c7eb0846f6618012e558544ee2fb"
   integrity sha512-fbjI6ja0N5ZA8TV53RUqzsKNkl9fv8Oj3T7zxW7FGv1GSH7gwJaNF8dzCjrqKaxKeUpTz4yT1DaJFq/omNpGfw==
@@ -6561,7 +6561,7 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-discord.js@^12.4.1:
+discord.js@^12.4.1, discord.js@^12.5.1:
   version "12.5.1"
   resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-12.5.1.tgz#992b45753e3815526a279914ccc281d3496f5990"
   integrity sha512-VwZkVaUAIOB9mKdca0I5MefPMTQJTNg0qdgi1huF3iwsFwJ0L5s/Y69AQe+iPmjuV6j9rtKoG0Ta0n9vgEIL6w==
