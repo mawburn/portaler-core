@@ -12,6 +12,9 @@
     "prebuild": "rimraf out && npm version patch",
     "build": "tsc -p tsconfig.json"
   },
+  "peerDependencies": {
+    "luxon": "^1.25.0"
+  },
   "dependencies": {
     "aws-sdk": "^2.795.0",
     "winston": "^3.3.3"

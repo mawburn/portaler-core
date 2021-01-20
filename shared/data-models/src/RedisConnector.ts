@@ -1,5 +1,4 @@
 import { Zone } from '@portaler/types'
-import { promises } from 'fs'
 import redis, { RedisClient, ClientOpts } from 'redis'
 import { promisify } from 'util'
 
