@@ -1,42 +1,53 @@
-import fs from 'fs'
+import 'dotenv/config'
 
-const fileName = './worlds.json'
-processFile(fileName)
+import { IZoneModel, Zone } from '@portaler/types'
 
-function processFile(n: string) {
-    fs.readFile(n, 'utf8', function (err,data) {
-        if (err) {
-          return console.log(err);
-        }
-        handleJson(JSON.parse(data))
-      });
-}
+import getDb, { db, redis } from './db'
+import FullZone from './FullZone'
+import getNewFile from './getNewFile'
+import worldProcess from './worldProcess'
 
-function handleJson(data: any) {
-    const cluster = data.world.clusters.cluster
-    const selectedFields = cluster.map(buildSelectedField)
-    const stringData = JSON.stringify(selectedFields.filter(isValidZone))
-    fs.writeFileSync("data-dump.json", stringData)
-}
+const timer = 3600 * 12 * 1000 // 12hrs
 
-function buildSelectedField(m: any): any {
-  return {
-    "name": m["@displayname"],
-    "type": m["@type"],
-    "resources": extractResources(m),
-    "markers": extractMapMarkers(m),
+const fileGetter = async () => {
+  const fileData: FullZone[] | null = await getNewFile()
+
+  if (!fileData) {
+    return
   }
+
+  const inserts = await worldProcess(fileData)
+
+  inserts.forEach(async (stmt) => {
+    await db.dbQuery(stmt)
+  })
+
+  // TODO move this to data-model
+  const zoneRes = await db.dbQuery(
+    `
+  SELECT *
+  FROM zones
+  ORDER BY zone_name;
+  `,
+    []
+  )
+
+  const zoneList: Zone[] = zoneRes.rows.map((z: IZoneModel) => ({
+    id: z.id,
+    albionId: z.albion_id,
+    name: z.zone_name,
+    tier: z.tier,
+    color: z.color,
+    type: z.zone_type,
+  }))
+
+  await redis.setZones(zoneList)
 }
 
-function isValidZone(sf: any) {
-  const type: String = sf.type
-  return (type.startsWith("TUNNEL") || type.startsWith("OPENPVP") || type.startsWith("SAFEAREA") || type.startsWith("PLAYERCITY"))
-}
+;(async () => {
+  await getDb()
 
-function extractResources(m: any) {
-  return m.distribution?.resource ?? []
-}
+  fileGetter()
 
-function extractMapMarkers(m: any) {
-  return m.minimapmarkers?.marker ?? []
-}
+  setInterval(fileGetter, timer)
+})()

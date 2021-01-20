@@ -9,6 +9,7 @@ export type ZoneColor =
   | 'yellow'
   | 'blue'
   | 'road'
+  | 'road-ho'
   | 'city'
   | 'home'
 
@@ -18,7 +19,8 @@ export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
 export type PortalSize = 0 | 2 | 7 | 20
 export interface Resource {
   name: string
-  tier: Tier
+  tier: number
+  count: number
 }
 
 export interface ZoneInfo {
@@ -81,4 +83,13 @@ export interface RedisConfig {
   host: string
   password: string
   port: number
+}
+
+export interface IZoneModel {
+  id: number
+  albion_id: string
+  zone_name: string
+  tier: Tier
+  zone_type: string
+  color: ZoneColor
 }
