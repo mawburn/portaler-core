@@ -152,9 +152,6 @@ const worldProcess = async (worldFile: FullZone[]): Promise<string[]> => {
 
   const zoneExits: ZoneExits = {}
 
-  let insertLen = 0
-  let updateLen = 0
-
   const valueArr: InsertUpdate[] = trimmedType.map((z: FullZone) => {
     const tier = getTier(z.file)
     const color = getColor(z.type)
@@ -203,7 +200,6 @@ const worldProcess = async (worldFile: FullZone[]): Promise<string[]> => {
     const oldHash = zoneHashes.get(z.id)
 
     if (!oldHash) {
-      ++insertLen
       retObj.insertZone = `('${z.id}', '${fixStr(
         z.displayname
       )}', '${tier}','${fixStr(z.type)}', '${color}', ${isDeep})`
@@ -212,8 +208,6 @@ const worldProcess = async (worldFile: FullZone[]): Promise<string[]> => {
       const newHash = md5(hashStr)
 
       if (oldHash[1] !== newHash) {
-        console.log('->', oldHash[0], hashStr)
-        ++updateLen
         retObj.updateZone = `UPDATE zones SET zone_name = '${fixStr(
           z.displayname
         )}', tier = '${tier}', zone_type = '${fixStr(

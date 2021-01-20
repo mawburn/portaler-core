@@ -20,7 +20,7 @@ const zoneStorage = (): ZoneState | null => {
     const now = DateTime.utc()
     const lastUpdated = DateTime.fromMillis(zoneState.lastUpdated)
 
-    if (now.diff(lastUpdated, 'hours').as('hours') < 2) {
+    if (now.diff(lastUpdated, 'hours').as('hours') < 6) {
       return zoneState
     }
   }

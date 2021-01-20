@@ -1,13 +1,13 @@
 import 'dotenv/config'
 
-import { IZoneModel, Tier, Zone, ZoneColor } from '@portaler/types'
+import { IZoneModel, Zone } from '@portaler/types'
 
 import getDb, { db, redis } from './db'
 import FullZone from './FullZone'
 import getNewFile from './getNewFile'
 import worldProcess from './worldProcess'
 
-const twoHours = 7200 * 1000
+const timer = 3600 * 12 * 1000 // 12hrs
 
 const fileGetter = async () => {
   const fileData: FullZone[] | null = await getNewFile()
@@ -49,5 +49,5 @@ const fileGetter = async () => {
 
   fileGetter()
 
-  setInterval(fileGetter, twoHours)
+  setInterval(fileGetter, timer)
 })()

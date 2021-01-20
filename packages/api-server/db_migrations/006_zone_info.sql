@@ -6,6 +6,14 @@ ALTER TABLE user_logs ALTER COLUMN details TYPE JSONB USING details::jsonb;
 DROP TABLE IF EXISTS server_contracts;
 DROP INDEX IF EXISTS idx_server_contracts;
 
+CREATE TABLE IF NOT EXISTS server_logs (
+  log_type VARCHAR(25) NOT NULL,
+  log_data JSONB NOT NULL,
+  created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_zone_log_time ON server_logs (log_type, created_on);
+
 CREATE TABLE IF NOT EXISTS zone_resources (
   id serial PRIMARY KEY,
   zone_id INT NOT NULL,
