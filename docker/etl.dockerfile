@@ -7,6 +7,7 @@ COPY yarn.lock .
 COPY tsconfig.json .
 
 COPY shared ./shared
+COPY packages/api ./packages/api
 COPY packages/bin-etl ./packages/bin-etl
 
 RUN yarn install --non-interactive --pure-lockfile
