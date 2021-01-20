@@ -11,8 +11,6 @@ export type ZoneColor =
   | 'road'
   | 'road-ho'
   | 'city'
-  | 'passage-black'
-  | 'passage-red'
   | 'home'
 
 export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
@@ -21,7 +19,7 @@ export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
 export type PortalSize = 0 | 2 | 7 | 20
 export interface Resource {
   name: string
-  tier: Tier
+  tier: number
   count: number
 }
 

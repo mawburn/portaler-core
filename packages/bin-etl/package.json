@@ -15,12 +15,16 @@
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx --ignore-pattern '/node_modules/' ./src"
   },
   "dependencies": {
+    "@portaler/data-models": "*",
+    "@portaler/logger": "*",
     "dotenv": "^8.2.0",
     "md5": "^2.3.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "pg": "^8.5.1",
+    "redis": "^3.0.2"
   },
   "devDependencies": {
-    "@types/md5": "^2.2.1",
-    "@portaler/types": "*"
+    "@portaler/types": "*",
+    "@types/md5": "^2.2.1"
   }
 }
