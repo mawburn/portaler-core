@@ -10,7 +10,6 @@ import Api from './api'
 import Admin from './api/admin'
 import Auth from './api/auth'
 import ConfigRouter from './api/config'
-import DiscordActions from './api/discordActions'
 import Zone from './api/zone'
 import initServer from './initServer'
 import checkAdmin from './middleware/checkAdmin'
@@ -43,7 +42,6 @@ logger.startUploader()
   app.use('/api/zone', Zone)
 
   // Authed routes
-  app.use('/api/discord', checkAdmin, DiscordActions)
   app.use('/api/admin', checkAdmin, Admin)
   app.use('/api', verifyUser, Api)
 
