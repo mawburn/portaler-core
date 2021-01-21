@@ -7,6 +7,7 @@ import cors from 'cors'
 import express from 'express'
 
 import Api from './api'
+import Admin from './api/admin'
 import Auth from './api/auth'
 import ConfigRouter from './api/config'
 import DiscordActions from './api/discordActions'
@@ -43,6 +44,7 @@ logger.startUploader()
 
   // Authed routes
   app.use('/api/discord', checkAdmin, DiscordActions)
+  app.use('/api/admin', checkAdmin, Admin)
   app.use('/api', verifyUser, Api)
 
   app.listen(config.port, () =>
