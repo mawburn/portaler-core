@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { DateTime, ISOTimeOptions } from 'luxon'
 
+import { UserAction } from '@portaler/data-models/out/models/User'
 import { Portal, PortalPayload } from '@portaler/types'
 
 import {
@@ -10,7 +11,6 @@ import {
 } from '../database/portals'
 import { db } from '../utils/db'
 import logger from '../utils/logger'
-import { UserAction } from '@portaler/data-models/out/models/User'
 
 const router = Router()
 
@@ -32,39 +32,6 @@ const getExpireTime = (size: number, hours: number, minutes: number) => {
 }
 
 router.get('/', async (req, res) => {
-  try {
-    const dbPortals: IPortalModel[] = await getServerPortals(req.serverId)
-    const now = DateTime.utc()
-
-    const portals: Portal[] = dbPortals.map((p) => {
-      const expires = DateTime.fromJSDate(p.expires).toUTC()
-
-      const connection: [string, string] = [p.conn1, p.conn2].sort() as [
-        string,
-        string
-      ]
-
-      return {
-        id: p.id,
-        connection,
-        size: p.size,
-        expiresUtc: expires.toISO(ISO_OPTS),
-        timeLeft: expires.diff(now).as('seconds'),
-      }
-    })
-
-    res.status(200).send(portals)
-  } catch (err) {
-    logger.log.error(
-      'Error fetching portals',
-      { user: req.userId, server: req.serverId },
-      err
-    )
-    res.status(500).send({ error: 'Error fetching portals' })
-  }
-})
-
-router.get('/:id', async (req, res) => {
   try {
     const dbPortals: IPortalModel[] = await getServerPortals(req.serverId)
     const now = DateTime.utc()

@@ -17,15 +17,6 @@ export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
 
 // 0 is a royal to royal connection
 export type PortalSize = 0 | 2 | 7 | 20
-
-interface ZoneLite {
-  id: number
-  name: string
-  tier: string
-  color: ZoneColor
-  type: string
-  isDeep?: boolean
-}
 export interface Resource {
   name: string
   tier: number
@@ -42,8 +33,17 @@ export interface Mob {
   tier: string
   count: number
 }
+
+export interface ZoneLite {
+  id: number
+  name: string
+  tier: string
+  color: ZoneColor
+  type: string
+  isDeep?: boolean
+}
 export interface ZoneInfo {
-  markers?: string[]
+  markers?: Marker[]
   resources?: Resource[]
   mobs?: Mob[]
   royalConnections?: ZoneLite[]
@@ -107,4 +107,5 @@ export interface IZoneModel {
   tier: Tier
   zone_type: string
   color: ZoneColor
+  is_deep_road: boolean
 }

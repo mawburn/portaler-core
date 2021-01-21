@@ -1,6 +1,8 @@
 import { Router } from 'express'
 
+import { getZoneMeta } from '../database/zones'
 import { redis } from '../utils/db'
+import logger from '../utils/logger'
 
 const router = Router()
 
@@ -9,6 +11,17 @@ router.get('/list', async (_, res) => {
     const zones = await redis.getZones()
     res.contentType('application/json').status(200).send(zones)
   } catch (err) {
+    logger.log.error(err)
+    res.sendStatus(500)
+  }
+})
+
+router.get('/info/:id', async (req, res) => {
+  try {
+    const zone = await getZoneMeta(Number(req.query.id))
+    res.contentType('application/json').status(200).send(zone)
+  } catch (err) {
+    logger.log.error(err)
     res.sendStatus(500)
   }
 })
