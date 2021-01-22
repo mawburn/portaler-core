@@ -22,7 +22,7 @@ const ControlBar = forwardRef<HTMLDivElement, ControlBarProps>(
   ({ handleHome, reloadMap, zone, edgeData }, ref) => (
     <div ref={ref} className={styles.bar}>
       <div>
-        <ZoneInfo zone={zone} />
+        <ZoneInfo />
       </div>
       <div className={styles.controls}>
         {(!mistWalker.isWalker || mistWalker.showSidebar) && (

@@ -26,6 +26,8 @@ logger.startUploader()
 
   const app = express()
 
+  // app.enable('etag')
+
   app.use(cors(config.cors))
 
   app.use(bodyParser.json())

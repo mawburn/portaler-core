@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { DateTime, ISOTimeOptions } from 'luxon'
 
+import { UserAction } from '@portaler/data-models/out/models/User'
 import { Portal, PortalPayload } from '@portaler/types'
 
 import {
@@ -10,7 +11,6 @@ import {
 } from '../database/portals'
 import { db } from '../utils/db'
 import logger from '../utils/logger'
-import { UserAction } from '@portaler/data-models/out/models/User'
 
 const router = Router()
 

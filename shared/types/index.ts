@@ -19,23 +19,38 @@ export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
 export type PortalSize = 0 | 2 | 7 | 20
 export interface Resource {
   name: string
-  tier: number
+  tier: string
   count: number
 }
 
-export interface ZoneInfo {
-  markers?: string[]
-  resources?: Resource[]
-  royalConnections?: number[]
-  miniMapUrl?: string
+export interface Marker {
+  name: string
+  pos: [number, number]
 }
 
-export interface Zone {
+export interface Mob {
+  name: string
+  tier: string
+  count: number
+}
+
+export interface ZoneLite {
   id: number
   name: string
   tier: string
   color: ZoneColor
   type: string
+  isDeep?: boolean
+}
+export interface ZoneInfo {
+  markers?: Marker[]
+  resources?: Resource[]
+  mobs?: Mob[]
+  royalConnections?: ZoneLite[]
+  miniMapUrl?: string
+}
+
+export interface Zone extends ZoneLite {
   albionId?: string
   info?: ZoneInfo
 }
@@ -92,4 +107,5 @@ export interface IZoneModel {
   tier: Tier
   zone_type: string
   color: ZoneColor
+  is_deep_road: boolean
 }

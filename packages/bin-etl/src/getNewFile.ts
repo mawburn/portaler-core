@@ -78,7 +78,7 @@ const getNewFile = async (): Promise<FullZone[] | null> => {
       return res.json()
     })
 
-    const fileData = fileJson.world.clusters.cluster
+    const fileData: FullZone = fileJson.world.clusters.cluster
     const fileString = JSON.stringify(fileData).replace(/@/gi, '')
 
     return JSON.parse(fileString)

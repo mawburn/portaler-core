@@ -1,11 +1,19 @@
-import { Zone } from '@portaler/types'
-import redis, { RedisClient, ClientOpts } from 'redis'
+import redis, { ClientOpts, RedisClient } from 'redis'
 import { promisify } from 'util'
+
+import { Zone } from '@portaler/types'
+
+type ExpireTimes = 'EX' | 'PX' | 'NX' | 'XX' | 'KEEPTTL' | 'GET'
 
 export default class RedisConnector {
   client: RedisClient
   getAsync: (key: string) => Promise<any>
-  setAsync: (key: string, value: string) => Promise<any>
+  setAsync: (
+    key: string,
+    value: string,
+    mode?: ExpireTimes,
+    expires?: number
+  ) => Promise<any>
   delAsync: (key: string) => Promise<any>
 
   constructor(config: ClientOpts) {
@@ -58,6 +66,10 @@ export default class RedisConnector {
   setZones = async (zones: Zone[]) =>
     await this.setAsync('zones', JSON.stringify(zones))
 
-  getZones = async (): Promise<Zone[] | undefined> =>
-    await this.getAsync('zones')
+  getZones = async () => await this.getAsync('zones')
+
+  setZone = async (zone: Zone) =>
+    await this.setAsync(`zone:${zone.id}`, JSON.stringify(zone), 'EX', 7200)
+
+  getZone = async (id: number) => await this.getAsync(`zone:${id}`)
 }
