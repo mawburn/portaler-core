@@ -53,6 +53,7 @@ const useGetZones = () => {
 
       fetch(`/api/zone/list`, {
         headers,
+        method: 'GET',
       })
         .then((r) => {
           if (!r.ok) {

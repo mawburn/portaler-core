@@ -100,7 +100,8 @@ const PortalMap = () => {
   const clearActives = useCallback(() => {
     setActiveZoneEdgeData([])
     setActiveZoneName('')
-  }, [])
+    dispatch({ type: PortalMapActionTypes.CLEARINSPECT })
+  }, [dispatch])
 
   const cyClickHandler = useCallback(
     (e: EventObject) => {
