@@ -19,7 +19,7 @@ export type Tier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
 export type PortalSize = 0 | 2 | 7 | 20
 export interface Resource {
   name: string
-  tier: number
+  tier: string
   count: number
 }
 

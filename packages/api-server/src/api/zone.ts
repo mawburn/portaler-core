@@ -18,7 +18,7 @@ router.get('/list', async (_, res) => {
 
 router.get('/info/:id', async (req, res) => {
   try {
-    const zone = await getZoneMeta(Number(req.query.id))
+    const zone = await getZoneMeta(Number(req.params.id))
     res.contentType('application/json').status(200).send(zone)
   } catch (err) {
     logger.log.error(err)

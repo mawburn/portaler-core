@@ -83,7 +83,7 @@ export const getZoneMeta = async (id: number): Promise<Zone> => {
       id: zoneRow.id,
       albionId: zoneRow.albion_id,
       name: zoneRow.zone_name,
-      tier: zoneRow.zone_name,
+      tier: zoneRow.tier,
       color: zoneRow.color,
       type: zoneRow.zone_type,
       isDeep: zoneRow.is_deep_road,
