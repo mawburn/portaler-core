@@ -5,6 +5,14 @@ const getColor = (type: string): ZoneColor => {
     return 'city'
   }
 
+  if (type.includes('TUNNEL')) {
+    if (type.includes('HIDEOUT')) {
+      return 'road-ho'
+    }
+
+    return 'road'
+  }
+
   if (type.includes('BLACK')) {
     return 'black'
   }
@@ -19,14 +27,6 @@ const getColor = (type: string): ZoneColor => {
 
   if (type === 'SAFEAREA') {
     return 'blue'
-  }
-
-  if (type.includes('TUNNEL')) {
-    if (type.includes('HIDEOUT')) {
-      return 'road-ho'
-    }
-
-    return 'road'
   }
 
   return 'home'
