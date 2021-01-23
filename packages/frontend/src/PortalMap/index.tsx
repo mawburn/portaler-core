@@ -26,7 +26,7 @@ import ControlBar from './ControlBar'
 import { changeScore } from './cytoUtils'
 import defaultSettings from './defaultSettings'
 import graphStyle from './graphStyle'
-import { portalSizeToColor, zoneColorToColor } from './mapStyle'
+import { portalSizeToColor, getZoneColor } from './mapStyle'
 import styles from './styles.module.scss'
 
 cytoscape.use(COSEBilkent)
@@ -52,19 +52,16 @@ const updateLayout = {
 const future = Duration.fromObject({ hours: 500 }).as('milliseconds')
 
 const getShape = (zone: Zone): string => {
-  if (zone.type.includes('TUNNEL_HIDEOUT')) {
-    return 'pentagon'
+  switch (zone.color) {
+    case 'road':
+      return 'cut-rectangle'
+    case 'road-ho':
+      return 'pentagon'
+    case 'city':
+      return 'star'
+    default:
+      return ''
   }
-
-  if (zone.type.includes('TUNNEL_')) {
-    return 'cut-rectangle'
-  }
-
-  if (zone.color === 'city') {
-    return 'star'
-  }
-
-  return ''
 }
 
 const PortalMap = () => {
@@ -190,7 +187,7 @@ const PortalMap = () => {
 
         const isHome = home.name === z.name
 
-        const backgroundColor = zoneColorToColor[isHome ? 'home' : z.color]
+        const backgroundColor = getZoneColor(z.color, isHome, z.isDeep)
         const width = isHome || z.color === 'city' ? 42 : 30
         const height = isHome || z.color === 'city' ? 42 : 30
 
@@ -238,12 +235,8 @@ const PortalMap = () => {
               css: {
                 width: 42,
                 height: 42,
-                backgroundColor: zoneColorToColor.home,
-                shape: homeZone.type.includes('TUNNEL_HIDEOUT')
-                  ? 'pentagon'
-                  : homeZone.type.includes('TUNNEL_')
-                  ? 'cut-rectangle'
-                  : '',
+                backgroundColor: getZoneColor(home.color, true, false),
+                shape: getShape(home),
               },
             },
           })

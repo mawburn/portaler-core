@@ -1,3 +1,5 @@
+import { ZoneColor } from '@portaler/types'
+
 export const portalSizeToColor = {
   0: '#aa00ff',
   2: '#52b202',
@@ -9,13 +11,33 @@ interface ZoneColorMap {
   [k: string]: string
 }
 
-export const zoneColorToColor: ZoneColorMap = {
-  black: '#1b1a29',
-  red: '#fe0b01',
-  yellow: '#ffb002',
-  blue: '#3d679c',
-  road: '#1de9b6',
-  'road-ho': '#1de9b6',
-  home: '#aa00ff',
-  city: '#42a5f5',
+export const getZoneColor = (
+  type: ZoneColor,
+  isHome: boolean = false,
+  isDeep: boolean = false
+): string => {
+  if (isHome) {
+    return '#aa00ff'
+  }
+
+  if (isDeep) {
+    return '#ff9100'
+  }
+
+  switch (type) {
+    case 'road':
+    case 'road-ho':
+      return '#1de9b6'
+    case 'black':
+      return '#1b1a29'
+    case 'red':
+      return '#fe0b01'
+    case 'yellow':
+      return '#ffb002'
+    case 'blue':
+      return '#3d679c'
+    case 'city':
+    default:
+      return '#42a5f5'
+  }
 }
