@@ -7,10 +7,6 @@ export const portalSizeToColor = {
   20: '#ffc400',
 }
 
-interface ZoneColorMap {
-  [k: string]: string
-}
-
 export const getZoneColor = (
   type: ZoneColor,
   isHome: boolean = false,
@@ -21,7 +17,7 @@ export const getZoneColor = (
   }
 
   if (isDeep) {
-    return '#ff9100'
+    return '#00bfa5'
   }
 
   switch (type) {
