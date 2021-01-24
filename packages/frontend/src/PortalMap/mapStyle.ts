@@ -17,7 +17,7 @@ export const getZoneColor = (
   }
 
   if (isDeep) {
-    return '#00bfa5'
+    return '#00897b'
   }
 
   switch (type) {

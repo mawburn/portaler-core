@@ -39,6 +39,7 @@ const fileGetter = async () => {
     tier: z.tier,
     color: z.color,
     type: z.zone_type,
+    isDeep: z.is_deep_road,
   }))
 
   await redis.setZones(zoneList)
