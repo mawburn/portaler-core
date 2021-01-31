@@ -1,6 +1,6 @@
+import cn from 'clsx'
 import React, { MouseEvent, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import cn from 'clsx'
 
 import {
   Button,
@@ -12,25 +12,18 @@ import {
 } from '@material-ui/core'
 import AddLocationIcon from '@material-ui/icons/AddLocation'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import HideIcon from '@material-ui/icons/FirstPage'
 import InfoIcon from '@material-ui/icons/Info'
 import SettingsIcon from '@material-ui/icons/Settings'
-import HideIcon from '@material-ui/icons/FirstPage'
 
 import useToken from '../common/hooks/useToken'
 import { portalerSmall } from '../common/images'
 import LoginButton from '../LoginButton'
-import MapSearch from '../MapSearch'
+import MapInfo from '../MapInfo'
 import PortalForm from '../PortalForm'
 import { ConfigActionTypes } from '../reducers/configReducer'
 import UserSettings from '../UserSettings'
 import styles from './styles.module.scss'
-
-function a11yProps(index: any) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
-  }
-}
 
 const useStyles = makeStyles((theme: Theme) => ({
   tabs: {
@@ -46,16 +39,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const SideBar = () => {
   const token = useToken()
-  const dispatch = useDispatch()
-
-  const handleLogout = useCallback(
-    (e: MouseEvent) => {
-      e.preventDefault()
-      e.stopPropagation()
-      dispatch({ type: ConfigActionTypes.CLEARTOKEN })
-    },
-    [dispatch]
-  )
 
   const [tabValue, setTabValue] = useState(0)
 
@@ -78,7 +61,11 @@ const SideBar = () => {
         </div>
       </div>
       <div className={styles.content}>
-        <div className={styles.mainContent}>Hello</div>
+        <div className={styles.mainContent}>
+          {tabValue === 0 && <PortalForm />}
+          {tabValue === 1 && <MapInfo />}
+          {tabValue === 2 && <UserSettings />}
+        </div>
         <div className={styles.nav}>
           <Tabs
             orientation="vertical"
@@ -116,28 +103,6 @@ const SideBar = () => {
           </Tabs>
         </div>
       </div>
-
-      {/* {token ? (
-        <>
-          <header className={styles.mainHeader}>
-            <img alt="logo" src={portalerSmall} className={styles.logo} />
-          </header>
-          <PortalForm />
-          <MapSearch />
-          <UserSettings />
-          <div className={styles.logout}>
-            <Button
-              size="small"
-              onClick={handleLogout}
-              startIcon={<ExitToAppIcon />}
-            >
-              Logout
-            </Button>
-          </div>
-        </>
-      ) : (
-        <LoginButton />
-      )} */}
     </aside>
   )
 }

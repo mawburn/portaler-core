@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import { Button, FormControl, IconButton, Modal } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
-
-import MapSearch from '../../MapSearch'
+import MapSearch from '../../MapInfo'
 import styles from './styles.module.scss'
 
 const Search = () => {
