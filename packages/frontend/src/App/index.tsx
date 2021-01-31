@@ -12,7 +12,7 @@ import MainLayout from './MainLayout'
 import MapArea from './MapArea'
 import MistBar from './MistBar'
 import Notifications from './Notifications'
-import SideBar from './SideBar'
+import SideBar from '../Sidebar'
 import styles from './styles.module.scss'
 import theme from './theme'
 
