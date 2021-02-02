@@ -3,6 +3,7 @@
   grid-template-columns: 350px auto;
   height: 100%;
   padding: 0;
+  transition: 250ms;
 
   &.hideSidebar {
     display: flex;

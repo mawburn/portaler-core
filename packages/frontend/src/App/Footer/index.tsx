@@ -1,8 +1,8 @@
 import React from 'react'
-import { discordLogo, githubLogo, twitterLogo } from '../../common/images'
-import Twitch from './Twitch'
 
+import { discordLogo, githubLogo, twitterLogo } from '../../common/images'
 import styles from './styles.module.scss'
+import Twitch from './Twitch'
 
 const Footer = () => (
   <footer className={styles.footer}>
@@ -18,6 +18,7 @@ const Footer = () => (
         <img
           src="https://camo.githubusercontent.com/4d19a0333fc372e9b8ca441d067af4fe011e50d1ce7da44975106f493397384c/68747470733a2f2f692e696d6775722e636f6d2f6c79336c616c7a2e706e67"
           className={styles.patreonLogo}
+          alt="patreon"
         />
       </a>
     </div>

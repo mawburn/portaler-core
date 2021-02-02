@@ -11,9 +11,8 @@ import React, {
 import { useSelector } from 'react-redux'
 
 import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
-import LinearScaleIcon from '@material-ui/icons/LinearScale'
-import { PortalSize, Zone } from '@portaler/types'
 import AddLocationIcon from '@material-ui/icons/AddLocation'
+import { PortalSize, Zone } from '@portaler/types'
 
 import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../common/data/constants'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'

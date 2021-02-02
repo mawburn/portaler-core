@@ -1,20 +1,13 @@
-import React, { ChangeEvent, FC, useCallback } from 'react'
+import React, { FC, useCallback } from 'react'
 
 import {
   Button,
   ButtonGroup,
   colors,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  withStyles,
   Theme,
+  withStyles,
 } from '@material-ui/core'
 import { PortalSize } from '@portaler/types'
-
-import styles from './styles.module.scss'
 
 const TwoButton = withStyles((theme: Theme) => ({
   root: {
