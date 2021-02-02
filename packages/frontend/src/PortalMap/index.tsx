@@ -128,21 +128,13 @@ const PortalMap = () => {
     [clearActives, dispatch]
   )
 
-  const domEventHandler = useCallback(
-    (e: any) => {
-      const t = e.target
+  const domEventHandler = useCallback((e: any) => {
+    const t = e.target
 
-      if (t.nodeName.toLowerCase() !== 'canvas') {
-        if (controlBar.current === t || controlBar.current?.contains(t)) {
-          return
-        }
-
-        clearActives()
-        return
-      }
-    },
-    [clearActives]
-  )
+    if (t.nodeName.toLowerCase() !== 'canvas') {
+      return
+    }
+  }, [])
 
   // listen to all click events
   useEventListener('click', domEventHandler)

@@ -1,6 +1,7 @@
 import cn from 'clsx'
 import React, { MouseEvent, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { SidebarActionTypes } from '../reducers/sideBarReducer'
 
 import {
   Button,
@@ -39,12 +40,17 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const SideBar = () => {
   const token = useToken()
+  const dispatch = useDispatch()
 
   const [tabValue, setTabValue] = useState(0)
 
   const handleChange = useCallback((_, newValue: number) => {
     setTabValue(newValue)
   }, [])
+
+  const handleSlide = useCallback(() => {
+    dispatch({ type: SidebarActionTypes.TOGGLE })
+  }, [dispatch])
 
   const classes = useStyles()
 
@@ -55,7 +61,7 @@ const SideBar = () => {
           <img alt="logo" src={portalerSmall} className={styles.logo} />
         </div>
         <div>
-          <IconButton aria-label="hide">
+          <IconButton onClick={handleSlide} aria-label="hide">
             <HideIcon fontSize="large" className={styles.hideIcon} />
           </IconButton>
         </div>
