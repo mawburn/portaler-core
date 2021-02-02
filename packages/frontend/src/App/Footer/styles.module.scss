@@ -1,32 +1,32 @@
 .footer {
   display: grid;
-  grid-template-columns: 350px auto;
+  grid-template-columns: repeat(3, 1fr);
   height: 4.2rem;
   padding: 1rem;
   bottom: 0;
   background: #424242;
   border-top: 1px solid rgba(0, 0, 0, 0.5);
   width: 100%;
+}
 
-  .footerRight {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+.right,
+.middle {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
 
-    div {
-      display: flex;
-    }
-  }
+.middle {
+  justify-content: center;
 }
 
 .discordLogo {
   height: 2.25rem;
+  margin-bottom: -0.5rem;
 }
 
 .github {
-  align-items: center;
-  justify-content: flex-end;
-  display: flex;
-
   a,
   a:any-link {
     display: flex;
@@ -41,12 +41,25 @@
     fill: #fff;
     width: 1.5rem;
     height: 1.5rem;
-    margin-right: 0.5rem;
+    margin-right: 1.5rem;
   }
 }
 
-.discord {
-  justify-content: flex-end;
+.twitter {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-right: 1.5rem;
+
+  .twitterLogo {
+    height: 1.5rem;
+    width: 1.5rem;
+    margin-bottom: -0.5rem;
+  }
+}
+
+.patreonLogo {
+  height: 2.25rem;
 }
 
 @keyframes glowing {
