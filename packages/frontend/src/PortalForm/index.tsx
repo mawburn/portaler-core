@@ -23,12 +23,13 @@ import PortalSizeSelector from './PortalSizeSelector'
 import styles from './styles.module.scss'
 import useAddPortal from './useAddPortal'
 
-const portalSizeValid = (size: PortalSize) => [0, 2, 7, 20].includes(size)
+const portalSizeValid = (size: PortalSize | null) =>
+  size !== null && [0, 2, 7, 20].includes(size)
 
 const formValidator = (
   from: Zone,
   to: Zone,
-  portalSize: number,
+  portalSize: number | null,
   hours: number | null,
   minutes: number | null
 ): InputError[] => {
@@ -73,7 +74,7 @@ const MappingBar = () => {
   const oldFromId = useRef<number>(0)
   const [from, setFrom] = useState<Zone>(DEFAULT_ZONE)
   const [to, setTo] = useState<Zone>(DEFAULT_ZONE)
-  const [portalSize, setPortalSize] = useState<PortalSize>(DEFAULT_PORTAL_SIZE)
+  const [portalSize, setPortalSize] = useState<PortalSize | null>(null)
   const [hours, setHours] = useState<number | null>(null)
   const [minutes, setMinutes] = useState<number | null>(null)
   const [errors, setErrors] = useState<InputError[]>([])
@@ -125,7 +126,7 @@ const MappingBar = () => {
         ) {
           addPortal({
             connection: [from.name, to.name],
-            size: portalSize,
+            size: portalSize as PortalSize,
             hours: hr,
             minutes: min,
           })
