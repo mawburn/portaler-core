@@ -1,8 +1,10 @@
 import cn from 'clsx'
+import uniq from 'lodash/uniq'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { Zone } from '@portaler/types'
+import { Marker, Mob, Resource, Zone } from '@portaler/types'
+import { romanNumeral } from '@portaler/utils'
 
 import { DEFAULT_ZONE } from '../common/data/constants'
 import useZoneInfo from '../common/hooks/useZoneInfo'
@@ -11,30 +13,23 @@ import ZoneSearch from '../ZoneSearch'
 import styles from './styles.module.scss'
 import useCurrentZones from './useCurrentZones'
 
-interface InfoString {
-  [key: string]: number
-}
-
 const toTitleCase = (str: string) =>
   str.replace(
     /\w\S*/g,
     (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
   )
 
-const infoCounter = (
-  obj: { name: string; tier?: string }[] | null | undefined
-): string[] => {
-  if (!obj) {
+const markerCounter = (marker: Marker[] | null | undefined): string[] => {
+  if (!marker) {
     return []
   }
 
-  const _info: InfoString = {}
+  const _info: {
+    [key: string]: number
+  } = {}
 
-  obj.forEach((m) => {
-    const name = (!m.tier
-      ? toTitleCase(m.name)
-      : `${toTitleCase(m.name)} ${m.tier}`
-    ).replace(/critter forest red/gi, '')
+  marker.forEach((m) => {
+    const name = toTitleCase(m.name)
 
     _info[name] = _info[name] ? ++_info[name] : 1
   })
@@ -44,13 +39,44 @@ const infoCounter = (
     .sort()
 }
 
+const infoCounter = (info: Resource[] | Mob[] | null | undefined): string[] => {
+  if (!info) {
+    return []
+  }
+
+  const tierArr: { [key: string]: number[] } = {}
+
+  info.forEach((i) => {
+    const name = toTitleCase(i.name).replace(/critter forest (red)?/gi, '')
+    const tier = Number(romanNumeral(i.tier))
+
+    if (tierArr[name]) {
+      tierArr[name].push(tier)
+    } else {
+      tierArr[name] = [tier]
+    }
+  })
+
+  return Object.keys(tierArr).map((i) => {
+    uniq(tierArr[i]).sort()
+
+    const range =
+      tierArr[i].length > 1
+        ? `${romanNumeral(tierArr[i][0])} - ${romanNumeral(
+            tierArr[i][tierArr[i].length - 1]
+          )}`
+        : romanNumeral(tierArr[i][0])
+
+    return `${i}: ${range}`
+  })
+}
+
 const MapSearch = () => {
   const curZones = useCurrentZones()
   const dispatch = useDispatch()
   const [zoneSearch, setZoneSearch] = useState<Zone>(DEFAULT_ZONE)
 
   const zone = useZoneInfo()
-  const [color, setColor] = useState<string>('')
   const [markers, setMarkers] = useState<string[]>([])
   const [resources, setResources] = useState<string[]>([])
   const [mobs, setMobs] = useState<string[]>([])
@@ -60,32 +86,10 @@ const MapSearch = () => {
   }, [zoneSearch, dispatch])
 
   useEffect(() => {
-    if (zone?.color.includes('road')) {
-      const colorStr = ['Road']
-
-      if (zone?.color.includes('ho')) {
-        colorStr.push('Hideout')
-      }
-
-      if (zone?.isDeep) {
-        colorStr.unshift('Deep')
-      }
-
-      setColor(colorStr.join(' '))
-    } else {
-      setColor(zone?.color ?? '')
-    }
-
     if (zone?.info) {
-      setMarkers(infoCounter(zone?.info?.markers))
+      setMarkers(markerCounter(zone?.info?.markers))
       setResources(infoCounter(zone?.info?.resources))
-      setMobs(
-        infoCounter(
-          zone?.info?.mobs?.filter((m) =>
-            m.name.toLowerCase().includes('elite')
-          )
-        )
-      )
+      setMobs(infoCounter(zone?.info?.mobs))
     }
   }, [zone])
 

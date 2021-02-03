@@ -1,16 +1,9 @@
 import cn from 'clsx'
-import React, { MouseEvent, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { animated, useSpring } from 'react-spring'
 
-import {
-  Button,
-  IconButton,
-  makeStyles,
-  Tab,
-  Tabs,
-  Theme,
-} from '@material-ui/core'
+import { IconButton, makeStyles, Tab, Tabs, Theme } from '@material-ui/core'
 import AddLocationIcon from '@material-ui/icons/AddLocation'
 import HideIcon from '@material-ui/icons/FirstPage'
 import InfoIcon from '@material-ui/icons/Info'
@@ -23,7 +16,6 @@ import LoginButton from '../LoginButton'
 import MapInfo from '../MapInfo'
 import PortalForm from '../PortalForm'
 import { RootState } from '../reducers'
-import { ConfigActionTypes } from '../reducers/configReducer'
 import { SidebarActionTypes } from '../reducers/sideBarReducer'
 import UserSettings from '../UserSettings'
 import styles from './styles.module.scss'
@@ -72,7 +64,9 @@ const SideBar = () => {
     paddingRight: sideBar ? 'inherit' : 0,
   })
 
-  return (
+  return !token ? (
+    <LoginButton />
+  ) : (
     <aside className={styles.searchSide}>
       <animated.div style={headerProps} className={styles.header}>
         <animated.div style={props}>
