@@ -1,5 +1,5 @@
 import cn from 'clsx'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { animated, useSpring } from 'react-spring'
 
@@ -50,11 +50,13 @@ const SideBar = () => {
 
   const sideBar = useSelector((state: RootState) => state.sideBar)
 
-  const props = useSpring({
+  const opacity = useSpring({
     opacity: sideBar ? 1 : 0,
+    config: { duration: 100 },
+  })
+
+  const props = useSpring({
     width: sideBar ? 'inherit' : 0,
-    paddingLeft: sideBar ? 'inherit' : 0,
-    paddingRight: sideBar ? 'inherit' : 0,
     marginLeft: sideBar ? 'inherit' : 0,
     marginRight: sideBar ? 'inherit' : 0,
   })
@@ -64,13 +66,24 @@ const SideBar = () => {
     paddingRight: sideBar ? 'inherit' : 0,
   })
 
+  useEffect(() => {
+    if (sideBar) {
+      setTabValue(!mistWalker.isWalker ? 0 : 1)
+    }
+  }, [sideBar])
+
   return !token ? (
     <LoginButton />
   ) : (
     <aside className={styles.searchSide}>
       <animated.div style={headerProps} className={styles.header}>
         <animated.div style={props}>
-          <img alt="logo" src={portalerSmall} className={styles.logo} />
+          <animated.img
+            style={opacity}
+            alt="logo"
+            src={portalerSmall}
+            className={styles.logo}
+          />
         </animated.div>
         <div className={cn({ [styles.expand]: !sideBar })}>
           <IconButton onClick={handleSlide} aria-label="hide">
@@ -78,13 +91,13 @@ const SideBar = () => {
           </IconButton>
         </div>
       </animated.div>
-      <div className={styles.content}>
-        <animated.div style={props} className={styles.mainContent}>
+      <animated.div style={props} className={styles.content}>
+        <animated.div style={opacity} className={styles.mainContent}>
           {tabValue === 0 && <PortalForm />}
           {tabValue === 1 && <MapInfo />}
           {tabValue === 2 && <UserSettings />}
         </animated.div>
-        <div className={styles.nav}>
+        <animated.div style={opacity} className={styles.nav}>
           <Tabs
             orientation="vertical"
             value={tabValue}
@@ -121,8 +134,8 @@ const SideBar = () => {
               title="Settings"
             />
           </Tabs>
-        </div>
-      </div>
+        </animated.div>
+      </animated.div>
     </aside>
   )
 }
