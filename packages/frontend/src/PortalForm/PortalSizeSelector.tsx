@@ -13,6 +13,7 @@ const TwoButton = withStyles((theme: Theme) => ({
   root: {
     color: theme.palette.getContrastText(colors.lightGreen[500]),
     backgroundColor: colors.lightGreen[500],
+    borderColor: colors.lightGreen[900],
     '&:hover': {
       backgroundColor: colors.lightGreen[600],
     },
@@ -82,7 +83,7 @@ const PortalSizeSelector: FC<PortalSizeSelectorProps> = ({ size, update }) => {
     <ButtonGroup
       variant="contained"
       color="primary"
-      aria-label="contained primary button group"
+      aria-label="portal selector"
       fullWidth
     >
       <TwoButton onClick={() => handleClick(2)} disabled={size === 2}>

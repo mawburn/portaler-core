@@ -165,7 +165,10 @@ const MappingBar = () => {
             zoneList={filteredTo}
           />
         </div>
-        <div className={styles.row}>
+        <div className={cn(styles.row, styles.portalSize)}>
+          <FormLabel component="legend" className={styles.sizePad}>
+            Size
+          </FormLabel>
           <PortalSizeSelector size={portalSize} update={setPortalSize} />
         </div>
         <div className={styles.row}>

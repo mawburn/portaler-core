@@ -52,7 +52,7 @@ const SideBar = () => {
 
   const opacity = useSpring({
     opacity: sideBar ? 1 : 0,
-    config: { duration: 100 },
+    config: { duration: sideBar ? 420 : 50 },
   })
 
   const props = useSpring({
