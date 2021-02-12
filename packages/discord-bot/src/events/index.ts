@@ -1,24 +1,14 @@
 import { Client, Guild, GuildMember, PartialGuildMember } from 'discord.js'
 
-import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
-
 import removeServer from './handlers/removeServer'
 import roleHandler, { removeUser } from './handlers/roleHandler'
 import setupServer from './handlers/setupServer'
 
-interface EventContext {
-  client: Client
-  db: DatabaseConnector
-  redis: RedisConnector
-}
-
-const initEvents = (ctx: EventContext) => {
-  const { client, db, redis } = ctx
-
+const initEvents = (client: Client) => {
   // bot joins a server
-  client.on('guildCreate', (server: Guild) => setupServer(server, db, redis))
+  client.on('guildCreate', (server: Guild) => setupServer(server))
 
-  client.on('guildDelete', (server: Guild) => removeServer(server, db, redis))
+  client.on('guildDelete', (server: Guild) => removeServer(server))
 
   // when a guild is updated
   // client.on('guildUpdate', (_, server: Guild) =>
@@ -27,12 +17,12 @@ const initEvents = (ctx: EventContext) => {
 
   // when members get updated
   client.on('guildMemberUpdate', (_, member: GuildMember) =>
-    roleHandler(member, db, redis)
+    roleHandler(member)
   )
 
   // when a member leaves a server
   client.on('guildMemberRemove', (member: GuildMember | PartialGuildMember) =>
-    removeUser(member, db, redis)
+    removeUser(member)
   )
 }
 

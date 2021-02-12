@@ -1,6 +1,6 @@
 {
   "name": "@portaler/logger",
-  "version": "0.0.15",
+  "version": "0.0.26",
   "description": "Logging service for NodeJS",
   "main": "out/index.js",
   "types": "out/index.d.ts",
@@ -12,11 +12,8 @@
     "prebuild": "rimraf out && npm version patch",
     "build": "tsc -p tsconfig.json"
   },
-  "peerDependencies": {
-    "luxon": "^1.25.0"
-  },
   "dependencies": {
-    "aws-sdk": "^2.795.0",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "winston-transport": "^4.4.0"
   }
 }

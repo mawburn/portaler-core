@@ -1,7 +1,21 @@
-import Logger from '@portaler/logger'
-import config from './config'
+import createLogger from '@portaler/logger'
 
-const awsCreds = config.awsCreds || undefined
-const logger = new Logger('api-server', awsCreds)
+import EventEmitter from 'events'
+import { WinstonEvent, WinstonLog } from '@portaler/logger'
+
+import { db } from './db'
+
+const emitter = new EventEmitter()
+
+emitter.on(WinstonEvent.log, (info: WinstonLog) => {
+  console.log('event')
+  try {
+    db.Logs.winstonLog(info)
+  } catch (err) {
+    console.error('Error logging event')
+  }
+})
+
+const logger = createLogger(process.env.SERVICE ?? 'api-server')
 
 export default logger

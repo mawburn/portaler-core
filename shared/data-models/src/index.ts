@@ -7,8 +7,7 @@ import RedisConnector from './RedisConnector'
 
 const getDatabases = async (
   dbConfig: PoolConfig,
-  redisConfig: ClientOpts,
-  logInfo: (...x: any) => void
+  redisConfig: ClientOpts
 ): Promise<{
   db: DatabaseConnector
   redis: RedisConnector
@@ -26,7 +25,7 @@ const getDatabases = async (
       const redis = new RedisConnector(redisConfig)
 
       if (redis) {
-        logInfo('Connected to Db & Redis')
+        console.log('Connected to Db & Redis')
         return { db, redis }
       } else {
         throw new Error('Error connecting to Redis')
@@ -35,9 +34,10 @@ const getDatabases = async (
     {
       retries: 100,
       minTimeout: 100,
+      maxTimeout: 1000,
       randomize: false,
       onRetry: (err, count: number) =>
-        logInfo(`Retrying db connection ${count}`, err),
+        console.log(`Retrying db connection ${count}`, err),
     }
   )
 

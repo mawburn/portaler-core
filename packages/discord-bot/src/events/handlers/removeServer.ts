@@ -1,13 +1,9 @@
 import { Guild } from 'discord.js'
 
-import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
+import { db, redis } from '../../db'
 import logger from '../../logger'
 
-const removeServer = async (
-  server: Guild,
-  db: DatabaseConnector,
-  redis: RedisConnector
-) => {
+const removeServer = async (server: Guild) => {
   try {
     const dbRes = await db.dbQuery(
       'DELETE FROM servers WHERE discord_id = $1 RETURNING id',
@@ -30,10 +26,10 @@ const removeServer = async (
       db.dbQuery('DELETE FROM user_roles WHERE role_id = $1', [r.id])
     )
 
-    logger.log.info(
-      'Users deleted',
-      dbUserIds.rows.map((u) => u.user_id)
-    )
+    logger.info({
+      message: 'Users deleted',
+      users: dbUserIds.rows.map((u) => u.user_id),
+    })
 
     await redis.delServer(
       serverId,
@@ -41,13 +37,14 @@ const removeServer = async (
     )
 
     await Promise.all(userRolesDel)
-    logger.log.info('ServerDeleted', server.name)
+    logger.info({ message: 'ServerDeleted', server: server.name })
   } catch (err) {
-    logger.log.error(
-      'Error deleting server',
-      { id: server.id, name: server.name },
-      err
-    )
+    logger.error({
+      message: 'Error deleting server',
+      id: server.id,
+      name: server.name,
+      error: err,
+    })
   }
 }
 

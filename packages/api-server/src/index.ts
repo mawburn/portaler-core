@@ -14,17 +14,16 @@ import Zone from './api/zone'
 import initServer from './initServer'
 import checkAdmin from './middleware/checkAdmin'
 import syntaxError from './middleware/syntaxError'
+import validator from './middleware/validator'
 import verifyUser from './middleware/verifyUser'
 import config from './utils/config'
 import logger from './utils/logger'
 
-logger.startUploader()
+const app = express()
 
 // initialize the server
 ;(async () => {
   await initServer()
-
-  const app = express()
 
   // app.enable('etag')
 
@@ -34,6 +33,7 @@ logger.startUploader()
   app.use(cookieParser())
   app.use(compression())
 
+  app.use(validator)
   app.use(syntaxError)
 
   // Un-authed routes
@@ -47,7 +47,5 @@ logger.startUploader()
   app.use('/api/admin', checkAdmin, Admin)
   app.use('/api', verifyUser, Api)
 
-  app.listen(config.port, () =>
-    logger.log.info(`Server started on port: ${config.port}`)
-  )
+  app.listen(config.port, () => logger.info(`Started: ${config.port}`))
 })()

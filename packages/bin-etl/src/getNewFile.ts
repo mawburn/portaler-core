@@ -2,6 +2,7 @@ import fetch from 'node-fetch'
 
 import { db } from './db'
 import FullZone from './FullZone'
+import logger from './logger'
 
 const accessToken: string = process.env.ACCESS_TOKEN!
 const fileUrl: string = process.env.WORLD_FILE_URL!
@@ -30,15 +31,7 @@ const gqlQuery = `
 const getNewFile = async (): Promise<FullZone[] | null> => {
   try {
     if (oldHash === '') {
-      const logRows = await db.dbQuery(`
-        SELECT log_data::text FROM server_logs
-        WHERE log_type = 'etl-update'
-        ORDER BY created_on DESC
-        LIMIT 1;`)
-
-      if (logRows.rowCount) {
-        oldHash = JSON.parse(logRows.rows[0].log_data).hash
-      }
+      oldHash = await db.Logs.getLatestCommit()
     }
 
     const githubResponse = await fetch('https://api.github.com/graphql', {
@@ -62,13 +55,7 @@ const getNewFile = async (): Promise<FullZone[] | null> => {
       return null
     }
 
-    await db.dbQuery(
-      `
-      INSERT INTO server_logs (log_type, log_data) VALUES
-      ('etl-update', $1);
-    `,
-      [JSON.stringify({ hash })]
-    )
+    await db.Logs.updateLatestCommit(hash)
 
     const fileJson = await fetch(fileUrl, { method: 'GET' }).then((res) => {
       if (!res.ok) {
@@ -83,7 +70,7 @@ const getNewFile = async (): Promise<FullZone[] | null> => {
 
     return JSON.parse(fileString)
   } catch (err) {
-    console.error(err)
+    logger.error(err)
     return null
   }
 }

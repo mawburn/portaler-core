@@ -55,11 +55,13 @@ router.get('/', async (req, res) => {
 
     res.status(200).send(portals)
   } catch (err) {
-    logger.log.error(
-      'Error fetching portals',
-      { user: req.userId, server: req.serverId },
-      err
-    )
+    logger.error({
+      message: 'Error fetching portals',
+      user: req.userId,
+      server: req.serverId,
+      error: err,
+    })
+
     res.status(500).send({ error: 'Error fetching portals' })
   }
 })
@@ -135,11 +137,13 @@ router.post('/', async (req, res) => {
 
     res.sendStatus(204)
   } catch (err) {
-    logger.log.error(
-      'Error setting portals',
-      { user: req.userId, server: req.serverId },
-      err
-    )
+    logger.error({
+      message: 'Error setting portals',
+      user: req.userId,
+      server: req.serverId,
+      error: err,
+    })
+
     res.status(500).send({ error: 'Error setting portals' })
   }
 })
@@ -165,7 +169,12 @@ router.delete('/', async (req, res) => {
     await deleteServerPortal(portalIds, req.userId, req.serverId)
     res.sendStatus(204)
   } catch (err) {
-    logger.log.error('Unable to delete', err)
+    logger.error({
+      message: 'Unable to delete',
+      user: req.userId,
+      server: req.serverId,
+      error: err,
+    })
     res.status(500).send({ error: 'Error deleting portal' })
   }
 })

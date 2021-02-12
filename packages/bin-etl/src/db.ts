@@ -3,8 +3,6 @@ import getDatabases, {
   RedisConnector,
 } from '@portaler/data-models'
 
-import logger from './logger'
-
 const config = {
   db: {
     host: process.env.DB_HOST!,
@@ -26,8 +24,7 @@ let redis: RedisConnector
 const getDb = async () => {
   const { db: tmpDb, redis: tmpRedis } = await getDatabases(
     config.db,
-    config.redis,
-    logger.log.info
+    config.redis
   )
 
   db = tmpDb
