@@ -1,6 +1,6 @@
 .layout {
   display: grid;
-  grid-template-columns: 350px auto;
+  grid-template-columns: 350px calc(100% - 350px);
   height: 100%;
   padding: 0;
   transition: 250ms;
