@@ -43,7 +43,9 @@ const formValidator = (
     errors.push({ fieldName: 'to', errorText: 'Insert To Zone' })
   }
 
-  if (portalSize !== 0) {
+  if (!portalSize) {
+    errors.push({ fieldName: 'size', errorText: 'Select One' })
+  } else if (portalSize !== 0) {
     if (!minutes && !hours) {
       errors.push({ fieldName: 'timer', errorText: 'Insert Time' })
     }
@@ -144,6 +146,8 @@ const MappingBar = () => {
     [from, to, portalSize, hours, minutes, addPortal]
   )
 
+  const sizeError = getError('size', errors)
+
   return (
     <form onSubmit={handleSubmit} autoComplete="off">
       <div className={styles.mappingBar}>
@@ -166,9 +170,14 @@ const MappingBar = () => {
           />
         </div>
         <div className={cn(styles.row, styles.portalSize)}>
-          <FormLabel component="legend" className={styles.sizePad}>
-            Size
+          <FormLabel
+            error={!!sizeError}
+            component="legend"
+            className={styles.sizePad}
+          >
+            Size {!!sizeError && `(${sizeError})`}
           </FormLabel>
+
           <PortalSizeSelector size={portalSize} update={setPortalSize} />
         </div>
         <div className={styles.row}>

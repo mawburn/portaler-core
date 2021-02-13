@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Zone } from '@portaler/types'
 
 import { Button, FormControl, IconButton, Modal } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
+import { Zone } from '@portaler/types'
 
 import { DEFAULT_ZONE } from '../../common/data/constants'
 import useCurrentZones from '../../MapInfo/useCurrentZones'
+import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
 import ZoneSearch from '../../ZoneSearch'
 import styles from './styles.module.scss'
-import { PortalMapActionTypes } from '../../reducers/portalMapReducer'
 
 const Search = () => {
   const curZones = useCurrentZones()
@@ -17,9 +17,16 @@ const Search = () => {
   const [zoneSearch, setZoneSearch] = useState<Zone>(DEFAULT_ZONE)
   const [open, setOpen] = useState<boolean>(false)
 
-  useEffect(() => {
+  const handleSearch = useCallback(() => {
     dispatch({ type: PortalMapActionTypes.CENTER, centerZone: zoneSearch })
+    setOpen(false)
   }, [zoneSearch, dispatch])
+
+  useEffect(() => {
+    if (!open) {
+      setZoneSearch(DEFAULT_ZONE)
+    }
+  }, [open])
 
   return (
     <>
@@ -50,7 +57,7 @@ const Search = () => {
                 color="primary"
                 variant="contained"
                 size="large"
-                onClick={() => setOpen(false)}
+                onClick={handleSearch}
               >
                 Search
               </Button>

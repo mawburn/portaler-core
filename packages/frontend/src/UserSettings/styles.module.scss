@@ -1,8 +1,3 @@
-.accordion {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
 .main {
   align-items: center;
   display: flex;
@@ -15,4 +10,8 @@
 .details {
   display: flex;
   flex-direction: row;
+}
+
+.row {
+  margin-bottom: 2rem;
 }
