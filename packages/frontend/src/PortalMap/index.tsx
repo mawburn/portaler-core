@@ -28,7 +28,7 @@ import defaultSettings from './defaultSettings'
 import graphStyle from './graphStyle'
 import { portalSizeToColor, getZoneColor } from './mapStyle'
 import styles from './styles.module.scss'
-import callSign from '../common/utils/callsign'
+import callSign from '../common/utils/callSign2'
 
 cytoscape.use(COSEBilkent)
 

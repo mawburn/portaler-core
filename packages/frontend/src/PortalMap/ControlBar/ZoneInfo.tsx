@@ -4,7 +4,7 @@ import { Paper } from '@material-ui/core'
 
 import useZoneInfo from '../../common/hooks/useZoneInfo'
 import styles from './styles.module.scss'
-import callSign from '../../common/utils/callsign'
+import callSign from '../../common/utils/callSign2'
 
 const ZoneInfo = () => {
   const zone = useZoneInfo()

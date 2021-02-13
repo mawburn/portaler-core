@@ -1,18 +1,13 @@
 import cn from 'clsx'
 import uniq from 'lodash/uniq'
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 
-import { Marker, Mob, Resource, Zone } from '@portaler/types'
+import { Marker, Mob, Resource } from '@portaler/types'
 import { romanNumeral } from '@portaler/utils'
 
-import { DEFAULT_ZONE } from '../common/data/constants'
 import useZoneInfo from '../common/hooks/useZoneInfo'
-import { PortalMapActionTypes } from '../reducers/portalMapReducer'
-import ZoneSearch from '../ZoneSearch'
+import callSign from '../common/utils/callSign2'
 import styles from './styles.module.scss'
-import useCurrentZones from './useCurrentZones'
-import callSign from '../common/utils/callsign'
 
 const toTitleCase = (str: string) =>
   str.replace(
@@ -73,18 +68,10 @@ const infoCounter = (info: Resource[] | Mob[] | null | undefined): string[] => {
 }
 
 const MapSearch = () => {
-  const curZones = useCurrentZones()
-  const dispatch = useDispatch()
-  const [zoneSearch, setZoneSearch] = useState<Zone>(DEFAULT_ZONE)
-
   const zone = useZoneInfo()
   const [markers, setMarkers] = useState<string[]>([])
   const [resources, setResources] = useState<string[]>([])
   const [mobs, setMobs] = useState<string[]>([])
-
-  useEffect(() => {
-    dispatch({ type: PortalMapActionTypes.CENTER, centerZone: zoneSearch })
-  }, [zoneSearch, dispatch])
 
   useEffect(() => {
     if (zone?.info) {
