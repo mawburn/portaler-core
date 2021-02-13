@@ -14,7 +14,7 @@ import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
 import AddLocationIcon from '@material-ui/icons/AddLocation'
 import { PortalSize, Zone } from '@portaler/types'
 
-import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../common/data/constants'
+import { DEFAULT_ZONE } from '../common/data/constants'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
 import { RootState } from '../reducers'
 import { InputError } from '../types'
@@ -43,7 +43,7 @@ const formValidator = (
     errors.push({ fieldName: 'to', errorText: 'Insert To Zone' })
   }
 
-  if (!portalSize) {
+  if (portalSize === null) {
     errors.push({ fieldName: 'size', errorText: 'Select One' })
   } else if (portalSize !== 0) {
     if (!minutes && !hours) {
@@ -80,6 +80,7 @@ const MappingBar = () => {
   const [hours, setHours] = useState<number | null>(null)
   const [minutes, setMinutes] = useState<number | null>(null)
   const [errors, setErrors] = useState<InputError[]>([])
+  const [focusCounter, setFocusCounter] = useState<number>(0)
 
   const zones: Zone[] = useZoneListSelector()
 
@@ -135,7 +136,8 @@ const MappingBar = () => {
           setTo(DEFAULT_ZONE)
           setHours(null)
           setMinutes(null)
-          setPortalSize(DEFAULT_PORTAL_SIZE)
+          setPortalSize(null)
+          setFocusCounter((x) => ++x)
         } else {
           throw new Error('you suck')
         }
@@ -153,6 +155,7 @@ const MappingBar = () => {
       <div className={styles.mappingBar}>
         <div className={styles.row}>
           <ZoneSearch
+            setFocus={focusCounter}
             error={getError('from', errors)}
             value={from}
             update={setFrom}

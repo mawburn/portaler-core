@@ -1,6 +1,6 @@
 import clone from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
-import React, { FC, useCallback, useRef, useState } from 'react'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
@@ -18,6 +18,7 @@ interface ZoneSearchProps {
   update: (zone: Zone) => void
   variant?: 'filled' | 'outlined' | 'standard'
   error?: string | null
+  setFocus?: number
 }
 
 const ZoneSearch: FC<ZoneSearchProps> = ({
@@ -27,8 +28,10 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
   update,
   variant = 'standard',
   error = null,
+  setFocus = 0,
 }) => {
   const acRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
   const [currentZoneList, setCurrentZoneList] = useState<Zone[]>(zoneList)
   const [currentInput, setCurrentInput] = useState<string>(value.name)
 
@@ -56,6 +59,12 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
     [currentInput, currentZoneList]
   )
 
+  useEffect(() => {
+    if (setFocus !== 0) {
+      inputRef.current?.focus()
+    }
+  }, [setFocus])
+
   useEventListener('keydown', keyEventHandler, acRef.current)
 
   return (
@@ -81,6 +90,7 @@ const ZoneSearch: FC<ZoneSearchProps> = ({
           helperText={error}
           label={label}
           variant={variant as any}
+          inputRef={inputRef}
         />
       )}
     />
