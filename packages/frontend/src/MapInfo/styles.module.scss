@@ -1,4 +1,8 @@
 .infoRow {
+  h2 {
+    font-size: 1.25rem;
+  }
+
   li {
     // text-transform: capitalize !important;
   }
@@ -6,4 +10,19 @@
 
 .hide {
   display: none;
+}
+
+.cap {
+  text-transform: capitalize;
+}
+
+.line {
+  margin: 1rem 0;
+  align-items: flex-end;
+  display: flex;
+
+  h3 {
+    margin: 0;
+    padding-right: 1rem;
+  }
 }

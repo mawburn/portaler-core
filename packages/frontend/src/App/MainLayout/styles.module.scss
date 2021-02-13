@@ -4,6 +4,7 @@
   height: 100%;
   padding: 0;
   transition: 250ms;
+  min-height: calc(100vh - 4.2rem);
 
   &.hideSidebar {
     display: flex;

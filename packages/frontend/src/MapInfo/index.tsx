@@ -12,6 +12,7 @@ import { PortalMapActionTypes } from '../reducers/portalMapReducer'
 import ZoneSearch from '../ZoneSearch'
 import styles from './styles.module.scss'
 import useCurrentZones from './useCurrentZones'
+import callSign from '../common/utils/callsign'
 
 const toTitleCase = (str: string) =>
   str.replace(
@@ -93,53 +94,54 @@ const MapSearch = () => {
     }
   }, [zone])
 
-  return (
-    <>
-      <ZoneSearch
-        zoneList={curZones}
-        value={zoneSearch}
-        update={setZoneSearch}
-        label="Map Search"
-      />
-      {zone && (
-        <div>
-          <div
-            className={cn(styles.infoRow, {
-              [styles.hide]: markers.length === 0,
-            })}
-          >
-            <h2>Markers:</h2>
-            <ul>
-              {markers.map((m) => (
-                <li className={styles.infoList}>{m}</li>
-              ))}
-            </ul>
-          </div>
-          <div
-            className={cn(styles.infoRow, {
-              [styles.hide]: resources.length === 0,
-            })}
-          >
-            <h2>Resources:</h2>
-            <ul>
-              {resources.map((r) => (
-                <li className={styles.infoList}>{r}</li>
-              ))}
-            </ul>
-          </div>
-          <div
-            className={cn(styles.infoRow, { [styles.hide]: mobs.length === 0 })}
-          >
-            <h2>Elite Mobs:</h2>
-            <ul>
-              {mobs.map((m) => (
-                <li className={styles.infoList}>{m}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
-    </>
+  const _callSign = zone ? callSign(zone) : null
+
+  return !zone ? (
+    <div>No zone selected</div>
+  ) : (
+    <div>
+      <h3>
+        {zone.name} {_callSign ? `(${_callSign})` : ''}
+      </h3>
+      <div className={cn(styles.infoRow, styles.line)}>
+        <h3>Type:</h3>
+        <span className={styles.cap}>
+          {zone.type.toLowerCase().split('_').slice(1).join(' ')}
+        </span>
+      </div>
+      <div
+        className={cn(styles.infoRow, {
+          [styles.hide]: markers.length === 0,
+        })}
+      >
+        <h3>Markers:</h3>
+        <ul>
+          {markers.map((m) => (
+            <li className={styles.infoList}>{m}</li>
+          ))}
+        </ul>
+      </div>
+      <div
+        className={cn(styles.infoRow, {
+          [styles.hide]: resources.length === 0,
+        })}
+      >
+        <h3>Resources:</h3>
+        <ul>
+          {resources.map((r) => (
+            <li className={styles.infoList}>{r}</li>
+          ))}
+        </ul>
+      </div>
+      <div className={cn(styles.infoRow, { [styles.hide]: mobs.length === 0 })}>
+        <h3>Elite Mobs:</h3>
+        <ul>
+          {mobs.map((m) => (
+            <li className={styles.infoList}>{m}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
   )
 }
 
