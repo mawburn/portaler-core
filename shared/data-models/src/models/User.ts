@@ -3,6 +3,7 @@ import { QueryResult } from 'pg'
 
 import { DiscordMe, DiscordMeGuild } from '@portaler/types'
 
+import BaseModel, { DBQuery } from './BaseModel'
 import ServerModel, { IServerModel } from './Server'
 
 interface ServerRoleId {
@@ -26,19 +27,9 @@ export enum UserAction {
   login = 'login',
 }
 
-export default class UserModel {
-  private query: (
-    query: string,
-    params: (string | number)[]
-  ) => Promise<QueryResult>
-
-  constructor(
-    dbQuery: (
-      query: string,
-      params: (string | number)[]
-    ) => Promise<QueryResult>
-  ) {
-    this.query = dbQuery
+export default class UserModel extends BaseModel {
+  constructor(dbQuery: DBQuery) {
+    super(dbQuery)
   }
 
   createUser = async (

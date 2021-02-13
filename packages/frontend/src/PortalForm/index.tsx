@@ -11,7 +11,7 @@ import React, {
 import { useSelector } from 'react-redux'
 
 import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
-import LinearScaleIcon from '@material-ui/icons/LinearScale'
+import AddLocationIcon from '@material-ui/icons/AddLocation'
 import { PortalSize, Zone } from '@portaler/types'
 
 import { DEFAULT_PORTAL_SIZE, DEFAULT_ZONE } from '../common/data/constants'
@@ -23,12 +23,13 @@ import PortalSizeSelector from './PortalSizeSelector'
 import styles from './styles.module.scss'
 import useAddPortal from './useAddPortal'
 
-const portalSizeValid = (size: PortalSize) => [0, 2, 7, 20].includes(size)
+const portalSizeValid = (size: PortalSize | null) =>
+  size !== null && [0, 2, 7, 20].includes(size)
 
 const formValidator = (
   from: Zone,
   to: Zone,
-  portalSize: number,
+  portalSize: number | null,
   hours: number | null,
   minutes: number | null
 ): InputError[] => {
@@ -42,7 +43,9 @@ const formValidator = (
     errors.push({ fieldName: 'to', errorText: 'Insert To Zone' })
   }
 
-  if (portalSize !== 0) {
+  if (!portalSize) {
+    errors.push({ fieldName: 'size', errorText: 'Select One' })
+  } else if (portalSize !== 0) {
     if (!minutes && !hours) {
       errors.push({ fieldName: 'timer', errorText: 'Insert Time' })
     }
@@ -73,7 +76,7 @@ const MappingBar = () => {
   const oldFromId = useRef<number>(0)
   const [from, setFrom] = useState<Zone>(DEFAULT_ZONE)
   const [to, setTo] = useState<Zone>(DEFAULT_ZONE)
-  const [portalSize, setPortalSize] = useState<PortalSize>(DEFAULT_PORTAL_SIZE)
+  const [portalSize, setPortalSize] = useState<PortalSize | null>(null)
   const [hours, setHours] = useState<number | null>(null)
   const [minutes, setMinutes] = useState<number | null>(null)
   const [errors, setErrors] = useState<InputError[]>([])
@@ -125,7 +128,7 @@ const MappingBar = () => {
         ) {
           addPortal({
             connection: [from.name, to.name],
-            size: portalSize,
+            size: portalSize as PortalSize,
             hours: hr,
             minutes: min,
           })
@@ -142,6 +145,8 @@ const MappingBar = () => {
     },
     [from, to, portalSize, hours, minutes, addPortal]
   )
+
+  const sizeError = getError('size', errors)
 
   return (
     <form onSubmit={handleSubmit} autoComplete="off">
@@ -164,7 +169,15 @@ const MappingBar = () => {
             zoneList={filteredTo}
           />
         </div>
-        <div className={styles.row}>
+        <div className={cn(styles.row, styles.portalSize)}>
+          <FormLabel
+            error={!!sizeError}
+            component="legend"
+            className={styles.sizePad}
+          >
+            Size {!!sizeError && `(${sizeError})`}
+          </FormLabel>
+
           <PortalSizeSelector size={portalSize} update={setPortalSize} />
         </div>
         <div className={styles.row}>
@@ -216,7 +229,7 @@ const MappingBar = () => {
               variant="contained"
               color="primary"
               type="submit"
-              endIcon={<LinearScaleIcon />}
+              endIcon={<AddLocationIcon />}
               size="large"
             >
               Create Connection

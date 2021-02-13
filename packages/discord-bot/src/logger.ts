@@ -1,7 +1,17 @@
-import Logger from '@portaler/logger'
-import config from './config'
+import createLogger, { WinstonLog } from '@portaler/logger'
 
-const awsCreds = config.awsCreds || undefined
-const logger = new Logger('discord-bot', awsCreds)
+import { db } from './db'
+
+const logger = createLogger(process.env.SERVICE ?? 'discord-bot')
+
+logger.on('data', (info: WinstonLog) => {
+  try {
+    setImmediate(() => {
+      db.Logs.winstonLog(info)
+    })
+  } catch (err) {
+    console.error(err)
+  }
+})
 
 export default logger

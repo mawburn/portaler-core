@@ -1,16 +1,12 @@
 import { Guild } from 'discord.js'
 
-import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
 import { IUserModel } from '@portaler/data-models/out/models/User'
 
 import config from '../../config'
+import { db, redis } from '../../db'
 import logger from '../../logger'
 
-const setupServer = async (
-  server: Guild,
-  db: DatabaseConnector,
-  redis: RedisConnector
-) => {
+const setupServer = async (server: Guild) => {
   const rolePayload = {
     name: config.roleName,
     permissions: 0,
@@ -94,11 +90,11 @@ const setupServer = async (
       await Promise.all([addToRedis, ...addRolesToUsers, ...addUsersAndRoles])
     }
   } catch (err) {
-    logger.log.error(
-      'Error setting up server',
-      { name: server.name, id: server.id },
-      err
-    )
+    logger.error('Error setting up server', {
+      name: server.name,
+      id: server.id,
+      error: err,
+    })
   }
 }
 

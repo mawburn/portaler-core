@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import logger from './logger'
 
 import { IZoneModel, Zone } from '@portaler/types'
 
@@ -51,4 +52,5 @@ const fileGetter = async () => {
   fileGetter()
 
   setInterval(fileGetter, timer)
+  logger.info('ETL started')
 })()

@@ -3,11 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { twitchLogo } from '../../../common/images'
 import styles from './styles.module.scss'
 
-const isHypno = process.env.REACT_APP_TWITCH?.toLowerCase().includes(
-  'hypnocode'
-)
-
-const socket = isHypno ? new WebSocket('wss://goop.portaler.zone/twitch') : null
+const socket = new WebSocket('wss://goop.portaler.zone/twitch')
 
 const Twitch = () => {
   const [isLive, setIsLive] = useState<'yes' | 'no'>('no')
@@ -15,17 +11,15 @@ const Twitch = () => {
   useEffect(() => {
     const setLive = (e: any) => setIsLive(e.data)
 
-    if (isHypno) {
-      socket?.addEventListener('message', setLive)
-    }
+    socket.addEventListener('message', setLive)
 
-    return () => socket?.removeEventListener('message', setLive)
+    return () => socket.removeEventListener('message', setLive)
   }, [])
 
-  return process.env.REACT_APP_TWITCH ? (
+  return (
     <div className={styles.twitch}>
       <a
-        href={process.env.REACT_APP_TWITCH}
+        href="https://twitch.tv/hypnocode"
         className={styles.link}
         target="_blank"
         rel="noopener noreferrer"
@@ -45,7 +39,7 @@ const Twitch = () => {
         )}
       </a>
     </div>
-  ) : null
+  )
 }
 
 export default Twitch

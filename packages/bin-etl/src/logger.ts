@@ -1,5 +1,17 @@
-import Logger from '@portaler/logger'
+import createLogger, { WinstonLog } from '@portaler/logger'
 
-const logger = new Logger('bin-etl')
+import { db } from './db'
+
+const logger = createLogger(process.env.SERVICE ?? 'bin-etl')
+
+logger.on('data', (info: WinstonLog) => {
+  try {
+    setImmediate(() => {
+      db.Logs.winstonLog(info)
+    })
+  } catch (err) {
+    console.error(err)
+  }
+})
 
 export default logger

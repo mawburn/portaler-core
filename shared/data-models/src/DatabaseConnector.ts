@@ -1,5 +1,6 @@
 import pg, { Pool, PoolConfig, QueryResult } from 'pg'
 
+import LogModel from './models/Logs'
 import ServerModel from './models/Server'
 import UserModel from './models/User'
 
@@ -17,4 +18,5 @@ export default class DatabaseConnector {
 
   Server = new ServerModel(this.dbQuery)
   User = new UserModel(this.dbQuery)
+  Logs = new LogModel(this.dbQuery)
 }
