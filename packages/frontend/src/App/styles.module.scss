@@ -1,9 +1,3 @@
-.mainHeader {
-  margin: 1rem 0 0.5rem 0;
-  display: flex;
-  justify-content: center;
-}
-
 .logo {
   margin-right: 1.5rem;
 }
@@ -15,20 +9,7 @@
 .appContainer {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-}
-
-.searchSide,
-.dataInput {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-.searchSide {
-  border-right: 1px solid rgba(0, 0, 0, 0.25);
+  min-height: 100vh;
 }
 
 .mapDisplay {

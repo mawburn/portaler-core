@@ -1,87 +1,104 @@
-import React, { ChangeEvent, FC, useCallback } from 'react'
+import React, { FC, useCallback } from 'react'
 
 import {
+  Button,
+  ButtonGroup,
   colors,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
+  Theme,
   withStyles,
 } from '@material-ui/core'
 import { PortalSize } from '@portaler/types'
 
-import styles from './styles.module.scss'
-
-const TwoPortal = withStyles({
+const TwoButton = withStyles((theme: Theme) => ({
   root: {
-    color: colors.lightGreen[500],
-    '&$checked': {
-      color: colors.lightGreen[600],
+    color: theme.palette.getContrastText(colors.lightGreen[500]),
+    backgroundColor: colors.lightGreen[500],
+    borderColor: colors.lightGreen[900],
+    '&:hover': {
+      backgroundColor: colors.lightGreen[600],
+    },
+    '&:disabled': {
+      color: theme.palette.getContrastText(colors.lightGreen[900]),
+      backgroundColor: colors.lightGreen[900],
     },
   },
-  checked: {},
-})((props) => <Radio color="default" {...props} />)
+}))(Button)
 
-const SevenPortal = withStyles({
+const SevenButton = withStyles((theme: Theme) => ({
   root: {
-    color: colors.blue[500],
-    '&$checked': {
-      color: colors.blue[600],
+    color: theme.palette.getContrastText(colors.blue[500]),
+    backgroundColor: colors.blue[500],
+    '&:hover': {
+      backgroundColor: colors.blue[600],
+    },
+    '&:disabled': {
+      color: theme.palette.getContrastText(colors.blue[900]),
+      backgroundColor: colors.blue[900],
     },
   },
-  checked: {},
-})((props) => <Radio color="default" {...props} />)
+}))(Button)
 
-const TwentyPortal = withStyles({
+const TwentyButton = withStyles((theme: Theme) => ({
   root: {
-    color: colors.amber[500],
-    '&$checked': {
-      color: colors.amber[600],
+    color: theme.palette.getContrastText(colors.amber[500]),
+    backgroundColor: colors.amber[500],
+    '&:hover': {
+      backgroundColor: colors.amber[600],
+    },
+    '&:disabled': {
+      color: theme.palette.getContrastText(colors.amber[900]),
+      backgroundColor: colors.amber[900],
     },
   },
-  checked: {},
-})((props) => <Radio color="default" {...props} />)
+}))(Button)
 
-const RoyalPortal = withStyles({
+const RoyalButton = withStyles((theme: Theme) => ({
   root: {
-    color: '#aa00ff',
-    '&$checked': {
-      color: '#d500f9',
+    color: theme.palette.getContrastText('#aa00ff'),
+    backgroundColor: '#aa00ff',
+    '&:hover': {
+      backgroundColor: '#d500f9',
+    },
+    '&:disabled': {
+      color: theme.palette.getContrastText('#9700b2'),
+      backgroundColor: '#9700b2',
     },
   },
-  checked: {},
-})((props) => <Radio color="default" {...props} />)
+}))(Button)
 
 interface PortalSizeSelectorProps {
-  size: PortalSize
+  size: PortalSize | null
   update: (size: PortalSize) => void
 }
 
 const PortalSizeSelector: FC<PortalSizeSelectorProps> = ({ size, update }) => {
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      update(Number(e.target.value) as PortalSize)
+  const handleClick = useCallback(
+    (val: number) => {
+      update(val as PortalSize)
     },
     [update]
   )
 
   return (
-    <FormControl fullWidth component="fieldset">
-      <FormLabel component="legend">Portal Size</FormLabel>
-      <RadioGroup
-        row
-        name="portalSize"
-        value={`${size}`}
-        onChange={handleChange}
-        className={styles.portalRadioGroup}
-      >
-        <FormControlLabel value="2" control={<TwoPortal />} label="2" />
-        <FormControlLabel value="7" control={<SevenPortal />} label="7" />
-        <FormControlLabel value="20" control={<TwentyPortal />} label="20" />
-        <FormControlLabel value="0" control={<RoyalPortal />} label="Royal" />
-      </RadioGroup>
-    </FormControl>
+    <ButtonGroup
+      variant="contained"
+      color="primary"
+      aria-label="portal selector"
+      fullWidth
+    >
+      <TwoButton onClick={() => handleClick(2)} disabled={size === 2}>
+        2
+      </TwoButton>
+      <SevenButton onClick={() => handleClick(7)} disabled={size === 7}>
+        7
+      </SevenButton>
+      <TwentyButton onClick={() => handleClick(20)} disabled={size === 20}>
+        20
+      </TwentyButton>
+      <RoyalButton onClick={() => handleClick(0)} disabled={size === 0}>
+        Royal
+      </RoyalButton>
+    </ButtonGroup>
   )
 }
 

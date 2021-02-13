@@ -28,6 +28,7 @@ import defaultSettings from './defaultSettings'
 import graphStyle from './graphStyle'
 import { portalSizeToColor, getZoneColor } from './mapStyle'
 import styles from './styles.module.scss'
+import callSign from '../common/utils/callSign'
 
 cytoscape.use(COSEBilkent)
 
@@ -128,21 +129,13 @@ const PortalMap = () => {
     [clearActives, dispatch]
   )
 
-  const domEventHandler = useCallback(
-    (e: any) => {
-      const t = e.target
+  const domEventHandler = useCallback((e: any) => {
+    const t = e.target
 
-      if (t.nodeName.toLowerCase() !== 'canvas') {
-        if (controlBar.current === t || controlBar.current?.contains(t)) {
-          return
-        }
-
-        clearActives()
-        return
-      }
-    },
-    [clearActives]
-  )
+    if (t.nodeName.toLowerCase() !== 'canvas') {
+      return
+    }
+  }, [])
 
   // listen to all click events
   useEventListener('click', domEventHandler)
@@ -198,10 +191,14 @@ const PortalMap = () => {
           const imgUrl = zoneTier ? tiers[zoneTier.tier] : null
           const backgroundUrl = imgUrl ? `url(${imgUrl})` : 'none'
 
+          const label = z.type.startsWith('TUNNEL')
+            ? `${z.name} (${callSign(z)})`
+            : z.name
+
           elms.set(id, {
             added: false,
             element: {
-              data: { id, zoneName: z.name, zoneId: z.id, label: z.name },
+              data: { id, zoneName: z.name, zoneId: z.id, label },
               css: {
                 width,
                 height,
@@ -227,11 +224,15 @@ const PortalMap = () => {
 
         const homeZone = zones.find((z) => z.name === home.name)
 
+        const label = home.type.startsWith('TUNNEL')
+          ? `${home.name} (${callSign(home)})`
+          : home.name
+
         if (homeZone) {
           elms.set(id, {
             added: false,
             element: {
-              data: { id, zoneName: home.name, label: home.name },
+              data: { id, zoneName: home.name, label },
               css: {
                 width: 42,
                 height: 42,

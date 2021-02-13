@@ -1,6 +1,6 @@
 import { GuildMember, PartialGuildMember } from 'discord.js'
 
-import { DatabaseConnector, RedisConnector } from '@portaler/data-models'
+import { db, redis } from '../../db'
 import logger from '../../logger'
 
 /**
@@ -14,9 +14,7 @@ import logger from '../../logger'
 const removeUserRoles = async (
   userId: number,
   serverId: number,
-  roleIds: number[],
-  db: DatabaseConnector,
-  redis: RedisConnector
+  roleIds: number[]
 ) => {
   try {
     await db.User.removeUserRoles(userId, roleIds)
@@ -27,11 +25,12 @@ const removeUserRoles = async (
       await redis.delUser(token, userId, serverId)
     }
   } catch (err) {
-    logger.log.error(
-      'Error removing user roles',
-      { userId, serverId, roleIds },
-      err
-    )
+    logger.error('Remove role', {
+      userId,
+      serverId,
+      roleIds,
+      error: err,
+    })
   }
 }
 
@@ -41,11 +40,7 @@ const removeUserRoles = async (
  * @param  db
  * @param  redis
  */
-export const removeUser = async (
-  member: GuildMember | PartialGuildMember,
-  db: DatabaseConnector,
-  redis: RedisConnector
-) => {
+export const removeUser = async (member: GuildMember | PartialGuildMember) => {
   const [server, user] = await Promise.all([
     db.Server.getServer(member.guild.id),
     db.User.getUserByDiscord(member.id),
@@ -57,9 +52,7 @@ export const removeUser = async (
     removeUserRoles(
       user.id,
       server.id,
-      server.roles.map((r) => r.id),
-      db,
-      redis
+      server.roles.map((r) => r.id)
     )
   }
 }
@@ -72,11 +65,7 @@ export const removeUser = async (
  * @param  db
  * @param  redis
  */
-const roleHandler = async (
-  member: GuildMember,
-  db: DatabaseConnector,
-  redis: RedisConnector
-) => {
+const roleHandler = async (member: GuildMember) => {
   try {
     const server = await db.Server.getServer(member.guild.id)
 
@@ -92,9 +81,7 @@ const roleHandler = async (
         removeUserRoles(
           user.id,
           server.id,
-          server.roles.map((r) => r.id),
-          db,
-          redis
+          server.roles.map((r) => r.id)
         )
       } else if (!user && hasRole) {
         const dbUser = await db.User.getUserByDiscord(member.id)
@@ -108,7 +95,7 @@ const roleHandler = async (
       }
     }
   } catch (err) {
-    console.error(err)
+    logger.error(err)
   }
 }
 

@@ -11,7 +11,7 @@ router.get('/list', async (_, res) => {
     const zones = await redis.getZones()
     res.contentType('application/json').status(200).send(zones)
   } catch (err) {
-    logger.log.error(err)
+    logger.error('Error fetching zones', { error: err })
     res.sendStatus(500)
   }
 })
@@ -21,7 +21,7 @@ router.get('/info/:id', async (req, res) => {
     const zone = await getZoneMeta(Number(req.params.id))
     res.contentType('application/json').status(200).send(zone)
   } catch (err) {
-    logger.log.error(err)
+    logger.error('Error fetching zone info', { error: err })
     res.sendStatus(500)
   }
 })

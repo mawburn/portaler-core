@@ -1,4 +1,4 @@
-import { QueryResult } from 'pg'
+import BaseModel, { DBQuery } from './BaseModel'
 
 interface ServerRoles {
   id: number
@@ -17,19 +17,9 @@ export interface IServerModel {
   discordUrl?: string | null
 }
 
-export default class ServerModel {
-  private query: (
-    query: string,
-    params: (string | number)[]
-  ) => Promise<QueryResult>
-
-  constructor(
-    dbQuery: (
-      query: string,
-      params: (string | number)[]
-    ) => Promise<QueryResult>
-  ) {
-    this.query = dbQuery
+export default class ServerModel extends BaseModel {
+  constructor(dbQuery: DBQuery) {
+    super(dbQuery)
   }
 
   create = async (discordId: string, discordName: string): Promise<number> => {

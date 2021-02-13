@@ -1,4 +1,3 @@
-import { S3Creds } from '@portaler/logger'
 import { DBConfig, RedisConfig } from '@portaler/types'
 
 interface BotConfig {
@@ -7,7 +6,6 @@ interface BotConfig {
   token: string
   roleName: string
   api: string
-  awsCreds?: S3Creds
 }
 
 const config: BotConfig = {
@@ -26,16 +24,6 @@ const config: BotConfig = {
   token: process.env.DISCORD_BOT_TOKEN!,
   roleName: process.env.DISCORD_ROLE!,
   api: 'https://discord.com/api',
-}
-
-if (process.env.AWS_SECRET) {
-  config.awsCreds = {
-    client: {
-      accessKeyId: process.env.AWS_KEY!,
-      secretAccessKey: process.env.AWS_SECRET!,
-    },
-    bucket: process.env.AWS_BUCKET!,
-  }
 }
 
 export default config

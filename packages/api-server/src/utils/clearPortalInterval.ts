@@ -13,7 +13,7 @@ const clearPortalInterval = () =>
           conn2 NOT IN (SELECT conn2 FROM portals WHERE size <> 0);
       `)
     } catch (err) {
-      logger.log.error('Error deleting expired portals', err)
+      logger.error('Error deleting expired portals', { error: err })
     }
   }, 10000)
 

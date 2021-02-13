@@ -8,7 +8,7 @@ const syntaxError = (
   next: NextFunction
 ) => {
   if (error instanceof SyntaxError) {
-    logger.log.error('Syntax Error', error)
+    logger.error('Syntax Error', { error })
     return res.status(500).json({ error: 'SyntaxError' })
   } else {
     next()
