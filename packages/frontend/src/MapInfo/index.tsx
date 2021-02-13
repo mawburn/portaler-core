@@ -6,7 +6,7 @@ import { Marker, Mob, Resource } from '@portaler/types'
 import { romanNumeral } from '@portaler/utils'
 
 import useZoneInfo from '../common/hooks/useZoneInfo'
-import callSign from '../common/utils/callSign2'
+import callSign from '../common/utils/callSign'
 import styles from './styles.module.scss'
 
 const toTitleCase = (str: string) =>
