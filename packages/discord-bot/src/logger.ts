@@ -6,9 +6,11 @@ const logger = createLogger(process.env.SERVICE ?? 'discord-bot')
 
 logger.on('data', (info: WinstonLog) => {
   try {
-    setImmediate(() => {
-      db.Logs.winstonLog(info)
-    })
+    if (db && db.Logs && db.Logs.winstonLog) {
+      setImmediate(() => {
+        db.Logs.winstonLog(info)
+      })
+    }
   } catch (err) {
     console.error(err)
   }
