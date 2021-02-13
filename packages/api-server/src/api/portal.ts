@@ -61,7 +61,7 @@ router.get('/', async (req, res) => {
       error: err,
     })
 
-    res.status(500).send({ error: 'Error fetching portals' })
+    res.sendStatus(500)
   }
 })
 
@@ -142,7 +142,7 @@ router.post('/', async (req, res) => {
       error: err,
     })
 
-    res.status(500).send({ error: 'Error setting portals' })
+    res.sendStatus(500)
   }
 })
 
@@ -172,7 +172,7 @@ router.delete('/', async (req, res) => {
       server: req.serverId,
       error: err,
     })
-    res.status(500).send({ error: 'Error deleting portal' })
+    res.sendStatus(500)
   }
 })
 
