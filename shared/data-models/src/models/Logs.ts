@@ -12,7 +12,7 @@ export default class LogsModel extends BaseModel {
       INSERT INTO server_logs (log_type, log_subtype, log_data)
       VALUES ($1, $2, $3);
     `,
-      [`winston_${info.level}`, info.metadata.service, JSON.stringify(info)]
+      [`winston_${info.level}`, info.service, JSON.stringify(info)]
     )
   }
 

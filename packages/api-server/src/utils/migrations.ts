@@ -12,7 +12,7 @@ const migrations = async () => {
 
     await migrate(config.db, path.resolve('./db_migrations'))
   } catch (err) {
-    logger.error({ message: 'Error populating servers', error: err })
+    logger.error('Error populating servers', { error: err })
   }
 }
 

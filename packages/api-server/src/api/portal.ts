@@ -55,8 +55,7 @@ router.get('/', async (req, res) => {
 
     res.status(200).send(portals)
   } catch (err) {
-    logger.error({
-      message: 'Error fetching portals',
+    logger.error('Error fetching portals', {
       user: req.userId,
       server: req.serverId,
       error: err,
@@ -137,8 +136,7 @@ router.post('/', async (req, res) => {
 
     res.sendStatus(204)
   } catch (err) {
-    logger.error({
-      message: 'Error setting portals',
+    logger.error('Error setting portals', {
       user: req.userId,
       server: req.serverId,
       error: err,
@@ -169,8 +167,7 @@ router.delete('/', async (req, res) => {
     await deleteServerPortal(portalIds, req.userId, req.serverId)
     res.sendStatus(204)
   } catch (err) {
-    logger.error({
-      message: 'Unable to delete',
+    logger.error('Unable to delete', {
       user: req.userId,
       server: req.serverId,
       error: err,

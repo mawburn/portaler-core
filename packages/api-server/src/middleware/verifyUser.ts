@@ -74,7 +74,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
 
     next()
   } catch (err) {
-    logger.warn({ message: 'Error verifying user', error: err })
+    logger.warn('Error verifying user', { error: err })
     return res.status(500).send({ error: 'Error Verifying User' })
   }
 }

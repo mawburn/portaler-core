@@ -23,7 +23,7 @@ const populateServers = async () => {
 
     await Promise.all([...subdomains, ...ids])
   } catch (err) {
-    logger.error({ message: 'Error setting up servers in Redis', error: err })
+    logger.error('Error setting up servers in Redis', { error: err })
   }
 }
 

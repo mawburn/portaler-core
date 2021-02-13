@@ -1,13 +1,4 @@
-import EventEmitter from 'events'
 import winston, { Logger } from 'winston'
-import Transport from 'winston-transport'
-
-const emitter = new EventEmitter()
-
-export enum WinstonEvent {
-  log = 'winston_log',
-}
-
 export interface WinstonLog {
   level:
     | 'emerg'
@@ -19,31 +10,17 @@ export interface WinstonLog {
     | 'info'
     | 'debug'
   message: string
-  metadata: {
-    service: string
-    [key: string]: any
-  }
+  service: string
+  metadata?: object
   stack?: string | object
   [key: string]: any
-}
-
-class WinstonEventEmit extends Transport {
-  constructor(opts = {}) {
-    super(opts)
-  }
-
-  log(info: object, callback: Function) {
-    emitter.emit(WinstonEvent.log, info)
-
-    callback()
-  }
 }
 
 export const createLogger = (service: string): Logger =>
   winston.createLogger({
     format: winston.format.json(),
     defaultMeta: { service },
-    transports: new WinstonEventEmit(),
+    transports: [new winston.transports.Console()],
   })
 
 export default createLogger

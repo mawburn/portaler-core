@@ -25,8 +25,7 @@ const removeUserRoles = async (
       await redis.delUser(token, userId, serverId)
     }
   } catch (err) {
-    logger.error({
-      message: 'Remove role',
+    logger.error('Remove role', {
       userId,
       serverId,
       roleIds,

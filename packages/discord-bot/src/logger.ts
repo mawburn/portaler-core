@@ -1,19 +1,17 @@
-import EventEmitter from 'events'
-
-import createLogger, { WinstonEvent, WinstonLog } from '@portaler/logger'
+import createLogger, { WinstonLog } from '@portaler/logger'
 
 import { db } from './db'
 
-const emitter = new EventEmitter()
+const logger = createLogger(process.env.SERVICE ?? 'discord-bot')
 
-emitter.on(WinstonEvent.log, (info: WinstonLog) => {
+logger.on('data', (info: WinstonLog) => {
   try {
-    db.Logs.winstonLog(info)
+    setImmediate(() => {
+      db.Logs.winstonLog(info)
+    })
   } catch (err) {
-    console.error('Error logging event')
+    console.error(err)
   }
 })
-
-const logger = createLogger(process.env.SERVICE ?? 'discord-bot')
 
 export default logger

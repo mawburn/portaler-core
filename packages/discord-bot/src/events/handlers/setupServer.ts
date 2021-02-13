@@ -90,8 +90,7 @@ const setupServer = async (server: Guild) => {
       await Promise.all([addToRedis, ...addRolesToUsers, ...addUsersAndRoles])
     }
   } catch (err) {
-    logger.error({
-      message: 'Error setting up server',
+    logger.error('Error setting up server', {
       name: server.name,
       id: server.id,
       error: err,

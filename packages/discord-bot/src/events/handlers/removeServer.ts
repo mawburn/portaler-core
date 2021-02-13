@@ -26,8 +26,7 @@ const removeServer = async (server: Guild) => {
       db.dbQuery('DELETE FROM user_roles WHERE role_id = $1', [r.id])
     )
 
-    logger.info({
-      message: 'Users deleted',
+    logger.info('Users deleted', {
       users: dbUserIds.rows.map((u) => u.user_id),
     })
 
@@ -37,10 +36,9 @@ const removeServer = async (server: Guild) => {
     )
 
     await Promise.all(userRolesDel)
-    logger.info({ message: 'ServerDeleted', server: server.name })
+    logger.info('ServerDeleted', { server: server.name })
   } catch (err) {
-    logger.error({
-      message: 'Error deleting server',
+    logger.error('Error deleting server', {
       id: server.id,
       name: server.name,
       error: err,

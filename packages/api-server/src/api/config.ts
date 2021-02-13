@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
       discordUrl: serverConfig.discordUrl,
     })
   } catch (err) {
-    logger.error({ message: 'Error fetching config', error: err })
+    logger.error('Error fetching config', { error: err })
     res.status(200).send({ publicRead: false, discordUrl: null })
   }
 })
