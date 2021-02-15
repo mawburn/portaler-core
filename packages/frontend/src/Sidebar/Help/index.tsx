@@ -1,7 +1,9 @@
 import cn from 'clsx'
 import React, { FC } from 'react'
 
+import SpeakIcon from '@material-ui/icons/RecordVoiceOver'
 import SettingsIcon from '@material-ui/icons/Settings'
+import WarningOutlinedIcon from '@material-ui/icons/WarningOutlined'
 
 import black from './black.png'
 import blue from './blue.png'
@@ -24,51 +26,51 @@ const Help: FC<HelpProps> = () => (
     <h2>Help & Map Keys</h2>
     <h3>Map Icons</h3>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <img src={blue} alt="blue zone" className={styles.zone} />
         <img src={yellow} alt="yellow zone" className={styles.zone} />
         <img src={red} alt="red zone" className={styles.zone} />
         <img src={black} alt="black zone" className={styles.zone} />
       </div>
-      <div className={styles.left}>Normal Zones</div>
+      <div className={styles.col}>Normal Zones</div>
     </div>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <img src={city} alt="city zone" className={styles.zone} />
       </div>
-      <div className={styles.left}>City</div>
+      <div className={styles.col}>City</div>
     </div>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <img src={road} alt="road zone" className={styles.zone} />
       </div>
-      <div className={styles.left}>Road Zone</div>
+      <div className={styles.col}>Road Zone</div>
     </div>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <img src={deepRoad} alt="" className={styles.zone} />
       </div>
-      <div className={styles.left}>Deep Road Zone</div>
+      <div className={styles.col}>Deep Road Zone</div>
     </div>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <img src={ho} alt="hideout zone" className={styles.zone} />
       </div>
-      <div className={styles.left}>Road Hideout Zone</div>
+      <div className={styles.col}>Road Hideout Zone</div>
     </div>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <img src={deepHo} alt="deep hideout zone" className={styles.zone} />
       </div>
-      <div className={styles.left}>Deep Road Hideout Zone</div>
+      <div className={styles.col}>Deep Road Hideout Zone</div>
     </div>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <img src={home} alt="home hideout" className={styles.zone} />
         <img src={homeCity} alt="home city" className={styles.zone} />
         <img src={homeNormal} alt="home normal" className={styles.zone} />
       </div>
-      <div className={styles.left}>Your Home</div>
+      <div className={styles.col}>Your Home</div>
     </div>
     <div className={styles.row}>
       <SettingsIcon />
@@ -77,28 +79,38 @@ const Help: FC<HelpProps> = () => (
 
     <h3>Connections</h3>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <div className={cn(styles.conn, styles.two)} />
       </div>
-      <div className={styles.left}>2 Person Portal</div>
+      <div className={styles.col}>2 Person Portal</div>
     </div>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <div className={cn(styles.conn, styles.seven)} />
       </div>
-      <div className={styles.left}>7 Person Portal</div>
+      <div className={styles.col}>7 Person Portal</div>
     </div>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <div className={cn(styles.conn, styles.twenty)} />
       </div>
-      <div className={styles.left}>20 Person Portal</div>
+      <div className={styles.col}>20 Person Portal</div>
     </div>
     <div className={styles.row}>
-      <div className={styles.left}>
+      <div className={styles.col}>
         <div className={cn(styles.conn, styles.royal)} />
       </div>
-      <div className={styles.left}>Persistent Connection</div>
+      <div className={styles.col}>Persistent Connection</div>
+    </div>
+
+    <div className={styles.row}>
+      <WarningOutlinedIcon
+        color="secondary"
+        style={{ marginRight: '0.5rem' }}
+      />
+      <em>
+        Persistent connections must have a portal at one end to "stay alive"
+      </em>
     </div>
 
     <h3>Call Signs & Types</h3>
@@ -112,8 +124,9 @@ const Help: FC<HelpProps> = () => (
         digit ID number.
       </p>
       <p>
-        This is intended for easy voice communication, plus being able to
-        identify a road type at a glance.
+        <SpeakIcon color="secondary" style={{ marginRight: '0.5rem' }} /> This
+        is intended for easy voice communication, plus being able to identify a
+        road type at a glance.
       </p>
     </div>
     <h4>Zone/Road Types</h4>
