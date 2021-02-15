@@ -3,7 +3,7 @@ import React, { MouseEvent } from 'react'
 import { Button, FormControl, Link, withStyles } from '@material-ui/core'
 
 import useConfigSelector from '../common/hooks/useConfigSelector'
-import { discordLogoWhite } from '../common/images'
+import { discordLogoWhite, portalerSmall } from '../common/images'
 import styles from './styles.module.scss'
 
 const DiscordButton = withStyles(() => ({
@@ -33,6 +33,7 @@ const PasswordForm = () => {
   const config = useConfigSelector()
   return (
     <div className={styles.btnContainer}>
+      <img alt="logo" src={portalerSmall} />
       {config.isPublic ? (
         <>
           <h2 className={styles.publicNote}>This server is public.</h2>
