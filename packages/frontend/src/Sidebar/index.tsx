@@ -113,7 +113,7 @@ const SideBar = () => {
   })
 
   return (!token && !mistWalker.isWalker) ||
-    (mistWalker.isWalker && mistWalker.showSidebar) ? (
+    (!token && mistWalker.isWalker && mistWalker.showSidebar) ? (
     <LoginButton />
   ) : (
     <aside className={styles.searchSide}>
