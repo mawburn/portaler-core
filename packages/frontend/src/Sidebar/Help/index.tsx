@@ -1,20 +1,21 @@
+import cn from 'clsx'
 import React, { FC } from 'react'
+
+import SettingsIcon from '@material-ui/icons/Settings'
+
 import black from './black.png'
 import blue from './blue.png'
 import city from './city.png'
 import deepHo from './deep-ho.png'
 import deepRoad from './deep-road.png'
+import ho from './ho.png'
+import home from './home.png'
+import homeCity from './homeCity.png'
+import homeNormal from './homeNormal.png'
 import red from './red.png'
 import road from './road.png'
-import yellow from './yellow.png'
-import home from './home.png'
-import ho from './ho.png'
-import homeNormal from './homeNormal.png'
-import homeCity from './homeCity.png'
-import cn from 'clsx'
-import SettingsIcon from '@material-ui/icons/Settings'
-
 import styles from './styles.module.scss'
+import yellow from './yellow.png'
 
 interface HelpProps {}
 
