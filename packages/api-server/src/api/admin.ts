@@ -27,7 +27,12 @@ router.get('/list', async (req, res) => {
 
     return res.status(200).json(servers)
   } catch (err) {
-    logger.error('No Server', { error: err })
+    logger.error('No Server', {
+      error: {
+        error: JSON.stringify(err),
+        trace: err.stack && err.stack(),
+      },
+    })
     return res.status(500).send(err)
   }
 })
@@ -78,8 +83,14 @@ router.post('/addSubdomain', async (req, res) => {
 
     return res.status(200).send(server)
   } catch (err) {
-    logger.error('Subdomain', { error: err })
-    return res.status(500).json({ error: err.message })
+    logger.error('Subdomain', {
+      error: {
+        error: JSON.stringify(err),
+        trace: err.stack && err.stack(),
+      },
+    })
+
+    return res.status(500)
   }
 })
 

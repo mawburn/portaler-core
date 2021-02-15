@@ -139,7 +139,10 @@ router.post('/', async (req, res) => {
     logger.error('Error setting portals', {
       user: req.userId,
       server: req.serverId,
-      error: err,
+      error: {
+        error: JSON.stringify(err),
+        trace: err.stack && err.stack(),
+      },
     })
 
     res.sendStatus(500)
@@ -170,7 +173,10 @@ router.delete('/', async (req, res) => {
     logger.error('Unable to delete', {
       user: req.userId,
       server: req.serverId,
-      error: err,
+      error: {
+        error: JSON.stringify(err),
+        trace: err.stack && err.stack(),
+      },
     })
     res.sendStatus(500)
   }
