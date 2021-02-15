@@ -9,4 +9,8 @@
   &.hideSidebar {
     display: flex;
   }
+
+  &.mistWalker {
+    min-height: calc(100vh - 8.4rem) !important;
+  }
 }
