@@ -112,7 +112,8 @@ const SideBar = () => {
     paddingRight: sideBar ? 'inherit' : 0,
   })
 
-  return !token ? (
+  return (!token && !mistWalker.isWalker) ||
+    (mistWalker.isWalker && mistWalker.showSidebar) ? (
     <LoginButton />
   ) : (
     <aside className={styles.searchSide}>
