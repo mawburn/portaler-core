@@ -3,6 +3,10 @@ import { DBConfig, RedisConfig } from '@portaler/types'
 interface BotConfig {
   db: DBConfig
   redis: RedisConfig
+  portaler: {
+    api: string
+    key: string
+  }
   token: string
   roleName: string
   api: string
@@ -20,6 +24,10 @@ const config: BotConfig = {
     host: process.env.REDIS_HOST!,
     password: process.env.REDIS_PASSWORD!,
     port: Number(process.env.REDIS_PORT || 6379),
+  },
+  portaler: {
+    api: process.env.PORTALER_API_URL!,
+    key: process.env.ADMIN_KEY!,
   },
   token: process.env.DISCORD_BOT_TOKEN!,
   roleName: process.env.DISCORD_ROLE!,
