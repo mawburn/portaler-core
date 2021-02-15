@@ -1,10 +1,8 @@
-import clsx from 'clsx'
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { animated, useSpring } from 'react-spring'
 
 import useGetWidth from '../../common/hooks/useGetWidth'
-import mistWalker from '../../common/utils/mistWalker'
 import { RootState } from '../../reducers'
 import styles from './styles.module.scss'
 
@@ -19,12 +17,7 @@ const MainLayout: FC = ({ children }) => {
   })
 
   return (
-    <animated.main
-      style={props}
-      className={clsx(styles.layout, {
-        [styles.hideSidebar]: !mistWalker.showSidebar,
-      })}
-    >
+    <animated.main style={props} className={styles.layout}>
       {children}
     </animated.main>
   )

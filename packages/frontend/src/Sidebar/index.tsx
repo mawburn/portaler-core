@@ -1,5 +1,5 @@
 import cn from 'clsx'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { animated, useSpring } from 'react-spring'
 
@@ -20,6 +20,52 @@ import { SidebarActionTypes } from '../reducers/sideBarReducer'
 import UserSettings from '../UserSettings'
 import styles from './styles.module.scss'
 
+type TabOpts = 'form' | 'info' | 'settings'
+
+const tabMap = (tabVal: number): TabOpts => {
+  if (mistWalker.isWalker && !mistWalker.showSidebar) {
+    switch (tabVal) {
+      case 0:
+        return 'info'
+      case 1:
+        return 'settings'
+    }
+  }
+
+  switch (tabVal) {
+    case 0:
+      return 'form'
+    case 1:
+      return 'info'
+    case 2:
+      return 'settings'
+    default:
+      return 'form'
+  }
+}
+
+const getTabVal = (tabOpt: TabOpts): number => {
+  if (mistWalker.isWalker && !mistWalker.showSidebar) {
+    switch (tabOpt) {
+      case 'info':
+        return 0
+      case 'settings':
+        return 1
+    }
+  }
+
+  switch (tabOpt) {
+    case 'form':
+      return 0
+    case 'info':
+      return 1
+    case 'settings':
+      return 2
+    default:
+      return 0
+  }
+}
+
 const useStyles = makeStyles((theme: Theme) => ({
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -36,10 +82,10 @@ const SideBar = () => {
   const token = useToken()
   const dispatch = useDispatch()
 
-  const [tabValue, setTabValue] = useState(!mistWalker.isWalker ? 0 : 1)
+  const [tabValue, setTabValue] = useState<TabOpts>(tabMap(0))
 
   const handleChange = useCallback((_, newValue: number) => {
-    setTabValue(newValue)
+    setTabValue(tabMap(newValue))
   }, [])
 
   const handleSlide = useCallback(() => {
@@ -66,12 +112,6 @@ const SideBar = () => {
     paddingRight: sideBar ? 'inherit' : 0,
   })
 
-  useEffect(() => {
-    if (sideBar) {
-      setTabValue(!mistWalker.isWalker ? 0 : 1)
-    }
-  }, [sideBar])
-
   return !token ? (
     <LoginButton />
   ) : (
@@ -93,42 +133,36 @@ const SideBar = () => {
       </animated.div>
       <animated.div style={props} className={styles.content}>
         <animated.div style={opacity} className={styles.mainContent}>
-          {tabValue === 0 && <PortalForm />}
-          {tabValue === 1 && <MapInfo />}
-          {tabValue === 2 && <UserSettings />}
+          {tabValue === 'form' && <PortalForm />}
+          {tabValue === 'info' && <MapInfo />}
+          {tabValue === 'settings' && <UserSettings />}
         </animated.div>
         <animated.div style={opacity} className={styles.nav}>
           <Tabs
             orientation="vertical"
-            value={tabValue}
+            value={getTabVal(tabValue)}
             textColor="secondary"
             indicatorColor="secondary"
             onChange={handleChange}
             aria-label="panel options"
             className={classes.tabs}
           >
-            {!mistWalker.isWalker && (
+            {(!mistWalker.isWalker || mistWalker.showSidebar) && (
               <Tab
-                className={cn(classes.tab, {
-                  [classes.selected]: tabValue === 0,
-                })}
+                className={classes.tab}
                 icon={<AddLocationIcon />}
                 aria-label="Add location"
                 title="Add location"
               />
             )}
             <Tab
-              className={cn(classes.tab, {
-                [classes.selected]: tabValue === 1,
-              })}
+              className={classes.tab}
               icon={<InfoIcon />}
               aria-label="Zone Info"
               title="Zone Info"
             />
             <Tab
-              className={cn(classes.tab, {
-                [classes.selected]: tabValue === 2,
-              })}
+              className={classes.tab}
               icon={<SettingsIcon />}
               aria-label="Settings"
               title="Settings"
