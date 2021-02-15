@@ -2,11 +2,15 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   height: 4.2rem;
-  padding: 1rem;
   bottom: 0;
   background: #424242;
   border-top: 1px solid rgba(0, 0, 0, 0.5);
   width: 100%;
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .right,
@@ -17,8 +21,22 @@
   justify-content: flex-end;
 }
 
+.left {
+  padding-left: 1.42rem;
+}
+
+.right {
+  padding-right: 1.42rem;
+}
+
+.patreonLogo {
+  height: 2.5rem;
+}
+
 .middle {
   justify-content: center;
+  font-size: 0;
+  line-height: 0;
 }
 
 .discordLogo {
@@ -56,10 +74,6 @@
     width: 1.5rem;
     margin-bottom: -0.5rem;
   }
-}
-
-.patreonLogo {
-  height: 2.25rem;
 }
 
 @keyframes glowing {
