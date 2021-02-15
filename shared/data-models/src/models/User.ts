@@ -18,6 +18,7 @@ export interface IUserModel {
   serverAccess?: ServerRoleId[]
   discordRefresh?: string | null
   createdOn: Date
+  isBanned: boolean
 }
 
 export enum UserAction {
@@ -208,6 +209,7 @@ export default class UserModel extends BaseModel {
         discordName: `${fRow.discord_name}#${fRow.discriminator}`,
         discordRefresh: fRow.refresh,
         createdOn: fRow.created_on,
+        isBanned: fRow.is_banned,
       }
 
       return user
@@ -228,6 +230,7 @@ export default class UserModel extends BaseModel {
         u.discord_name AS discord_name,
         u.discord_discriminator AS discriminator,
         u.discord_refresh AS refresh,
+        u.is_banned as is_banned,
         u.created_on AS created_on,
         sr.server_id AS server_id,
         sr.discord_role_id AS role_id
@@ -257,6 +260,7 @@ export default class UserModel extends BaseModel {
           serverId: r.server_id,
           roleId: r.role_id,
         })),
+        isBanned: fRow.is_banned,
       }
 
       return user

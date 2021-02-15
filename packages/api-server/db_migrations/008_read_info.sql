@@ -1,6 +1,9 @@
 ALTER TABLE server_roles
 ADD COLUMN is_read_only BOOLEAN DEFAULT FALSE;
 
+ALTER TABLE users
+ADD COLUMN is_banned BOOLEAN DEFAULT FALSE;
+
 CREATE TABLE IF NOT EXISTS server_intel (
   server_id INT NOT NULL,
   zone_id INT NOT NULL,
