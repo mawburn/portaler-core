@@ -4,10 +4,9 @@ import { DiscordUser } from '@portaler/data-models/out/models/User'
 
 import logger from '../../utils/logger'
 import delServer from './delServer'
-import setupServer from './setupServer'
-
-import updateUser from './updateUser'
 import removeUserRoles from './removeUserRoles'
+import setupServer from './setupServer'
+import updateUser from './updateUser'
 
 const router = Router()
 export interface ServerBody {

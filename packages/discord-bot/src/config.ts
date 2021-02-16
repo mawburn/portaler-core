@@ -1,4 +1,4 @@
-import { DBConfig, RedisConfig } from '@portaler/types'
+import { DBConfig } from '@portaler/types'
 
 interface BotConfig {
   db: DBConfig

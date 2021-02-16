@@ -1,5 +1,5 @@
-import { MemberBody } from '.'
 import { db, redis } from '../../utils/db'
+import { MemberBody } from './'
 
 const removeUserRoles = async (body: MemberBody) =>
   new Promise<void>(async (res, rej) => {
@@ -10,12 +10,18 @@ const removeUserRoles = async (body: MemberBody) =>
       ])
 
       if (user && server) {
-        // await db.User.removeUserServer(user.id, server.id)
+        const removeRoles = server.roles.filter(
+          (r) => !body.roles.includes(r.discordRoleId)
+        )
 
         await db.User.removeUserRoles(
           user.id,
-          server.roles.map((r) => r.id)
+          removeRoles.map((r) => r.id)
         )
+
+        if (body.roles.length === 0) {
+          await db.User.removeUserServer(user.id, server.id)
+        }
 
         const token = await redis.getToken(user.id, server.id)
 

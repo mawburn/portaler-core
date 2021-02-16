@@ -1,9 +1,10 @@
-import { DiscordUser } from '@portaler/data-models/out/models/User'
 import { Guild } from 'discord.js'
-import { ServerBody } from '.'
+
+import { DiscordUser } from '@portaler/data-models/out/models/User'
 
 import { db, redis } from '../../utils/db'
 import logger from '../../utils/logger'
+import { ServerBody } from './'
 import client, { readOnlyPayload, rolePayload } from './client'
 
 interface RoleInfo {

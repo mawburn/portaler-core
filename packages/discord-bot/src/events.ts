@@ -43,6 +43,7 @@ const initEvents = (client: Client) => {
     }
   })
 
+  // bot is kicked from server
   client.on('guildDelete', async (server: Guild) => {
     try {
       const res = await fetch(`${config.portaler.api}/server`, {
@@ -65,13 +66,6 @@ const initEvents = (client: Client) => {
       })
     }
   })
-
-  // when a guild is updated
-  // client.on('guildUpdate', (_, server: Guild) =>
-  //   updateServer(server, db)
-  // )
-
-  // member.roles.cache.map((r) => r.id)
 
   // when members get updated
   client.on('guildMemberUpdate', async (_, member: GuildMember) => {
