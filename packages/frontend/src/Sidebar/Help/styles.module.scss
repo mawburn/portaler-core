@@ -1,5 +1,26 @@
 .container {
   padding-bottom: 2rem;
+  padding-right: 0.8rem;
+  overflow-y: scroll;
+  mask-image: linear-gradient(to top, transparent, #333),
+    linear-gradient(to left, transparent 17px, #333 17px);
+  mask-size: 100% 20000px;
+  mask-position: left bottom;
+  -webkit-mask-image: linear-gradient(to top, transparent, #333),
+    linear-gradient(to left, transparent 17px, #333 17px);
+  -webkit-mask-size: 100% 20000px;
+  -webkit-mask-position: left bottom;
+  transition: mask-position 0.3s, -webkit-mask-position 0.3s;
+
+  max-height: calc(100vh - 4.2rem - 110px);
+
+  &:hover {
+    -webkit-mask-position: left top;
+  }
+
+  &.mistwalker {
+    max-height: calc(100vh - 8.4rem - 110px);
+  }
 
   h3 {
     padding: 0.5rem 0;

@@ -5,6 +5,7 @@ import SpeakIcon from '@material-ui/icons/RecordVoiceOver'
 import SettingsIcon from '@material-ui/icons/Settings'
 import WarningOutlinedIcon from '@material-ui/icons/WarningOutlined'
 
+import mistWalker from '../../common/utils/mistWalker'
 import black from './black.png'
 import blue from './blue.png'
 import city from './city.png'
@@ -22,7 +23,11 @@ import yellow from './yellow.png'
 interface HelpProps {}
 
 const Help: FC<HelpProps> = () => (
-  <div className={styles.container}>
+  <div
+    className={cn(styles.container, {
+      [styles.mistwalker]: mistWalker.isWalker,
+    })}
+  >
     <h2>Help & Map Keys</h2>
     <h3>Map Icons</h3>
     <div className={styles.row}>
@@ -48,21 +53,16 @@ const Help: FC<HelpProps> = () => (
     </div>
     <div className={styles.row}>
       <div className={styles.col}>
-        <img src={deepRoad} alt="" className={styles.zone} />
-      </div>
-      <div className={styles.col}>Deep Road Zone</div>
-    </div>
-    <div className={styles.row}>
-      <div className={styles.col}>
         <img src={ho} alt="hideout zone" className={styles.zone} />
       </div>
       <div className={styles.col}>Road Hideout Zone</div>
     </div>
     <div className={styles.row}>
       <div className={styles.col}>
+        <img src={deepRoad} alt="deep road" className={styles.zone} />
         <img src={deepHo} alt="deep hideout zone" className={styles.zone} />
       </div>
-      <div className={styles.col}>Deep Road Hideout Zone</div>
+      <div className={styles.col}>Deep Roads</div>
     </div>
     <div className={styles.row}>
       <div className={styles.col}>
