@@ -143,7 +143,12 @@ const SideBar = () => {
         </div>
       </animated.div>
       <animated.div style={props} className={styles.content}>
-        <animated.div style={opacity} className={styles.mainContent}>
+        <animated.div
+          style={opacity}
+          className={cn(styles.mainContent, {
+            [styles.help]: tabValue === 'help',
+          })}
+        >
           {tabValue === 'form' && <PortalForm />}
           {tabValue === 'info' && <MapInfo />}
           {tabValue === 'help' && <Help />}
