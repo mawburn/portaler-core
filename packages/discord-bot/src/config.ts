@@ -2,7 +2,6 @@ import { DBConfig, RedisConfig } from '@portaler/types'
 
 interface BotConfig {
   db: DBConfig
-  redis: RedisConfig
   portaler: {
     api: string
     key: string
@@ -19,11 +18,6 @@ const config: BotConfig = {
     password: process.env.POSTGRES_PASSWORD!,
     database: process.env.POSTGRES_DB!,
     port: Number(process.env.DB_PORT || 5432),
-  },
-  redis: {
-    host: process.env.REDIS_HOST!,
-    password: process.env.REDIS_PASSWORD!,
-    port: Number(process.env.REDIS_PORT || 6379),
   },
   portaler: {
     api: process.env.PORTALER_API_URL!,

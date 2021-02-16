@@ -14,7 +14,7 @@ router.get('/list', async (_, res) => {
     logger.error('Error fetching zones', {
       error: {
         error: JSON.stringify(err),
-        trace: err.stack && err.stack(),
+        trace: typeof err.stack === 'function' && err.stack(),
       },
     })
     res.sendStatus(500)
@@ -29,7 +29,7 @@ router.get('/info/:id', async (req, res) => {
     logger.error('Error fetching zone info', {
       error: {
         error: JSON.stringify(err),
-        trace: err.stack && err.stack(),
+        trace: typeof err.stack === 'function' && err.stack(),
       },
     })
     res.sendStatus(500)

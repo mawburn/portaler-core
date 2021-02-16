@@ -141,7 +141,7 @@ router.post('/', async (req, res) => {
       server: req.serverId,
       error: {
         error: JSON.stringify(err),
-        trace: err.stack && err.stack(),
+        trace: typeof err.stack === 'function' && err.stack(),
       },
     })
 
@@ -175,7 +175,7 @@ router.delete('/', async (req, res) => {
       server: req.serverId,
       error: {
         error: JSON.stringify(err),
-        trace: err.stack && err.stack(),
+        trace: typeof err.stack === 'function' && err.stack(),
       },
     })
     res.sendStatus(500)

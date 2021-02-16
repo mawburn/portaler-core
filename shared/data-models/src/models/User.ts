@@ -1,4 +1,3 @@
-import { GuildMember } from 'discord.js'
 import { QueryResult } from 'pg'
 
 import { DiscordMe, DiscordMeGuild } from '@portaler/types'
@@ -9,6 +8,12 @@ import ServerModel, { IServerModel } from './Server'
 interface ServerRoleId {
   serverId: string
   roleId: string
+}
+
+export interface DiscordUser {
+  id: string
+  username: string
+  discriminator: string
 }
 
 export interface IUserModel {
@@ -34,12 +39,12 @@ export default class UserModel extends BaseModel {
   }
 
   createUser = async (
-    member: GuildMember,
+    member: DiscordUser,
     serverId: number,
     roles: number[]
   ) => {
     try {
-      const user = await this.getUserByDiscord(member.user.id)
+      const user = await this.getUserByDiscord(member.id)
 
       let userId = user ? user.id : null
 
@@ -49,7 +54,7 @@ export default class UserModel extends BaseModel {
           INSERT INTO users(discord_id, discord_name, discord_discriminator)
           VALUES ($1, $2, $3) RETURNING id;
           `,
-          [member.user.id, member.user.username, member.user.discriminator]
+          [member.id, member.username, member.discriminator]
         )
 
         userId = dbResUser.rows[0].id

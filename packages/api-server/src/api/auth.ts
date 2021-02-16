@@ -85,7 +85,7 @@ router.get('/callback', async (req, res) => {
     logger.error('Error logging in User', {
       error: {
         error: JSON.stringify(err),
-        trace: err.stack && err.stack(),
+        trace: typeof err.stack === 'function' && err.stack(),
       },
     })
     res.sendStatus(500)

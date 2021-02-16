@@ -1,22 +1,97 @@
-import { Guild } from 'discord.js'
 import { Router } from 'express'
 
+import { DiscordUser } from '@portaler/data-models/out/models/User'
+
 import logger from '../../utils/logger'
+import delServer from './delServer'
 import setupServer from './setupServer'
 
-const router = Router()
+import updateUser from './updateUser'
+import removeUserRoles from './removeUserRoles'
 
-router.post('/addServer', async (req, res) => {
-  const body: { id: string; name: string } = req.body
+const router = Router()
+export interface ServerBody {
+  id: string
+  name: string
+}
+
+export interface MemberBody {
+  user: DiscordUser
+  serverId: string
+  roles: string[]
+}
+
+router.post('/user', async (req, res) => {
+  const body: MemberBody = req.body
+
+  try {
+    await updateUser(body)
+    res.sendStatus(204)
+  } catch (err) {
+    logger.error('Error updating user', {
+      name: body.user.username,
+      id: body.user.id,
+      error: {
+        error: JSON.stringify(err),
+        trace: typeof err.stack === 'function' && err.stack(),
+      },
+    })
+
+    res.sendStatus(500)
+  }
+})
+
+router.delete('/user', async (req, res) => {
+  const body: MemberBody = req.body
+
+  try {
+    await removeUserRoles(body)
+    res.sendStatus(204)
+  } catch (err) {
+    logger.error('Error updating user', {
+      name: body.user.username,
+      id: body.user.id,
+      error: {
+        error: JSON.stringify(err),
+        trace: typeof err.stack === 'function' && err.stack(),
+      },
+    })
+
+    res.sendStatus(500)
+  }
+})
+
+router.put('/server', async (req, res) => {
+  const body: ServerBody = req.body
 
   try {
     await setupServer(body)
+    res.sendStatus(204)
   } catch (err) {
     logger.error('Error setting up server', {
       name: body.name,
       error: {
         error: JSON.stringify(err),
-        trace: err.stack && err.stack(),
+        trace: typeof err.stack === 'function' && err.stack(),
+      },
+    })
+
+    res.sendStatus(500)
+  }
+})
+
+router.delete('/server', async (req, res) => {
+  const body: ServerBody = req.body
+
+  try {
+    await delServer(body)
+    res.sendStatus(204)
+  } catch (err) {
+    logger.error('Error deleting server', {
+      name: body.name,
+      error: {
+        error: JSON.stringify(err),
+        trace: typeof err.stack === 'function' && err.stack(),
       },
     })
 

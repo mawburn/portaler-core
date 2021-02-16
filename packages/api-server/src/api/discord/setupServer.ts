@@ -1,4 +1,6 @@
+import { DiscordUser } from '@portaler/data-models/out/models/User'
 import { Guild } from 'discord.js'
+import { ServerBody } from '.'
 
 import { db, redis } from '../../utils/db'
 import logger from '../../utils/logger'
@@ -9,7 +11,7 @@ interface RoleInfo {
   discId: string
 }
 
-const setupServer = (body: { id: string; name: string }) =>
+const setupServer = (body: ServerBody) =>
   new Promise<void>(async (res, rej) => {
     try {
       const dbServer = await db.Server.getServer(body.id)
@@ -68,8 +70,14 @@ const setupServer = (body: { id: string; name: string }) =>
             .filter((rt) => memberRoleIds.includes(rt.discId))
             .map((r) => r.dbId)
 
+          const discordUser: DiscordUser = {
+            id: m.id,
+            username: m.user.username,
+            discriminator: m.user.discriminator,
+          }
+
           if (!user) {
-            return db.User.createUser(m, serverId!, rolesToAdd)
+            return db.User.createUser(discordUser, serverId!, rolesToAdd)
           } else {
             return db.User.addRoles(user.id, rolesToAdd, serverId!)
           }
