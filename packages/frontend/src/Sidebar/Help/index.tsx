@@ -132,10 +132,10 @@ const Help: FC<HelpProps> = () => (
     <h4>Zone/Road Types</h4>
     <div className={styles.text}>
       <p>
-        Each zone has a type associated to it. For Roads, the type can tell you
-        if it's a deep zone, what type of connections it usually has
-        (black/royal), and where on the continent those connections are likely
-        to spawn (high, medium, low, etc).
+        Each zone has a type associated with it. For Roads, the type can tell
+        you if it's a deep zone, what type of connections it usually has (black
+        or royal), and where on the continent those connections are likely to
+        spawn (high, medium, low, etc).
       </p>
       <p>
         The types do not guarantee that it will only have those types of
