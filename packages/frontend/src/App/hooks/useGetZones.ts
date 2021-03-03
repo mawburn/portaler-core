@@ -47,21 +47,9 @@ const useGetZones = () => {
     } else if (!loadedState && (config.token || config.isPublic)) {
       hasHydrated.current = true
 
-      fetchler
-        .get('/api/zone/list')
-        .then((r) => {
-          if (!r.ok) {
-            throw new Error('Unable to fetch zones')
-          }
-
-          return r.json()
-        })
-        .then((json) => {
-          dispatch({ type: ZoneActionTypes.ADD, zones: json as Zone[] })
-        })
-        .catch((err: Error) => {
-          dispatch({ type: ErrorActionTypes.ADD, error: err.message })
-        })
+      fetchler.get('/api/zone/list').then((json) => {
+        dispatch({ type: ZoneActionTypes.ADD, zones: json as Zone[] })
+      })
     }
   }, [dispatch, config])
 }
