@@ -9,14 +9,14 @@ const useAddPortal = () => {
   const checkPortals = useGetPortals()
 
   return useCallback(
-    (portal: PortalPayload) => {
+    async (portal: PortalPayload) => {
       const body = JSON.stringify(portal)
 
-      fetchler
-        .post('/api/portal', {
-          body,
-        })
-        .then(async () => await checkPortals(true))
+      await fetchler.post('/api/portal', {
+        body,
+      })
+
+      await checkPortals(true)
     },
     [checkPortals]
   )
