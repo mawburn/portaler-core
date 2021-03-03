@@ -6,7 +6,6 @@ import { Zone } from '@portaler/types'
 
 import useConfigSelector from '../../common/hooks/useConfigSelector'
 import fetchler from '../../fetchler'
-import { ErrorActionTypes } from '../../reducers/errorReducer'
 import {
   ZoneAction,
   ZoneActionTypes,
