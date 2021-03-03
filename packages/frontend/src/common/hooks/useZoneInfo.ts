@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Zone } from '@portaler/types'
 
+import fetchler from '../../fetchler'
 import { RootState } from '../../reducers'
 import { ZoneActionTypes } from '../../reducers/zoneReducer'
 import useZoneListSelector from './useZoneListSelector'
@@ -21,9 +22,7 @@ const useZoneInfo = (): Zone | null => {
         newZone = zoneList.find((z) => z.id === id) ?? null
 
         if (!newZone?.info?.markers) {
-          const zoneInfoRes = await fetch(`/api/zone/info/${id}`, {
-            method: 'GET',
-          })
+          const zoneInfoRes = await fetchler.get(`/api/zone/info/${id}`)
 
           if (zoneInfoRes.ok) {
             newZone = await zoneInfoRes.json()

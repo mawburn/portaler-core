@@ -1,4 +1,6 @@
 import { Portal } from '@portaler/types'
+
+import fetchler from '../../fetchler'
 import { ConfigState } from '../../reducers/configReducer'
 
 const fetchPortals = (config: ConfigState): Promise<Portal[]> => {
@@ -6,15 +8,7 @@ const fetchPortals = (config: ConfigState): Promise<Portal[]> => {
     return Promise.resolve([])
   }
 
-  const headers = new Headers()
-
-  if (config.token) {
-    headers.set('Authorization', `Bearer ${config.token}`)
-  }
-
-  return fetch(`/api/portal`, {
-    headers,
-  }).then(async (r: Response) => {
+  return fetchler.get(`/api/portal`).then(async (r: Response) => {
     if (!r.ok) {
       throw new Error('Invalid Login')
     }

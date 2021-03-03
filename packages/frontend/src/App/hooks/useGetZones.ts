@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { Zone } from '@portaler/types'
 
 import useConfigSelector from '../../common/hooks/useConfigSelector'
+import fetchler from '../../fetchler'
 import { ErrorActionTypes } from '../../reducers/errorReducer'
 import {
   ZoneAction,
@@ -45,16 +46,9 @@ const useGetZones = () => {
       })
     } else if (!loadedState && (config.token || config.isPublic)) {
       hasHydrated.current = true
-      const headers = new Headers()
 
-      if (config.token) {
-        headers.set('Authorization', `Bearer ${config.token}`)
-      }
-
-      fetch(`/api/zone/list`, {
-        headers,
-        method: 'GET',
-      })
+      fetchler
+        .get('/api/zone/list')
         .then((r) => {
           if (!r.ok) {
             throw new Error('Unable to fetch zones')

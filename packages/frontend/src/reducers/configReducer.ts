@@ -1,6 +1,8 @@
 import clone from 'lodash/cloneDeep'
 import { Reducer } from 'react'
 
+import fetchler from '../fetchler'
+
 export enum ConfigActionTypes {
   TOKEN = 'config/token',
   CLEARTOKEN = 'config/clearToken',
@@ -48,12 +50,14 @@ const configReducer: Reducer<any, ConfigAction> = (
     case ConfigActionTypes.TOKEN:
       if (!!action.token) {
         window.localStorage.setItem('token', action.token)
+        fetchler.updateToken(action.token)
         return { ...state, token: action.token }
       }
 
       return state
     case ConfigActionTypes.CLEARTOKEN:
       window.localStorage.removeItem('token')
+      fetchler.updateToken(null)
       return { ...state, token: null }
     case ConfigActionTypes.SETCONFIG:
       return {
