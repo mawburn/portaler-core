@@ -32,7 +32,7 @@ router.post('/user', async (req, res) => {
       id: body.user.id,
       error: {
         error: JSON.stringify(err),
-        trace: typeof err.stack === 'function' && err.stack(),
+        trace: err.stack,
       },
     })
 
@@ -52,7 +52,7 @@ router.delete('/user', async (req, res) => {
       id: body.user.id,
       error: {
         error: JSON.stringify(err),
-        trace: typeof err.stack === 'function' && err.stack(),
+        trace: err.stack,
       },
     })
 
@@ -71,7 +71,7 @@ router.put('/server', async (req, res) => {
       name: body.name,
       error: {
         error: JSON.stringify(err),
-        trace: typeof err.stack === 'function' && err.stack(),
+        trace: err.stack,
       },
     })
 
@@ -90,7 +90,7 @@ router.delete('/server', async (req, res) => {
       name: body.name,
       error: {
         error: JSON.stringify(err),
-        trace: typeof err.stack === 'function' && err.stack(),
+        trace: err.stack,
       },
     })
 

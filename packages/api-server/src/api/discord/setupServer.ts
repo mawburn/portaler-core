@@ -12,6 +12,24 @@ interface RoleInfo {
   discId: string
 }
 
+const addRole = async (
+  server: Guild,
+  serverId: number,
+  readOnly: boolean
+): Promise<RoleInfo> => {
+  const role = await server.roles.create({
+    data: readOnly ? readOnlyPayload : rolePayload,
+    reason: 'Add authentication for Portaler',
+  })
+
+  const roleServerId = await db.Server.createRole(serverId, role.id, readOnly)
+
+  return {
+    dbId: roleServerId,
+    discId: role.id,
+  }
+}
+
 const setupServer = (body: ServerBody) =>
   new Promise<void>(async (res, rej) => {
     try {
@@ -23,32 +41,36 @@ const setupServer = (body: ServerBody) =>
 
       const discordServer: Guild = await client.guilds.fetch(body.id)
 
-      const discordServerRoles: string[] = (
+      const discordServerRoles: { id: string; name: string }[] = (
         await discordServer.roles.cache
-      ).map((r) => r.id)
+      )
+        .map((r) => ({ id: r.id, name: r.name }))
+        .filter(
+          (r) => r.name === rolePayload.name || r.name === readOnlyPayload.name
+        )
 
       const roleTuple: [RoleInfo, RoleInfo] = [
         { dbId: 0, discId: '' },
         { dbId: 0, discId: '' },
       ]
 
-      dbServer?.roles.forEach(async (r) => {
-        if (!discordServerRoles.includes(r.discordRoleId)) {
-          const role = await discordServer.roles.create({
-            data: r.isReadOnly ? readOnlyPayload : rolePayload,
-            reason: 'Add authentication for Portaler',
-          })
-
-          const roleServerId = await db.Server.createRole(serverId!, role.id)
-
-          const pos = r.isReadOnly ? 1 : 0
-
-          roleTuple[pos] = {
-            dbId: roleServerId,
-            discId: role.id,
-          }
+      if (discordServerRoles.length === 0) {
+        for (let i = 0; i < 2; i++) {
+          roleTuple[i] = await addRole(discordServer, serverId, i === 1)
         }
-      })
+      } else {
+        discordServerRoles.forEach(async (r) => {
+          const pos = r.name === rolePayload.name ? 0 : 1
+          const roleServerId = await db.Server.createRole(serverId, r.id)
+          roleTuple[pos] = { dbId: roleServerId, discId: r.id }
+        })
+
+        if (roleTuple[0].dbId === 0) {
+          roleTuple[0] = await addRole(discordServer, serverId, false)
+        } else if (roleTuple[1].dbId === 0) {
+          roleTuple[1] = await addRole(discordServer, serverId, true)
+        }
+      }
 
       const discordMembers = (await discordServer.members.cache).filter((m) =>
         m.roles.cache.some(

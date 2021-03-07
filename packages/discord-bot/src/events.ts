@@ -17,6 +17,7 @@ export interface MemberBody {
 headers.set('Authorization', `Bearer ${config.portaler.key}`)
 headers.set('User-Agent', 'discord-bot')
 headers.set('Referrer', 'discord-bot')
+headers.set('Content-Type', 'application/json')
 
 const initEvents = (client: Client) => {
   // bot joins a server

@@ -35,10 +35,14 @@ export default class ServerModel extends BaseModel {
     return dbResServer.rows[0].id
   }
 
-  createRole = async (serverId: number, roleId: string): Promise<number> => {
+  createRole = async (
+    serverId: number,
+    roleId: string,
+    readOnly: boolean = false
+  ): Promise<number> => {
     const dbResRole = await this.query(
-      `INSERT INTO server_roles(server_id, discord_role_id) VALUES($1, $2) RETURNING id`,
-      [serverId, roleId]
+      `INSERT INTO server_roles(server_id, discord_role_id, is_read_only) VALUES($1, $2, $3) RETURNING id`,
+      [serverId, roleId, readOnly]
     )
 
     return dbResRole.rows[0].id
