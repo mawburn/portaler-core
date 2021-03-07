@@ -81,7 +81,7 @@ router.post('/', async (req, res) => {
     // retain backwards compatibility until we can edit connections
     const dbRes = await db.dbQuery(
       `
-      SELECT ROW_TO_JSON(portal) as json_field
+      SELECT id
       FROM (SELECT * FROM portals WHERE server_id = $1 AND conn1 = $2 AND conn2 = $3) portal;
     `,
       [req.serverId, conns[0], conns[1]]
@@ -106,11 +106,11 @@ router.post('/', async (req, res) => {
         })
       )
     } else {
-      const updateRes = await db.dbQuery(
+      await db.dbQuery(
         `
         UPDATE portals
         SET size = $1, expires = $2
-        WHERE id = $3 RETURNING id;
+        WHERE id = $3;
       `,
         [body.size, expires, dbRes.rows[0].id]
       )
@@ -120,7 +120,7 @@ router.post('/', async (req, res) => {
         SELECT ROW_TO_JSON(portal) as json_field
         FROM (SELECT * FROM portals WHERE id = $1) portal
         `,
-        [updateRes.rows[0].id]
+        [dbRes.rows[0].id]
       )
 
       await db.User.logUserAction(
@@ -141,7 +141,7 @@ router.post('/', async (req, res) => {
       server: req.serverId,
       error: {
         error: JSON.stringify(err),
-        trace: typeof err.stack === 'function' && err.stack(),
+        trace: err.stack,
       },
     })
 
@@ -175,7 +175,7 @@ router.delete('/', async (req, res) => {
       server: req.serverId,
       error: {
         error: JSON.stringify(err),
-        trace: typeof err.stack === 'function' && err.stack(),
+        trace: err.stack,
       },
     })
     res.sendStatus(500)

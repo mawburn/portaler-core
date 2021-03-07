@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
     logger.error('Error fetching config', {
       error: {
         error: JSON.stringify(err),
-        trace: typeof err.stack === 'function' && err.stack(),
+        trace: err.stack,
       },
     })
     res.status(200).send({ publicRead: false, discordUrl: null })
