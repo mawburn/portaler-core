@@ -56,11 +56,20 @@ export default class RedisConnector {
       userIds.map((uid) => this.getToken(uid, serverId))
     )
 
-    const delTokens = tokenList.map((t) => this.delAsync(t))
-    const delUsers = userIds.map((uid) => this.delAsync(`${uid}:${serverId}`))
+    const promiseList = []
+
+    if (tokenList) {
+      const delTokens = tokenList.map((t) => this.delAsync(t))
+      const delUsers = userIds.map((uid) => this.delAsync(`${uid}:${serverId}`))
+
+      promiseList.push([...delTokens, ...delUsers])
+    }
+
     const delServer = this.delAsync(`server:${serverId}`)
 
-    await Promise.all([...delTokens, ...delUsers, delServer])
+    promiseList.push(delServer)
+
+    await Promise.all(promiseList)
   }
 
   setZones = async (zones: Zone[]) =>
