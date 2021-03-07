@@ -3,26 +3,18 @@ import { useCallback } from 'react'
 import { PortalPayload } from '@portaler/types'
 
 import useGetPortals from '../common/hooks/useGetPortals'
-import useToken from '../common/hooks/useToken'
+import fetchler from '../fetchler'
 
 const useAddPortal = () => {
-  const token = useToken()
   const checkPortals = useGetPortals()
 
   return useCallback(
-    (portal: PortalPayload) => {
-      const body = JSON.stringify(portal)
+    async (portal: PortalPayload) => {
+      await fetchler.post('/api/portal', { ...portal })
 
-      fetch(`/api/portal`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body,
-      }).then(async () => await checkPortals(true))
+      await checkPortals(true)
     },
-    [token, checkPortals]
+    [checkPortals]
   )
 }
 

@@ -3,7 +3,9 @@ import { useDispatch } from 'react-redux'
 
 import { ServerConfig } from '@portaler/types'
 
+import fetchler from '../../fetchler'
 import { ConfigActionTypes } from '../../reducers/configReducer'
+import { ErrorActionTypes } from '../../reducers/errorReducer'
 
 const useGetConfig = () => {
   const dispatch = useDispatch()
@@ -20,10 +22,16 @@ const useGetConfig = () => {
   )
 
   useEffect(() => {
-    fetch('/api/config')
-      .then((r) => r.json())
-      .then(updateConfig)
-  }, [updateConfig])
+    fetchler
+      .get<ServerConfig>('/api/config')
+      .then((c) => updateConfig(c))
+      .catch(() =>
+        dispatch({
+          type: ErrorActionTypes.ADD,
+          error: 'Unable to fetch config',
+        })
+      )
+  }, [updateConfig, dispatch])
 }
 
 export default useGetConfig
