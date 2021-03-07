@@ -33,12 +33,10 @@ const updateUser = async (body: MemberBody) => {
   }
 
   const userRoles = user.serverAccess?.map((r) => r.roleId)
-  console.log(userRoles, bodyRoles)
   const addList = bodyRoles
     .filter((br) => !userRoles?.includes(br.discordRoleId))
     .map((r) => r.id)
 
-  console.log('->> here', addList)
   if (addList.length > 0) {
     await db.User.addRoles(user.id, addList, server.id)
   }

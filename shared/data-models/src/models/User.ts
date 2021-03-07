@@ -241,10 +241,11 @@ export default class UserModel extends BaseModel {
         sr.discord_role_id AS role_id
       FROM users AS u
       JOIN user_servers AS us ON us.user_id = u.id
-      JOIN server_roles AS sr ON sr.server_id = us.server_id
-      JOIN user_roles AS ur ON ur.user_id = u.id AND ur.role_id = sr.id
-      WHERE ${typeof userId === 'string' ? 'u.discord_id' : 'u.id'} = $1
-        AND us.server_id = $2
+      LEFT JOIN user_roles AS ur ON ur.user_id = u.id
+      LEFT JOIN server_roles AS sr ON sr.server_id = us.server_id AND ur.role_id = sr.id
+      WHERE ${
+        typeof userId === 'string' ? 'u.discord_id' : 'u.id'
+      } = $1 AND us.server_id = $2
     `,
         [userId, serverId]
       )

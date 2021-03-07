@@ -83,8 +83,6 @@ const initEvents = (client: Client) => {
       roles: Array.from(roles).map((r) => r.id),
     }
 
-    console.log(user)
-
     try {
       const res = await fetch(`${config.portaler.api}/user`, {
         method: 'POST',
