@@ -2,38 +2,46 @@ import { db } from '../../utils/db'
 import { MemberBody } from './'
 import removeUserRoles from './removeUserRoles'
 
-const updateUser = async (body: MemberBody) =>
-  new Promise<void>(async (res, rej) => {
-    try {
-      const server = await db.Server.getServer(body.serverId)
+const updateUser = async (body: MemberBody) => {
+  const server = await db.Server.getServer(body.serverId)
 
-      if (server) {
-        const user = await db.User.getFullUser(body.user.id, server.id)
-        const roleIds = server.roles.map((r) => r.discordRoleId)
+  if (!server) {
+    throw new Error(`No server found for user: ${JSON.stringify(body)}`)
+  }
 
-        const hasRoles = body.roles.every((r) => roleIds.includes(r))
+  const serverRoleIds = server?.roles.map((r) => r.id)
 
-        if (user && !hasRoles) {
-          // role was removed from user
-          removeUserRoles(body)
-        } else if (!user && hasRoles) {
-          const dbUser = await db.User.getUserByDiscord(body.user.id)
-          const serverRoleIds = server.roles.map((r) => r.id)
+  const user = await db.User.getFullUser(body.user.id, server.id)
+  const bodyRoles = server.roles.filter((r) =>
+    body.roles.includes(r.discordRoleId)
+  )
 
-          if (dbUser) {
-            await db.User.addRoles(dbUser.id, serverRoleIds, server.id)
-          } else {
-            await db.User.createUser(body.user, server.id, serverRoleIds)
-          }
-        }
+  const bodyRoleIds = bodyRoles.map((r) => r.id)
 
-        res()
-      }
+  if (!user) {
+    await db.User.createUser(body.user, server.id, bodyRoleIds)
+    return
+  }
 
-      rej('No server found')
-    } catch (err) {
-      rej(err)
-    }
-  })
+  const removeList = serverRoleIds.filter((br) => !bodyRoleIds.includes(br))
+
+  if (removeList.length === serverRoleIds?.length) {
+    removeUserRoles(body)
+    return
+  } else if (removeList.length > 0) {
+    await db.User.removeUserRoles(user.id, removeList)
+  }
+
+  const userRoles = user.serverAccess?.map((r) => r.roleId)
+  console.log(userRoles, bodyRoles)
+  const addList = bodyRoles
+    .filter((br) => !userRoles?.includes(br.discordRoleId))
+    .map((r) => r.id)
+
+  console.log('->> here', addList)
+  if (addList.length > 0) {
+    await db.User.addRoles(user.id, addList, server.id)
+  }
+}
 
 export default updateUser

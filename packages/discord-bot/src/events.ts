@@ -1,5 +1,6 @@
 import { Client, Guild, GuildMember, PartialGuildMember } from 'discord.js'
 import fetch, { Headers } from 'node-fetch'
+import isEqual from 'lodash/isEqual'
 
 import { DiscordUser } from '@portaler/data-models'
 
@@ -38,7 +39,7 @@ const initEvents = (client: Client) => {
         id: server.id,
         error: {
           error: JSON.stringify(err),
-          trace: typeof err.stack === 'function' && err.stack(),
+          trace: err.stack,
         },
       })
     }
@@ -62,7 +63,7 @@ const initEvents = (client: Client) => {
         id: server.id,
         error: {
           error: JSON.stringify(err),
-          trace: typeof err.stack === 'function' && err.stack(),
+          trace: err.stack,
         },
       })
     }
@@ -70,6 +71,8 @@ const initEvents = (client: Client) => {
 
   // when members get updated
   client.on('guildMemberUpdate', async (_, member: GuildMember) => {
+    const roles = (await member.fetch()).roles.cache.values()
+
     const user: MemberBody = {
       user: {
         id: member.id,
@@ -77,8 +80,10 @@ const initEvents = (client: Client) => {
         discriminator: member.user.discriminator,
       },
       serverId: member.guild.id,
-      roles: member.roles.cache.map((r) => r.id),
+      roles: Array.from(roles).map((r) => r.id),
     }
+
+    console.log(user)
 
     try {
       const res = await fetch(`${config.portaler.api}/user`, {
@@ -91,12 +96,12 @@ const initEvents = (client: Client) => {
         throw new Error(`status: ${res.status}`)
       }
     } catch (err) {
-      logger.error('Error removing user from server', {
+      logger.error('Error updating user', {
         name: `${member.user?.username}#${member.user?.discriminator}`,
         server: member.guild.name,
         error: {
           error: JSON.stringify(err),
-          trace: typeof err.stack === 'function' && err.stack(),
+          trace: err.stack,
         },
       })
     }
@@ -134,7 +139,7 @@ const initEvents = (client: Client) => {
           server: member.guild.name,
           error: {
             error: JSON.stringify(err),
-            trace: typeof err.stack === 'function' && err.stack(),
+            trace: err.stack,
           },
         })
       }

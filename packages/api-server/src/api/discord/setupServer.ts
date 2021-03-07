@@ -59,11 +59,20 @@ const setupServer = (body: ServerBody) =>
           roleTuple[i] = await addRole(discordServer, serverId, i === 1)
         }
       } else {
-        discordServerRoles.forEach(async (r) => {
-          const pos = r.name === rolePayload.name ? 0 : 1
-          const roleServerId = await db.Server.createRole(serverId, r.id)
-          roleTuple[pos] = { dbId: roleServerId, discId: r.id }
-        })
+        for (const r in discordServerRoles) {
+          const pos = discordServerRoles[r].name === rolePayload.name ? 0 : 1
+
+          const roleServerId = await db.Server.createRole(
+            serverId,
+            discordServerRoles[r].id,
+            pos === 1
+          )
+
+          roleTuple[pos] = {
+            dbId: roleServerId,
+            discId: discordServerRoles[r].id,
+          }
+        }
 
         if (roleTuple[0].dbId === 0) {
           roleTuple[0] = await addRole(discordServer, serverId, false)
@@ -72,7 +81,9 @@ const setupServer = (body: ServerBody) =>
         }
       }
 
-      const discordMembers = (await discordServer.members.cache).filter((m) =>
+      const memberCache = await discordServer.members.fetch({ force: true })
+
+      const discordMembers = Array.from(memberCache.values()).filter((m) =>
         m.roles.cache.some(
           (r) => r.id === roleTuple[0].discId || r.id === roleTuple[1].discId
         )

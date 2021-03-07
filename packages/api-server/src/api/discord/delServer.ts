@@ -16,7 +16,7 @@ const delServer = async (body: ServerBody) => {
   )
 
   const dbRolesRes = await db.dbQuery(
-    'DELETE FROM server_roles WHERE server_id = $1 RETURNING user_id',
+    'DELETE FROM server_roles WHERE server_id = $1 RETURNING id',
     [serverId]
   )
 
