@@ -10,11 +10,7 @@ const useAddPortal = () => {
 
   return useCallback(
     async (portal: PortalPayload) => {
-      const body = JSON.stringify(portal)
-
-      await fetchler.post('/api/portal', {
-        body,
-      })
+      await fetchler.post('/api/portal', { ...portal })
 
       await checkPortals(true)
     },

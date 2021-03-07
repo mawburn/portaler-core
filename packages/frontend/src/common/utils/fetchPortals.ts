@@ -8,7 +8,7 @@ const fetchPortals = async (config: ConfigState): Promise<Portal[]> => {
     return Promise.resolve([])
   }
 
-  return await fetchler.get(`/api/portal`)
+  return await fetchler.get<Portal[]>(`/api/portal`)
 }
 
 export default fetchPortals

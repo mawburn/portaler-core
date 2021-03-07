@@ -14,13 +14,14 @@ const useDeleteZone = () => {
     async (edgeData: CytoEdgeData[]) => {
       const portalIds = edgeData.map((e) => e.portalId)
 
-      await fetchler.del('/api/portal', {
-        body: { portals: portalIds },
-      })
-
-      dispatch({ type: ErrorActionTypes.ADD, error: 'Unable to delete Zone' })
-
-      checkPortals(true)
+      try {
+        await fetchler.del('/api/portal', {
+          portals: portalIds,
+        })
+        checkPortals(true)
+      } catch (err) {
+        dispatch({ type: ErrorActionTypes.ADD, error: 'Unable to delete Zone' })
+      }
     },
     [checkPortals, dispatch]
   )
