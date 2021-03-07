@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { Zone } from '@portaler/types'
 
 import useConfigSelector from '../../common/hooks/useConfigSelector'
-import { ErrorActionTypes } from '../../reducers/errorReducer'
+import fetchler from '../../fetchler'
 import {
   ZoneAction,
   ZoneActionTypes,
@@ -45,29 +45,10 @@ const useGetZones = () => {
       })
     } else if (!loadedState && (config.token || config.isPublic)) {
       hasHydrated.current = true
-      const headers = new Headers()
 
-      if (config.token) {
-        headers.set('Authorization', `Bearer ${config.token}`)
-      }
-
-      fetch(`/api/zone/list`, {
-        headers,
-        method: 'GET',
+      fetchler.get('/api/zone/list').then((json) => {
+        dispatch({ type: ZoneActionTypes.ADD, zones: json as Zone[] })
       })
-        .then((r) => {
-          if (!r.ok) {
-            throw new Error('Unable to fetch zones')
-          }
-
-          return r.json()
-        })
-        .then((json) => {
-          dispatch({ type: ZoneActionTypes.ADD, zones: json as Zone[] })
-        })
-        .catch((err: Error) => {
-          dispatch({ type: ErrorActionTypes.ADD, error: err.message })
-        })
     }
   }, [dispatch, config])
 }
