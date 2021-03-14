@@ -65,9 +65,11 @@ export default class RedisConnector {
       promiseList.push([...delTokens, ...delUsers])
     }
 
+    const subdomain = this.getAsync(`server:${serverId}`)
     const delServer = this.delAsync(`server:${serverId}`)
 
     promiseList.push(delServer)
+    promiseList.push(this.delAsync(`server:${subdomain}`))
 
     await Promise.all(promiseList)
   }
