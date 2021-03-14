@@ -1,6 +1,5 @@
 import { Client, Guild, GuildMember, PartialGuildMember } from 'discord.js'
 import fetch, { Headers } from 'node-fetch'
-import isEqual from 'lodash/isEqual'
 
 import { DiscordUser } from '@portaler/data-models'
 
