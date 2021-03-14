@@ -56,7 +56,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
       return res.sendStatus(403)
     }
 
-    const [userId, serverId, isReadOnly] = userServer.split(':')
+    const [userId, serverId, canWrite] = userServer.split(':')
 
     const subdomain = await redis.getAsync(`server:${serverId}`)
 
@@ -71,7 +71,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
 
     req.userId = Number(userId)
     req.serverId = Number(serverId)
-    req.isReadOnly = isReadOnly.toLowerCase() === 'true'
+    req.canWrite = canWrite.toLowerCase() === 'true'
 
     next()
   } catch (err) {

@@ -83,7 +83,7 @@ router.get('/callback', async (req, res) => {
       JSON.stringify({ user })
     )
 
-    res.redirect(`${redirectUrl}/?token=${ourToken}`)
+    res.redirect(`${redirectUrl}/?token=${ourToken}&canWrite=${canWrite}`)
   } catch (err) {
     logger.error('Error logging in User', {
       error: {
