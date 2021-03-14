@@ -1,4 +1,4 @@
-import { db } from '../../utils/db'
+import { db, redis } from '../../utils/db'
 import { MemberBody } from './'
 import removeUserRoles from './removeUserRoles'
 
@@ -39,6 +39,12 @@ const updateUser = async (body: MemberBody) => {
 
   if (addList.length > 0) {
     await db.User.addRoles(user.id, addList, server.id)
+  }
+
+  const token = await redis.getToken(user.id, server.id)
+
+  if (token) {
+    await redis.delUser(token, user.id, server.id)
   }
 }
 

@@ -8,6 +8,7 @@ import ServerModel, { IServerModel } from './Server'
 interface ServerRoleId {
   serverId: string
   roleId: string
+  isReadOnly: boolean
 }
 
 export interface DiscordUser {
@@ -238,7 +239,8 @@ export default class UserModel extends BaseModel {
         u.is_banned as is_banned,
         u.created_on AS created_on,
         sr.server_id AS server_id,
-        sr.discord_role_id AS role_id
+        sr.discord_role_id AS role_id,
+        sr.is_read_only AS is_read_only
       FROM users AS u
       JOIN user_servers AS us ON us.user_id = u.id
       LEFT JOIN user_roles AS ur ON ur.user_id = u.id
@@ -265,6 +267,7 @@ export default class UserModel extends BaseModel {
         serverAccess: dbResUser.rows.map((r) => ({
           serverId: r.server_id,
           roleId: r.role_id,
+          isReadOnly: r.is_read_only,
         })),
         isBanned: fRow.is_banned,
       }

@@ -63,7 +63,7 @@ router.get('/callback', async (req, res) => {
       ? `${protocol}${subdomain}.${config.localUrl}`
       : `${protocol}${process.env.HOST}:${process.env.FRONTEND_PORT}`
 
-    if (!user) {
+    if (!user || !user.serverAccess || user.serverAccess.length <= 0) {
       res.status(401)
       return res.status(401).redirect(`${redirectUrl}/?token=invalid`)
     }
@@ -71,7 +71,10 @@ router.get('/callback', async (req, res) => {
     const uid: string = uuid()
 
     const ourToken = btoa(uid.replace(/-/gi, '')).replace(/=/gi, '')
-    await redis.setUser(ourToken, user.id, serverId)
+
+    const canWrite = user.serverAccess.some((r) => !r.isReadOnly) || false
+
+    await redis.setUser(ourToken, user.id, serverId, canWrite)
 
     await db.User.logUserAction(
       user.id,

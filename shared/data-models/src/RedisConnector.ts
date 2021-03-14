@@ -27,7 +27,12 @@ export default class RedisConnector {
     this.delAsync = promisify(this.client.del).bind(this.client)
   }
 
-  setUser = async (token: string, userId: number, serverId: number) => {
+  setUser = async (
+    token: string,
+    userId: number,
+    serverId: number,
+    isReadOnly: boolean
+  ) => {
     const hasUser = await this.getUser(`${userId}:${serverId}`)
 
     if (hasUser) {
@@ -35,7 +40,7 @@ export default class RedisConnector {
     }
 
     return await Promise.all([
-      this.setAsync(token, `${userId}:${serverId}`),
+      this.setAsync(token, `${userId}:${serverId}:${isReadOnly}`),
       this.setAsync(`${userId}:${serverId}`, token),
     ])
   }
