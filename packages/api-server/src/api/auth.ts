@@ -64,7 +64,6 @@ router.get('/callback', async (req, res) => {
       : `${protocol}${process.env.HOST}:${process.env.FRONTEND_PORT}`
 
     if (!user || !user.serverAccess || user.serverAccess.length <= 0) {
-      res.status(401)
       return res.status(401).redirect(`${redirectUrl}/?token=invalid`)
     }
 
