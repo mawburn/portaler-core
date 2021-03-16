@@ -22,7 +22,7 @@ export interface ConfigState {
   discordUrl: string | null
 }
 
-const tokenStore = (): string | null => {
+export const tokenStore = (): string | null => {
   if (process.env.REACT_APP_DISABLE_AUTH === 'true') {
     return 'disabled'
   }
@@ -33,8 +33,6 @@ const tokenStore = (): string | null => {
     return null
   }
 
-  console.log(token)
-  fetchler.updateToken(token)
   return token
 }
 

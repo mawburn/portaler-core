@@ -1,11 +1,12 @@
 import Fetchler, { FetchlerOptions } from 'fetchler'
 
-import { ConfigActionTypes } from './reducers/configReducer'
+import { ConfigActionTypes, tokenStore } from './reducers/configReducer'
 import { ErrorActionTypes } from './reducers/errorReducer'
 import { PortalMapActionTypes } from './reducers/portalMapReducer'
 import store from './store'
 
 const opts: FetchlerOptions = {
+  token: tokenStore(),
   handler401: () => {
     store.dispatch({ type: ErrorActionTypes.ADD, error: 'Not Authorized' })
     store.dispatch({ type: ConfigActionTypes.CLEARTOKEN })
