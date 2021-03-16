@@ -33,6 +33,8 @@ const tokenStore = (): string | null => {
     return null
   }
 
+  console.log(token)
+  fetchler.updateToken(token)
   return token
 }
 
@@ -60,10 +62,6 @@ const configReducer: Reducer<any, ConfigAction> = (
       fetchler.updateToken(null)
       return { ...state, token: null }
     case ConfigActionTypes.SETCONFIG:
-      if (!!state.token) {
-        fetchler.updateToken(state.token)
-      }
-
       return {
         ...state,
         isPublic: !!action.isPublic,
