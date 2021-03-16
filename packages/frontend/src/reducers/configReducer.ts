@@ -33,6 +33,7 @@ const tokenStore = (): string | null => {
     return null
   }
 
+  console.log(token)
   fetchler.updateToken(token)
   return token
 }
