@@ -24,7 +24,6 @@
 - [What it is](#what-it-is)
 - [About the codebase](#about-the-codebase)
 - [Running](#running)
-  - [Running Locally](./local)
 - [Supporting](#supporting)
 - [Development](#development)
 
@@ -56,6 +55,9 @@ Contained under packages/\* folder
 
 - [api-server](/packages/api-server)
   - The main API server
+- [bin-etl](/packages/bin-etl)
+  - Checks for updates to the world.json file in https://github.com/broderickhyman/ao-bin-dumps
+  - Populates the database with initial information or updates information when the world.json changes
 - [discord-bot](/packages/discord-bot)
   - The discord bot that allows roles to be assigned to users
   - Also contains the database migration files
@@ -68,6 +70,8 @@ Contained under the shared/\* folder
 
 - [data-models](/shared/data-models)
   - A collection of commonly shared data functions and models for the database & redis
+- [logger](/shared/logger)
+  - An opinionated extension of Winston Logger that logs actions to the database
 - [types](/shared/types)
   - Just simply typescript type definitions shared across the different packages
 - [universal-utils](/shared/universal-utils)
@@ -77,22 +81,20 @@ Contained under the shared/\* folder
 
 ## Running
 
-**If you just want to run for yourself locally, please see the instructions [here](./local).**
-
----
-
-If you would like to run the project on your own server, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the docker folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
+If you would like to run the project on your own server, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the `./docker` folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
 
     docker-compose up -d
 
-Links to our dockerhub images:
+Links to our DockerHub images:
 
 - [api-server](https://hub.docker.com/repository/docker/mawburn/portaler)
+- [bin-etl](https://hub.docker.com/repository/docker/mawburn/portaler-etl)
 - [discord-bot](https://hub.docker.com/repository/docker/mawburn/portaler-bot)
 
-You will also need to create an application and a Discord developer account. You can find that [here](https://discord.com/developers/docs/intro).
+You will also need to create an application and a Discord developer account and get a Github access token.
 
-If you need help setting up docker, [check out the instructions for running locally](./local) just use the docker compose contained in the [docker](/docker) folder instead.
+- [Discord](https://discord.com/developers/docs/intro)
+- [Github](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 
 ---
 
