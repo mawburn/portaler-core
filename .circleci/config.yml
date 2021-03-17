@@ -51,13 +51,6 @@ jobs:
       - build_push:
           service-name: 'mawburn/portaler-etl'
           dockerfile-name: 'etl'
-  local_build:
-    docker:
-      - image: circleci/node:12.19
-    steps:
-      - build_push:
-          service-name: 'mawburn/portaler-local'
-          dockerfile-name: 'local'
 
 workflows:
   version: 2
@@ -70,12 +63,6 @@ workflows:
             branches:
               ignore: /.*/
       - bot_build:
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
-      - local_build:
           filters:
             tags:
               only: /^v.*/
