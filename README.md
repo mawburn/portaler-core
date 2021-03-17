@@ -100,13 +100,7 @@ You will also need to create an application and a Discord developer account and 
 
 ## Supporting
 
-If you'd like to support the project, we would much rather you give your support to the [Albion Data Project](https://www.albion-online-data.com/). This is the backbone of where we get our information, as well as virtually all other Albion fan based projects get their data.
-
-[<img width="200px" height="auto" src="https://i.imgur.com/ly3lalz.png" />](https://www.patreon.com/bePatron?u=10422119)
-
----
-
-However, if you'd really like to just buy us a coffee to throw a few bucks at server costs, feel free to use the Ko-Fi link below. You will receive no perks for this, other than our gratitude.
+[<img width="200px" height="auto" src="https://i.imgur.com/ly3lalz.png" />](https://www.patreon.com/portaler?fan_landing=true)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q42OP4V)
 
