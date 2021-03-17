@@ -123,16 +123,22 @@ To run the following commands, from the root of the project simply type:
     yarn <command>
 
 - `build:data` - Builds the shared/data-models package
+- `build:logger` - Builds the shared/logger package
 - `build:utils` - Builds the shared/universal-utils package
 - `build:shared` - Builds both of the above concurrently
 - `dev:api` - Starts the api-server in development mode
 - `dev:bot` - Starts the discord-bot in development mode
 - `dev:front` - Starts the frontend in development mode
+- `dev:homepage` - Starts the Gatsby homepage in development mode
+- `dev:binetl` - Starts the bin-etl in development mode
 - `build:api` - Builds the api-server for production
 - `build:bot` - Builds the dicsord-bot for production
+- `build:binetl` - Builds the bin-etl for production
 - `build:front` - Builds the frontend for production
+- `build:homepage` - Builds the homepage for production
 - `start:api` - Starts the api-server from production mode (must be built first)
 - `start:bot` - Starts the discord-bot from production mode (must be built first)
+- `start:bintetl` - Starts the bin-elt from production most (must be built first)
 - `clean:shared` - Deletes the node_modules folder for all the shared/\* modules
 - `clean:packages` - Deletes the node_modules folder for all the packages/\* modules
 - `clean` - Deletes all node_modules folders everywhere
