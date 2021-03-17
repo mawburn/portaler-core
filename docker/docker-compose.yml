@@ -28,7 +28,6 @@ services:
     depends_on:
       - pgdb
       - rediscache
-      - bin_etl
     networks:
       - portaler
   api_server:
@@ -40,7 +39,6 @@ services:
     depends_on:
       - pgdb
       - rediscache
-      - bin_etl
     networks:
       - portaler
   bin_etl:
@@ -50,6 +48,7 @@ services:
     depends_on:
       - pgdb
       - rediscache
+      - api_server
     networks:
       - portaler
 
