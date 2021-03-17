@@ -24,7 +24,6 @@
 - [What it is](#what-it-is)
 - [About the codebase](#about-the-codebase)
 - [Running](#running)
-  - [Running Locally](./local)
 - [Supporting](#supporting)
 - [Development](#development)
 
@@ -56,6 +55,9 @@ Contained under packages/\* folder
 
 - [api-server](/packages/api-server)
   - The main API server
+- [bin-etl](/packages/bin-etl)
+  - Checks for updates to the world.json file in https://github.com/broderickhyman/ao-bin-dumps
+  - Populates the database with initial information or updates information when the world.json changes
 - [discord-bot](/packages/discord-bot)
   - The discord bot that allows roles to be assigned to users
   - Also contains the database migration files
@@ -68,6 +70,8 @@ Contained under the shared/\* folder
 
 - [data-models](/shared/data-models)
   - A collection of commonly shared data functions and models for the database & redis
+- [logger](/shared/logger)
+  - An opinionated extension of Winston Logger that logs actions to the database
 - [types](/shared/types)
   - Just simply typescript type definitions shared across the different packages
 - [universal-utils](/shared/universal-utils)
@@ -77,34 +81,26 @@ Contained under the shared/\* folder
 
 ## Running
 
-**If you just want to run for yourself locally, please see the instructions [here](./local).**
-
----
-
-If you would like to run the project on your own server, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the docker folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
+If you would like to run the project on your own server, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the `./docker` folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
 
     docker-compose up -d
 
-Links to our dockerhub images:
+Links to our DockerHub images:
 
 - [api-server](https://hub.docker.com/repository/docker/mawburn/portaler)
+- [bin-etl](https://hub.docker.com/repository/docker/mawburn/portaler-etl)
 - [discord-bot](https://hub.docker.com/repository/docker/mawburn/portaler-bot)
 
-You will also need to create an application and a Discord developer account. You can find that [here](https://discord.com/developers/docs/intro).
+You will also need to create an application and a Discord developer account and get a Github access token.
 
-If you need help setting up docker, [check out the instructions for running locally](./local) just use the docker compose contained in the [docker](/docker) folder instead.
+- [Discord](https://discord.com/developers/docs/intro)
+- [Github](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 
 ---
 
 ## Supporting
 
-If you'd like to support the project, we would much rather you give your support to the [Albion Data Project](https://www.albion-online-data.com/). This is the backbone of where we get our information, as well as virtually all other Albion fan based projects get their data.
-
-[<img width="200px" height="auto" src="https://i.imgur.com/ly3lalz.png" />](https://www.patreon.com/bePatron?u=10422119)
-
----
-
-However, if you'd really like to just buy us a coffee to throw a few bucks at server costs, feel free to use the Ko-Fi link below. You will receive no perks for this, other than our gratitude.
+[<img width="200px" height="auto" src="https://i.imgur.com/ly3lalz.png" />](https://www.patreon.com/portaler?fan_landing=true)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q42OP4V)
 
@@ -127,16 +123,22 @@ To run the following commands, from the root of the project simply type:
     yarn <command>
 
 - `build:data` - Builds the shared/data-models package
+- `build:logger` - Builds the shared/logger package
 - `build:utils` - Builds the shared/universal-utils package
 - `build:shared` - Builds both of the above concurrently
 - `dev:api` - Starts the api-server in development mode
 - `dev:bot` - Starts the discord-bot in development mode
 - `dev:front` - Starts the frontend in development mode
+- `dev:homepage` - Starts the Gatsby homepage in development mode
+- `dev:binetl` - Starts the bin-etl in development mode
 - `build:api` - Builds the api-server for production
 - `build:bot` - Builds the dicsord-bot for production
+- `build:binetl` - Builds the bin-etl for production
 - `build:front` - Builds the frontend for production
+- `build:homepage` - Builds the homepage for production
 - `start:api` - Starts the api-server from production mode (must be built first)
 - `start:bot` - Starts the discord-bot from production mode (must be built first)
+- `start:bintetl` - Starts the bin-elt from production most (must be built first)
 - `clean:shared` - Deletes the node_modules folder for all the shared/\* modules
 - `clean:packages` - Deletes the node_modules folder for all the packages/\* modules
 - `clean` - Deletes all node_modules folders everywhere

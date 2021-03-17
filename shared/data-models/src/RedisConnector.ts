@@ -63,8 +63,10 @@ export default class RedisConnector {
     await Promise.all([...delTokens, ...delUsers, delServer])
   }
 
-  setZones = async (zones: Zone[]) =>
-    await this.setAsync('zones', JSON.stringify(zones))
+  setZones = async (zones: Zone[]) => {
+    await this.delAsync('zones')
+    return await this.setAsync('zones', JSON.stringify(zones))
+  }
 
   getZones = async () => await this.getAsync('zones')
 

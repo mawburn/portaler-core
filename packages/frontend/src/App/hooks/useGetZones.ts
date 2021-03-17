@@ -12,21 +12,21 @@ import {
   ZoneState,
 } from '../../reducers/zoneReducer'
 
-const zoneStorage = (): ZoneState | null => {
-  const zonesString: string | null = window.localStorage.getItem('zones')
+// const zoneStorage = (): ZoneState | null => {
+//   const zonesString: string | null = window.localStorage.getItem('zones')
 
-  if (zonesString) {
-    const zoneState: ZoneState = JSON.parse(zonesString)
-    const now = DateTime.utc()
-    const lastUpdated = DateTime.fromMillis(zoneState.lastUpdated)
+//   if (zonesString) {
+//     const zoneState: ZoneState = JSON.parse(zonesString)
+//     const now = DateTime.utc()
+//     const lastUpdated = DateTime.fromMillis(zoneState.lastUpdated)
 
-    if (now.diff(lastUpdated, 'hours').as('hours') < 6) {
-      return zoneState
-    }
-  }
+//     if (now.diff(lastUpdated, 'hours').as('hours') < 6) {
+//       return zoneState
+//     }
+//   }
 
-  return null
-}
+//   return null
+// }
 
 const useGetZones = () => {
   const hasHydrated = useRef<boolean>(false)
@@ -34,7 +34,9 @@ const useGetZones = () => {
   const config = useConfigSelector()
 
   useEffect(() => {
-    const loadedState = zoneStorage()
+    // temporarily disable
+    // This probably needs to be reworked to pull a last updated from the backend....
+    const loadedState = null //zoneStorage()
 
     if (loadedState && !hasHydrated.current) {
       hasHydrated.current = true
