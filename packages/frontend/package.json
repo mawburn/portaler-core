@@ -23,7 +23,7 @@
     "clsx": "^1.1.1",
     "cytoscape": "3.15.0",
     "cytoscape-cose-bilkent": "^4.1.0",
-    "fetchler": "^0.0.18",
+    "fetchler": "^0.0.20",
     "lodash": "^4.17.20",
     "luxon": "^1.25.0",
     "node-sass": "^4.14.1",
