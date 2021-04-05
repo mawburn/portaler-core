@@ -1,6 +1,5 @@
 # Selfhosting Portaler
 
-
 **Disclaimer:** I am a hardware/operations engineer with limited Linux experience. I am neither the developer of Portaler nor a developer at all.
 Most likely there are better ways to selfhost Portaler but this is what i use. I am not responsible for any damage you do to your system while following this guide.
 
@@ -9,12 +8,11 @@ Oh and English is not my native language, yada yada, you know the drill.
 I tried my best to make this guide as noob-friendly as possible so that should work even for people with basically no Linux experience.
 In case you'll encounter an error during installation you can usually google it and find a fix without any problems. Asking on the discord server works too.
 
-## Requirements: 
+## Requirements:
 
 **If you want to use Portaler locally on your PC**: Any kind of Linux VM on your network where you have root privileges and can access the terminal. The simplest solution is using something like VirtualBox (google how to do that, it is easy)
 
 **If you want to use Portaler publicly (host)**: Same as using it locally but you will also need a public routable (preferably static) ip-address and a domain name you own. You can (and probably should) also use a VPS instead of a VM on your PC for that.
-
 
 I am using **Debian** as my OS. If you use some other Linux distro you will need to google how to install all the packages by yourself, but otherwise that should not be a problem.
 
@@ -31,17 +29,21 @@ Root yourself by using `su` (or `sudo -i` if you have sudo installed)
 Let's begin by installing some of the necessary packages you will need.
 
 Install git and curl:
+
 ```Shell
 apt-get update
-apt-get install -y git 
-apt-get install -y curl 
+apt-get install -y git
+apt-get install -y curl
 ```
+
 Install nodejs/npm and yarn:
+
 ```Shell
 curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 apt-get install -y nodejs
 npm install --global yarn
 ```
+
 Install docker and docker-compose:
 
 ```Shell
@@ -75,6 +77,7 @@ Install all yarn dependencies:
 cd /usr/local/etc/docker-portaler/portaler-core
 yarn install
 ```
+
 Now you need to decide if you are going to use it locally or publicly. Local version has no auth and is accessible only from your local network. Public version has discord OAuth and can be accessed by anyone with the right role on your discord server. While you can technically make the local version accessible from the internet that is not advised and will not be covered by this guide.
 
 You don't need to do both options so pick only the one you need.
@@ -110,7 +113,7 @@ Leave everything else as is.
 nano docker-compose.yml
 ```
 
-Delete everything related to the discord bot container. That means everything beginning with **discord_bot** and ending before **api_server** 
+Delete everything related to the discord bot container. That means everything beginning with **discord_bot** and ending before **api_server**
 <img src="https://i.imgur.com/6gU6uVn.png" width="250px" alt="screenshot" />
 <<This is the part you need to delete.
 
@@ -143,20 +146,23 @@ docker update --restart unless-stopped $(docker ps -q)
 ```
 
 Switch to the folder containing frontend files:
+
 ```Shell
 cd /usr/local/etc/docker-portaler/portaler-core/packages/frontend
 ```
 
 Rename `.env.example` to `.env`:
+
 ```Shell
 mv .env.example .env
 ```
 
 Install pm2 and make it autostart your webserver:
+
 ```Shell
 npm install pm2 -g
 pm2 start --name=portaler npm -- start
-pm2 startup 
+pm2 startup
 pm2 save
 ```
 
@@ -168,13 +174,13 @@ Wait some time for the webserver to start. Now you can open your browser and go 
 
 Due to how Portaler is made you can't just use "yourdomain.com" for your domain name. You need to have a subdomain.
 That means portaler needs to be accessible with yoursubdomain.yourdomain.com instead.
-To create a subdomain, go to the DNS server provider you use (i use cloudflare for example) and add a CNAME record with your subdomain pointing to your domain. 
+To create a subdomain, go to the DNS server provider you use (i use cloudflare for example) and add a CNAME record with your subdomain pointing to your domain.
 
 You can either do it like this:
 
 <img src="https://i.imgur.com/v5MKyO1.png" width="350px" alt="screenshot" />
 
-Or you can do it like this: 
+Or you can do it like this:
 
 <img src="https://i.imgur.com/9awWAkf.png" width="350px" alt="screenshot" />
 
@@ -193,7 +199,7 @@ You are going to use Nginx to serve the webpage, so you need to install it first
 apt-get install -y nginx
 ```
 
-Edit Nginx configuration  files. You can use any text editor you like. If you are using Debian you will most likely have `Vim` and `nano` installed. If you've never used `Vim` before, i suggest you use `nano` instead.
+Edit Nginx configuration files. You can use any text editor you like. If you are using Debian you will most likely have `Vim` and `nano` installed. If you've never used `Vim` before, i suggest you use `nano` instead.
 
 If you dont have anything but `Vim` installed - you can either use google-fu and learn how to use it or just `apt-get install nano` to have `nano` installed.
 
@@ -235,9 +241,11 @@ Delete the default configuration and restart nginx:
 rm /etc/nginx/sites-enabled/default
 systemctl restart nginx
 ```
+
 You should be able to access the website now in your browser (nothing will work however without the backend)
 
 ### Everything discord bot related:
+
 You will need to create an application using discord developer portal (https://discord.com/developers/applications). You can name it however you want.
 
 Go to the "Bot" page and press Add Bot, check **Presence Intent** and **ServerMember Intent**.
@@ -277,11 +285,12 @@ Leave everything else as is.
 **Important: do NOT invite your bot to your server before you are done setting up docker containers. The bot has to join you discord server with api already running. If your bot is already on your server - kick it.**
 
 When you are done editing the file - start the containers
+
 ```Shell
 docker-compose up -d
 ```
 
-If you realized that you've done something wrong you can simply edit `.env.example` and ``docker-compose up -d`` again.
+If you realized that you've done something wrong you can simply edit `.env.example` and `docker-compose up -d` again.
 
 After the process is done wait for a couple of minutes and check that all containers are up and running:
 
@@ -296,6 +305,7 @@ docker restart your_bin_etl_containerid
 ```
 
 Make all containers autostart if you reboot your VM:
+
 ```Shell
 docker update --restart unless-stopped $(docker ps -q)
 ```
@@ -320,9 +330,11 @@ curl -H "Authorization: Bearer youradminkey" http://localhost/api/admin/list
 Look for `"id":number`. Most likelly your id wil be 1.
 
 Now you can add your server to the list:
+
 ```Shell
 curl -H "Authorization: Bearer youradminkey" -H "Content-Type: application/json" --request POST --data '{"id": yourid, "subdomain": "yoursubdomain" }' http://localhost/api/admin/addSubdomain
 ```
+
 Do `curl -H "Authorization: Bearer youradminkey" http://localhost/api/admin/list` again and look for `"subdomain"` - it should be `"subdomain":"yoursubdomain"` now.
 
 Try logging in again. This time everything should be working fine.
