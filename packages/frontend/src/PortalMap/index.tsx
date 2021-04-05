@@ -14,9 +14,9 @@ import { hashKey } from '@portaler/utils'
 import useEventListener from '@use-it/event-listener'
 
 import { DEFAULT_ZONE } from '../common/data/constants'
-import zoneTiers from '../common/data/zoneTiers'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
-import { tiers } from '../common/images'
+import { tiers, ZoneTier } from '../common/images'
+import callSign from '../common/utils/callSign'
 import getHomeZone from '../common/utils/getHomeZone'
 import { RootState } from '../reducers'
 import { PortalMapActionTypes } from '../reducers/portalMapReducer'
@@ -24,9 +24,8 @@ import ControlBar from './ControlBar'
 import { changeScore } from './cytoUtils'
 import defaultSettings from './defaultSettings'
 import graphStyle from './graphStyle'
-import { portalSizeToColor, getZoneColor } from './mapStyle'
+import { getZoneColor, portalSizeToColor } from './mapStyle'
 import styles from './styles.module.scss'
-import callSign from '../common/utils/callSign'
 
 cytoscape.use(COSEBilkent)
 
@@ -183,10 +182,7 @@ const PortalMap = () => {
         const height = isHome || z.color === 'city' ? 42 : 30
 
         if (!elms.has(id)) {
-          const zoneTier = zoneTiers.find(
-            (zt) => zt.name.toLowerCase() === z.name.toLowerCase()
-          )
-          const imgUrl = zoneTier ? tiers[zoneTier.tier] : null
+          const imgUrl = z.tier ? tiers[z.tier as ZoneTier] : null
           const backgroundUrl = imgUrl ? `url(${imgUrl})` : 'none'
 
           const label = z.type.startsWith('TUNNEL')

@@ -8,6 +8,8 @@ import { default as VI } from './tiers/vi.png'
 import { default as VII } from './tiers/vii.png'
 import { default as VIII } from './tiers/viii.png'
 
+export type ZoneTier = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII'
+
 export const tiers = {
   I,
   II,
