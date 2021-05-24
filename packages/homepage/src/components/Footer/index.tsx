@@ -18,6 +18,10 @@ const Footer: FC = () => (
         GitHub
       </a>
     </div>
+    |
+    <a href="https://agentsofsyn.com">
+      Do you play TTRPGs? Check out AgentsOfSyn.com
+    </a>
   </div>
 )
 
