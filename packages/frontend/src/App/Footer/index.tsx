@@ -13,8 +13,11 @@ const Footer = () => (
   <footer className={styles.footer}>
     <div className={styles.left}>
       <a href="https://agentsofsyn.com" className={styles.aos}>
-        <img src="https://agentsofsyn.com/logo-small.png" /> Play TTRPGs? Check
-        out AgentsOfSyn.com
+        <img
+          src="https://agentsofsyn.com/logo-small.png"
+          alt="Agents of Syn Logo"
+        />{' '}
+        Play TTRPGs? Check out AgentsOfSyn.com
       </a>
     </div>
     <div className={styles.middle}>
