@@ -26,6 +26,7 @@
 - [Running](#running)
 - [Supporting](#supporting)
 - [Development](#development)
+- [Self-hosting Guide](./selfhosting.md)
 
 <br />
 

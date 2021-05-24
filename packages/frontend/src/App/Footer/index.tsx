@@ -23,6 +23,10 @@ const Footer = () => (
       >
         <img src={patreonLogo} className={styles.patreonLogo} alt="patreon" />
       </a>
+      |
+      <a href="https://agentsofsyn.com">
+        Do you play TTRPGs? Check out AgentsOfSyn.com
+      </a>
     </div>
     <div className={styles.right}>
       <div className={styles.twitter}>
