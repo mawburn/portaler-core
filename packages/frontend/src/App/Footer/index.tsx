@@ -12,9 +12,9 @@ import Twitch from './Twitch'
 const Footer = () => (
   <footer className={styles.footer}>
     <div className={styles.left}>
-      <Twitch /> |
-      <a href="https://agentsofsyn.com">
-        Do you play TTRPGs? Check out AgentsOfSyn.com
+      <a href="https://agentsofsyn.com" className={styles.aos}>
+        <img src="https://agentsofsyn.com/logo-small.png" /> Play TTRPGs? Check
+        out AgentsOfSyn.com
       </a>
     </div>
     <div className={styles.middle}>
