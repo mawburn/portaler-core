@@ -7,7 +7,7 @@ import {
   twitterLogo,
 } from '../../common/images'
 import styles from './styles.module.scss'
-import Twitch from './Twitch'
+// import Twitch from './Twitch'
 
 const Footer = () => (
   <footer className={styles.footer}>
