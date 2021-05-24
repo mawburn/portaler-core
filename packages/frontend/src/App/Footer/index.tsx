@@ -12,7 +12,10 @@ import Twitch from './Twitch'
 const Footer = () => (
   <footer className={styles.footer}>
     <div className={styles.left}>
-      <Twitch />
+      <Twitch /> |
+      <a href="https://agentsofsyn.com">
+        Do you play TTRPGs? Check out AgentsOfSyn.com
+      </a>
     </div>
     <div className={styles.middle}>
       <a
@@ -22,10 +25,6 @@ const Footer = () => (
         title="Gain the @Patreon Supporter role in Discord PLUS if you're a streamer get your stream posted in #streams when you go live!"
       >
         <img src={patreonLogo} className={styles.patreonLogo} alt="patreon" />
-      </a>
-      |
-      <a href="https://agentsofsyn.com">
-        Do you play TTRPGs? Check out AgentsOfSyn.com
       </a>
     </div>
     <div className={styles.right}>
