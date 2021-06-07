@@ -14,7 +14,7 @@ const Footer = () => (
     <div className={styles.left}>
       <a href="https://agentsofsyn.com" className={styles.aos}>
         <img
-          src="https://agentsofsyn.com/logo-small.png"
+          src="https://agentsofsyn.com/img/logo-roll.gif"
           alt="Agents of Syn Logo"
         />{' '}
         Play TTRPGs? Check out AgentsOfSyn.com
