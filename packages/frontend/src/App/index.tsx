@@ -3,6 +3,8 @@ import React from 'react'
 import { CssBaseline, ThemeProvider } from '@material-ui/core'
 
 import mistWalker from '../common/utils/mistWalker'
+import Patreon from '../Patreon'
+import SideBar from '../Sidebar'
 import Footer from './Footer'
 import useGetConfig from './hooks/useGetConfig'
 import useGetPortalTimer from './hooks/useGetPortalTimer'
@@ -12,7 +14,6 @@ import MainLayout from './MainLayout'
 import MapArea from './MapArea'
 import MistBar from './MistBar'
 import Notifications from './Notifications'
-import SideBar from '../Sidebar'
 import styles from './styles.module.scss'
 import theme from './theme'
 
@@ -33,6 +34,7 @@ const App = () => {
           <MapArea />
         </MainLayout>
         <Footer />
+        <Patreon />
       </div>
     </ThemeProvider>
   )
