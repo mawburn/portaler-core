@@ -7,6 +7,7 @@ import {
   twitterLogo,
 } from '../../common/images'
 import styles from './styles.module.scss'
+
 // import Twitch from './Twitch'
 
 const Footer = () => (
@@ -22,7 +23,7 @@ const Footer = () => (
     </div>
     <div className={styles.middle}>
       <a
-        href="https://www.patreon.com/portaler?fan_landing=true"
+        href="https://www.patreon.com/bePatron?u=30652180"
         target="_blank"
         rel="noopener noreferrer"
         title="Gain the @Patreon Supporter role in Discord PLUS if you're a streamer get your stream posted in #streams when you go live!"
