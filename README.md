@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="portaler" src="https://portaler.zone/portaler-github.png" />
+  <img alt="Portaler logo" src="https://portaler.zone/logo.png" />
 </p>
 
 <p align="center">
@@ -12,12 +12,24 @@
   </a>
 </p>
 
+## Looking for Contributors!
+
+I don't have as much time to keep up with this as when I first built it. If you're a developer or a budding developer, I would love to have your help!
+
+Take a look at the project board here:  
+https://github.com/Portaler-Zone/portaler-core/projects/1
+
+Fork the Repo & Submit PRs! Lets do this people. As of this writing, Portaler supports over 20,000 unique users a month across 357 servers and we could probably grow to even larger than that! It's a good project to work on if you're looking for an open source project to contribute to. I look for good code quality and solid practices. We run on barely any hardware and I want to keep it that way.
+
+<p align="center">
+  <img alt="Unique Visitors" src="https://i.imgur.com/wFyf4cK.png" />
+  <br />
+  <img alt="Servers" src="https://i.imgur.com/5kcZ2Ll.png" />
+</p>
+
+I ([mawburn](https://github.com/mawburn)) love mentoring developers, so don't be afraid to ask "dumb" questions in our Discord channel [#contributors](https://discord.gg/QAjhJ4YNsD), because we all start somewhere and I probably haven't documented things that well. I'm more than open to helping people learn JS/TS/Node/React/whatever, so if you don't have direct experience here no worries! This is your time to learn.
+
 ---
-
-<br />
-
-![Netlify Status](https://api.netlify.com/api/v1/badges/76c8bf82-cf50-4310-8121-8196249f49bc/deploy-status)
-![Portaler-Core](https://circleci.com/gh/Portaler-Zone/portaler-core.svg?style=shield)
 
 **Contents**
 
