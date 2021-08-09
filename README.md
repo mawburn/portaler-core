@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Portaler logo" src="https://portaler.zone/logo.png" />
+  <img alt="Portaler logo" width="128px" height="128px" src="https://portaler.zone/logo.png" />
 </p>
 
 <p align="center">
