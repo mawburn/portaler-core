@@ -27,7 +27,7 @@ Fork the Repo & Submit PRs! Lets do this people. As of this writing, Portaler su
   <img alt="Servers" width="250px" height="381px" src="https://i.imgur.com/5kcZ2Ll.png" />
 </p>
 
-I ([mawburn](https://github.com/mawburn)) love mentoring developers, so don't be afraid to ask "dumb" questions in our Discord channel [#contributors](https://discord.gg/QAjhJ4YNsD), because we all start somewhere and I probably haven't documented things that well. I'm more than open to helping people learn JS/TS/Node/React/whatever, so if you don't have direct experience here no worries! This is your time to learn.
+I ([mawburn](https://github.com/mawburn)) love mentoring developers, so don't be afraid to ask "dumb" questions in our Discord channel [#contributing](https://discord.gg/QAjhJ4YNsD), because we all start somewhere and I probably haven't documented things that well. I'm more than open to helping people learn JS/TS/Node/React/whatever, so if you don't have direct experience here no worries! This is your time to learn.
 
 ---
 
