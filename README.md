@@ -22,9 +22,9 @@ https://github.com/Portaler-Zone/portaler-core/projects/1
 Fork the Repo & Submit PRs! Lets do this people. As of this writing, Portaler supports over 20,000 unique users a month across 357 servers and we could probably grow to even larger than that! It's a good project to work on if you're looking for an open source project to contribute to. I look for good code quality and solid practices. We run on barely any hardware and I want to keep it that way.
 
 <p align="center">
-  <img alt="Unique Visitors" src="https://i.imgur.com/wFyf4cK.png" />
+  <img alt="Unique Visitors" width="250px" height="117px" src="https://i.imgur.com/wFyf4cK.png" />
   <br />
-  <img alt="Servers" src="https://i.imgur.com/5kcZ2Ll.png" />
+  <img alt="Servers" width="250px" height="381px" src="https://i.imgur.com/5kcZ2Ll.png" />
 </p>
 
 I ([mawburn](https://github.com/mawburn)) love mentoring developers, so don't be afraid to ask "dumb" questions in our Discord channel [#contributors](https://discord.gg/QAjhJ4YNsD), because we all start somewhere and I probably haven't documented things that well. I'm more than open to helping people learn JS/TS/Node/React/whatever, so if you don't have direct experience here no worries! This is your time to learn.
