@@ -52,46 +52,6 @@ The data we use to populate information is collected from [Albion Data Project](
   <img src="https://portaler.zone/screenshot.png" width="600px" alt="screenshot" />
 </p>
 
----
-
-### Monorepo
-
-This is a monorepo utilizing [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). Individual applications can be found in the [packages](/packages) folder.
-
-## About the codebase
-
-We have split up the project into 2 main workspaces. Main Packages and Shared.
-
-### Main Packages
-
-Contained under packages/\* folder
-
-- [api-server](/packages/api-server)
-  - The main API server
-- [bin-etl](/packages/bin-etl)
-  - Checks for updates to the world.json file in https://github.com/broderickhyman/ao-bin-dumps
-  - Populates the database with initial information or updates information when the world.json changes
-- [discord-bot](/packages/discord-bot)
-  - The discord bot that allows roles to be assigned to users
-  - Also contains the database migration files
-- [fontend](/packages/frontend)
-  - The React frontend
-
-### Locally shared libraries
-
-Contained under the shared/\* folder
-
-- [data-models](/shared/data-models)
-  - A collection of commonly shared data functions and models for the database & redis
-- [logger](/shared/logger)
-  - An opinionated extension of Winston Logger that logs actions to the database
-- [types](/shared/types)
-  - Just simply typescript type definitions shared across the different packages
-- [universal-utils](/shared/universal-utils)
-  - A collection of common utilities that can be used in either the frontend or node servers
-
----
-
 ## Running
 
 If you would like to run the project on your own server, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the `./docker` folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
