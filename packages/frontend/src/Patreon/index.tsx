@@ -34,6 +34,17 @@ const Patreon = () => {
           <img src={patreonLogo} className={styles.patreonLogo} alt="patreon" />
         </a>
       </div>
+      <div className={styles.div}>
+        Or are you a developer or know a developer who's looking to contribute
+        to an open source project?{' '}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.reddit.com/r/albiononline/comments/p0qx4d/portaler_is_looking_for_code_contributors/"
+        >
+          Portaler is looking for contributors!
+        </a>
+      </div>
       <DialogActions>
         <Button onClick={() => setOpen(false)} color="secondary">
           Close
