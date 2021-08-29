@@ -33,6 +33,7 @@ const Patreon = () => {
         >
           <img src={patreonLogo} className={styles.patreonLogo} alt="patreon" />
         </a>
+        <div>This helps pay for server &amp; other related costs.</div>
       </div>
       <div className={styles.div}>
         Or are you a developer or know a developer who's looking to contribute
@@ -44,6 +45,7 @@ const Patreon = () => {
         >
           Portaler is looking for contributors!
         </a>
+        Portaler is proudly 90% TypeScript &amp; uses React.
       </div>
       <DialogActions>
         <Button onClick={() => setOpen(false)} color="secondary">

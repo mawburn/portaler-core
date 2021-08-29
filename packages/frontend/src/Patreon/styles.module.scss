@@ -1,13 +1,13 @@
 .div {
   padding: 1rem 2rem;
   min-width: 50%;
-
-  h3 {
-    text-align: center;
-  }
+  text-align: center;
 
   a:any-link {
+    display: block;
+    font-size: 1.25rem;
     color: #fdd835;
+    text-decoration: none;
   }
 }
 
