@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Button, Dialog, DialogActions } from '@material-ui/core'
 
-import { patreonLogo } from '../common/images'
+import { githubLogo, patreonLogo } from '../common/images'
 import styles from './styles.module.scss'
 
 const Patreon = () => {
@@ -33,17 +33,20 @@ const Patreon = () => {
         >
           <img src={patreonLogo} className={styles.patreonLogo} alt="patreon" />
         </a>
+        <div>This helps pay for server &amp; other related costs.</div>
       </div>
       <div className={styles.div}>
-        Or are you a developer or know a developer who's looking to contribute
-        to an open source project?{' '}
+        Are you a developer or know one who's looking to contribute to an open
+        source project?
         <a
           target="_blank"
           rel="noopener noreferrer"
           href="https://www.reddit.com/r/albiononline/comments/p0qx4d/portaler_is_looking_for_code_contributors/"
         >
+          <img src={githubLogo} className={styles.githubLogo} alt="github" />{' '}
           Portaler is looking for contributors!
         </a>
+        Portaler is proudly 90% TypeScript with ReactJS &amp; NodeJS.
       </div>
       <DialogActions>
         <Button onClick={() => setOpen(false)} color="secondary">

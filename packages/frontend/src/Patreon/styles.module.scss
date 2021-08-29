@@ -1,17 +1,27 @@
 .div {
   padding: 1rem 2rem;
   min-width: 50%;
-
-  h3 {
-    text-align: center;
-  }
+  text-align: center;
 
   a:any-link {
+    line-height: 2.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
     color: #fdd835;
+    text-decoration: none;
   }
 }
 
 .patreonLogo {
   width: 250px;
   height: 48px;
+}
+
+.githubLogo {
+  fill: #fff;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
 }
