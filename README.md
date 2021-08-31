@@ -16,7 +16,7 @@
 
 I don't have as much time to keep up with this as when I first built it. If you're a developer or a budding developer, I would love to have your help!
 
-**[Get Setup Developing!](./docs/devsetup)**
+**[Get Setup Developing!](./docs/devsetup.md)**
 
 Take a look at the project board here:  
 https://github.com/Portaler-Zone/portaler-core/projects/1
