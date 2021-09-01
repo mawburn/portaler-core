@@ -1,11 +1,9 @@
 # Selfhosting Portaler
 
-**Disclaimer:** I am a hardware/operations engineer with limited Linux experience. I am neither the developer of Portaler nor a developer at all.
+**Disclaimer:** This guide was written by a hardware/operations engineer with limited Linux experience and not by the developer of Portaler.
 Most likely there are better ways to selfhost Portaler but this is what i use. I am not responsible for any damage you do to your system while following this guide.
 
-Oh and English is not my native language, yada yada, you know the drill.
-
-I tried my best to make this guide as noob-friendly as possible so that should work even for people with basically no Linux experience.
+I tried my best to make this guide as noob-friendly as possible so it should work even for people with basically no Linux experience.
 In case you'll encounter an error during installation you can usually google it and find a fix without any problems. Asking on the discord server works too.
 
 ## Requirements:
@@ -14,7 +12,7 @@ In case you'll encounter an error during installation you can usually google it 
 
 **If you want to use Portaler publicly (host)**: Same as using it locally but you will also need a public routable (preferably static) ip-address and a domain name you own. You can (and probably should) also use a VPS instead of a VM on your PC for that.
 
-I am using **Debian** as my OS. If you use some other Linux distro you will need to google how to install all the packages by yourself, but otherwise that should not be a problem.
+I am using **Debian 9** as my OS. If you use some other Linux distro you will need to google how to install all the packages by yourself, but otherwise that should not be a problem.
 
 ## Steps for both local and public versions:
 
@@ -113,9 +111,55 @@ Leave everything else as is.
 nano docker-compose.yml
 ```
 
-Delete everything related to the discord bot container. That means everything beginning with **discord_bot** and ending before **api_server**
-<img src="https://i.imgur.com/6gU6uVn.png" width="250px" alt="screenshot" />
-<<This is the part you need to delete.
+Modify it to be like this:
+
+```
+ version: '3.7'
+
+services:
+  pgdb:
+    image: postgres:13-alpine
+    env_file:
+      - .env.example
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - portaler
+  rediscache:
+    image: bitnami/redis:6.0
+    env_file:
+      - .env.example
+    networks:
+      - portaler
+  api_server:
+    image: mawburn/portaler:latest
+    env_file:
+      - .env.example
+    ports:
+      - '127.0.0.1:7777:4242'
+    depends_on:
+      - pgdb
+      - rediscache
+    networks:
+      - portaler
+  bin_etl:
+    image: mawburn/portaler-etl:latest
+    env_file:
+      - .env.example
+    depends_on:
+      - pgdb
+      - rediscache
+      - api_server
+    networks:
+      - portaler
+
+networks:
+  portaler:
+    driver: 'bridge'
+
+volumes:
+  db_data: {}
+```
 
 `ctrl-x` to exit, dont forget to save your changes.
 
@@ -193,7 +237,7 @@ cd /usr/local/etc/docker-portaler/portaler-core
 yarn build:front
 ```
 
-You are going to use Nginx to serve the webpage, so you need to install it first:
+I suggest using Nginx to serve the webpage, so you need to install it first:
 
 ```Shell
 apt-get install -y nginx
@@ -284,13 +328,83 @@ Leave everything else as is.
 
 **Important: do NOT invite your bot to your server before you are done setting up docker containers. The bot has to join you discord server with api already running. If your bot is already on your server - kick it.**
 
-When you are done editing the file - start the containers
+While we are technically done with this part i would also suggest editing `docker-compose.yml` to prevent unnecessarily exposing ports on your system to the Internet.
+This is especially important if you are using a VPS and not doing this part can be considered a huge security risk.
+
+```Shell
+nano docker-compose.yml
+```
+
+Modify it to be like this:
+
+```
+ version: '3.7'
+
+services:
+  pgdb:
+    image: postgres:13-alpine
+    env_file:
+      - .env.example
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - portaler
+  rediscache:
+    image: bitnami/redis:6.0
+    env_file:
+      - .env.example
+    networks:
+      - portaler
+  discord_bot:
+    image: mawburn/portaler-bot:latest
+    env_file:
+      - .env.example
+    environment:
+      - API_URL=https://api_server/
+    depends_on:
+      - pgdb
+      - rediscache
+    networks:
+      - portaler
+  api_server:
+    image: mawburn/portaler:latest
+    env_file:
+      - .env.example
+    ports:
+      - '127.0.0.1:7777:4242'
+    depends_on:
+      - pgdb
+      - rediscache
+    networks:
+      - portaler
+  bin_etl:
+    image: mawburn/portaler-etl:latest
+    env_file:
+      - .env.example
+    depends_on:
+      - pgdb
+      - rediscache
+      - api_server
+    networks:
+      - portaler
+
+networks:
+  portaler:
+    driver: 'bridge'
+
+volumes:
+  db_data: {}
+```
+
+`ctrl-x` to exit, dont forget to save your changes.
+
+When you are done editing the files - start the containers
 
 ```Shell
 docker-compose up -d
 ```
 
-If you realized that you've done something wrong you can simply edit `.env.example` and `docker-compose up -d` again.
+If you realized that you've done something wrong you can simply edit `.env.example` or `docker-compose.yml` and `docker-compose up -d` again.
 
 After the process is done wait for a couple of minutes and check that all containers are up and running:
 

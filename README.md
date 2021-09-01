@@ -36,9 +36,9 @@ I ([mawburn](https://github.com/mawburn)) love mentoring developers, so don't be
 **Contents**
 
 - [What it is](#what-it-is)
-- [Development](./docs/devsetup)
+- [Development](./docs/devsetup.md)
 - [Running](#running)
-  - [Self-hosting Guide](./selfhosting.md)
+  - [Self-hosting Guide](./docs/selfhosting.md)
 
 <br />
 
@@ -56,7 +56,7 @@ The data we use to populate information is collected from [Albion Data Project](
 
 ## Running
 
-There is a full [Self-hosting Guide here](./selfhosting.md), but a simple version can be found below.
+There is a full [Self-hosting Guide here](./docs/selfhosting.md), but a simple version can be found below.
 
 If you would like to run the project on your own server, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the `./docker` folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
 
@@ -74,4 +74,4 @@ Links to our DockerHub images:
 
 ## Development
 
-[Click here for Development Setup](./docs/devsetup)
+[Click here for Development Setup](./docs/devsetup.md)
