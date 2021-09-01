@@ -12,7 +12,7 @@ In case you'll encounter an error during installation you can usually google it 
 
 **If you want to use Portaler publicly (host)**: Same as using it locally but you will also need a public routable (preferably static) ip-address and a domain name you own. You can (and probably should) also use a VPS instead of a VM on your PC for that.
 
-I am using **Debian** as my OS. If you use some other Linux distro you will need to google how to install all the packages by yourself, but otherwise that should not be a problem.
+I am using **Debian 9** as my OS. If you use some other Linux distro you will need to google how to install all the packages by yourself, but otherwise that should not be a problem.
 
 ## Steps for both local and public versions:
 
@@ -398,13 +398,13 @@ volumes:
 
 `ctrl-x` to exit, dont forget to save your changes.
 
-When you are done editing the file - start the containers
+When you are done editing the files - start the containers
 
 ```Shell
 docker-compose up -d
 ```
 
-If you realized that you've done something wrong you can simply edit `.env.example` and `docker-compose up -d` again.
+If you realized that you've done something wrong you can simply edit `.env.example` or `docker-compose.yml` and `docker-compose up -d` again.
 
 After the process is done wait for a couple of minutes and check that all containers are up and running:
 
