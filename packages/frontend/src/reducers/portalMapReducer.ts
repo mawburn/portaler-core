@@ -53,6 +53,9 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
 
   switch (action.type) {
     case PortalMapActionTypes.INSPECT:
+      console.log(
+        `inspecting a zone or connection, the inspectFromId is ${action.inspectFromId}, the inspectToId is ${action.inspectToId}`
+      )
       return {
         ...state,
         inspectFromId: action.inspectFromId!,

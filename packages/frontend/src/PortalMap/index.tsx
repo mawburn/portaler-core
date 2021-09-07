@@ -126,12 +126,16 @@ const PortalMap = () => {
         const from: String = t.data('connection')[0]
         const to: String = t.data('connection')[1]
 
-        console.log(`Portal goes from ${from} to ${to}`)
+        console.log(
+          `Portal goes from ${from} (id is ${t.data(
+            'fromInspectId'
+          )}) to ${to} (id is ${t.data('toInspectId')})`
+        )
 
         dispatch({
           type: PortalMapActionTypes.INSPECT,
-          fromInspectId: t.data('inspectFromId'),
-          toInspectId: t.data('inspectToId')
+          inspectFromId: t.data('fromInspectId'),
+          inspectToId: t.data('toInspectId'),
         })
       }
     },

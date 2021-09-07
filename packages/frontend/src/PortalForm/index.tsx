@@ -72,9 +72,7 @@ const MappingBar = () => {
   const fromId = useSelector(
     (state: RootState) => state.portalMap.inspectFromId
   )
-  const toId = useSelector(
-    (state: RootState) => state.portalMap.inspectToId
-  )
+  const toId = useSelector((state: RootState) => state.portalMap.inspectToId)
 
   const oldFromId = useRef<number>(0)
   const oldToId = useRef<number>(0)
@@ -105,6 +103,7 @@ const MappingBar = () => {
       const newZone = zones.find((z) => z.id === fromId) || DEFAULT_ZONE
       setFrom(clone(newZone))
       oldFromId.current = fromId
+      console.log(`Set from to ${newZone.name}, the id is ${newZone.id}`)
     }
   }, [fromId, setFrom, zones])
 
@@ -113,6 +112,7 @@ const MappingBar = () => {
       const newZone = zones.find((z) => z.id === toId) || DEFAULT_ZONE
       setTo(clone(newZone))
       oldToId.current = toId
+      console.log(`Set To to ${newZone.name}, the id is ${newZone.id}`)
     }
   }, [toId, setTo, zones])
 
