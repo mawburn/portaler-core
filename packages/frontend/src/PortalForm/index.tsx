@@ -70,10 +70,14 @@ const getError = (name: string, errors: InputError[]): string | null => {
 
 const MappingBar = () => {
   const fromId = useSelector(
-    (state: RootState) => state.portalMap.inspectPortalId
+    (state: RootState) => state.portalMap.inspectFromId
+  )
+  const toId = useSelector(
+    (state: RootState) => state.portalMap.inspectToId
   )
 
   const oldFromId = useRef<number>(0)
+  const oldToId = useRef<number>(0)
   const [from, setFrom] = useState<Zone>(DEFAULT_ZONE)
   const [to, setTo] = useState<Zone>(DEFAULT_ZONE)
   const [portalSize, setPortalSize] = useState<PortalSize | null>(null)
@@ -103,6 +107,14 @@ const MappingBar = () => {
       oldFromId.current = fromId
     }
   }, [fromId, setFrom, zones])
+
+  useEffect(() => {
+    if (toId && toId !== oldToId.current){
+      const newZone = zones.find((z) => z.id === toId) || DEFAULT_ZONE
+      setTo(clone(newZone))
+      oldToId.current = toId
+    }
+  }, [toId, setTo, zones])
 
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {

@@ -11,7 +11,7 @@ import useZoneListSelector from './useZoneListSelector'
 const useZoneInfo = (): Zone | null => {
   const dispatch = useDispatch()
   const zoneList = useZoneListSelector()
-  const id = useSelector((state: RootState) => state.portalMap.inspectPortalId)
+  const id = useSelector((state: RootState) => state.portalMap.inspectFromId)
   const [zone, setZone] = useState<Zone | null>(null)
 
   const getZone = useCallback(

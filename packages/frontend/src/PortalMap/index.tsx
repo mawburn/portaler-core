@@ -108,10 +108,11 @@ const PortalMap = () => {
       }
 
       if (t.isNode()) {
+        console.log(t.data())
         const name = t.data('zoneName')
         const id = t.data('zoneId')
 
-        dispatch({ type: PortalMapActionTypes.INSPECT, inspectId: id })
+        dispatch({ type: PortalMapActionTypes.INSPECT, inspectFromId: id })
         setActiveZoneName(name)
         setActiveZoneEdgeData(
           t
@@ -120,7 +121,18 @@ const PortalMap = () => {
             .map((e: EdgeSingular) => e.data())
         )
       } else if (t.isEdge()) {
-        setActiveZoneEdgeData([t.data()])
+        console.log(t.data())
+
+        const from: String = t.data('connection')[0]
+        const to: String = t.data('connection')[1]
+
+        console.log(`Portal goes from ${from} to ${to}`)
+
+        dispatch({
+          type: PortalMapActionTypes.INSPECT,
+          fromInspectId: t.data('inspectFromId'),
+          toInspectId: t.data('inspectToId')
+        })
       }
     },
     [clearActives, dispatch]
@@ -254,6 +266,10 @@ const PortalMap = () => {
             : Duration.fromMillis(timeLeft).toFormat("h'h' m'm'")
 
         if (!elms.has(id)) {
+          const from: Zone =
+            zones.find((z) => z.name === p.connection[0]) ?? DEFAULT_ZONE
+          const to: Zone =
+            zones.find((z) => z.name === p.connection[1]) ?? DEFAULT_ZONE
           elms.set(id, {
             added: false,
             element: {
@@ -264,6 +280,9 @@ const PortalMap = () => {
                 portalName: `${p.connection[0]} to ${p.connection[1]}`,
                 target,
                 label,
+                connection: [...p.connection],
+                fromInspectId: from.id,
+                toInspectId: to.id,
               },
               classes: p.timeLeft < 3600 ? 'timeLow' : '',
               css: {
