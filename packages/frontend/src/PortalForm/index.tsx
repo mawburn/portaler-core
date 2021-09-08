@@ -105,6 +105,10 @@ const MappingBar = () => {
       setFrom(clone(newZone))
       oldFromId.current = fromId
       console.log(`Set from to ${newZone.name}, the id is ${newZone.id}`)
+    } else if (!fromId) {
+      const newZone = DEFAULT_ZONE
+      setFrom(clone(newZone))
+      oldFromId.current = DEFAULT_ZONE.id
     }
   }, [fromId, setFrom, zones])
 
@@ -114,6 +118,10 @@ const MappingBar = () => {
       setTo(clone(newZone))
       oldToId.current = toId
       console.log(`Set To to ${newZone.name}, the id is ${newZone.id}`)
+    } else if (!toId) {
+      const newZone = DEFAULT_ZONE
+      setTo(clone(newZone))
+      oldToId.current = DEFAULT_ZONE.id
     }
   }, [toId, setTo, zones])
 
