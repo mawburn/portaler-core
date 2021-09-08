@@ -113,8 +113,7 @@ const PortalMap = () => {
         const name = t.data('zoneName')
         const id = t.data('zoneId')
 
-        dispatch({ type: PortalMapActionTypes.CLEARINSPECT })
-        dispatch({ type: PortalMapActionTypes.INSPECT, inspectFromId: id })
+        dispatch({ type: PortalMapActionTypes.INSPECTNODE, inspectFromId: id })
         setActiveZoneName(name)
         setActiveZoneEdgeData(
           t

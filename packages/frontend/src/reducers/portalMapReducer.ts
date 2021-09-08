@@ -8,6 +8,7 @@ import { DEFAULT_ZONE } from '../common/data/constants'
 export enum PortalMapActionTypes {
   UPDATEMAP = 'portals/updateMap',
   INSPECT = 'portals/inspectPortal',
+  INSPECTNODE = 'portals/inspectNode',
   CLEARINSPECT = 'portals/clearInspectedPortal',
   CLEARALL = 'portals/clearAllPortals',
   CENTER = 'portals/centerZone',
@@ -68,6 +69,14 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
         inspectToId: action.inspectToId ?? DEFAULT_ZONE.id,
         size: action.size ?? null,
         timeLeft: action.timeLeft ?? null,
+      }
+    case PortalMapActionTypes.INSPECTNODE:
+      return {
+        ... state,
+        inspectFromId: action.inspectFromId!,
+        inspectToId: DEFAULT_ZONE.id,
+        size: null,
+        timeLeft: null,
       }
     case PortalMapActionTypes.CLEARINSPECT:
       return { ...state, inspectFromId: null, inspectToId: null, size: null }
