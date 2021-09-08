@@ -75,8 +75,13 @@ const MappingBar = () => {
   )
   const toId = useSelector((state: RootState) => state.portalMap.inspectToId)
 
+  const size = useSelector((state: RootState) => state.portalMap.size)
+
+  const timeLeft = useSelector((state: RootState) => state.portalMap.timeLeft)
+
   const oldFromId = useRef<number>(0)
   const oldToId = useRef<number>(0)
+  const oldSize = useRef<PortalSize | null>(null)
   const [from, setFrom] = useState<Zone>(DEFAULT_ZONE)
   const [to, setTo] = useState<Zone>(DEFAULT_ZONE)
   const [portalSize, setPortalSize] = useState<PortalSize | null>(null)
@@ -124,6 +129,13 @@ const MappingBar = () => {
       oldToId.current = DEFAULT_ZONE.id
     }
   }, [toId, setTo, zones])
+
+  useEffect(() => {
+    if (size !== oldSize.current) {
+      setPortalSize(size)
+      oldSize.current = size
+    }
+  }, [size, setPortalSize])
 
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {

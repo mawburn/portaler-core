@@ -27,8 +27,8 @@ export interface PortalMap {
   portals: Portal[]
   inspectFromId: number | null
   inspectToId: number | null
-  timeLeft?: number | null
-  size?: PortalSize | null
+  timeLeft: number | null
+  size: PortalSize | null
   lastUpdated: number
   centerZone: Zone
 }
@@ -70,7 +70,7 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
         timeLeft: action.timeLeft ?? null,
       }
     case PortalMapActionTypes.CLEARINSPECT:
-      return { ...state, inspectFromId: null, inspectToId: null }
+      return { ...state, inspectFromId: null, inspectToId: null, size: null }
     case PortalMapActionTypes.CLEARALL:
       return {
         ...state,
