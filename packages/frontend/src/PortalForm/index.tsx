@@ -22,6 +22,7 @@ import ZoneSearch from '../ZoneSearch'
 import PortalSizeSelector from './PortalSizeSelector'
 import styles from './styles.module.scss'
 import useAddPortal from './useAddPortal'
+import { isNullOrUndefined } from 'util'
 
 const portalSizeValid = (size: PortalSize | null) =>
   size !== null && [0, 2, 7, 20].includes(size)
@@ -108,7 +109,7 @@ const MappingBar = () => {
   }, [fromId, setFrom, zones])
 
   useEffect(() => {
-    if (toId && toId !== oldToId.current){
+    if (toId && toId !== oldToId.current) {
       const newZone = zones.find((z) => z.id === toId) || DEFAULT_ZONE
       setTo(clone(newZone))
       oldToId.current = toId

@@ -1,7 +1,7 @@
 import clone from 'lodash/cloneDeep'
 import { Reducer } from 'react'
 
-import { Portal, Zone } from '@portaler/types'
+import { Portal, Zone, PortalSize } from '@portaler/types'
 
 import { DEFAULT_ZONE } from '../common/data/constants'
 
@@ -18,6 +18,8 @@ interface PortalMapAction {
   portals?: Portal[]
   inspectFromId?: number
   inspectToId?: number
+  timeLeft?: number
+  size?: PortalSize
   centerZone?: Zone
 }
 
@@ -25,6 +27,8 @@ export interface PortalMap {
   portals: Portal[]
   inspectFromId: number | null
   inspectToId: number | null
+  timeLeft?: number | null
+  size?: PortalSize | null
   lastUpdated: number
   centerZone: Zone
 }
@@ -33,6 +37,8 @@ const initialState: PortalMap = {
   portals: [],
   inspectFromId: null,
   inspectToId: null,
+  timeLeft: null,
+  size: null,
   lastUpdated: 0,
   centerZone: DEFAULT_ZONE,
 }
@@ -54,12 +60,14 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
   switch (action.type) {
     case PortalMapActionTypes.INSPECT:
       console.log(
-        `inspecting a zone or connection, the inspectFromId is ${action.inspectFromId}, the inspectToId is ${action.inspectToId}`
+        `inspecting a zone or connection, the inspectFromId is ${action.inspectFromId}, the inspectToId is ${action.inspectToId}, timeLeft is ${action.timeLeft}, size is ${action.size}`
       )
       return {
         ...state,
         inspectFromId: action.inspectFromId!,
-        inspectToId: action.inspectToId || null,
+        inspectToId: action.inspectToId ?? DEFAULT_ZONE.id,
+        size: action.size ?? null,
+        timeLeft: action.timeLeft ?? null,
       }
     case PortalMapActionTypes.CLEARINSPECT:
       return { ...state, inspectFromId: null, inspectToId: null }
