@@ -81,6 +81,7 @@ const MappingBar = () => {
   const oldFromId = useRef<number>(0)
   const oldToId = useRef<number>(0)
   const oldSize = useRef<PortalSize | null>(null)
+  const oldTime = useRef<number | null>(0)
   const [from, setFrom] = useState<Zone>(DEFAULT_ZONE)
   const [to, setTo] = useState<Zone>(DEFAULT_ZONE)
   const [portalSize, setPortalSize] = useState<PortalSize | null>(null)
@@ -134,6 +135,23 @@ const MappingBar = () => {
     }
   }, [size, setPortalSize])
 
+  useEffect(() => {
+    if (timeLeft && timeLeft !== oldTime.current) {
+      const newHours = Math.floor(timeLeft / 3600)
+      const newMinutes = Math.floor((timeLeft - newHours * 3600) / 60)
+
+      setHours(newHours)
+      setMinutes(newMinutes)
+
+      oldTime.current = timeLeft
+    } else if (!timeLeft) {
+      setHours(null)
+      setMinutes(null)
+
+      oldTime.current = null
+    }
+  }, [timeLeft, setHours, setMinutes])
+
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -163,10 +181,13 @@ const MappingBar = () => {
             hours: hr,
             minutes: min,
           })
+
+          setFrom(DEFAULT_ZONE)
           setTo(DEFAULT_ZONE)
           setHours(null)
           setMinutes(null)
           setPortalSize(null)
+
           setFocusCounter((x) => ++x)
         } else {
           throw new Error('you suck')

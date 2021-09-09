@@ -109,6 +109,8 @@ const PortalMap = () => {
       }
 
       if (t.isNode()) {
+        console.log(t.data())
+
         const name = t.data('zoneName')
         const id = t.data('zoneId')
 

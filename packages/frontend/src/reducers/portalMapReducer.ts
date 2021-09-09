@@ -76,7 +76,13 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
         timeLeft: null,
       }
     case PortalMapActionTypes.CLEARINSPECT:
-      return { ...state, inspectFromId: null, inspectToId: null, size: null }
+      return {
+        ...state,
+        inspectFromId: null,
+        inspectToId: null,
+        size: null,
+        timeLeft: null,
+      }
     case PortalMapActionTypes.CLEARALL:
       return {
         ...state,
