@@ -60,9 +60,6 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
 
   switch (action.type) {
     case PortalMapActionTypes.INSPECT:
-      console.log(
-        `inspecting a zone or connection, the inspectFromId is ${action.inspectFromId}, the inspectToId is ${action.inspectToId}, timeLeft is ${action.timeLeft}, size is ${action.size}`
-      )
       return {
         ...state,
         inspectFromId: action.inspectFromId!,
@@ -72,7 +69,7 @@ const portalMapReducer: Reducer<any, PortalMapAction> = (
       }
     case PortalMapActionTypes.INSPECTNODE:
       return {
-        ... state,
+        ...state,
         inspectFromId: action.inspectFromId!,
         inspectToId: DEFAULT_ZONE.id,
         size: null,

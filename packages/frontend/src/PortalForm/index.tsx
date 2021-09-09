@@ -22,7 +22,6 @@ import ZoneSearch from '../ZoneSearch'
 import PortalSizeSelector from './PortalSizeSelector'
 import styles from './styles.module.scss'
 import useAddPortal from './useAddPortal'
-import { isNullOrUndefined } from 'util'
 
 const portalSizeValid = (size: PortalSize | null) =>
   size !== null && [0, 2, 7, 20].includes(size)
@@ -109,7 +108,6 @@ const MappingBar = () => {
       const newZone = zones.find((z) => z.id === fromId) || DEFAULT_ZONE
       setFrom(clone(newZone))
       oldFromId.current = fromId
-      console.log(`Set from to ${newZone.name}, the id is ${newZone.id}`)
     } else if (!fromId) {
       const newZone = DEFAULT_ZONE
       setFrom(clone(newZone))
@@ -122,7 +120,6 @@ const MappingBar = () => {
       const newZone = zones.find((z) => z.id === toId) || DEFAULT_ZONE
       setTo(clone(newZone))
       oldToId.current = toId
-      console.log(`Set To to ${newZone.name}, the id is ${newZone.id}`)
     } else if (!toId) {
       const newZone = DEFAULT_ZONE
       setTo(clone(newZone))

@@ -109,7 +109,6 @@ const PortalMap = () => {
       }
 
       if (t.isNode()) {
-        console.log(t.data())
         const name = t.data('zoneName')
         const id = t.data('zoneId')
 
@@ -123,15 +122,6 @@ const PortalMap = () => {
         )
       } else if (t.isEdge()) {
         console.log(t.data())
-
-        const from: String = t.data('connection')[0]
-        const to: String = t.data('connection')[1]
-
-        console.log(
-          `Portal goes from ${from} (id is ${t.data(
-            'fromInspectId'
-          )}) to ${to} (id is ${t.data('toInspectId')})`
-        )
 
         dispatch({
           type: PortalMapActionTypes.INSPECT,
@@ -307,6 +297,8 @@ const PortalMap = () => {
           const updateElm = cy.current.$(`#${id}`)
           updateElm.data('label', label)
           updateElm.css('lineColor', portalSizeToColor[p.size as PortalSize])
+          updateElm.data('size', p.size)
+          updateElm.data('timeLeft', p.timeLeft)
 
           if (p.timeLeft < 3600) {
             updateElm.addClass('timeLow')
