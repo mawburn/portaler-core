@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
 import AddLocationIcon from '@material-ui/icons/AddLocation'
@@ -22,6 +22,7 @@ import ZoneSearch from '../ZoneSearch'
 import PortalSizeSelector from './PortalSizeSelector'
 import styles from './styles.module.scss'
 import useAddPortal from './useAddPortal'
+import { PortalMapActionTypes } from '../reducers/portalMapReducer'
 
 const portalSizeValid = (size: PortalSize | null) =>
   size !== null && [0, 2, 7, 20].includes(size)
@@ -77,6 +78,8 @@ const MappingBar = () => {
   const size = useSelector((state: RootState) => state.portalMap.size)
 
   const timeLeft = useSelector((state: RootState) => state.portalMap.timeLeft)
+
+  const dispatch = useDispatch()
 
   const oldFromId = useRef<number>(0)
   const oldToId = useRef<number>(0)
@@ -182,11 +185,9 @@ const MappingBar = () => {
             minutes: min,
           })
 
-          setFrom(DEFAULT_ZONE)
-          setTo(DEFAULT_ZONE)
-          setHours(null)
-          setMinutes(null)
-          setPortalSize(null)
+          dispatch({
+            type: PortalMapActionTypes.CLEARINSPECT
+          })
 
           setFocusCounter((x) => ++x)
         } else {
