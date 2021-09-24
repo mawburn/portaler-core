@@ -186,7 +186,7 @@ const MappingBar = () => {
           })
 
           dispatch({
-            type: PortalMapActionTypes.CLEARINSPECT
+            type: PortalMapActionTypes.CLEARINSPECT,
           })
 
           setFocusCounter((x) => ++x)
@@ -197,7 +197,7 @@ const MappingBar = () => {
         console.error(err)
       }
     },
-    [from, to, portalSize, hours, minutes, addPortal]
+    [from, to, portalSize, hours, minutes, addPortal, dispatch]
   )
 
   const sizeError = getError('size', errors)
