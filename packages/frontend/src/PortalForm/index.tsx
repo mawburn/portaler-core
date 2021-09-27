@@ -139,7 +139,8 @@ const MappingBar = () => {
   }, [size, setPortalSize])
 
   useEffect(() => {
-    if (timeLeft && timeLeft !== oldTime.current) {
+    if (timeLeft && timeLeft !== oldTime.current && size !== 0) {
+      console.log('if')
       const newHours = Math.floor(timeLeft / 3600)
       const newMinutes = Math.floor((timeLeft - newHours * 3600) / 60)
 
@@ -147,13 +148,14 @@ const MappingBar = () => {
       setMinutes(newMinutes)
 
       oldTime.current = timeLeft
-    } else if (!timeLeft) {
+    } else if (!timeLeft || size === 0) {
+      console.log('Else if')
       setHours(null)
       setMinutes(null)
 
       oldTime.current = null
     }
-  }, [timeLeft, setHours, setMinutes])
+  }, [timeLeft, setHours, setMinutes, size])
 
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
