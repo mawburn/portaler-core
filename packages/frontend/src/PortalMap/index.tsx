@@ -93,7 +93,6 @@ const PortalMap = () => {
   )
 
   const clearActives = useCallback(() => {
-    console.log('Clearing the inspect')
     setActiveZoneEdgeData([])
     setActiveZoneName('')
     dispatch({ type: PortalMapActionTypes.CLEARINSPECT })
@@ -109,8 +108,6 @@ const PortalMap = () => {
       }
 
       if (t.isNode()) {
-        console.log(t.data())
-
         const name = t.data('zoneName')
         const id = t.data('zoneId')
 
@@ -123,8 +120,6 @@ const PortalMap = () => {
             .map((e: EdgeSingular) => e.data())
         )
       } else if (t.isEdge()) {
-        console.log(t.data())
-
         dispatch({
           type: PortalMapActionTypes.INSPECT,
           inspectFromId: t.data('fromInspectId'),
