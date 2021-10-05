@@ -17,12 +17,12 @@ import { PortalSize, Zone } from '@portaler/types'
 import { DEFAULT_ZONE } from '../common/data/constants'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
 import { RootState } from '../reducers'
+import { PortalMapActionTypes } from '../reducers/portalMapReducer'
 import { InputError } from '../types'
 import ZoneSearch from '../ZoneSearch'
 import PortalSizeSelector from './PortalSizeSelector'
 import styles from './styles.module.scss'
 import useAddPortal from './useAddPortal'
-import { PortalMapActionTypes } from '../reducers/portalMapReducer'
 
 const portalSizeValid = (size: PortalSize | null) =>
   size !== null && [0, 2, 7, 20].includes(size)
@@ -73,7 +73,9 @@ const MappingBar = () => {
   const fromId = useSelector(
     (state: RootState) => state.portalMap.inspectFromId
   )
-  const { toId, size, timeLeft } = useSelector((state: RootState) => state.portalMap)
+  const { inspectToId, size, timeLeft } = useSelector(
+    (state: RootState) => state.portalMap
+  )
 
   const dispatch = useDispatch()
 
@@ -116,16 +118,16 @@ const MappingBar = () => {
   }, [fromId, setFrom, zones])
 
   useEffect(() => {
-    if (toId && toId !== oldToId.current) {
-      const newZone = zones.find((z) => z.id === toId) || DEFAULT_ZONE
+    if (inspectToId && inspectToId !== oldToId.current) {
+      const newZone = zones.find((z) => z.id === inspectToId) || DEFAULT_ZONE
       setTo(clone(newZone))
-      oldToId.current = toId
-    } else if (!toId) {
+      oldToId.current = inspectToId
+    } else if (!inspectToId) {
       const newZone = DEFAULT_ZONE
       setTo(clone(newZone))
       oldToId.current = DEFAULT_ZONE.id
     }
-  }, [toId, setTo, zones])
+  }, [inspectToId, setTo, zones])
 
   useEffect(() => {
     if (size !== oldSize.current) {

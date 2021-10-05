@@ -1,7 +1,7 @@
 import clone from 'lodash/cloneDeep'
 import { Reducer } from 'react'
 
-import { Portal, Zone, PortalSize } from '@portaler/types'
+import { Portal, PortalSize, Zone } from '@portaler/types'
 
 import { DEFAULT_ZONE } from '../common/data/constants'
 
