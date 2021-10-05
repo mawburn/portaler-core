@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
 import AddLocationIcon from '@material-ui/icons/AddLocation'
@@ -22,6 +22,7 @@ import ZoneSearch from '../ZoneSearch'
 import PortalSizeSelector from './PortalSizeSelector'
 import styles from './styles.module.scss'
 import useAddPortal from './useAddPortal'
+import { PortalMapActionTypes } from '../reducers/portalMapReducer'
 
 const portalSizeValid = (size: PortalSize | null) =>
   size !== null && [0, 2, 7, 20].includes(size)
@@ -70,10 +71,16 @@ const getError = (name: string, errors: InputError[]): string | null => {
 
 const MappingBar = () => {
   const fromId = useSelector(
-    (state: RootState) => state.portalMap.inspectPortalId
+    (state: RootState) => state.portalMap.inspectFromId
   )
+  const { toId, size, timeLeft } = useSelector((state: RootState) => state.portalMap)
+
+  const dispatch = useDispatch()
 
   const oldFromId = useRef<number>(0)
+  const oldToId = useRef<number>(0)
+  const oldSize = useRef<PortalSize | null>(null)
+  const oldTime = useRef<number | null>(0)
   const [from, setFrom] = useState<Zone>(DEFAULT_ZONE)
   const [to, setTo] = useState<Zone>(DEFAULT_ZONE)
   const [portalSize, setPortalSize] = useState<PortalSize | null>(null)
@@ -101,8 +108,48 @@ const MappingBar = () => {
       const newZone = zones.find((z) => z.id === fromId) || DEFAULT_ZONE
       setFrom(clone(newZone))
       oldFromId.current = fromId
+    } else if (!fromId) {
+      const newZone = DEFAULT_ZONE
+      setFrom(clone(newZone))
+      oldFromId.current = DEFAULT_ZONE.id
     }
   }, [fromId, setFrom, zones])
+
+  useEffect(() => {
+    if (toId && toId !== oldToId.current) {
+      const newZone = zones.find((z) => z.id === toId) || DEFAULT_ZONE
+      setTo(clone(newZone))
+      oldToId.current = toId
+    } else if (!toId) {
+      const newZone = DEFAULT_ZONE
+      setTo(clone(newZone))
+      oldToId.current = DEFAULT_ZONE.id
+    }
+  }, [toId, setTo, zones])
+
+  useEffect(() => {
+    if (size !== oldSize.current) {
+      setPortalSize(size)
+      oldSize.current = size
+    }
+  }, [size, setPortalSize])
+
+  useEffect(() => {
+    if (timeLeft && timeLeft !== oldTime.current && size !== 0) {
+      const newHours = Math.floor(timeLeft / 3600)
+      const newMinutes = Math.floor((timeLeft - newHours * 3600) / 60)
+
+      setHours(newHours)
+      setMinutes(newMinutes)
+
+      oldTime.current = timeLeft
+    } else if (!timeLeft || size === 0) {
+      setHours(null)
+      setMinutes(null)
+
+      oldTime.current = null
+    }
+  }, [timeLeft, setHours, setMinutes, size])
 
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
@@ -133,10 +180,11 @@ const MappingBar = () => {
             hours: hr,
             minutes: min,
           })
-          setTo(DEFAULT_ZONE)
-          setHours(null)
-          setMinutes(null)
-          setPortalSize(null)
+
+          dispatch({
+            type: PortalMapActionTypes.CLEARINSPECT,
+          })
+
           setFocusCounter((x) => ++x)
         } else {
           throw new Error('you suck')
@@ -145,7 +193,7 @@ const MappingBar = () => {
         console.error(err)
       }
     },
-    [from, to, portalSize, hours, minutes, addPortal]
+    [from, to, portalSize, hours, minutes, addPortal, dispatch]
   )
 
   const sizeError = getError('size', errors)
