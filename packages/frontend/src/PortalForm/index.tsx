@@ -73,11 +73,7 @@ const MappingBar = () => {
   const fromId = useSelector(
     (state: RootState) => state.portalMap.inspectFromId
   )
-  const toId = useSelector((state: RootState) => state.portalMap.inspectToId)
-
-  const size = useSelector((state: RootState) => state.portalMap.size)
-
-  const timeLeft = useSelector((state: RootState) => state.portalMap.timeLeft)
+  const { toId, size, timeLeft } = useSelector((state: RootState) => state.portalMap)
 
   const dispatch = useDispatch()
 
