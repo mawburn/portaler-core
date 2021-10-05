@@ -6,12 +6,14 @@ import { Button, Dialog, DialogActions } from '@material-ui/core'
 import { githubLogo, patreonLogo } from '../common/images'
 import styles from './styles.module.scss'
 
+const isOctober = DateTime.now().month === 10
+
 const Patreon = () => {
   const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
     if (!document.cookie.includes('patreonpop')) {
-      const threeDays = DateTime.utc().plus({ days: 3 })
+      const threeDays = DateTime.utc().plus({ days: isOctober ? 1 : 3 })
 
       document.cookie = `patreonpop=true; expires=${threeDays.toHTTP()}; SameSite=None; Secure`
 
@@ -47,6 +49,31 @@ const Patreon = () => {
           Portaler is looking for contributors!
         </a>
         Portaler is proudly 90% TypeScript with ReactJS &amp; NodeJS.
+        {isOctober && (
+          <>
+            <h3>
+              Plus we are participating in{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://hacktoberfest.digitalocean.com/"
+              >
+                Hacktoberfest!
+              </a>
+            </h3>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://hacktoberfest.digitalocean.com/"
+            >
+              <img
+                src="https://hacktoberfest.digitalocean.com/_nuxt/img/logo-hacktoberfest-full.f42e3b1.svg"
+                className={styles.hacktober}
+                alt="Hacktoberfest"
+              />
+            </a>
+          </>
+        )}
       </div>
       <DialogActions>
         <Button onClick={() => setOpen(false)} color="secondary">
