@@ -22,7 +22,7 @@ REACT_APP_AUTH=http://localhost:3000
 REACT_APP_DISABLE_AUTH=true
 ```
 
-## Start Here:
+## Start Here
 
 [Discord](https://discord.com/developers/docs/intro)
 
