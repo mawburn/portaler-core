@@ -1,14 +1,14 @@
 {
   "recommendations": [
-    "coenraads.bracket-pair-colorizer",
-    "streetsidesoftware.code-spell-checker",
     "clinyong.vscode-css-modules",
-    "mikestead.dotenv",
-    "editorconfig.editorconfig",
+    "coenraads.bracket-pair-colorizer",
     "dbaeumer.vscode-eslint",
-    "wix.vscode-import-cost",
+    "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
+    "mikestead.dotenv",
+    "shardulm94.trailing-spaces",
+    "streetsidesoftware.code-spell-checker",
     "syler.sass-indented",
-    "shardulm94.trailing-spaces"
+    "wix.vscode-import-cost"
   ]
 }
