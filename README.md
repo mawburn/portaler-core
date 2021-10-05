@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  An Albion Online Avalonion Roads shared mapping tool
+  An Albion Online Avalonian Roads shared mapping tool
 </p>
 
 <p align="center">
@@ -12,14 +12,14 @@
   </a>
 </p>
 
-## Looking for Contributors!
+## Looking for Contributors
 
 I don't have as much time to keep up with this as when I first built it. If you're a developer or a budding developer, I would love to have your help!
 
 **[Get Setup Developing!](./docs/devsetup.md)**
 
-Take a look at the project board here:  
-https://github.com/Portaler-Zone/portaler-core/projects/1
+Take a look at the project board here:
+[Portaler Project](https://github.com/Portaler-Zone/portaler-core/projects/1)
 
 Fork the Repo & Submit PRs! Lets do this people. As of this writing, Portaler supports over 20,000 unique users a month across 357 servers and we could probably grow to even larger than that! It's a good project to work on if you're looking for an open source project to contribute to. I look for good code quality and solid practices. We run on barely any hardware and I want to keep it that way.
 
@@ -33,7 +33,7 @@ I ([mawburn](https://github.com/mawburn)) love mentoring developers, so don't be
 
 ---
 
-**Contents**
+## Contents
 
 - [What it is](#what-it-is)
 - [Development](./docs/devsetup.md)
@@ -58,7 +58,7 @@ The data we use to populate information is collected from [Albion Data Project](
 
 There is a full [Self-hosting Guide here](./docs/selfhosting.md), but a simple version can be found below.
 
-If you would like to run the project on your own server, we provide Dockerhub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the dockerfiles contained in the `./docker` folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
+If you would like to run the project on your own server, we provide DockerHub images and you can find a docker-compose.yml file in the [docker](/docker) folder. If you would like to just run the project, you do not need to build the docker files contained in the `./docker` folder, just simply update the `.env.example` file with your variables, the variables in the docker-compose.yml and run:
 
 ```sh
 docker-compose up -d

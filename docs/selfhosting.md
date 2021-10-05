@@ -1,22 +1,22 @@
 # Selfhosting Portaler
 
 **Disclaimer:** This guide was written by a hardware/operations engineer with limited Linux experience and not by the developer of Portaler.
-Most likely there are better ways to selfhost Portaler but this is what i use. I am not responsible for any damage you do to your system while following this guide.
+Most likely there are better ways to self-host Portaler but this is what i use. I am not responsible for any damage you do to your system while following this guide.
 
-I tried my best to make this guide as noob-friendly as possible so it should work even for people with basically no Linux experience.
+I tried my best to make this guide as newbie-friendly as possible so it should work even for people with basically no Linux experience.
 In case you'll encounter an error during installation you can usually google it and find a fix without any problems. Asking on the discord server works too.
 
-## Requirements:
+## Requirements
 
 **If you want to use Portaler locally on your PC**: Any kind of Linux VM on your network where you have root privileges and can access the terminal. The simplest solution is using something like VirtualBox (google how to do that, it is easy)
 
-**If you want to use Portaler publicly (host)**: Same as using it locally but you will also need a public routable (preferably static) ip-address and a domain name you own. You can (and probably should) also use a VPS instead of a VM on your PC for that.
+**If you want to use Portaler publicly (host)**: Same as using it locally but you will also need a public routable(preferably static) ip-address and a domain name you own. You can (and probably should) also use a VPS instead of a VM on your PC for that.
 
 I am using **Debian 9** as my OS. If you use some other Linux distro you will need to google how to install all the packages by yourself, but otherwise that should not be a problem.
 
-## Steps for both local and public versions:
+## Steps for both local and public versions
 
-Register at github.com and get a github access token. You can learn how to get it here: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+Register at github.com and get a github access token. You can learn how to get it here: [Creating a Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 
 You don't need to select any permissions for you token.
 
@@ -80,7 +80,7 @@ Now you need to decide if you are going to use it locally or publicly. Local ver
 
 You don't need to do both options so pick only the one you need.
 
-## Option 1 - Steps for local version:
+## Option 1 - Steps for local version
 
 Edit `docker-compose.yml` and `.env.example`:
 
@@ -90,7 +90,7 @@ cd /usr/local/etc/docker-portaler/portaler-core/docker
 
 You can use any text editor you like. If you are using Debian you will most likely have `Vim` and `nano` installed. If you've never used `Vim` before, I suggest you use `nano` instead.
 
-If you dont have anything but `Vim` installed - you can either use google-fu and learn how to use it or just `apt-get install -y nano` to have `nano` installed
+If you don't have anything but `Vim` installed - you can either use google-fu and learn how to use it or just `apt-get install -y nano` to have `nano` installed
 
 ```Shell
 cp .env.example .env.example.backup
@@ -105,7 +105,7 @@ Uncomment **DISABLE_AUTH=true** (that means delete the # before this line)
 
 Leave everything else as is.
 
-`ctrl-x` to exit the editor, dont forget to save your changes:
+`ctrl-x` to exit the editor, don't forget to save your changes:
 
 ```Shell
 nano docker-compose.yml
@@ -113,7 +113,7 @@ nano docker-compose.yml
 
 Modify it to be like this:
 
-```
+```yml
  version: '3.7'
 
 services:
@@ -161,7 +161,7 @@ volumes:
   db_data: {}
 ```
 
-`ctrl-x` to exit, dont forget to save your changes.
+`ctrl-x` to exit, don't forget to save your changes.
 
 When you are done editing the files - start the containers:
 
@@ -212,9 +212,9 @@ pm2 save
 
 Wait some time for the webserver to start. Now you can open your browser and go to http://yourserverip:3000 to use Portaler.
 
-## Option 2 - Steps for public version:
+## Option 2 - Steps for public version
 
-### Explanation about domain names structure:
+### Explanation about domain names structure
 
 Due to how Portaler is made you can't just use "yourdomain.com" for your domain name. You need to have a subdomain.
 That means portaler needs to be accessible with yoursubdomain.yourdomain.com instead.
@@ -245,7 +245,7 @@ apt-get install -y nginx
 
 Edit Nginx configuration files. You can use any text editor you like. If you are using Debian you will most likely have `Vim` and `nano` installed. If you've never used `Vim` before, i suggest you use `nano` instead.
 
-If you dont have anything but `Vim` installed - you can either use google-fu and learn how to use it or just `apt-get install nano` to have `nano` installed.
+If you don't have anything but `Vim` installed - you can either use google-fu and learn how to use it or just `apt-get install nano` to have `nano` installed.
 
 ```Shell
 nano /etc/nginx/conf.d/portaler.conf
@@ -253,7 +253,7 @@ nano /etc/nginx/conf.d/portaler.conf
 
 Paste this config into the file:
 
-```
+```nginx
 server {
   listen 80;
 
@@ -277,7 +277,7 @@ server {
 }
 ```
 
-`ctrl-x` to exit the editor, dont forget to save your changes.
+`ctrl-x` to exit the editor, don't forget to save your changes.
 
 Delete the default configuration and restart nginx:
 
@@ -288,12 +288,12 @@ systemctl restart nginx
 
 You should be able to access the website now in your browser (nothing will work however without the backend)
 
-### Everything discord bot related:
+### Everything discord bot related
 
-You will need to create an application using discord developer portal (https://discord.com/developers/applications). You can name it however you want.
+You will need to create an application using [discord developer portal](https://discord.com/developers/applications). You can name it however you want.
 
 Go to the "Bot" page and press Add Bot, check **Presence Intent** and **ServerMember Intent**.
-On the OAuth2 page press "Add Redirect" and put there http://yoursubdomain.yourdomain:80/api/auth/callback. Dont forget to save changes.
+On the OAuth2 page press "Add Redirect" and put there http://yoursubdomain.yourdomain:80/api/auth/callback. Don't forget to save changes.
 
 You will need **ClientID**, **ClientSecret**, **PublicKey** from the "General Information" page and **Token** from the "Bot" page for the next step.
 
@@ -306,7 +306,7 @@ nano .env.example
 
 You need to edit those values:
 
-**HOST=** to your domain name (ex. myserver.com and NOT yousubdomain.myserver.com)
+**HOST=** to your domain name (ex. myserver.com and NOT yoursubdomain.myserver.com)
 
 **ADMIN_KEY=** to a random string.
 
@@ -324,7 +324,7 @@ You need to edit those values:
 
 Leave everything else as is.
 
-`ctrl-x` to exit, dont forget to save your changes.
+`ctrl-x` to exit, don't forget to save your changes.
 
 **Important: do NOT invite your bot to your server before you are done setting up docker containers. The bot has to join you discord server with api already running. If your bot is already on your server - kick it.**
 
@@ -337,7 +337,7 @@ nano docker-compose.yml
 
 Modify it to be like this:
 
-```
+```yml
  version: '3.7'
 
 services:
@@ -396,7 +396,7 @@ volumes:
   db_data: {}
 ```
 
-`ctrl-x` to exit, dont forget to save your changes.
+`ctrl-x` to exit, don't forget to save your changes.
 
 When you are done editing the files - start the containers
 
@@ -426,14 +426,14 @@ docker update --restart unless-stopped $(docker ps -q)
 
 Now you can invite your bot to your server:
 
-Go to https://discordapi.com/permissions.html#0
+Go to [Discord Permissions](https://discordapi.com/permissions.html#0)
 
-Tick "manage roles" and insert your bots **ClientID** (the one you used while editing the `.env.example` file). Click on the generated link below and add the bot to your server (dont forget that you need to have permissions to do that).
+Tick "manage roles" and insert your bots **ClientID** (the one you used while editing the `.env.example` file). Click on the generated link below and add the bot to your server (don't forget that you need to have permissions to do that).
 
 The bot should've created a new role called **portaler** or whatever you've set in your `.env.example.` Grant this role to yourself.
 
 Open your web-browser and go to http://yoursubdomain.yourdomain:80
-Try logging in using discord OAuth - you will most likelly get an error while you try that. In order to fix that error you need to add your subdomain to the subdomain list. To do that you first need to get the id of your server:
+Try logging in using discord OAuth - you will most likely get an error while you try that. In order to fix that error you need to add your subdomain to the subdomain list. To do that you first need to get the id of your server:
 
 ```Shell
 curl -H "Authorization: Bearer youradminkey" http://localhost/api/admin/list
@@ -441,7 +441,7 @@ curl -H "Authorization: Bearer youradminkey" http://localhost/api/admin/list
 
 "youradminkey" is the **ADMIN_KEY** you've set up in your `.env.example`.
 
-Look for `"id":number`. Most likelly your id wil be 1.
+Look for `"id":number`. Most likely your id wil be 1.
 
 Now you can add your server to the list:
 
