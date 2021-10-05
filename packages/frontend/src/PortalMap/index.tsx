@@ -111,7 +111,7 @@ const PortalMap = () => {
         const name = t.data('zoneName')
         const id = t.data('zoneId')
 
-        dispatch({ type: PortalMapActionTypes.INSPECT, inspectId: id })
+        dispatch({ type: PortalMapActionTypes.INSPECTNODE, inspectFromId: id })
         setActiveZoneName(name)
         setActiveZoneEdgeData(
           t
@@ -120,7 +120,13 @@ const PortalMap = () => {
             .map((e: EdgeSingular) => e.data())
         )
       } else if (t.isEdge()) {
-        setActiveZoneEdgeData([t.data()])
+        dispatch({
+          type: PortalMapActionTypes.INSPECT,
+          inspectFromId: t.data('fromInspectId'),
+          inspectToId: t.data('toInspectId'),
+          timeLeft: t.data('timeLeft'),
+          size: t.data('size'),
+        })
       }
     },
     [clearActives, dispatch]
@@ -254,6 +260,10 @@ const PortalMap = () => {
             : Duration.fromMillis(timeLeft).toFormat("h'h' m'm'")
 
         if (!elms.has(id)) {
+          const from: Zone =
+            zones.find((z) => z.name === p.connection[0]) ?? DEFAULT_ZONE
+          const to: Zone =
+            zones.find((z) => z.name === p.connection[1]) ?? DEFAULT_ZONE
           elms.set(id, {
             added: false,
             element: {
@@ -264,6 +274,11 @@ const PortalMap = () => {
                 portalName: `${p.connection[0]} to ${p.connection[1]}`,
                 target,
                 label,
+                connection: [...p.connection],
+                fromInspectId: from.id,
+                toInspectId: to.id,
+                size: p.size,
+                timeLeft: p.timeLeft,
               },
               classes: p.timeLeft < 3600 ? 'timeLow' : '',
               css: {
@@ -279,6 +294,8 @@ const PortalMap = () => {
           const updateElm = cy.current.$(`#${id}`)
           updateElm.data('label', label)
           updateElm.css('lineColor', portalSizeToColor[p.size as PortalSize])
+          updateElm.data('size', p.size)
+          updateElm.data('timeLeft', p.timeLeft)
 
           if (p.timeLeft < 3600) {
             updateElm.addClass('timeLow')
