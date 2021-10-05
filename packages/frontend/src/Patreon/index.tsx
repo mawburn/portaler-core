@@ -13,9 +13,9 @@ const Patreon = () => {
 
   useEffect(() => {
     if (!document.cookie.includes('patreonpop')) {
-      const threeDays = DateTime.utc().plus({ days: isOctober ? 1 : 3 })
+      const displayTimer = DateTime.utc().plus({ days: isOctober ? 1 : 3 })
 
-      document.cookie = `patreonpop=true; expires=${threeDays.toHTTP()}; SameSite=None; Secure`
+      document.cookie = `patreonpop=true; expires=${displayTimer.toHTTP()}; SameSite=None; Secure`
 
       if (window.location.host.split('.')[0] !== 'dwai') {
         setOpen(true)
