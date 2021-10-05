@@ -25,12 +25,12 @@ Individual applications can be found in the [/packages](../packages) folder. Por
 - [api-server](/packages/api-server)
   - The main API server
 - [bin-etl](/packages/bin-etl)
-  - Checks for updates to the world.json file in https://github.com/broderickhyman/ao-bin-dumps
+  - Checks for updates to the world.json file in [broderickhyman/ao-bin-dumps](https://github.com/broderickhyman/ao-bin-dumps)
   - Populates the database with initial information or updates information when the world.json changes
 - [discord-bot](/packages/discord-bot)
   - The discord bot that allows roles to be assigned to users
   - Also contains the database migration files
-- [fontend](/packages/frontend)
+- [frontend](/packages/frontend)
   - The React frontend
 
 ### Locally shared libraries
@@ -144,13 +144,13 @@ yarn <command>
 - `dev:homepage` - Starts the Gatsby homepage in development mode
 - `dev:binetl` - Starts the bin-etl in development mode
 - `build:api` - Builds the api-server for production
-- `build:bot` - Builds the dicsord-bot for production
+- `build:bot` - Builds the discord-bot for production
 - `build:binetl` - Builds the bin-etl for production
 - `build:front` - Builds the frontend for production
 - `build:homepage` - Builds the homepage for production
 - `start:api` - Starts the api-server from production mode (must be built first)
 - `start:bot` - Starts the discord-bot from production mode (must be built first)
-- `start:bintetl` - Starts the bin-elt from production most (must be built first)
+- `start:binetl` - Starts the bin-elt from production most (must be built first)
 - `clean:shared` - Deletes the node_modules folder for all the shared/\* modules
 - `clean:packages` - Deletes the node_modules folder for all the packages/\* modules
 - `clean` - Deletes all node_modules folders everywhere

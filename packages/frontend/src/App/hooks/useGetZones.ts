@@ -1,4 +1,3 @@
-// import { DateTime } from 'luxon'
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -6,26 +5,7 @@ import { Zone } from '@portaler/types'
 
 import useConfigSelector from '../../common/hooks/useConfigSelector'
 import fetchler from '../../fetchler'
-import {
-  ZoneAction,
-  ZoneActionTypes,
-} from '../../reducers/zoneReducer'
-
-// const zoneStorage = (): ZoneState | null => {
-//   const zonesString: string | null = window.localStorage.getItem('zones')
-
-//   if (zonesString) {
-//     const zoneState: ZoneState = JSON.parse(zonesString)
-//     const now = DateTime.utc()
-//     const lastUpdated = DateTime.fromMillis(zoneState.lastUpdated)
-
-//     if (now.diff(lastUpdated, 'hours').as('hours') < 6) {
-//       return zoneState
-//     }
-//   }
-
-//   return null
-// }
+import { ZoneAction, ZoneActionTypes } from '../../reducers/zoneReducer'
 
 const useGetZones = () => {
   const hasHydrated = useRef<boolean>(false)
