@@ -5,25 +5,17 @@ import styles from './styles.module.scss'
 const OtherStuff = () => (
   <div className={styles.otherStuff}>
     <div className={styles.mistWalkers}>
-      <h3 className={styles.color}>Mist Walkers</h3>
+      <h3 className={styles.color}>Public Map</h3>
       <article>
         <p>
           Portaler also runs a public map that can be found here:{' '}
           <strong>
-            <a href="https://map.portaler.zone">map.portaler.zone</a>
+            <a href="https://public.portaler.zone">map.portaler.zone</a>
           </strong>
-        </p>
-        <p>
-          This map is provided by a volunteer guild of alts, called the{' '}
-          <span className={styles.color}>Mist Walkers</span>. If you see one, be
-          sure to say hi!
         </p>
       </article>
       <div>
-        <h4>
-          Mapping for the <span className={styles.color}>Mist Walkers</span> can
-          be rough...
-        </h4>
+        <h4>Mapping can be rough sometimes...</h4>
         <iframe
           loading="lazy"
           title="First Death - Portaler Mapping"
