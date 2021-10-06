@@ -4,6 +4,7 @@ import Features from '../components/Features'
 import JoinDiscord from '../components/JoinDiscord'
 import Layout from '../components/Layout'
 import MainLogo from '../components/MainLogo'
+import OtherStuff from '../components/OtherStuff'
 import SEO from '../components/seo'
 import WhatIs from '../components/WhatIs'
 
@@ -21,6 +22,7 @@ const IndexPage = () => (
       <WhatIs />
       <JoinDiscord />
       <Features />
+      <OtherStuff />
     </main>
   </Layout>
 )
