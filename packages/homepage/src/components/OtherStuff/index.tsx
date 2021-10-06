@@ -10,7 +10,7 @@ const OtherStuff = () => (
         <p>
           Portaler also runs a public map that can be found here:{' '}
           <strong>
-            <a href="https://public.portaler.zone">map.portaler.zone</a>
+            <a href="https://public.portaler.zone" rel="noopener nofollow">public.portaler.zone</a>
           </strong>
         </p>
       </article>
