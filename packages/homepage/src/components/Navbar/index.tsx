@@ -26,7 +26,7 @@ const Navbar: FC<NavbarProps> = ({ current }) => (
           className={cn({ [styles.active]: current === 'dashboard' })}
           title="public map"
         >
-          Public Map
+          Public Map / Demo
         </Link>
       </li>
     </ul>
