@@ -73,7 +73,7 @@ const MappingBar = () => {
   const fromId = useSelector(
     (state: RootState) => state.portalMap.inspectFromId
   )
-  const { inspectToId, size, timeLeft } = useSelector(
+  const { inspectToId, size, timeLeft, editing } = useSelector(
     (state: RootState) => state.portalMap
   )
 
@@ -130,6 +130,7 @@ const MappingBar = () => {
   }, [inspectToId, setTo, zones])
 
   useEffect(() => {
+    console.log(size)
     if (size !== oldSize.current) {
       setPortalSize(size)
       oldSize.current = size
@@ -176,16 +177,26 @@ const MappingBar = () => {
           portalSizeValid(portalSize) &&
           (hr + min > 0 || portalSize === 0)
         ) {
-          addPortal({
-            connection: [from.name, to.name],
-            size: portalSize as PortalSize,
-            hours: hr,
-            minutes: min,
-          })
+          console.log(editing)
+          if (editing) {
+            console.log('Edited')
+            dispatch({
+              type: PortalMapActionTypes.CLEARINSPECT,
+            })
+          } else {
+            addPortal({
+              connection: [from.name, to.name],
+              size: portalSize as PortalSize,
+              hours: hr,
+              minutes: min,
+            })
 
-          dispatch({
-            type: PortalMapActionTypes.CLEARINSPECT,
-          })
+            console.log('Added')
+
+            dispatch({
+              type: PortalMapActionTypes.CLEARINSPECT,
+            })
+          }
 
           setFocusCounter((x) => ++x)
         } else {
@@ -195,7 +206,7 @@ const MappingBar = () => {
         console.error(err)
       }
     },
-    [from, to, portalSize, hours, minutes, addPortal, dispatch]
+    [from, to, portalSize, hours, minutes, addPortal, dispatch, editing]
   )
 
   const sizeError = getError('size', errors)

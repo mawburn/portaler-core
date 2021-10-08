@@ -6,6 +6,7 @@
     "bitnami",
     "broderickhyman",
     "certbot",
+    "CLEARAFTERCREATE",
     "CLEARALL",
     "CLEARINSPECT",
     "CLEARTOKEN",

@@ -121,7 +121,7 @@ const PortalMap = () => {
         )
       } else if (t.isEdge()) {
         dispatch({
-          type: PortalMapActionTypes.INSPECT,
+          type: PortalMapActionTypes.EDIT,
           inspectFromId: t.data('fromInspectId'),
           inspectToId: t.data('toInspectId'),
           timeLeft: t.data('timeLeft'),
