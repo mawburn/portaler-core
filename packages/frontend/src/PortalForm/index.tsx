@@ -73,9 +73,12 @@ const MappingBar = () => {
   const fromId = useSelector(
     (state: RootState) => state.portalMap.inspectFromId
   )
-  const { inspectToId, size, timeLeft } = useSelector(
-    (state: RootState) => state.portalMap
+
+  const inspectToId = useSelector(
+    (state: RootState) => state.portalMap.inspectToId
   )
+  const size = useSelector((state: RootState) => state.portalMap.size)
+  const timeLeft = useSelector((state: RootState) => state.portalMap.timeLeft)
 
   const dispatch = useDispatch()
 
@@ -106,35 +109,33 @@ const MappingBar = () => {
   )
 
   useEffect(() => {
-    if (fromId && fromId !== oldFromId.current) {
+    if (!fromId) {
+      setFrom(clone(DEFAULT_ZONE))
+      oldFromId.current = DEFAULT_ZONE.id
+    } else if (fromId !== oldFromId.current) {
       const newZone = zones.find((z) => z.id === fromId) || DEFAULT_ZONE
       setFrom(clone(newZone))
       oldFromId.current = fromId
-    } else if (!fromId) {
-      const newZone = DEFAULT_ZONE
-      setFrom(clone(newZone))
-      oldFromId.current = DEFAULT_ZONE.id
     }
-  }, [fromId, setFrom, zones])
+  }, [fromId, zones])
 
   useEffect(() => {
-    if (inspectToId && inspectToId !== oldToId.current) {
+    if (!inspectToId) {
+      setTo(clone(DEFAULT_ZONE))
+      oldToId.current = DEFAULT_ZONE.id
+    } else if (inspectToId !== oldToId.current) {
       const newZone = zones.find((z) => z.id === inspectToId) || DEFAULT_ZONE
       setTo(clone(newZone))
       oldToId.current = inspectToId
-    } else if (!inspectToId) {
-      const newZone = DEFAULT_ZONE
-      setTo(clone(newZone))
-      oldToId.current = DEFAULT_ZONE.id
     }
-  }, [inspectToId, setTo, zones])
+  }, [inspectToId, zones])
 
   useEffect(() => {
     if (size !== oldSize.current) {
       setPortalSize(size)
       oldSize.current = size
     }
-  }, [size, setPortalSize])
+  }, [size])
 
   useEffect(() => {
     if (timeLeft && timeLeft !== oldTime.current && size !== 0) {
@@ -183,9 +184,10 @@ const MappingBar = () => {
             minutes: min,
           })
 
-          dispatch({
-            type: PortalMapActionTypes.CLEARINSPECT,
-          })
+          setTo(clone(DEFAULT_ZONE))
+          setHours(null)
+          setMinutes(null)
+          setPortalSize(null)
 
           setFocusCounter((x) => ++x)
         } else {
