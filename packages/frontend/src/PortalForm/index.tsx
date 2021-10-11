@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { Button, FormControl, FormLabel, TextField } from '@material-ui/core'
 import AddLocationIcon from '@material-ui/icons/AddLocation'
@@ -78,8 +78,6 @@ const MappingBar = () => {
   )
   const size = useSelector((state: RootState) => state.portalMap.size)
   const timeLeft = useSelector((state: RootState) => state.portalMap.timeLeft)
-
-  const dispatch = useDispatch()
 
   const oldFromId = useRef<number>(0)
   const oldToId = useRef<number>(0)
