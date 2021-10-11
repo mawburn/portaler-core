@@ -17,7 +17,6 @@ import { PortalSize, Zone } from '@portaler/types'
 import { DEFAULT_ZONE } from '../common/data/constants'
 import useZoneListSelector from '../common/hooks/useZoneListSelector'
 import { RootState } from '../reducers'
-import { PortalMapActionTypes } from '../reducers/portalMapReducer'
 import { InputError } from '../types'
 import ZoneSearch from '../ZoneSearch'
 import PortalSizeSelector from './PortalSizeSelector'
@@ -197,7 +196,7 @@ const MappingBar = () => {
         console.error(err)
       }
     },
-    [from, to, portalSize, hours, minutes, addPortal, dispatch]
+    [from, to, portalSize, hours, minutes, addPortal]
   )
 
   const sizeError = getError('size', errors)
