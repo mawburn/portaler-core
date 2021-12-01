@@ -126,7 +126,11 @@ External libraries are installed in their individual There are commands that all
 
 Be sure to check out the `"scripts": {}` we have provided in the root [package.json](./package.json) file, that will make your life easier.
 
-There are a number of scripts that can be run from the root of the project that make life a little easier.
+There are a number of scripts that can be run from the root of the project that make life a little easier. Before running them, you need to install project dependencies, run the following from your project root:
+
+```
+yarn install
+```
 
 To run the following commands, from the root of the project simply type:
 
