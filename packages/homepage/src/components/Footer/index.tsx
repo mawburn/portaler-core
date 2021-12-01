@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 
 const Footer: FC = () => (
   <div className={styles.footer}>
-    © {new Date().getFullYear()}{' '}
+    © 2020-{new Date().getFullYear()}{' '}
     <a href="https://portaler.zone">Portaler.zone</a> |
     <a href="https://mawburn.com" rel="me">
       mawburn.com
@@ -18,10 +18,6 @@ const Footer: FC = () => (
         GitHub
       </a>
     </div>
-    |
-    <a href="https://agentsofsyn.com">
-      Do you play TTRPGs? Check out AgentsOfSyn.com
-    </a>
   </div>
 )
 

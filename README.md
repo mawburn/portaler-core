@@ -1,3 +1,5 @@
+# Portaler has been moved to community development
+
 <p align="center">
   <img alt="Portaler logo" width="128px" height="128px" src="https://portaler.zone/logo.png" />
 </p>
@@ -7,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://discord.gg/QAjhJ4YNsD">
+  <a href="https://discord.gg/SeQkh2j3g2">
     <img alt="discord" src="https://portaler.zone/discord.png" />
   </a>
 </p>
