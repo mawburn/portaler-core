@@ -8,12 +8,6 @@
   An Albion Online Avalonian Roads shared mapping tool
 </p>
 
-<p align="center">
-  <a href="https://discord.gg/SeQkh2j3g2">
-    <img alt="discord" src="https://portaler.zone/discord.png" />
-  </a>
-</p>
-
 ## Looking for Contributors
 
 I don't have as much time to keep up with this as when I first built it. If you're a developer or a budding developer, I would love to have your help!
