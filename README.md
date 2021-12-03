@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://discord.gg/SeQkh2j3g2">
+  <a href="https://discord.gg/3GwNSgvR5g">
     <img alt="discord" src="https://portaler.zone/discord.png" />
   </a>
 </p>
