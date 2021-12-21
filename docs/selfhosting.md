@@ -37,7 +37,7 @@ apt-get install -y curl
 Install nodejs/npm and yarn:
 
 ```Shell
-curl -sL https://deb.nodesource.com/setup_lts.x | bash -
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
 apt-get install -y nodejs
 npm install --global yarn
 ```
@@ -114,7 +114,7 @@ nano docker-compose.yml
 Modify it to be like this:
 
 ```yml
- version: '3.7'
+version: '3.7'
 
 services:
   pgdb:
