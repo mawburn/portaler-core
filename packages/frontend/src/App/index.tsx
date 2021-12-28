@@ -34,7 +34,6 @@ const App = () => {
           <MapArea />
         </MainLayout>
         <Footer />
-        <Patreon />
       </div>
     </ThemeProvider>
   )

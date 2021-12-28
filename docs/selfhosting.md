@@ -6,6 +6,8 @@ Most likely there are better ways to self-host Portaler but this is what i use. 
 I tried my best to make this guide as newbie-friendly as possible so it should work even for people with basically no Linux experience.
 In case you'll encounter an error during installation you can usually google it and find a fix without any problems. Asking on the discord server works too.
 
+**There is also a [WIP containerized version](https://github.com/Logoffski/portaler-core/tree/docker_test/docker) that is much easier to deploy, but it is somewhat finicky and doesn't leave much room for error. If you have a good understanding on how selfhosting works you can try it instead.**
+
 ## Requirements
 
 **If you want to use Portaler locally on your PC**: Any kind of Linux VM on your network where you have root privileges and can access the terminal. The simplest solution is using something like VirtualBox (google how to do that, it is easy)
@@ -338,7 +340,7 @@ nano docker-compose.yml
 Modify it to be like this:
 
 ```yml
- version: '3.7'
+version: '3.7'
 
 services:
   pgdb:
