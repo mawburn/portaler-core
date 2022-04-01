@@ -45,7 +45,7 @@ export default class ServerModel extends BaseModel {
 
   getServerConfig = async (path: string): Promise<boolean> => {
     const dbRes = await this.query(
-      `SELECT is_public FROM servers WHERE path = $1`,
+      `SELECT is_public FROM servers WHERE instance_path = $1`,
       [path]
     )
 
@@ -102,7 +102,7 @@ export default class ServerModel extends BaseModel {
 
   getServerIdByPath = async (path: string): Promise<number | null> => {
     const dbResServer = await this.query(
-      `SELECT id FROM servers WHERE path = $1`,
+      `SELECT id FROM servers WHERE instance_path = $1`,
       [path.toLowerCase()]
     )
 

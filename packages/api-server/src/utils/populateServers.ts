@@ -4,7 +4,7 @@ import logger from './logger'
 const populateServers = async () => {
   try {
     const dbServerRes = await db.dbQuery(
-      `SELECT id, path, is_public FROM servers ORDER BY id;`,
+      `SELECT id, instance_path, is_public FROM servers ORDER BY id;`,
       []
     )
 
