@@ -37,19 +37,20 @@ router.get('/list', async (req, res) => {
   }
 })
 
-// adds a subdomain to a server
-router.post('/addSubdomain', async (req, res) => {
+// adds a path to a server
+router.post('/addPath', async (req, res) => {
   try {
     const body = req.body
     const discordUrl = req.body.discordUrl || null
 
     if (
       typeof body.id !== 'number' ||
-      (typeof body.subdomain !== 'string' && alphaTest.test(body.subdomain))
+      (typeof body.path !== 'string' && alphaTest.test(body.path))
     ) {
       throw new Error('BadPayload')
     }
 
+    /* Not needed anymore?
     // configure your own DNS service
     if (config.dns) {
       const dnsOk = await fetch(config.dns, {
@@ -61,18 +62,19 @@ router.post('/addSubdomain', async (req, res) => {
         throw new Error('DNS Config Error')
       }
     }
+    */
 
     await db.dbQuery(
-      `UPDATE servers SET subdomain = $1, is_public = $2, discord_url = $3 WHERE id = $4`,
-      [body.subdomain, !!body.isPublic, discordUrl, body.id]
+      `UPDATE servers SET path = $1, is_public = $2, discord_url = $3 WHERE id = $4`,
+      [body.path, !!body.isPublic, discordUrl, body.id]
     )
 
     const server = await db.Server.getServer(body.id)
 
-    if (server && server.subdomain) {
-      await redis.setAsync(`server:${server.id}`, server.subdomain)
+    if (server && server.path) {
+      await redis.setAsync(`server:${server.id}`, server.path)
       await redis.setAsync(
-        `server:${server.subdomain}`,
+        `server:${server.path}`,
         JSON.stringify({
           isPublic: server.isPublic,
           serverId: server.id,
@@ -83,7 +85,7 @@ router.post('/addSubdomain', async (req, res) => {
 
     return res.status(200).send(server)
   } catch (err: any) {
-    logger.error('Subdomain', {
+    logger.error('Path', {
       error: {
         error: JSON.stringify(err),
         trace: err.stack,

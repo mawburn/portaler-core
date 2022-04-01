@@ -13,9 +13,9 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
       return next()
     }
 
-    const configSubdomain = isProd ? req.subdomains[0] : process.env.HOST
+    const configPath = isProd ? req.path[0] : process.env.HOST
 
-    const serverConfigRes = await redis.getAsync(`server:${configSubdomain}`)
+    const serverConfigRes = await redis.getAsync(`server:${configPath}`)
     const serverConfig = serverConfigRes ? JSON.parse(serverConfigRes) : false
 
     if (serverConfig && serverConfig.isPublic) {
@@ -58,9 +58,9 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
 
     const [userId, serverId] = userServer.split(':')
 
-    const subdomain = await redis.getAsync(`server:${serverId}`)
+    const path = await redis.getAsync(`server:${serverId}`)
 
-    if (isProd && subdomain !== req.subdomains[0]) {
+    if (isProd && path !== req.path[0]) {
       if (serverConfig.isPublic) {
         req.userId = 0
         return next()
@@ -73,7 +73,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     req.serverId = Number(serverId)
 
     next()
-  } catch (err) {
+  } catch (err: any) {
     logger.warn('Error verifying user', {
       error: {
         error: JSON.stringify(err),

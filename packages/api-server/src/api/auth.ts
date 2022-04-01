@@ -30,7 +30,7 @@ router.get('/callback', async (req, res) => {
       throw new Error('NoRedirect')
     }
 
-    const subdomain = isProd ? req.cookies.subdomain : process.env.HOST
+    const path = isProd ? req.cookies.path : process.env.HOST
 
     const protocol = req.secure ? 'https://' : 'http://'
     const code = req.query.code as string
@@ -50,7 +50,7 @@ router.get('/callback', async (req, res) => {
     )
 
     const serverId = await db.Server.getServerIdBySubdomain(
-      isProd ? subdomain : 'localhost'
+      isProd ? path : 'localhost'
     )
 
     if (!serverId) {
@@ -60,7 +60,7 @@ router.get('/callback', async (req, res) => {
     const user = await db.User.getFullUser(userId, serverId)
 
     const redirectUrl = isProd
-      ? `${protocol}${subdomain}.${config.localUrl}`
+      ? `${protocol}${config.localUrl}/g/${path}`
       : `${protocol}${process.env.HOST}:${process.env.FRONTEND_PORT}`
 
     if (!user) {

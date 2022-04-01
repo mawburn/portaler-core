@@ -8,16 +8,16 @@ const router = Router()
 
 const alphaTest = new RegExp(/^[a-z0-9]+$/gi)
 
-const validateSubdomain = async (subdomain: string): Promise<boolean> => {
-  if (!alphaTest.test(subdomain)) {
+const validatePath = async (path: string): Promise<boolean> => {
+  if (!alphaTest.test(path)) {
     return false
   }
 
-  const id = await db.Server.getServerIdBySubdomain(subdomain.toLowerCase())
+  const id = await db.Server.getServerIdBySubdomain(path.toLowerCase())
 
   const signupRows = await db.dbQuery(
-    `SELECT id FROM server_signup WHERE subdomain = $1`,
-    [subdomain.toLowerCase()]
+    `SELECT id FROM server_signup WHERE path = $1`,
+    [path.toLowerCase()]
   )
 
   // the server shouldn't exist
@@ -25,19 +25,19 @@ const validateSubdomain = async (subdomain: string): Promise<boolean> => {
 }
 
 router.get('/domainCheck/:domain', async (req, res) => {
-  const status = (await validateSubdomain(req.params.domain)) ? 204 : 409
+  const status = (await validatePath(req.params.domain)) ? 204 : 409
 
   return res.sendStatus(status)
 })
 
 router.post('/', async (req, res) => {
-  const { subdomain, discord, estimatedUsers, email } = req.body
+  const { path, discord, estimatedUsers, email } = req.body
 
   const errors = []
 
   // validate
-  if (!subdomain || !(await validateSubdomain(subdomain))) {
-    errors.push('Invalid Subdomain')
+  if (!path || !(await validatePath(path))) {
+    errors.push('Invalid Path')
   }
 
   if (!discord) {

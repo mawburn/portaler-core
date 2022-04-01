@@ -11,7 +11,7 @@ export interface IServerModel {
   discordId: string
   discordName: string
   roles: ServerRoles[]
-  subdomain?: string | null
+  path?: string | null
   createdOn: Date
   isPublic: boolean
   discordUrl?: string | null
@@ -43,10 +43,10 @@ export default class ServerModel extends BaseModel {
     return dbResRole.rows[0].id
   }
 
-  getServerConfig = async (subdomain: string): Promise<boolean> => {
+  getServerConfig = async (path: string): Promise<boolean> => {
     const dbRes = await this.query(
-      `SELECT is_public FROM servers WHERE subdomain = $1`,
-      [subdomain]
+      `SELECT is_public FROM servers WHERE path = $1`,
+      [path]
     )
 
     return dbRes.rowCount > 0 ? dbRes.rows[0].is_public : false
@@ -59,7 +59,7 @@ export default class ServerModel extends BaseModel {
         s.id AS id,
         s.discord_id AS discord_id,
         s.discord_name AS discord_name,
-        s.subdomain AS subdomain,
+        s.path AS path,
         s.created_on AS created_on,
         s.is_public AS is_public,
         s.discord_url AS discord_url,
@@ -83,7 +83,7 @@ export default class ServerModel extends BaseModel {
         id: fRow.id,
         discordId: fRow.discord_id,
         discordName: fRow.discord_name,
-        subdomain: fRow.subdomain,
+        path: fRow.path,
         createdOn: fRow.created_on,
         isPublic: fRow.is_public,
         discordUrl: fRow.discord_url,
@@ -100,12 +100,10 @@ export default class ServerModel extends BaseModel {
     }
   }
 
-  getServerIdBySubdomain = async (
-    subDomain: string
-  ): Promise<number | null> => {
+  getServerIdByPath = async (path: string): Promise<number | null> => {
     const dbResServer = await this.query(
-      `SELECT id FROM servers WHERE subdomain = $1`,
-      [subDomain.toLowerCase()]
+      `SELECT id FROM servers WHERE path = $1`,
+      [path.toLowerCase()]
     )
 
     if (dbResServer.rowCount === 0) {
