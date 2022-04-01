@@ -26,7 +26,7 @@ router.get('/list', async (req, res) => {
     }))
 
     return res.status(200).json(servers)
-  } catch (err) {
+  } catch (err: any) {
     logger.error('No Server', {
       error: {
         error: JSON.stringify(err),
@@ -82,7 +82,7 @@ router.post('/addSubdomain', async (req, res) => {
     }
 
     return res.status(200).send(server)
-  } catch (err) {
+  } catch (err: any) {
     logger.error('Subdomain', {
       error: {
         error: JSON.stringify(err),

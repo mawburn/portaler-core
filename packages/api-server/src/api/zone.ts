@@ -10,7 +10,7 @@ router.get('/list', async (_, res) => {
   try {
     const zones = await redis.getZones()
     res.contentType('application/json').status(200).send(zones)
-  } catch (err) {
+  } catch (err: any) {
     logger.error('Error fetching zones', {
       error: {
         error: JSON.stringify(err),
@@ -25,7 +25,7 @@ router.get('/info/:id', async (req, res) => {
   try {
     const zone = await getZoneMeta(Number(req.params.id))
     res.contentType('application/json').status(200).send(zone)
-  } catch (err) {
+  } catch (err: any) {
     logger.error('Error fetching zone info', {
       error: {
         error: JSON.stringify(err),
