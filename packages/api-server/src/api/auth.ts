@@ -80,7 +80,7 @@ router.get('/callback', async (req, res) => {
     )
 
     res.redirect(`${redirectUrl}/?token=${ourToken}`)
-  } catch (err: any) {
+  } catch (err) {
     logger.error('Error logging in User', {
       error: {
         error: JSON.stringify(err),

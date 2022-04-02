@@ -26,7 +26,7 @@ router.get('/list', async (req, res) => {
     }))
 
     return res.status(200).json(servers)
-  } catch (err: any) {
+  } catch (err) {
     logger.error('No Server', {
       error: {
         error: JSON.stringify(err),
@@ -84,7 +84,7 @@ router.post('/addPath', async (req, res) => {
     }
 
     return res.status(200).send(server)
-  } catch (err: any) {
+  } catch (err) {
     logger.error('Path', {
       error: {
         error: JSON.stringify(err),

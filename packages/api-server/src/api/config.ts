@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
       publicRead: serverConfig.isPublic,
       discordUrl: serverConfig.discordUrl,
     })
-  } catch (err: any) {
+  } catch (err) {
     logger.error('Error fetching config', {
       error: {
         error: JSON.stringify(err),

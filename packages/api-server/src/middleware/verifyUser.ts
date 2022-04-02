@@ -73,7 +73,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     req.serverId = Number(serverId)
 
     next()
-  } catch (err: any) {
+  } catch (err) {
     logger.warn('Error verifying user', {
       error: {
         error: JSON.stringify(err),
