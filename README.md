@@ -1,3 +1,7 @@
+---
+This repo is not actively maintained. I was hoping some of the community could take it over, but nobody has really stepped forward. It'll remain open source. Thank you all for your support.
+----
+
 # Portaler has been moved to community development
 
 <p align="center">
