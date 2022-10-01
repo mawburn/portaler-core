@@ -1,7 +1,9 @@
 
-This repo is not actively maintained. I was hoping some of the community could take it over, but nobody has really stepped forward. It'll remain open source. 
+This repo is not actively maintained. I was hoping some of the community could take it over, but nobody has really stepped forward. It'll remain open source.
 
 If you would like to continue development or deploying this, feel free to fork it.
+
+[How to fork a repo](https://www.demiplane.com/).
 
 Thank you all for your support.
 
@@ -23,35 +25,12 @@ Thank you all for your support.
   </a>
 </p>
 
-## Looking for Contributors
-
-I don't have as much time to keep up with this as when I first built it. If you're a developer or a budding developer, I would love to have your help!
-
-**[Get Setup Developing!](./docs/devsetup.md)**
-
-Take a look at the project board here:
-[Portaler Project](https://github.com/Portaler-Zone/portaler-core/projects/1)
-
-Fork the Repo & Submit PRs! Lets do this people. As of this writing, Portaler supports over 20,000 unique users a month across 357 servers and we could probably grow to even larger than that! It's a good project to work on if you're looking for an open source project to contribute to. I look for good code quality and solid practices. We run on barely any hardware and I want to keep it that way.
-
-<p align="center">
-  <img alt="Unique Visitors" width="250px" height="117px" src="https://i.imgur.com/wFyf4cK.png" />
-  <br />
-  <img alt="Servers" width="250px" height="381px" src="https://i.imgur.com/5kcZ2Ll.png" />
-</p>
-
-I ([mawburn](https://github.com/mawburn)) love mentoring developers, so don't be afraid to ask "dumb" questions in our Discord channel [#contributing](https://discord.gg/QAjhJ4YNsD), because we all start somewhere and I probably haven't documented things that well. I'm more than open to helping people learn JS/TS/Node/React/whatever, so if you don't have direct experience here no worries! This is your time to learn.
-
----
-
 ## Contents
 
 - [What it is](#what-it-is)
 - [Development](./docs/devsetup.md)
 - [Running](#running)
   - [Self-hosting Guide](./docs/selfhosting.md)
-
-<br />
 
 # What it is
 
