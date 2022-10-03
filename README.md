@@ -6,7 +6,7 @@ I am totally out of the loop. Please do not email me, as I will not be able to h
 
 ## ARCHIVED
 
-This repo is not actively maintained. I was hoping some of the community could take it over, but nobody has really stepped forward. It'll remain open source. 
+This repo is not actively maintained.
 
 If you would like to continue development or deploying this, feel free to fork it.
 
