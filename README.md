@@ -1,5 +1,12 @@
+# NO SUPPORT
 
-This repo is not actively maintained. I was hoping some of the community could take it over, but nobody has really stepped forward. It'll remain open source.
+I will no longer be providing support for this in any way. There are enough forks and communities spawned from this that you can find help there. I don't know where they all exist or have information on them as I have not played Albion in 2yrs (as of October 2022).
+
+I am totally out of the loop. Please do not email me, as I will not be able to help you in any way.
+
+## ARCHIVED
+
+This repo is not actively maintained. I was hoping some of the community could take it over, but nobody has really stepped forward. It'll remain open source. 
 
 If you would like to continue development or deploying this, feel free to fork it.
 
