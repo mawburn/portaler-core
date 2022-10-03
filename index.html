@@ -1,29 +1,481 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.af8b2b3f06d8f7f39a3b.css" id="gatsby-global-css">html{box-sizing:border-box;height:100%}*,:after,:before{box-sizing:inherit}body{color:#fdfdfd;font-family:Lato,sans-serif;font-weight:400;background-color:#333}#___gatsby,#gatsby-focus-wrapper,body{display:flex;flex-direction:column;height:100%;min-height:100vh}a :-webkit-any-link{color:#fdd835;text-decoration:none}a,a :any-link{color:#fdd835;text-decoration:none}@media (max-width:768px){.hideSm{display:none!important}}@media (max-width:480px){.hideXs{display:none!important}}.styles-module--footer--1717O{align-items:center;display:flex;justify-content:center;background:#2e2e2e;width:100%;padding:1rem 0;flex-wrap:wrap}.styles-module--footer--1717O a{padding:1rem}.styles-module--githubLogo--38MfT{fill:#fff;height:.9rem;width:.9rem;margin-right:.5rem;margin-bottom:-2px}.styles-module--baseContainer--3WrfQ{padding:1rem 0 3rem;display:flex;flex-direction:column;justify-content:space-between;background-image:url(/static/mapBg-c929da9ec7e42e713279c4731edf8636.png)}.styles-module--baseContainer--3WrfQ,.styles-module--baseContainer--3WrfQ>*{text-shadow:3px 4px 2px rgba(0,0,0,.25)}.styles-module--header--1bv6k{padding:1rem 0;display:flex;justify-content:center}.styles-module--logo--2hODV{text-align:center;width:375px}@media (max-width:768px){.styles-module--logo--2hODV{width:350px}}@media (max-width:480px){.styles-module--logo--2hODV{width:250px}}.styles-module--otherStuff--ngF8g{text-align:center}.styles-module--otherStuff--ngF8g h3{font-size:2rem}.styles-module--otherStuff--ngF8g .styles-module--color--1xcx0{color:#00eaff}.styles-module--mistWalkers--1RAgH{margin-top:4.2rem;text-align:center;font-size:1.25rem}.styles-module--youtube--2qENj{width:560px;height:315px}@media (max-width:480px){.styles-module--youtube--2qENj{width:304px;height:171px}}.styles-module--indexMain--w97vS{width:100%;max-width:900px;margin:0 auto;font-size:1rem}.styles-module--indexMain--w97vS,.styles-module--indexMain--w97vS section{align-items:center;justify-content:center;display:flex;flex-direction:column}.styles-module--jake--1P2fh{width:250px;height:250px;border-radius:4px;border:1px solid rgba(0,0,0,.3);box-shadow:3px 3px 5px rgba(0,0,0,.2)}</style><meta name="generator" content="Gatsby 2.32.11"/><title data-react-helmet="true">Portaler</title><meta data-react-helmet="true" name="description" content="
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta
+      http-equiv="refresh"
+      content="0; url=https://github.com/mawburn/portaler-core#no-support"
+    />
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <style data-href="/styles.af8b2b3f06d8f7f39a3b.css" id="gatsby-global-css">
+      html {
+        box-sizing: border-box;
+        height: 100%;
+      }
+      *,
+      :after,
+      :before {
+        box-sizing: inherit;
+      }
+      body {
+        color: #fdfdfd;
+        font-family: Lato, sans-serif;
+        font-weight: 400;
+        background-color: #333;
+      }
+      #___gatsby,
+      #gatsby-focus-wrapper,
+      body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 100vh;
+      }
+      a :-webkit-any-link {
+        color: #fdd835;
+        text-decoration: none;
+      }
+      a,
+      a :any-link {
+        color: #fdd835;
+        text-decoration: none;
+      }
+      @media (max-width: 768px) {
+        .hideSm {
+          display: none !important;
+        }
+      }
+      @media (max-width: 480px) {
+        .hideXs {
+          display: none !important;
+        }
+      }
+      .styles-module--footer--1717O {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        background: #2e2e2e;
+        width: 100%;
+        padding: 1rem 0;
+        flex-wrap: wrap;
+      }
+      .styles-module--footer--1717O a {
+        padding: 1rem;
+      }
+      .styles-module--githubLogo--38MfT {
+        fill: #fff;
+        height: 0.9rem;
+        width: 0.9rem;
+        margin-right: 0.5rem;
+        margin-bottom: -2px;
+      }
+      .styles-module--baseContainer--3WrfQ {
+        padding: 1rem 0 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-image: url(/static/mapBg-c929da9ec7e42e713279c4731edf8636.png);
+      }
+      .styles-module--baseContainer--3WrfQ,
+      .styles-module--baseContainer--3WrfQ > * {
+        text-shadow: 3px 4px 2px rgba(0, 0, 0, 0.25);
+      }
+      .styles-module--header--1bv6k {
+        padding: 1rem 0;
+        display: flex;
+        justify-content: center;
+      }
+      .styles-module--logo--2hODV {
+        text-align: center;
+        width: 375px;
+      }
+      @media (max-width: 768px) {
+        .styles-module--logo--2hODV {
+          width: 350px;
+        }
+      }
+      @media (max-width: 480px) {
+        .styles-module--logo--2hODV {
+          width: 250px;
+        }
+      }
+      .styles-module--otherStuff--ngF8g {
+        text-align: center;
+      }
+      .styles-module--otherStuff--ngF8g h3 {
+        font-size: 2rem;
+      }
+      .styles-module--otherStuff--ngF8g .styles-module--color--1xcx0 {
+        color: #00eaff;
+      }
+      .styles-module--mistWalkers--1RAgH {
+        margin-top: 4.2rem;
+        text-align: center;
+        font-size: 1.25rem;
+      }
+      .styles-module--youtube--2qENj {
+        width: 560px;
+        height: 315px;
+      }
+      @media (max-width: 480px) {
+        .styles-module--youtube--2qENj {
+          width: 304px;
+          height: 171px;
+        }
+      }
+      .styles-module--indexMain--w97vS {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        font-size: 1rem;
+      }
+      .styles-module--indexMain--w97vS,
+      .styles-module--indexMain--w97vS section {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+      }
+      .styles-module--jake--1P2fh {
+        width: 250px;
+        height: 250px;
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+    <meta name="generator" content="Gatsby 2.32.11" />
+    <title data-react-helmet="true">Portaler</title>
+    <meta
+      data-react-helmet="true"
+      name="description"
+      content="
 Portaler is a Roads of Avalon mapping tool intended for groups, guilds, and alliances to share ever changing mapping information.
-"/><meta data-react-helmet="true" property="og:title"/><meta data-react-helmet="true" property="og:image" content="https://portaler.zone/logo.png"/><meta data-react-helmet="true" property="og:description" content="
+"
+    />
+    <meta data-react-helmet="true" property="og:title" />
+    <meta
+      data-react-helmet="true"
+      property="og:image"
+      content="https://portaler.zone/logo.png"
+    />
+    <meta
+      data-react-helmet="true"
+      property="og:description"
+      content="
 Portaler is a Roads of Avalon mapping tool intended for groups, guilds, and alliances to share ever changing mapping information.
-"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:creator" content="@PortalerZone"/><meta data-react-helmet="true" name="twitter:title"/><meta data-react-helmet="true" name="twitter:description" content="
+"
+    />
+    <meta data-react-helmet="true" property="og:type" content="website" />
+    <meta data-react-helmet="true" name="twitter:card" content="summary" />
+    <meta
+      data-react-helmet="true"
+      name="twitter:creator"
+      content="@PortalerZone"
+    />
+    <meta data-react-helmet="true" name="twitter:title" />
+    <meta
+      data-react-helmet="true"
+      name="twitter:description"
+      content="
 Portaler is a Roads of Avalon mapping tool intended for groups, guilds, and alliances to share ever changing mapping information.
-"/><script data-react-helmet="true" data-ad-client="ca-pub-7201543647457489" async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><link rel="icon" href="/favicon-32x32.png?v=068e253775f490bed605750d62b81b85" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><meta name="theme-color" content="#663399"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=068e253775f490bed605750d62b81b85"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=068e253775f490bed605750d62b81b85"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=068e253775f490bed605750d62b81b85"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=068e253775f490bed605750d62b81b85"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=068e253775f490bed605750d62b81b85"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=068e253775f490bed605750d62b81b85"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=068e253775f490bed605750d62b81b85"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=068e253775f490bed605750d62b81b85"/><link href="https://fonts.googleapis.com/css?family=Rubik:400,700&amp;display=swap" rel="stylesheet"/><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><link as="script" rel="preload" href="/webpack-runtime-6ca777a3f214b05ad2d9.js"/><link as="script" rel="preload" href="/framework-80179a6fe3ad96f65e9f.js"/><link as="script" rel="preload" href="/app-11ed8219e1817365edea.js"/><link as="script" rel="preload" href="/styles-e9d24b1846c7d6eb9685.js"/><link as="script" rel="preload" href="/commons-975aa6a480f17b7764b4.js"/><link as="script" rel="preload" href="/component---src-pages-index-tsx-c8c3f2fbf15f7bb28c13.js"/><link as="fetch" rel="preload" href="/page-data/index/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/3181428332.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/sq/d/63159454.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="styles-module--baseContainer--3WrfQ"><main class="styles-module--indexMain--w97vS"><div class="styles-module--logo--2hODV"><div class=" gatsby-image-wrapper" style="position:relative;overflow:hidden;max-width:375px;max-height:141px"><div aria-hidden="true" style="width:100%;padding-bottom:37.23404255319149%"></div><img aria-hidden="true" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABq0lEQVQoz12RSyhEYRTHzx0bysLCQjYKC4+NYiFvipIwKHkWKUkhJjZWyFpsLJiSjGfK9crrjqHBjNcYZkbTGOaOe79vxmM8GlnYOFdXDYtf//udc77f/epAzfA4QHolrJxxQD5c0DkHQU43C767VYVA3xhKiAIBglBK/4A1hsi9X6B9YhJqhtShR3Zzq9WrLb4ha2PvL85EPz2Be/IJkoynL5JAuqwIEAYFiKQeI9Vhad8KRpsjWmsxTB27uDansNn16N7ofz0dyaJeXywhYq5H5JkAUTISI39nIyGBr4bFDT5ce2pnNfqdJK3JrDzQr5c+X6tb/G7dgOB5z6VE7KeUKHE4DalCBpACpBpfVYjkIKl4bsZMgAqVIXj9yDI4yrHx3PlFme5wK0M09TW9XanzBI8PhaQDBxuQHqQRycTLtZhqTCWm9AMVUoeEwr7JAbZbvmT78nCBtY417Nl6izzOhWn/9WyJQB9TKBEiUBqFw4VIPArCMMuRelmeL/fifpYyb9DBstEYOX2wm+l40ndb3DMaSrgwfqcRvA9fQF3HP4v5v2F5y/9rzDdOInzs+qJduAAAAABJRU5ErkJggg==" alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1;transition-delay:100ms"/><noscript><picture><source srcset="/static/9e2bbd7e6f6f1182c3e98c53ba4152de/4cbdd/portaler-splash.png 94w,
-/static/9e2bbd7e6f6f1182c3e98c53ba4152de/c7385/portaler-splash.png 188w,
-/static/9e2bbd7e6f6f1182c3e98c53ba4152de/b9cd5/portaler-splash.png 375w,
-/static/9e2bbd7e6f6f1182c3e98c53ba4152de/3891b/portaler-splash.png 400w" sizes="(max-width: 375px) 100vw, 375px" /><img loading="lazy" sizes="(max-width: 375px) 100vw, 375px" srcset="/static/9e2bbd7e6f6f1182c3e98c53ba4152de/4cbdd/portaler-splash.png 94w,
-/static/9e2bbd7e6f6f1182c3e98c53ba4152de/c7385/portaler-splash.png 188w,
-/static/9e2bbd7e6f6f1182c3e98c53ba4152de/b9cd5/portaler-splash.png 375w,
-/static/9e2bbd7e6f6f1182c3e98c53ba4152de/3891b/portaler-splash.png 400w" src="/static/9e2bbd7e6f6f1182c3e98c53ba4152de/b9cd5/portaler-splash.png" alt="" style="position:absolute;top:0;left:0;opacity:1;width:100%;height:100%;object-fit:cover;object-position:center"/></picture></noscript></div></div><section><h2>🪦 Nov 2020 - Dec 2021</h2><p>Portaler <strong>was</strong> a collaborative mapping for the Roads of Avalon in Albion Online.</p><img class="styles-module--jake--1P2fh" src="/static/jake-fceb47fb90b8b4dec17c6e03aee14968.webp" loading="lazy" alt="cya"/></section><section><h2>Portaler is still an open source application</h2><p>Check out the<!-- --> <a href="https://github.com/Portaler-Zone/portaler-core">GitHub Repo</a> <!-- -->for more info. The main Discord was shut down, but there is a Discord link in the repo&#x27;s README that points to a developer Discord.</p></section><div class="styles-module--otherStuff--ngF8g"><div class="styles-module--mistWalkers--1RAgH"><h4>Mapping can be rough sometimes...</h4><iframe loading="lazy" title="First Death - Portaler Mapping" class="styles-module--youtube--2qENj" src="https://www.youtube.com/embed/pI81UkjKbKA?start=7" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div></div></main></div><div class="styles-module--footer--1717O">© 2020-<!-- -->2021<!-- --> <a href="https://portaler.zone">Portaler.zone</a> |<a href="https://mawburn.com" rel="me">mawburn.com</a>|<div><a href="https://github.com/Portaler-Zone/portaler-core"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAyNCIgaGVpZ2h0PSIxMDI0IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTggMEMzLjU4IDAgMCAzLjU4IDAgOEMwIDExLjU0IDIuMjkgMTQuNTMgNS40NyAxNS41OUM1Ljg3IDE1LjY2IDYuMDIgMTUuNDIgNi4wMiAxNS4yMUM2LjAyIDE1LjAyIDYuMDEgMTQuMzkgNi4wMSAxMy43MkM0IDE0LjA5IDMuNDggMTMuMjMgMy4zMiAxMi43OEMzLjIzIDEyLjU1IDIuODQgMTEuODQgMi41IDExLjY1QzIuMjIgMTEuNSAxLjgyIDExLjEzIDIuNDkgMTEuMTJDMy4xMiAxMS4xMSAzLjU3IDExLjcgMy43MiAxMS45NEM0LjQ0IDEzLjE1IDUuNTkgMTIuODEgNi4wNSAxMi42QzYuMTIgMTIuMDggNi4zMyAxMS43MyA2LjU2IDExLjUzQzQuNzggMTEuMzMgMi45MiAxMC42NCAyLjkyIDcuNThDMi45MiA2LjcxIDMuMjMgNS45OSAzLjc0IDUuNDNDMy42NiA1LjIzIDMuMzggNC40MSAzLjgyIDMuMzFDMy44MiAzLjMxIDQuNDkgMy4xIDYuMDIgNC4xM0M2LjY2IDMuOTUgNy4zNCAzLjg2IDguMDIgMy44NkM4LjcgMy44NiA5LjM4IDMuOTUgMTAuMDIgNC4xM0MxMS41NSAzLjA5IDEyLjIyIDMuMzEgMTIuMjIgMy4zMUMxMi42NiA0LjQxIDEyLjM4IDUuMjMgMTIuMyA1LjQzQzEyLjgxIDUuOTkgMTMuMTIgNi43IDEzLjEyIDcuNThDMTMuMTIgMTAuNjUgMTEuMjUgMTEuMzMgOS40NyAxMS41M0M5Ljc2IDExLjc4IDEwLjAxIDEyLjI2IDEwLjAxIDEzLjAxQzEwLjAxIDE0LjA4IDEwIDE0Ljk0IDEwIDE1LjIxQzEwIDE1LjQyIDEwLjE1IDE1LjY3IDEwLjU1IDE1LjU5QzEzLjcxIDE0LjUzIDE2IDExLjUzIDE2IDhDMTYgMy41OCAxMi40MiAwIDggMFoiIHRyYW5zZm9ybT0ic2NhbGUoNjQpIiBmaWxsPSIjRkRGREZEIi8+Cjwvc3ZnPgo=" class="styles-module--githubLogo--38MfT" alt="github"/>GitHub</a></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script>
-  
-  
-  if(true) {
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  }
-  if (typeof ga === "function") {
-    ga('create', 'G-X5B7F7KF29', 'auto', {});
-      
-      
-      
-      
-      
-      }</script><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-57f4c590aecec91dccdc.js"],"app":["/app-11ed8219e1817365edea.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-0db9048f5ad5d37c281e.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-c8c3f2fbf15f7bb28c13.js"]};/*]]>*/</script><script src="/polyfill-57f4c590aecec91dccdc.js" nomodule=""></script><script src="/component---src-pages-index-tsx-c8c3f2fbf15f7bb28c13.js" async=""></script><script src="/commons-975aa6a480f17b7764b4.js" async=""></script><script src="/styles-e9d24b1846c7d6eb9685.js" async=""></script><script src="/app-11ed8219e1817365edea.js" async=""></script><script src="/framework-80179a6fe3ad96f65e9f.js" async=""></script><script src="/webpack-runtime-6ca777a3f214b05ad2d9.js" async=""></script></body></html>
+"
+    />
+    <script
+      data-react-helmet="true"
+      data-ad-client="ca-pub-7201543647457489"
+      async=""
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    ></script>
+    <link
+      rel="icon"
+      href="/favicon-32x32.png?v=068e253775f490bed605750d62b81b85"
+      type="image/png"
+    />
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous" />
+    <meta name="theme-color" content="#663399" />
+    <link
+      rel="apple-touch-icon"
+      sizes="48x48"
+      href="/icons/icon-48x48.png?v=068e253775f490bed605750d62b81b85"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="/icons/icon-72x72.png?v=068e253775f490bed605750d62b81b85"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="96x96"
+      href="/icons/icon-96x96.png?v=068e253775f490bed605750d62b81b85"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/icons/icon-144x144.png?v=068e253775f490bed605750d62b81b85"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="192x192"
+      href="/icons/icon-192x192.png?v=068e253775f490bed605750d62b81b85"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="256x256"
+      href="/icons/icon-256x256.png?v=068e253775f490bed605750d62b81b85"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="384x384"
+      href="/icons/icon-384x384.png?v=068e253775f490bed605750d62b81b85"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="512x512"
+      href="/icons/icon-512x512.png?v=068e253775f490bed605750d62b81b85"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Rubik:400,700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link
+      as="script"
+      rel="preload"
+      href="/webpack-runtime-6ca777a3f214b05ad2d9.js"
+    />
+    <link as="script" rel="preload" href="/framework-80179a6fe3ad96f65e9f.js" />
+    <link as="script" rel="preload" href="/app-11ed8219e1817365edea.js" />
+    <link as="script" rel="preload" href="/styles-e9d24b1846c7d6eb9685.js" />
+    <link as="script" rel="preload" href="/commons-975aa6a480f17b7764b4.js" />
+    <link
+      as="script"
+      rel="preload"
+      href="/component---src-pages-index-tsx-c8c3f2fbf15f7bb28c13.js"
+    />
+    <link
+      as="fetch"
+      rel="preload"
+      href="/page-data/index/page-data.json"
+      crossorigin="anonymous"
+    />
+    <link
+      as="fetch"
+      rel="preload"
+      href="/page-data/sq/d/3181428332.json"
+      crossorigin="anonymous"
+    />
+    <link
+      as="fetch"
+      rel="preload"
+      href="/page-data/sq/d/63159454.json"
+      crossorigin="anonymous"
+    />
+    <link
+      as="fetch"
+      rel="preload"
+      href="/page-data/app-data.json"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="___gatsby">
+      <div style="outline: none" tabindex="-1" id="gatsby-focus-wrapper">
+        <div class="styles-module--baseContainer--3WrfQ">
+          <main class="styles-module--indexMain--w97vS">
+            <div class="styles-module--logo--2hODV">
+              <div
+                class="gatsby-image-wrapper"
+                style="
+                  position: relative;
+                  overflow: hidden;
+                  max-width: 375px;
+                  max-height: 141px;
+                "
+              >
+                <div
+                  aria-hidden="true"
+                  style="width: 100%; padding-bottom: 37.23404255319149%"
+                ></div>
+                <img
+                  aria-hidden="true"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABq0lEQVQoz12RSyhEYRTHzx0bysLCQjYKC4+NYiFvipIwKHkWKUkhJjZWyFpsLJiSjGfK9crrjqHBjNcYZkbTGOaOe79vxmM8GlnYOFdXDYtf//udc77f/epAzfA4QHolrJxxQD5c0DkHQU43C767VYVA3xhKiAIBglBK/4A1hsi9X6B9YhJqhtShR3Zzq9WrLb4ha2PvL85EPz2Be/IJkoynL5JAuqwIEAYFiKQeI9Vhad8KRpsjWmsxTB27uDansNn16N7ofz0dyaJeXywhYq5H5JkAUTISI39nIyGBr4bFDT5ce2pnNfqdJK3JrDzQr5c+X6tb/G7dgOB5z6VE7KeUKHE4DalCBpACpBpfVYjkIKl4bsZMgAqVIXj9yDI4yrHx3PlFme5wK0M09TW9XanzBI8PhaQDBxuQHqQRycTLtZhqTCWm9AMVUoeEwr7JAbZbvmT78nCBtY417Nl6izzOhWn/9WyJQB9TKBEiUBqFw4VIPArCMMuRelmeL/fifpYyb9DBstEYOX2wm+l40ndb3DMaSrgwfqcRvA9fQF3HP4v5v2F5y/9rzDdOInzs+qJduAAAAABJRU5ErkJggg=="
+                  alt=""
+                  style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    opacity: 1;
+                    transition-delay: 100ms;
+                  "
+                /><noscript
+                  ><picture
+                    ><source
+                      srcset="
+                        /static/9e2bbd7e6f6f1182c3e98c53ba4152de/4cbdd/portaler-splash.png  94w,
+                        /static/9e2bbd7e6f6f1182c3e98c53ba4152de/c7385/portaler-splash.png 188w,
+                        /static/9e2bbd7e6f6f1182c3e98c53ba4152de/b9cd5/portaler-splash.png 375w,
+                        /static/9e2bbd7e6f6f1182c3e98c53ba4152de/3891b/portaler-splash.png 400w
+                      "
+                      sizes="(max-width: 375px) 100vw, 375px" />
+                    <img
+                      loading="lazy"
+                      sizes="(max-width: 375px) 100vw, 375px"
+                      srcset="
+                        /static/9e2bbd7e6f6f1182c3e98c53ba4152de/4cbdd/portaler-splash.png  94w,
+                        /static/9e2bbd7e6f6f1182c3e98c53ba4152de/c7385/portaler-splash.png 188w,
+                        /static/9e2bbd7e6f6f1182c3e98c53ba4152de/b9cd5/portaler-splash.png 375w,
+                        /static/9e2bbd7e6f6f1182c3e98c53ba4152de/3891b/portaler-splash.png 400w
+                      "
+                      src="/static/9e2bbd7e6f6f1182c3e98c53ba4152de/b9cd5/portaler-splash.png"
+                      alt=""
+                      style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        opacity: 1;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                      " /></picture
+                ></noscript>
+              </div>
+            </div>
+            <section>
+              <h2>🪦 Nov 2020 - Dec 2021</h2>
+              <p>
+                Portaler <strong>was</strong> a collaborative mapping for the
+                Roads of Avalon in Albion Online.
+              </p>
+              <img
+                class="styles-module--jake--1P2fh"
+                src="/static/jake-fceb47fb90b8b4dec17c6e03aee14968.webp"
+                loading="lazy"
+                alt="cya"
+              />
+            </section>
+            <section>
+              <h2>Portaler is still an open source application</h2>
+              <p>
+                Check out the<!-- -->
+                <a href="https://github.com/Portaler-Zone/portaler-core"
+                  >GitHub Repo</a
+                >
+                <!-- -->for more info. The main Discord was shut down, but there
+                is a Discord link in the repo&#x27;s README that points to a
+                developer Discord.
+              </p>
+            </section>
+            <div class="styles-module--otherStuff--ngF8g">
+              <div class="styles-module--mistWalkers--1RAgH">
+                <h4>Mapping can be rough sometimes...</h4>
+                <iframe
+                  loading="lazy"
+                  title="First Death - Portaler Mapping"
+                  class="styles-module--youtube--2qENj"
+                  src="https://www.youtube.com/embed/pI81UkjKbKA?start=7"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                ></iframe>
+              </div>
+            </div>
+          </main>
+        </div>
+        <div class="styles-module--footer--1717O">
+          © 2020-<!-- -->2021<!-- -->
+          <a href="https://portaler.zone">Portaler.zone</a> |<a
+            href="https://mawburn.com"
+            rel="me"
+            >mawburn.com</a
+          >|
+          <div>
+            <a href="https://github.com/Portaler-Zone/portaler-core"
+              ><img
+                src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAyNCIgaGVpZ2h0PSIxMDI0IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTggMEMzLjU4IDAgMCAzLjU4IDAgOEMwIDExLjU0IDIuMjkgMTQuNTMgNS40NyAxNS41OUM1Ljg3IDE1LjY2IDYuMDIgMTUuNDIgNi4wMiAxNS4yMUM2LjAyIDE1LjAyIDYuMDEgMTQuMzkgNi4wMSAxMy43MkM0IDE0LjA5IDMuNDggMTMuMjMgMy4zMiAxMi43OEMzLjIzIDEyLjU1IDIuODQgMTEuODQgMi41IDExLjY1QzIuMjIgMTEuNSAxLjgyIDExLjEzIDIuNDkgMTEuMTJDMy4xMiAxMS4xMSAzLjU3IDExLjcgMy43MiAxMS45NEM0LjQ0IDEzLjE1IDUuNTkgMTIuODEgNi4wNSAxMi42QzYuMTIgMTIuMDggNi4zMyAxMS43MyA2LjU2IDExLjUzQzQuNzggMTEuMzMgMi45MiAxMC42NCAyLjkyIDcuNThDMi45MiA2LjcxIDMuMjMgNS45OSAzLjc0IDUuNDNDMy42NiA1LjIzIDMuMzggNC40MSAzLjgyIDMuMzFDMy44MiAzLjMxIDQuNDkgMy4xIDYuMDIgNC4xM0M2LjY2IDMuOTUgNy4zNCAzLjg2IDguMDIgMy44NkM4LjcgMy44NiA5LjM4IDMuOTUgMTAuMDIgNC4xM0MxMS41NSAzLjA5IDEyLjIyIDMuMzEgMTIuMjIgMy4zMUMxMi42NiA0LjQxIDEyLjM4IDUuMjMgMTIuMyA1LjQzQzEyLjgxIDUuOTkgMTMuMTIgNi43IDEzLjEyIDcuNThDMTMuMTIgMTAuNjUgMTEuMjUgMTEuMzMgOS40NyAxMS41M0M5Ljc2IDExLjc4IDEwLjAxIDEyLjI2IDEwLjAxIDEzLjAxQzEwLjAxIDE0LjA4IDEwIDE0Ljk0IDEwIDE1LjIxQzEwIDE1LjQyIDEwLjE1IDE1LjY3IDEwLjU1IDE1LjU5QzEzLjcxIDE0LjUzIDE2IDExLjUzIDE2IDhDMTYgMy41OCAxMi40MiAwIDggMFoiIHRyYW5zZm9ybT0ic2NhbGUoNjQpIiBmaWxsPSIjRkRGREZEIi8+Cjwvc3ZnPgo="
+                class="styles-module--githubLogo--38MfT"
+                alt="github"
+              />GitHub</a
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        id="gatsby-announcer"
+        style="
+          position: absolute;
+          top: 0;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        "
+        aria-live="assertive"
+        aria-atomic="true"
+      ></div>
+    </div>
+    <script>
+      if (true) {
+        (function (i, s, o, g, r, a, m) {
+          i["GoogleAnalyticsObject"] = r;
+          (i[r] =
+            i[r] ||
+            function () {
+              (i[r].q = i[r].q || []).push(arguments);
+            }),
+            (i[r].l = 1 * new Date());
+          (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+          a.async = 1;
+          a.src = g;
+          m.parentNode.insertBefore(a, m);
+        })(
+          window,
+          document,
+          "script",
+          "https://www.google-analytics.com/analytics.js",
+          "ga"
+        );
+      }
+      if (typeof ga === "function") {
+        ga("create", "G-X5B7F7KF29", "auto", {});
+      }
+    </script>
+    <script id="gatsby-script-loader">
+      /*<![CDATA[*/ window.pagePath = "/"; /*]]>*/
+    </script>
+    <script id="gatsby-chunk-mapping">
+      /*<![CDATA[*/ window.___chunkMapping = {
+        polyfill: ["/polyfill-57f4c590aecec91dccdc.js"],
+        app: ["/app-11ed8219e1817365edea.js"],
+        "component---src-pages-404-tsx": [
+          "/component---src-pages-404-tsx-0db9048f5ad5d37c281e.js",
+        ],
+        "component---src-pages-index-tsx": [
+          "/component---src-pages-index-tsx-c8c3f2fbf15f7bb28c13.js",
+        ],
+      }; /*]]>*/
+    </script>
+    <script src="/polyfill-57f4c590aecec91dccdc.js" nomodule=""></script>
+    <script
+      src="/component---src-pages-index-tsx-c8c3f2fbf15f7bb28c13.js"
+      async=""
+    ></script>
+    <script src="/commons-975aa6a480f17b7764b4.js" async=""></script>
+    <script src="/styles-e9d24b1846c7d6eb9685.js" async=""></script>
+    <script src="/app-11ed8219e1817365edea.js" async=""></script>
+    <script src="/framework-80179a6fe3ad96f65e9f.js" async=""></script>
+    <script src="/webpack-runtime-6ca777a3f214b05ad2d9.js" async=""></script>
+  </body>
+</html>
